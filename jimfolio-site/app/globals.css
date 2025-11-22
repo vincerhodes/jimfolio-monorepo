@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --background: #0a0a0a;
@@ -21,16 +19,14 @@ body {
   overflow-x: hidden;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  
-  .glass-panel {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10;
-  }
-  
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400;
-  }
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility glass-panel {
+  @apply bg-white/5 backdrop-blur-lg border border-white/10;
+}
+
+@utility text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400;
 }

@@ -1,9 +1,8 @@
-FROM node:18-slim AS base
+FROM node:20-slim AS base
+RUN apt-get update -y && apt-get install -y openssl ca-certificates
 
 # Install dependencies only when needed
 FROM base AS deps
-# OpenSSL is often required for Prisma
-RUN apt-get update -y && apt-get install -y openssl ca-certificates
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./

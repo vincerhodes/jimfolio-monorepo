@@ -3,6 +3,11 @@ services:
     build:
       context: ./jimfolio-site
       dockerfile: Dockerfile
+      args:
+        HTTP_PROXY: ""
+        HTTPS_PROXY: ""
+        http_proxy: ""
+        https_proxy: ""
     restart: always
     ports:
       - "3000:3000"
@@ -13,6 +18,11 @@ services:
     build:
       context: ./sweet-reach-demo
       dockerfile: Dockerfile
+      args:
+        HTTP_PROXY: ""
+        HTTPS_PROXY: ""
+        http_proxy: ""
+        https_proxy: ""
     restart: always
     ports:
       - "3001:3000"
