@@ -66,7 +66,7 @@ export default function Home() {
                 FEATURED DEMO
               </div>
               <Link
-                href="http://demo.jimfolio.com"
+                href="https://demo.jimfolio.space"
                 target="_blank"
                 className="p-4 bg-white text-black rounded-full hover:scale-110 transition-transform duration-300"
               >
@@ -82,7 +82,7 @@ export default function Home() {
               </p>
               <div className="flex gap-4">
                 <Link
-                  href="http://demo.jimfolio.com"
+                  href="https://demo.jimfolio.space"
                   target="_blank"
                   className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors group/link"
                 >
