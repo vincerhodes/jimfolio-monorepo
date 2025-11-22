@@ -6,12 +6,12 @@ import DashboardCharts from '@/components/DashboardCharts';
 // Components (Inline for speed, but usually separate)
 function StatCard({ title, value, icon: Icon, color }: any) {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex items-center gap-4">
-      <div className={`p-3 rounded-full ${color} text-white`}>
+    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex items-center gap-4 transition-all duration-200 hover:shadow-md hover:-translate-y-1 cursor-default">
+      <div className={`p-3 rounded-full ${color} text-white shadow-sm`}>
         <Icon size={24} />
       </div>
       <div>
-        <p className="text-gray-500 text-sm font-medium uppercase">{title}</p>
+        <p className="text-gray-500 text-sm font-medium uppercase tracking-wide">{title}</p>
         <p className="text-3xl font-bold text-gray-800">{value}</p>
       </div>
     </div>
@@ -23,7 +23,7 @@ export default async function Dashboard() {
   const totalInsights = await prisma.insight.count();
   const actionRequired = await prisma.insight.count({ where: { type: 'ACTION' } });
   const openTasks = await prisma.tasking.count({ where: { status: 'OPEN' } });
-  
+
   const recentInsights = await prisma.insight.findMany({
     take: 5,
     orderBy: { date: 'desc' },
@@ -40,7 +40,7 @@ export default async function Dashboard() {
     by: ['status'],
     _count: { id: true }
   });
-  
+
   // Timeline (approximate grouping by date)
   // SQLite doesn't support date truncation easily in Prisma groupBy, so we fetch metadata and process in JS
   const allDates = await prisma.insight.findMany({
@@ -69,31 +69,31 @@ export default async function Dashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard 
-          title="Total Insights" 
-          value={totalInsights} 
-          icon={Activity} 
-          color="bg-blue-600" 
+        <StatCard
+          title="Total Insights"
+          value={totalInsights}
+          icon={Activity}
+          color="bg-blue-600"
         />
-        <StatCard 
-          title="Actions Required" 
-          value={actionRequired} 
-          icon={TrendingUp} 
-          color="bg-amber-500" 
+        <StatCard
+          title="Actions Required"
+          value={actionRequired}
+          icon={TrendingUp}
+          color="bg-amber-500"
         />
-        <StatCard 
-          title="Active Taskings" 
-          value={openTasks} 
-          icon={CheckSquare} 
-          color="bg-emerald-600" 
+        <StatCard
+          title="Active Taskings"
+          value={openTasks}
+          icon={CheckSquare}
+          color="bg-emerald-600"
         />
       </div>
 
       {/* Charts Section */}
-      <DashboardCharts 
-        teamData={teamData} 
-        statusData={statusData} 
-        timelineData={timelineData} 
+      <DashboardCharts
+        teamData={teamData}
+        statusData={statusData}
+        timelineData={timelineData}
       />
 
       {/* Recent Insights Table (Power Apps Style) */}
@@ -117,17 +117,17 @@ export default async function Dashboard() {
             </thead>
             <tbody>
               {recentInsights.map((insight: any) => (
-                <tr key={insight.id} className="bg-white border-b hover:bg-gray-50">
+                <tr key={insight.id} className="bg-white border-b hover:bg-indigo-50/50 transition-colors duration-150">
                   <td className="px-6 py-4 font-medium text-gray-900">
-                    <Link href={`/insights/${insight.id}`} className="hover:text-indigo-600">
+                    <Link href={`/insights/${insight.id}`} className="hover:text-indigo-600 transition-colors">
                       {insight.title}
                     </Link>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-semibold
-                      ${insight.type === 'ACTION' ? 'bg-red-100 text-red-800' : 
-                        insight.type === 'ITN' ? 'bg-blue-100 text-blue-800' : 
-                        'bg-green-100 text-green-800'}`}>
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold shadow-sm
+                      ${insight.type === 'ACTION' ? 'bg-red-100 text-red-800' :
+                        insight.type === 'ITN' ? 'bg-blue-100 text-blue-800' :
+                          'bg-green-100 text-green-800'}`}>
                       {insight.type}
                     </span>
                   </td>

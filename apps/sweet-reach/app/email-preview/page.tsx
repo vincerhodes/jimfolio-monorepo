@@ -9,22 +9,22 @@ export default async function EmailPreviewPage({ searchParams }: { searchParams:
   const users = await prisma.user.findMany({
     take: 20 // Limit users to prevent timeout
   });
-  
-  const selectedUser = userId 
-    ? await prisma.user.findUnique({ 
-        where: { id: userId }, 
-        include: { subscriptions: true } 
-      }) 
-    : await prisma.user.findUnique({ 
-        where: { email: 'sarah.jenkins@sweetreach.com' },
-        include: { subscriptions: true }
-      });
+
+  const selectedUser = userId
+    ? await prisma.user.findUnique({
+      where: { id: userId },
+      include: { subscriptions: true }
+    })
+    : await prisma.user.findUnique({
+      where: { email: 'sarah.jenkins@sweetreach.com' },
+      include: { subscriptions: true }
+    });
 
   if (!selectedUser) return <div>User not found. Seed db first.</div>;
 
   // Fetch insights for this user's subscriptions
   const subscribedTopics = selectedUser.subscriptions.map((s: any) => s.topic);
-  
+
   const insights = subscribedTopics.length > 0 ? await prisma.insight.findMany({
     where: {
       topicTag: { in: subscribedTopics },
@@ -44,8 +44,8 @@ export default async function EmailPreviewPage({ searchParams }: { searchParams:
         </h2>
         <div className="space-y-2 overflow-y-auto flex-1">
           {users.map((u: any) => (
-            <Link 
-              key={u.id} 
+            <Link
+              key={u.id}
               href={`/email-preview?userId=${u.id}`}
               className={`block p-2 rounded text-sm ${selectedUser.id === u.id ? 'bg-indigo-100 text-indigo-800 font-bold' : 'hover:bg-gray-50 text-gray-600'}`}
             >
@@ -97,9 +97,9 @@ export default async function EmailPreviewPage({ searchParams }: { searchParams:
                       <div className="text-xs text-gray-400">
                         Submitted by {insight.teamTag} Team • {new Date(insight.date).toLocaleDateString()}
                       </div>
-                      <a href={`/insights/${insight.id}#feedback`} className="text-xs text-indigo-600 font-medium hover:underline flex items-center gap-1">
+                      <Link href={`/insights/${insight.id}#feedback`} className="text-xs text-indigo-600 font-medium hover:underline flex items-center gap-1">
                         Rate / Feedback &rarr;
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 ))}
@@ -107,7 +107,7 @@ export default async function EmailPreviewPage({ searchParams }: { searchParams:
             ) : (
               <div className="text-center py-8 bg-gray-50 rounded text-gray-500 italic">
                 No insights found matching your current subscriptions this month.
-                <br/>
+                <br />
                 <Link href="/digest" className="text-indigo-600 underline">Manage Subscriptions</Link>
               </div>
             )}
@@ -118,10 +118,10 @@ export default async function EmailPreviewPage({ searchParams }: { searchParams:
               </a>
             </div>
           </div>
-          
+
           {/* Footer */}
           <div className="bg-gray-50 p-6 text-center text-xs text-gray-400 border-t border-gray-200">
-            © 2025 SweetReach Confectionery. Internal Use Only.<br/>
+            © 2025 SweetReach Confectionery. Internal Use Only.<br />
             <a href="#" className="underline">Unsubscribe</a>
           </div>
         </div>

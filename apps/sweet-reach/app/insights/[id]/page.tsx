@@ -1,12 +1,14 @@
 import { prisma } from '@/lib/prisma';
-import { submitReview, submitFeedback } from '../../actions';
-import { CheckCircle, MessageSquare, Star, User as UserIcon } from 'lucide-react';
+import { submitReview, submitFeedback, createAction, updateActionStatus } from '../../actions';
+import { ActionStatusSelect } from './ActionStatusSelect';
+import { CheckCircle, MessageSquare, Star, User as UserIcon, PlayCircle, Clock, CheckSquare } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
-export default async function InsightDetailPage({ params }: { params: { id: string } }) {
+export default async function InsightDetailPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const insight = await prisma.insight.findUnique({
     where: { id: params.id },
-    include: { 
+    include: {
       author: true,
       reviews: { include: { manager: true } },
       feedbacks: { include: { user: true } },
@@ -24,9 +26,9 @@ export default async function InsightDetailPage({ params }: { params: { id: stri
           <div>
             <div className="flex items-center gap-3 mb-2">
               <span className={`px-2 py-1 rounded text-xs font-bold uppercase
-                ${insight.type === 'ACTION' ? 'bg-red-100 text-red-800' : 
-                  insight.type === 'ITN' ? 'bg-blue-100 text-blue-800' : 
-                  'bg-green-100 text-green-800'}`}>
+                ${insight.type === 'ACTION' ? 'bg-red-100 text-red-800' :
+                  insight.type === 'ITN' ? 'bg-blue-100 text-blue-800' :
+                    'bg-green-100 text-green-800'}`}>
                 {insight.type}
               </span>
               <span className="text-gray-500 text-sm">{new Date(insight.date).toLocaleDateString()}</span>
@@ -59,13 +61,93 @@ export default async function InsightDetailPage({ params }: { params: { id: stri
         </div>
       </div>
 
+      {/* Actions & Next Steps Section */}
+      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <PlayCircle className="text-indigo-600" size={20} />
+          Actions & Next Steps
+        </h3>
+
+        <div className="space-y-4 mb-6">
+          {insight.actions.length > 0 ? (
+            insight.actions.map((action: any) => (
+              <div key={action.id} className="flex items-start justify-between bg-gray-50 p-4 rounded border border-gray-100">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase
+                      ${action.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+                        action.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-200 text-gray-700'}`}>
+                      {action.status.replace('_', ' ')}
+                    </span>
+                    <span className="text-xs text-gray-500">Assigned to: {action.assignedTo}</span>
+                  </div>
+                  <p className="text-gray-800 font-medium">{action.description}</p>
+                  {action.dueDate && (
+                    <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
+                      <Clock size={12} /> Due: {new Date(action.dueDate).toLocaleDateString()}
+                    </p>
+                  )}
+                </div>
+
+                <ActionStatusSelect
+                  actionId={action.id}
+                  insightId={insight.id}
+                  status={action.status}
+                />
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 italic text-sm">No actions recorded yet.</p>
+          )}
+        </div>
+
+        {/* Create Action Form */}
+        <div className="pt-4 border-t border-gray-100">
+          <h4 className="text-sm font-bold text-gray-700 mb-3">Assign New Action</h4>
+          <form action={createAction} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <input type="hidden" name="insightId" value={insight.id} />
+            <div className="col-span-2">
+              <input
+                name="description"
+                type="text"
+                required
+                placeholder="Action description..."
+                className="w-full border border-gray-300 rounded p-2 text-sm"
+              />
+            </div>
+            <div>
+              <input
+                name="assignedTo"
+                type="text"
+                required
+                placeholder="Assign to (Team/Person)..."
+                className="w-full border border-gray-300 rounded p-2 text-sm"
+              />
+            </div>
+            <div>
+              <input
+                name="dueDate"
+                type="date"
+                className="w-full border border-gray-300 rounded p-2 text-sm"
+              />
+            </div>
+            <div className="col-span-2">
+              <button className="bg-indigo-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-indigo-700 flex items-center gap-2">
+                <CheckSquare size={16} /> Create Action
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       {/* Manager Reviews Section */}
       <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
         <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
           <CheckCircle className="text-indigo-600" size={20} />
           Manager Reviews
         </h3>
-        
+
         <div className="space-y-4">
           {insight.reviews.length > 0 ? (
             insight.reviews.map((review: any) => (
@@ -87,11 +169,11 @@ export default async function InsightDetailPage({ params }: { params: { id: stri
           <h4 className="text-sm font-bold text-gray-700 mb-2">Add Review (Manager)</h4>
           <form action={submitReview} className="flex gap-2">
             <input type="hidden" name="insightId" value={insight.id} />
-            <input 
+            <input
               name="content"
-              type="text" 
+              type="text"
               required
-              placeholder="Constructive feedback..." 
+              placeholder="Constructive feedback..."
               className="flex-1 border border-gray-300 rounded p-2 text-sm"
             />
             <button className="bg-indigo-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-indigo-700">
@@ -107,7 +189,7 @@ export default async function InsightDetailPage({ params }: { params: { id: stri
           <Star className="text-amber-500" size={20} />
           Stakeholder Feedback
         </h3>
-        
+
         <div className="space-y-4">
           {insight.feedbacks.map((fb: any) => (
             <div key={fb.id} className="border-b border-gray-100 pb-3 last:border-0">
@@ -140,10 +222,10 @@ export default async function InsightDetailPage({ params }: { params: { id: stri
               </select>
             </div>
             <div className="flex gap-2">
-              <input 
+              <input
                 name="comment"
-                type="text" 
-                placeholder="Comments..." 
+                type="text"
+                placeholder="Comments..."
                 className="flex-1 border border-gray-300 rounded p-2 text-sm"
               />
               <button className="bg-gray-800 text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-900">
