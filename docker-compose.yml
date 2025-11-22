@@ -1,0 +1,35 @@
+services:
+  jimfolio:
+    build:
+      context: ./jimfolio-site
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+
+  sweet-reach:
+    build:
+      context: ./sweet-reach-demo
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      # Ensure DATABASE_URL is set if using a real DB, or mount volume for SQLite
+      - DATABASE_URL=file:/app/prisma/dev.db
+    volumes:
+      - ./sweet-reach-data:/app/prisma
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - jimfolio
+      - sweet-reach

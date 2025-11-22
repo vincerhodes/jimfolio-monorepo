@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  role          String    // "OFFICER", "MANAGER", "STAKEHOLDER"
+  avatar        String?
+  team          String?   // For "Filter by Team"
+  
+  insights      Insight[] @relation("CreatedInsights")
+  reviews       Review[]
+  feedbacks     Feedback[]
+  subscriptions Subscription[]
+}
+
+model Insight {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  date        DateTime @default(now())
+  type        String   // "OBSERVATION", "ITN", "ACTION"
+  status      String   // "NEW", "REVIEWED", "ACTIONED", "CLOSED"
+  
+  // Metadata
+  teamTag     String   // Primary Team Tag
+  topicTag    String   // Primary Topic Tag
+  country     String?  // Origin country
+
+  authorId    String
+  author      User     @relation("CreatedInsights", fields: [authorId], references: [id])
+
+  reviews     Review[]
+  actions     Action[]
+  feedbacks   Feedback[]
+  
+  // Optional link to a tasking if this insight answers a specific task
+  taskingId   String?
+  tasking     Tasking? @relation(fields: [taskingId], references: [id])
+}
+
+model Action {
+  id          String   @id @default(cuid())
+  description String
+  status      String   // "PENDING", "IN_PROGRESS", "COMPLETED"
+  assignedTo  String   // Team or Person name
+  dueDate     DateTime?
+  
+  insightId   String
+  insight     Insight  @relation(fields: [insightId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  content     String
+  createdAt   DateTime @default(now())
+  
+  insightId   String
+  insight     Insight  @relation(fields: [insightId], references: [id])
+  
+  managerId   String
+  manager     User     @relation(fields: [managerId], references: [id])
+}
+
+model Feedback {
+  id          String   @id @default(cuid())
+  rating      Int      // 1-5
+  comment     String?
+  
+  insightId   String
+  insight     Insight  @relation(fields: [insightId], references: [id])
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Tasking {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  requestingTeam String
+  deadline    DateTime
+  status      String   // "OPEN", "CLOSED"
+  
+  insights    Insight[]
+}
+
+model Subscription {
+  id        String @id @default(cuid())
+  topic     String
+  
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+model AppFeedback {
+  id        String   @id @default(cuid())
+  name      String?
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+}
