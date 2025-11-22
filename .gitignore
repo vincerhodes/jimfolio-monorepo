@@ -1,10 +1,38 @@
-node_modules
-.next
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+.turbo/
+dist/
+build/
+out/
+
+# Environment files
 .env
+.env*.local
+
+# Database
+sweet-reach-data/
+*.db
+*.db-journal
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
-dist
-build
-.vscode
-.idea
+Thumbs.db
+
+# Logs
 *.log
-sweet-reach-data
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
