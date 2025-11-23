@@ -58,68 +58,43 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative w-full"
-            style={{ perspective: '1000px' }}
+            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500"
           >
-            {/* 3D Flip Container */}
-            <div className="relative aspect-video w-full transition-transform duration-700 ease-out group-hover:[transform:rotateY(180deg)]" style={{ transformStyle: 'preserve-3d' }}>
-              
-              {/* Front Card */}
-              <div 
-                className="absolute inset-0 rounded-2xl overflow-hidden border border-white/10"
-                style={{ backfaceVisibility: 'hidden' }}
-              >
-                <img 
-                  src="/assets/Sweet-Reach_card_front.jpg" 
-                  alt="Sweet Reach Dashboard" 
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Top Banner Overlay - Front */}
-                <div className="absolute top-0 left-0 right-0 h-[15%] bg-gradient-to-b from-black/90 via-black/70 to-transparent backdrop-blur-sm px-6 py-4 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs border border-white/20 font-medium">
-                      FEATURED DEMO
-                    </div>
-                    <div className="text-white">
-                      <h3 className="font-bold text-sm">Sweet Reach Insight Platform</h3>
-                      <p className="text-xs text-gray-300">Real-time analytics & interactive dashboards</p>
-                    </div>
-                  </div>
-                  <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                    <ArrowRight size={20} />
-                  </div>
+            {/* Front Image */}
+            <img 
+              src="/assets/Sweet-Reach_card_front.jpg" 
+              alt="Sweet Reach Dashboard" 
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+            />
+            
+            {/* Back Image */}
+            <img 
+              src="/assets/Sweet-Reach_card_back.png" 
+              alt="Sweet Reach Features" 
+              className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            />
+
+            {/* Top Banner Overlay - Always Visible */}
+            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
+              <div className="flex items-center gap-4">
+                <div className="bg-white/20 px-3 py-1 rounded-full text-xs border border-white/20 font-medium group-hover:bg-emerald-500/20 group-hover:border-emerald-400/30 group-hover:text-emerald-300 transition-all duration-500">
+                  <span className="group-hover:hidden">FEATURED DEMO</span>
+                  <span className="hidden group-hover:inline">LIVE DEMO</span>
+                </div>
+                <div className="text-white">
+                  <h3 className="font-bold text-sm transition-all duration-500">
+                    <span className="group-hover:hidden">Sweet Reach Insight Platform</span>
+                    <span className="hidden group-hover:inline">Click to Explore</span>
+                  </h3>
+                  <p className="text-xs text-gray-300 transition-all duration-500">
+                    <span className="group-hover:hidden">Real-time analytics & interactive dashboards</span>
+                    <span className="hidden group-hover:inline">Experience the full platform in action</span>
+                  </p>
                 </div>
               </div>
-
-              {/* Back Card */}
-              <div 
-                className="absolute inset-0 rounded-2xl overflow-hidden border border-white/10"
-                style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-              >
-                <img 
-                  src="/assets/Sweet-Reach_card_back.png" 
-                  alt="Sweet Reach Features" 
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Top Banner Overlay - Back */}
-                <div className="absolute top-0 left-0 right-0 h-[15%] bg-gradient-to-b from-black/90 via-black/70 to-transparent backdrop-blur-sm px-6 py-4 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-emerald-500/20 backdrop-blur-md px-3 py-1 rounded-full text-xs border border-emerald-400/30 font-medium text-emerald-300">
-                      LIVE DEMO
-                    </div>
-                    <div className="text-white">
-                      <h3 className="font-bold text-sm">Click to Explore</h3>
-                      <p className="text-xs text-gray-300">Experience the full platform in action</p>
-                    </div>
-                  </div>
-                  <div className="p-3 bg-white text-black rounded-full scale-110 transition-transform duration-300">
-                    <ArrowRight size={20} />
-                  </div>
-                </div>
+              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+                <ArrowRight size={20} />
               </div>
-
             </div>
           </motion.div>
         </Link>
