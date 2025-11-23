@@ -52,49 +52,49 @@ export default function Home() {
           <span className="text-gray-500 hidden md:block">01 / 05</span>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="group relative aspect-video w-full overflow-hidden rounded-2xl bg-gray-900 border border-white/10"
-        >
-          {/* Project Content */}
-          <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-between z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
-            <div className="flex justify-between items-start">
-              <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm border border-white/10">
-                FEATURED DEMO
-              </div>
-              <Link
-                href="/sweet-reach"
-                target="_blank"
-                className="p-4 bg-white text-black rounded-full hover:scale-110 transition-transform duration-300"
-              >
-                <ArrowRight size={24} />
-              </Link>
-            </div>
+        <Link href="http://localhost:3000" target="_blank" className="block">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="group relative aspect-video w-full overflow-hidden rounded-2xl bg-gray-900 border border-white/10 cursor-pointer hover:border-white/30 transition-all duration-300"
+          >
+            {/* Live Dashboard iframe */}
+            <iframe
+              src="http://localhost:3000"
+              className="absolute inset-0 w-full h-full pointer-events-none scale-[0.85] origin-top-left"
+              style={{ 
+                transform: 'scale(0.85) translateY(-5%)',
+                filter: 'brightness(0.9)'
+              }}
+            />
 
-            <div>
-              <h3 className="text-4xl md:text-7xl font-bold mb-4">Sweet Reach</h3>
-              <p className="text-lg text-gray-300 max-w-xl mb-8">
-                A best-in-class insight gathering platform. Features real-time analytics,
-                interactive dashboards, and a premium user interface.
-              </p>
-              <div className="flex gap-4">
-                <Link
-                  href="/sweet-reach"
-                  target="_blank"
-                  className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors group/link"
-                >
-                  View Live Demo <ExternalLink size={16} className="group-hover/link:translate-x-1 transition-transform" />
-                </Link>
+            {/* Interactive Overlay */}
+            <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-between z-20 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:from-black/70 group-hover:via-black/20 transition-all duration-500">
+              <div className="flex justify-between items-start">
+                <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm border border-white/10 group-hover:bg-white/20 transition-colors">
+                  LIVE DEMO
+                </div>
+                <div className="p-4 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+                  <ArrowRight size={24} />
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-4xl md:text-7xl font-bold mb-4 group-hover:text-white/90 transition-colors">Sweet Reach</h3>
+                <p className="text-lg text-gray-300 max-w-xl mb-8 group-hover:text-white/80 transition-colors">
+                  A best-in-class insight gathering platform. Features real-time analytics,
+                  interactive dashboards, and a premium user interface.
+                </p>
+                <div className="flex items-center gap-2 text-white group-hover:text-white/90 transition-colors">
+                  <span>View Live Demo</span>
+                  <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Abstract Background / Placeholder for Screenshot */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-900/40 via-gray-900 to-black z-10 group-hover:scale-105 transition-transform duration-700" />
-        </motion.div>
+          </motion.div>
+        </Link>
       </section>
 
       {/* About Section */}

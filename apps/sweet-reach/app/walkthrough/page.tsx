@@ -59,14 +59,14 @@ export default function WalkthroughPage() {
       {/* Hero Section */}
       <div className="text-center space-y-6 max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium border border-indigo-100">
-          Proof of Concept Walkthrough
+          Demo Walkthrough
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-          From Scattered Insights to <span className="text-indigo-600">Structured Intelligence</span>
+          From Scattered Insights to <span className="text-indigo-600">Strategic Intelligence</span>
         </h1>
         <p className="text-lg text-gray-600 leading-relaxed">
-          SweetReach provides a centralised system for gathering, analysing, and acting on global market insights.
-          This walkthrough demonstrates how an insight moves through the platform.
+          SweetReach transforms how global teams capture, validate, and act on market intelligence.
+          This walkthrough demonstrates the complete insight lifecycle - from field observation to strategic action.
         </p>
       </div>
 
@@ -81,30 +81,32 @@ export default function WalkthroughPage() {
             title="Current State (The Problem)"
             isGood={false}
             items={[
-              "Insights buried in endless email chains",
-              "No structured data for analysis or trends",
-              "Manual, time-consuming report compilation",
-              "Lack of visibility for stakeholders"
+              "Market insights lost in email chains and spreadsheets",
+              "No systematic way to request specific intelligence from field teams",
+              "Manual compilation of board reports wastes valuable time",
+              "Stakeholders miss relevant insights due to information overload",
+              "No feedback loop to improve insight quality"
             ]}
           />
           <ComparisonBox
             title="Future State (SweetReach)"
             isGood={true}
             items={[
-              "Centralized, searchable insight database",
-              "Real-time tagging and trend analysis",
-              "Automated workflows and board reporting",
-              "Personalized digests for every stakeholder"
+              "Centralized, searchable intelligence database with structured categorization",
+              "Proactive tasking system aligns field research with strategic priorities",
+              "Automated action tracking reports for board meetings",
+              "Personalized topic subscriptions ensure relevant distribution",
+              "Continuous feedback loops improve submission quality over time"
             ]}
           />
         </div>
       </section>
 
-      {/* The Process & POC Mapping */}
+      {/* The Process & Feature Walkthrough */}
       <section className="relative">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900">The Process & POC Support</h2>
-          <p className="text-gray-500 mt-2">Follow the journey of an insight through the application</p>
+          <h2 className="text-3xl font-bold text-gray-900">The Complete Workflow</h2>
+          <p className="text-gray-500 mt-2">Follow the journey of an insight through the system - from capture to strategic action</p>
         </div>
 
         {/* Vertical Line */}
@@ -120,8 +122,10 @@ export default function WalkthroughPage() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900">1. Identify & Capture</h3>
               <p className="text-gray-600 leading-relaxed">
-                <strong>Kenji (Outreach Officer, Japan)</strong> spots a new matcha-flavored kit-kat competitor.
-                Instead of sending an email, he submits a structured observation.
+                <strong>Outreach Officers</strong> submit market insights using a structured form. 
+                They categorize each insight as <strong>Observation</strong> (general market intelligence), 
+                <strong>ITN</strong> (Information To Note - important but not urgent), or <strong>Action Required</strong> (needs immediate team response). 
+                Each insight is tagged by relevant team and topic for easy filtering.
               </p>
               <div className="flex items-center justify-end gap-2 text-sm text-gray-500 font-medium">
                 <Users size={16} />
@@ -132,7 +136,7 @@ export default function WalkthroughPage() {
               <FeatureCard
                 step="1"
                 title="Smart Submission Form"
-                desc="Try submitting a new insight. Notice the 'Smart Tags' for effortless categorization and the ability to flag items for immediate action."
+                desc="Submit insights with structured categorization. Choose insight type (Observation/ITN/Action), assign to relevant teams, and tag by topic for intelligent routing and filtering."
                 link="/insights/new"
                 linkText="Submit an Insight"
                 icon={FileText}
@@ -146,8 +150,8 @@ export default function WalkthroughPage() {
             <div className="order-2 lg:order-1">
               <FeatureCard
                 step="2"
-                title="Manager Dashboard"
-                desc="Visit the insights feed. As a manager, you can filter by region, review incoming submissions, and assign 'Action Required' status."
+                title="Manager Review System"
+                desc="Managers review submitted insights, provide constructive feedback to improve quality, and validate data accuracy. This ensures only high-quality intelligence reaches decision-makers."
                 link="/insights"
                 linkText="Review Insights"
                 icon={CheckCircle}
@@ -160,8 +164,9 @@ export default function WalkthroughPage() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900">2. Review & Validate</h3>
               <p className="text-gray-600 leading-relaxed">
-                <strong>Sarah (Regional Manager, UK)</strong> reviews Kenji's submission.
-                She validates the data, adds internal notes, and tags it for the NPD team's attention.
+                <strong>Regional Managers</strong> review incoming insights from their teams. 
+                They provide feedback on submission quality, validate findings, and ensure insights are properly categorized. 
+                This quality control step maintains the integrity of the intelligence database.
               </p>
               <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
                 <Users size={16} />
@@ -170,44 +175,79 @@ export default function WalkthroughPage() {
             </div>
           </div>
 
-          {/* Step 3: Act */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="lg:text-right space-y-4">
-              <div className="inline-block p-3 bg-emerald-50 text-emerald-600 rounded-xl mb-2">
-                <TrendingUp size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900">3. Strategic Action</h3>
-              <p className="text-gray-600 leading-relaxed">
-                The <strong>NPD Team</strong> sees the flagged insight on their board report.
-                They initiate a project to explore matcha flavors, tracking progress directly linked to the original insight.
-              </p>
-              <div className="flex items-center justify-end gap-2 text-sm text-gray-500 font-medium">
-                <Users size={16} />
-                <span>Persona: NPD / Strategy Team</span>
-              </div>
+          {/* Step 3: Monthly Board Meetings - Action Tracking */}
+          <div className="bg-gradient-to-r from-emerald-50 to-rose-50 -mx-6 px-6 py-12 rounded-2xl">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Monthly Team Board Meetings</h2>
+              <p className="text-gray-600">The heart of the process: where insights drive action and new intelligence needs are identified</p>
             </div>
-            <div>
-              <FeatureCard
-                step="3"
-                title="Action Board Report"
-                desc="Check the Report page. This is a filtered view for executives showing only high-priority items that require strategic decisions."
-                link="/report"
-                linkText="View Action Board"
-                icon={LayoutDashboard}
-                colorClass="bg-emerald-500"
-              />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+              {/* Part A: Action Tracking */}
+              <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+                    <TrendingUp size={28} />
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Step 3</span>
+                    <h3 className="text-xl font-bold text-gray-900">Action Tracking</h3>
+                  </div>
+                </div>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  Each core team (NPD, Marketing, Supply Chain, etc.) holds monthly board meetings. 
+                  The <strong>Action Tracking Report</strong> is the key agenda item - showing all insights flagged as "Action Required" for that team. 
+                  Team leads review progress on previously agreed actions, update statuses, and ensure strategic responses to market intelligence.
+                </p>
+                <FeatureCard
+                  step="3"
+                  title="Action Board Report"
+                  desc="Team-filtered report showing all action-required insights. Used monthly to track progress and maintain accountability."
+                  link="/report"
+                  linkText="View Action Board"
+                  icon={LayoutDashboard}
+                  colorClass="bg-emerald-500"
+                />
+              </div>
+
+              {/* Part B: Tasking */}
+              <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-3 bg-rose-50 text-rose-600 rounded-xl">
+                    <Database size={28} />
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Step 4</span>
+                    <h3 className="text-xl font-bold text-gray-900">Proactive Tasking</h3>
+                  </div>
+                </div>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  At the same monthly meetings, teams identify intelligence gaps and create <strong>taskings</strong> - specific research requests for outreach officers. 
+                  For example: "Gather feedback on sustainable packaging in European markets by Q2". 
+                  These taskings ensure field teams gather targeted intelligence aligned with strategic priorities agreed at board level.
+                </p>
+                <FeatureCard
+                  step="4"
+                  title="Proactive Insight Tasking"
+                  desc="Create and track research requests for field teams. Taskings are agreed at monthly boards to align intelligence gathering with business needs."
+                  link="/tasking"
+                  linkText="View Taskings"
+                  icon={CheckCircle}
+                  colorClass="bg-rose-500"
+                />
+              </div>
             </div>
           </div>
 
-          {/* Step 4: Digest */}
+          {/* Step 5: Digest */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <FeatureCard
-                step="4"
-                title="Automated Digest"
-                desc="Preview the email digest. This system automatically compiles relevant insights into a weekly email for stakeholders."
-                link="/email-preview"
-                linkText="Preview Email"
+                step="5"
+                title="Subscription & Monthly Digest"
+                desc="Users subscribe to topics of interest and receive a personalized monthly digest. View the digest page to see curated insights and manage your topic subscriptions."
+                link="/digest"
+                linkText="View Digest"
                 icon={Mail}
                 colorClass="bg-amber-500"
               />
@@ -216,73 +256,46 @@ export default function WalkthroughPage() {
               <div className="inline-block p-3 bg-amber-50 text-amber-600 rounded-xl mb-2">
                 <MessageSquare size={32} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">4. Distribute Knowledge</h3>
+              <h3 className="text-2xl font-bold text-gray-900">5. Personalized Distribution</h3>
               <p className="text-gray-600 leading-relaxed">
-                <strong>David (Stakeholder)</strong> receives his weekly "Flavour Trends" digest.
-                He can click through to view full details and provide feedback on the insights.
+                <strong>Stakeholders</strong> subscribe to specific topics (e.g., "Flavor Profiles", "Sustainability") and receive a monthly email digest with relevant insights. 
+                This ensures everyone receives intelligence tailored to their interests without information overload. 
+                Users can provide feedback directly on insights to help refine future submissions.
               </p>
               <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
                 <Users size={16} />
-                <span>Persona: Executive Stakeholder</span>
+                <span>Persona: All Stakeholders</span>
               </div>
             </div>
           </div>
 
-          {/* Step 5: Analyze Trends */}
+          {/* Step 6: Analyze Trends */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="lg:text-right space-y-4">
               <div className="inline-block p-3 bg-purple-50 text-purple-600 rounded-xl mb-2">
                 <TrendingUp size={32} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">5. Analyse Trends</h3>
+              <h3 className="text-2xl font-bold text-gray-900">6. Analyse Trends</h3>
               <p className="text-gray-600 leading-relaxed">
-                <strong>Analytics Team</strong> uses the dashboard to identify patterns across regions and categories.
-                Smart tags enable filtering by product type, market, or strategic priority.
+                <strong>Strategy Teams</strong> use the executive dashboard to identify patterns across regions, teams, and topics. 
+                Visual analytics show insight volume trends, team distribution, and status breakdowns. 
+                This bird's-eye view helps leadership spot emerging opportunities and allocate resources effectively.
               </p>
               <div className="flex items-center justify-end gap-2 text-sm text-gray-500 font-medium">
                 <Users size={16} />
-                <span>Persona: Analytics / Strategy</span>
+                <span>Persona: Strategy / Leadership</span>
               </div>
             </div>
             <div>
               <FeatureCard
-                step="5"
+                step="6"
                 title="Dashboard Analytics"
-                desc="Explore the main dashboard. Filter insights by tags, regions, and time periods to spot emerging trends and patterns."
+                desc="Executive dashboard with real-time metrics, trend charts, and recent insights. Track total insights, actions required, and active taskings at a glance."
                 link="/"
                 linkText="View Dashboard"
                 icon={LayoutDashboard}
                 colorClass="bg-purple-500"
               />
-            </div>
-          </div>
-
-          {/* Step 6: Task Management */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <FeatureCard
-                step="6"
-                title="Task Tracking"
-                desc="See how insights connect to actionable tasks. Track follow-up actions and ensure nothing falls through the cracks."
-                link="/tasking"
-                linkText="View Tasks"
-                icon={CheckCircle}
-                colorClass="bg-rose-500"
-              />
-            </div>
-            <div className="order-1 lg:order-2 space-y-4">
-              <div className="inline-block p-3 bg-rose-50 text-rose-600 rounded-xl mb-2">
-                <Database size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900">6. Track Actions</h3>
-              <p className="text-gray-600 leading-relaxed">
-                <strong>Project Managers</strong> assign tasks based on insights and monitor progress.
-                Each task links back to the original insight, maintaining clear traceability.
-              </p>
-              <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
-                <Users size={16} />
-                <span>Persona: Project Manager</span>
-              </div>
             </div>
           </div>
 
@@ -292,10 +305,11 @@ export default function WalkthroughPage() {
               <div className="inline-block p-3 bg-teal-50 text-teal-600 rounded-xl mb-2">
                 <Eye size={32} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">7. Close the Loop</h3>
+              <h3 className="text-2xl font-bold text-gray-900">7. Continuous Improvement</h3>
               <p className="text-gray-600 leading-relaxed">
-                <strong>All Users</strong> can rate insights and provide feedback on their usefulness.
-                This data helps refine the system and improve future submissions.
+                <strong>Insight Receivers</strong> provide star ratings and feedback on what was useful or not useful about each insight. 
+                This feedback loop helps outreach officers understand what intelligence is most valuable, improving submission quality over time. 
+                The system also includes a demo feedback mechanism for stakeholders to provide input on the platform itself.
               </p>
               <div className="flex items-center justify-end gap-2 text-sm text-gray-500 font-medium">
                 <Users size={16} />
@@ -305,8 +319,8 @@ export default function WalkthroughPage() {
             <div>
               <FeatureCard
                 step="7"
-                title="Feedback System"
-                desc="Rate insights and provide feedback. Help improve the quality and relevance of future submissions."
+                title="Feedback Mechanisms"
+                desc="Two-way feedback system: receivers rate insight usefulness (helping field teams improve), and stakeholders provide feedback on the platform itself for continuous refinement."
                 link="/app-feedback"
                 linkText="Provide Feedback"
                 icon={MessageSquare}
