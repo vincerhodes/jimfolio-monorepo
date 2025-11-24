@@ -1,0 +1,42 @@
+{
+  "title": "UK Wealth Distribution Over Time",
+  "description": "How wealth concentration has changed since 1970",
+  "timeline": [
+    {
+      "year": 1970,
+      "top10Wealth": 40,
+      "bottom90Wealth": 60,
+      "top10Amount": "£6.0tn",
+      "bottom90Amount": "£9.0tn",
+      "top10People": "6.8m",
+      "bottom90People": "61.2m"
+    },
+    {
+      "year": 1990,
+      "top10Wealth": 50,
+      "bottom90Wealth": 50,
+      "top10Amount": "£7.5tn",
+      "bottom90Amount": "£7.5tn",
+      "top10People": "6.8m",
+      "bottom90People": "61.2m"
+    },
+    {
+      "year": 2008,
+      "top10Wealth": 55,
+      "bottom90Wealth": 45,
+      "top10Amount": "£8.3tn",
+      "bottom90Amount": "£6.8tn",
+      "top10People": "6.8m",
+      "bottom90People": "61.2m"
+    },
+    {
+      "year": 2024,
+      "top10Wealth": 57,
+      "bottom90Wealth": 43,
+      "top10Amount": "£8.6tn",
+      "bottom90Amount": "£6.4tn",
+      "top10People": "6.8m",
+      "bottom90People": "61.2m"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "title": "House Price to Income Ratio",
+  "description": "How many years of income needed to buy a house",
+  "data": [
+    {
+      "year": 1970,
+      "ratio": 3.5,
+      "yearsToSave": 3,
+      "color": "#059669"
+    },
+    {
+      "year": 2024,
+      "ratio": 9.1,
+      "yearsToSave": 22,
+      "color": "#DC2626"
+    }
+  ]
+}

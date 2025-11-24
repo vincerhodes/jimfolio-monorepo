@@ -1,0 +1,33 @@
+{
+  "title": "The Great Divergence: Productivity vs Wages",
+  "description": "From 1945-1971, productivity and wages rose together. After 1971, they split apart.",
+  "data": [
+    { "year": 1945, "productivity": 100, "wages": 100 },
+    { "year": 1950, "productivity": 115, "wages": 115 },
+    { "year": 1955, "productivity": 130, "wages": 130 },
+    { "year": 1960, "productivity": 145, "wages": 145 },
+    { "year": 1965, "productivity": 165, "wages": 165 },
+    { "year": 1970, "productivity": 185, "wages": 185 },
+    { "year": 1971, "productivity": 190, "wages": 188 },
+    { "year": 1975, "productivity": 205, "wages": 195 },
+    { "year": 1980, "productivity": 225, "wages": 200 },
+    { "year": 1985, "productivity": 250, "wages": 205 },
+    { "year": 1990, "productivity": 280, "wages": 210 },
+    { "year": 1995, "productivity": 315, "wages": 215 },
+    { "year": 2000, "productivity": 355, "wages": 220 },
+    { "year": 2005, "productivity": 390, "wages": 222 },
+    { "year": 2008, "productivity": 410, "wages": 223 }
+  ],
+  "annotations": [
+    {
+      "year": 1971,
+      "label": "1971: End of Gold Standard",
+      "description": "The moment everything changed"
+    },
+    {
+      "year": 1980,
+      "label": "1980s: Deregulation Era",
+      "description": "Union power dismantled, tax cuts for wealthy"
+    }
+  ]
+}

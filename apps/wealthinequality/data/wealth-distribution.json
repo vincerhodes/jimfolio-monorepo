@@ -1,0 +1,30 @@
+{
+  "title": "UK Wealth Distribution",
+  "description": "How wealth is distributed across the UK population",
+  "data": [
+    {
+      "group": "Top 1%",
+      "percentage": 23,
+      "color": "#DC2626",
+      "description": "The ultra-wealthy"
+    },
+    {
+      "group": "Top 2-10%",
+      "percentage": 34,
+      "color": "#F59E0B",
+      "description": "High earners"
+    },
+    {
+      "group": "Middle 40%",
+      "percentage": 38,
+      "color": "#6B7280",
+      "description": "Middle class"
+    },
+    {
+      "group": "Bottom 50%",
+      "percentage": 5,
+      "color": "#374151",
+      "description": "Half the population"
+    }
+  ]
+}

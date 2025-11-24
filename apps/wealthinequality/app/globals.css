@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans bg-gray-950 text-gray-100;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-600;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Section styles */
+.section-container {
+  @apply min-h-screen flex items-center justify-center px-4 py-20;
+}
+
+.section-content {
+  @apply max-w-4xl mx-auto;
+}
+
+/* Typography */
+.heading-xl {
+  @apply font-sans text-5xl md:text-7xl font-bold tracking-tight;
+}
+
+.heading-lg {
+  @apply font-sans text-4xl md:text-5xl font-bold tracking-tight;
+}
+
+.heading-md {
+  @apply font-sans text-3xl md:text-4xl font-bold tracking-tight;
+}
+
+.body-lg {
+  @apply font-sans text-xl md:text-2xl leading-relaxed;
+}
+
+.body-md {
+  @apply font-sans text-lg md:text-xl leading-relaxed;
+}
+
+/* Data visualization styles */
+.viz-container {
+  @apply w-full h-full overflow-visible;
+}
+
+.viz-tooltip {
+  @apply absolute pointer-events-none bg-gray-800 text-white px-3 py-2 rounded-lg text-sm shadow-lg border border-gray-700;
+}
+
+/* Animation utilities */
+.animate-on-scroll {
+  @apply opacity-0 translate-y-8;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.visible {
+  @apply opacity-100 translate-y-0;
+}
