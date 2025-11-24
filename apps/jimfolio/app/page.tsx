@@ -53,7 +53,7 @@ export default function Home() {
         </div>
 
         {/* Wealth Inequality Project */}
-        <Link href="https://wealthinequality.jimfolio.space" target="_blank" rel="noopener noreferrer" className="block group mb-16">
+        <Link href="https://jimfolio.space/wealthinequality" target="_blank" rel="noopener noreferrer" className="block group mb-16">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
