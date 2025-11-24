@@ -25,7 +25,7 @@ export async function createInsight(formData: FormData) {
         name: 'Kenji Sato',
         role: 'OFFICER',
         team: 'Outreach - Japan',
-        avatar: 'https://i.pravatar.cc/150?u=kenji'
+        avatar: null
       }
     });
   }
@@ -68,7 +68,7 @@ export async function submitReview(formData: FormData) {
         name: 'Sarah Jenkins',
         role: 'MANAGER',
         team: 'Management',
-        avatar: 'https://i.pravatar.cc/150?u=sarah'
+        avatar: null
       }
     });
   }
@@ -109,7 +109,7 @@ export async function submitFeedback(formData: FormData) {
         name: 'David Chen',
         role: 'STAKEHOLDER',
         team: 'NPD',
-        avatar: 'https://i.pravatar.cc/150?u=david'
+        avatar: null
       }
     });
   }
