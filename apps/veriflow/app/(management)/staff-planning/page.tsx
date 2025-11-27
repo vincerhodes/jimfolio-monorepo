@@ -73,9 +73,9 @@ export default function StaffPlanningPage() {
   };
 
   const getPerformanceBadge = (percentage: number) => {
-    if (percentage >= 100) return 'status-genuine';
-    if (percentage >= 80) return 'status-inconclusive';
-    return 'status-false';
+    if (percentage >= 100) return 'genuine';
+    if (percentage >= 80) return 'inconclusive';
+    return 'false';
   };
 
   if (loading) {

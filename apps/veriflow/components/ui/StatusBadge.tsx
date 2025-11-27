@@ -17,7 +17,7 @@ export function StatusBadge({ status, children }: StatusBadgeProps) {
           'status-unable': status === 'unable',
           'status-pending': status === 'pending',
           'status-in-progress': status === 'in-progress',
-          'status-genuine': status === 'completed',
+          'status-completed': status === 'completed',
         }
       )}
     >

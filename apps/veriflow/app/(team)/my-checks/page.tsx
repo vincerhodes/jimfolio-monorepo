@@ -50,7 +50,7 @@ export default function MyChecksPage() {
   };
 
   const filteredChecks = checks.filter(check => {
-    const matchesFilter = filter === 'all' || check.status === filter;
+    const matchesFilter = filter === 'all' || check.status.toLowerCase() === filter;
     const matchesSearch = searchTerm === '' || 
       check.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       check.documentType.toLowerCase().includes(searchTerm.toLowerCase());
