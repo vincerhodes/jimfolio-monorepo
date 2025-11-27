@@ -1,22 +1,32 @@
 #!/bin/bash
 
 # Simple deployment script for VeriFlow within monorepo
-# Usage: ./deploy-simple.sh (run from monorepo root)
+# Usage: ./deploy-simple.sh (run from any directory)
 
 set -e
 
 echo "🚀 Deploying VeriFlow Solutions in monorepo..."
 
+# Detect if we're in the app directory or monorepo root
+if [[ "$(basename "$PWD")" == "veriflow" ]]; then
+    echo "📍 Detected app directory, navigating to monorepo root..."
+    cd ../../
+    MONOREPO_ROOT="$PWD"
+else
+    echo "📍 Assuming we're in monorepo root..."
+    MONOREPO_ROOT="$PWD"
+fi
+
 # Navigate to app directory
 cd apps/veriflow
 
-# Install dependencies (from monorepo root if needed)
+# Install dependencies
 echo "📦 Installing dependencies..."
 npm ci
 
 # Build the application using Turborepo
 echo "🔨 Building application with Turborepo..."
-cd ../../
+cd "$MONOREPO_ROOT"
 npm run build -- --filter=@jimfolio/veriflow
 
 # Setup database
