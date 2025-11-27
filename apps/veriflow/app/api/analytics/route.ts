@@ -58,7 +58,7 @@ export async function GET() {
     const weeklyBenchmark = Math.round(dailyBenchmark * 7);
 
     // Staff performance with proper rounding
-    const staffPerformance = staffMembers.map(member => {
+    const staffPerformance = staffMembers.map((member: any) => {
       const todayCheckCount = member.checks.length;
       const productivity = member.productivity[0];
       const productiveHours = Math.round((productivity?.productiveHours || 7) * 10) / 10;
