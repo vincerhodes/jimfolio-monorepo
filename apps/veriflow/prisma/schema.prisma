@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model StaffMember {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  role        String   @default("TEAM_MEMBER")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  
+  checks      VerificationCheck[]
+  productivity DailyProductivity[]
+  
+  @@map("staff_members")
+}
+
+model VerificationCheck {
+  id            String   @id @default(cuid())
+  customerName  String
+  documentType  String
+  status        String   @default("PENDING")
+  requestedBy   String
+  requestedAt   DateTime @default(now())
+  
+  verifiedBy    String?
+  verifiedAt    DateTime?
+  result        String?
+  notes         String?
+  
+  staffMember   StaffMember? @relation(fields: [verifiedBy], references: [email])
+  
+  @@map("verification_checks")
+}
+
+model DailyProductivity {
+  id                String   @id @default(cuid())
+  staffMemberId     String
+  date              DateTime @default(now())
+  productiveHours   Float    @default(7.0)
+  totalHours        Float    @default(7.0)
+  benchmarkAdjustment Float  @default(1.0)
+  
+  staffMember       StaffMember @relation(fields: [staffMemberId], references: [id])
+  
+  @@unique([staffMemberId, date])
+  @@map("daily_productivity")
+}
+
+model CapacityForecast {
+  id                String   @id @default(cuid())
+  date              DateTime @unique
+  expectedStaff     Int
+  expectedCapacity  Float
+  actualCapacity    Float?
+  notes             String?
+  
+  @@map("capacity_forecasts")
+}
