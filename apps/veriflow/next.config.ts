@@ -15,9 +15,6 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-
-  // Disable static generation entirely
-  output: 'standalone',
 };
 
 export default nextConfig;
