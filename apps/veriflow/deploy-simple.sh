@@ -32,7 +32,12 @@ npx prisma db seed
 # Build the application using Turborepo from monorepo root
 echo "🔨 Building application with Turborepo..."
 cd "$MONOREPO_ROOT"
-npx turbo run build --filter=@jimfolio/veriflow
+cd apps/veriflow
+rm -rf .next
+cd "$MONOREPO_ROOT"
+# Try direct Next.js build instead of Turborepo to isolate the issue
+cd apps/veriflow
+npm run build
 
 # Start/restart with PM2
 echo "🔄 Starting application with PM2..."

@@ -15,6 +15,14 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+
+  // Disable static generation entirely
+  output: 'standalone',
+  
+  // Force dynamic rendering for all pages
+  experimental: {
+    serverActions: true,
+  },
 };
 
 export default nextConfig;
