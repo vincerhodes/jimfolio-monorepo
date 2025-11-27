@@ -24,7 +24,7 @@ npm ci
 # Build the application using Turborepo from monorepo root
 echo "🔨 Building application with Turborepo..."
 cd "$MONOREPO_ROOT"
-npx turbo run build --filter=@jimfolio/veriflow -- --no-turbopack
+npx turbo run build --filter=@jimfolio/veriflow
 
 # Setup database
 echo "🗄️ Setting up database..."
