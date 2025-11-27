@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { VerificationStatus } from '@/types';
 
 export async function GET() {
   try {
@@ -48,9 +49,9 @@ export async function GET() {
 
     // Calculate metrics with proper rounding
     const todayTotal = todayChecks.length;
-    const todayCompleted = todayChecks.filter(c => c.status === 'COMPLETED').length;
+    const todayCompleted = todayChecks.filter((c: { status: VerificationStatus }) => c.status === 'COMPLETED').length;
     const weeklyTotal = weeklyChecks.length;
-    const weeklyCompleted = weeklyChecks.filter(c => c.status === 'COMPLETED').length;
+    const weeklyCompleted = weeklyChecks.filter((c: { status: VerificationStatus }) => c.status === 'COMPLETED').length;
 
     // Daily benchmark (10 checks per staff member)
     const activeStaffCount = staffMembers.length;

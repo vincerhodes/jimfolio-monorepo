@@ -142,21 +142,21 @@ export default function MyChecksPage() {
                 size="sm"
                 onClick={() => setFilter('pending')}
               >
-                Pending ({checks.filter(c => c.status === 'PENDING').length})
+                Pending ({checks.filter((c: { status: VerificationStatus }) => c.status === 'PENDING').length})
               </Button>
               <Button
                 variant={filter === 'in-progress' ? 'primary' : 'outline'}
                 size="sm"
                 onClick={() => setFilter('in-progress')}
               >
-                In Progress ({checks.filter(c => c.status === 'IN_PROGRESS').length})
+                In Progress ({checks.filter((c: { status: VerificationStatus }) => c.status === 'IN_PROGRESS').length})
               </Button>
               <Button
                 variant={filter === 'completed' ? 'primary' : 'outline'}
                 size="sm"
                 onClick={() => setFilter('completed')}
               >
-                Completed ({checks.filter(c => c.status === 'COMPLETED').length})
+                Completed ({checks.filter((c: { status: VerificationStatus }) => c.status === 'COMPLETED').length})
               </Button>
             </div>
           </div>
