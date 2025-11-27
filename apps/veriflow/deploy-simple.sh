@@ -21,18 +21,18 @@ fi
 echo "📦 Installing monorepo dependencies..."
 npm ci
 
-# Build the application using Turborepo from monorepo root
-echo "🔨 Building application with Turborepo..."
-cd "$MONOREPO_ROOT"
-npx turbo run build --filter=@jimfolio/veriflow
-
-# Setup database
+# Setup database BEFORE building (required for API routes that execute at build time)
 echo "🗄️ Setting up database..."
 cd apps/veriflow
 cp .env.production .env
 npx prisma generate
 npx prisma migrate deploy
 npx prisma db seed
+
+# Build the application using Turborepo from monorepo root
+echo "🔨 Building application with Turborepo..."
+cd "$MONOREPO_ROOT"
+npx turbo run build --filter=@jimfolio/veriflow
 
 # Start/restart with PM2
 echo "🔄 Starting application with PM2..."
