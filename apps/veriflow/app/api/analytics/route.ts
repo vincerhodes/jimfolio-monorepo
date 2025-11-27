@@ -48,9 +48,9 @@ export async function GET() {
 
     // Calculate metrics with proper rounding
     const todayTotal = todayChecks.length;
-    const todayCompleted = todayChecks.filter(c => c.status === 'COMPLETED').length;
+    const todayCompleted = todayChecks.filter((c: any) => c.status === 'COMPLETED').length;
     const weeklyTotal = weeklyChecks.length;
-    const weeklyCompleted = weeklyChecks.filter(c => c.status === 'COMPLETED').length;
+    const weeklyCompleted = weeklyChecks.filter((c: any) => c.status === 'COMPLETED').length;
 
     // Daily benchmark (10 checks per staff member)
     const activeStaffCount = staffMembers.length;

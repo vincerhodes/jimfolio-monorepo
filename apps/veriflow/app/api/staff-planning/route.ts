@@ -32,17 +32,17 @@ export async function GET() {
     });
 
     // Calculate planning metrics with proper rounding
-    const staffPlanningData = staffMembers.map(member => {
+    const staffPlanningData = staffMembers.map((member: any) => {
       const recentProductivity = member.productivity[0]; // Most recent day
       const avgProductiveHours = member.productivity.length > 0 
-        ? Math.round((member.productivity.reduce((sum, p) => sum + p.productiveHours, 0) / member.productivity.length) * 10) / 10
+        ? Math.round((member.productivity.reduce((sum: any, p: any) => sum + p.productiveHours, 0) / member.productivity.length) * 10) / 10
         : 7.0;
 
-      const recentChecks = member.checks.filter(check => 
+      const recentChecks = member.checks.filter((check: any) => 
         check.requestedAt >= new Date(new Date().setHours(0, 0, 0, 0))
       ).length;
 
-      const weeklyChecks = member.checks.filter(check =>
+      const weeklyChecks = member.checks.filter((check: any) =>
         check.requestedAt >= new Date(new Date().setDate(new Date().getDate() - 7))
       ).length;
 
@@ -71,7 +71,7 @@ export async function GET() {
         avgProductiveHours,
         recentProductiveHours: Math.round((recentProductivity?.productiveHours || 7) * 10) / 10,
         recentTotalHours: Math.round((recentProductivity?.totalHours || 7) * 10) / 10,
-        productivityTrend: member.productivity.slice(0, 7).reverse().map(p => ({
+        productivityTrend: member.productivity.slice(0, 7).reverse().map((p: any) => ({
           date: p.date.toISOString().split('T')[0],
           productiveHours: Math.round(p.productiveHours * 10) / 10,
           totalHours: Math.round(p.totalHours * 10) / 10,
@@ -83,12 +83,12 @@ export async function GET() {
     // Team aggregates with proper rounding
     const teamMetrics = {
       totalStaff: staffMembers.length,
-      avgProductiveHours: Math.round((staffPlanningData.reduce((sum, s) => sum + s.avgProductiveHours, 0) / staffPlanningData.length) * 10) / 10,
-      totalTodayChecks: staffPlanningData.reduce((sum, s) => sum + s.todayChecks, 0),
-      totalWeeklyChecks: staffPlanningData.reduce((sum, s) => sum + s.weeklyChecks, 0),
-      totalMonthlyChecks: staffPlanningData.reduce((sum, s) => sum + s.monthlyChecks, 0),
-      staffAtTarget: staffPlanningData.filter(s => s.todayPerformance >= 100).length,
-      staffBelowTarget: staffPlanningData.filter(s => s.todayPerformance < 80).length,
+      avgProductiveHours: Math.round((staffPlanningData.reduce((sum: any, s: any) => sum + s.avgProductiveHours, 0) / staffPlanningData.length) * 10) / 10,
+      totalTodayChecks: staffPlanningData.reduce((sum: any, s: any) => sum + s.todayChecks, 0),
+      totalWeeklyChecks: staffPlanningData.reduce((sum: any, s: any) => sum + s.weeklyChecks, 0),
+      totalMonthlyChecks: staffPlanningData.reduce((sum: any, s: any) => sum + s.monthlyChecks, 0),
+      staffAtTarget: staffPlanningData.filter((s: any) => s.todayPerformance >= 100).length,
+      staffBelowTarget: staffPlanningData.filter((s: any) => s.todayPerformance < 80).length,
     };
 
     return NextResponse.json({

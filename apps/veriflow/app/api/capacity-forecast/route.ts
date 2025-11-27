@@ -52,7 +52,7 @@ export async function GET() {
     }
 
     // Process forecast data
-    const forecastData = forecasts.map(forecast => ({
+    const forecastData = forecasts.map((forecast: any) => ({
       date: forecast.date.toISOString().split('T')[0],
       expected: forecast.expectedCapacity,
       actual: forecast.actualCapacity,
@@ -64,11 +64,11 @@ export async function GET() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
-    const todayForecast = forecasts.find(f => 
+    const todayForecast = forecasts.find((f: any) => 
       f.date.toDateString() === today.toDateString()
     );
 
-    const nextWeekForecasts = forecasts.filter(f => {
+    const nextWeekForecasts = forecasts.filter((f: any) => {
       const forecastDate = new Date(f.date);
       const weekFromNow = new Date();
       weekFromNow.setDate(weekFromNow.getDate() + 7);
@@ -82,17 +82,17 @@ export async function GET() {
       dailyCapacity: Math.round(activeStaffCount * 10),
       todayExpected: todayForecast?.expectedCapacity || Math.round(activeStaffCount * 10),
       todayActual: todayForecast?.actualCapacity || 0,
-      weeklyExpected: Math.round(nextWeekForecasts.reduce((sum, f) => sum + f.expectedCapacity, 0)),
-      weeklyActual: Math.round(nextWeekForecasts.reduce((sum, f) => sum + (f.actualCapacity || 0), 0) * 10) / 10,
-      monthlyExpected: Math.round(next30DaysForecasts.reduce((sum, f) => sum + f.expectedCapacity, 0)),
-      monthlyActual: Math.round(next30DaysForecasts.reduce((sum, f) => sum + (f.actualCapacity || 0), 0) * 10) / 10,
+      weeklyExpected: Math.round(nextWeekForecasts.reduce((sum: any, f: any) => sum + f.expectedCapacity, 0)),
+      weeklyActual: Math.round(nextWeekForecasts.reduce((sum: any, f: any) => sum + (f.actualCapacity || 0), 0) * 10) / 10,
+      monthlyExpected: Math.round(next30DaysForecasts.reduce((sum: any, f: any) => sum + f.expectedCapacity, 0)),
+      monthlyActual: Math.round(next30DaysForecasts.reduce((sum: any, f: any) => sum + (f.actualCapacity || 0), 0) * 10) / 10,
       utilizationRate: todayForecast ? 
         Math.round(((todayForecast.actualCapacity || 0) / todayForecast.expectedCapacity) * 100) : 0,
     };
 
     // Staffing recommendations
     const staffingRecommendations = [];
-    const avgDailyChecks = historicalData.reduce((sum, d) => sum + d.actual, 0) / historicalData.length;
+    const avgDailyChecks = historicalData.reduce((sum: any, d: any) => sum + d.actual, 0) / historicalData.length;
     
     if (avgDailyChecks > capacityMetrics.dailyCapacity * 0.9) {
       staffingRecommendations.push({
