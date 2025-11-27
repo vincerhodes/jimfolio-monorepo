@@ -17,17 +17,14 @@ else
     MONOREPO_ROOT="$PWD"
 fi
 
-# Navigate to app directory
-cd apps/veriflow
-
-# Install dependencies
-echo "📦 Installing dependencies..."
+# Install dependencies from monorepo root
+echo "📦 Installing monorepo dependencies..."
 npm ci
 
-# Build the application using Turborepo
+# Build the application using Turborepo from monorepo root
 echo "🔨 Building application with Turborepo..."
 cd "$MONOREPO_ROOT"
-npm run build -- --filter=@jimfolio/veriflow
+npx turbo run build --filter=@jimfolio/veriflow
 
 # Setup database
 echo "🗄️ Setting up database..."
