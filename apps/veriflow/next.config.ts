@@ -18,11 +18,6 @@ const nextConfig: NextConfig = {
 
   // Disable static generation entirely
   output: 'standalone',
-  
-  // Force dynamic rendering for all pages
-  experimental: {
-    serverActions: true,
-  },
 };
 
 export default nextConfig;
