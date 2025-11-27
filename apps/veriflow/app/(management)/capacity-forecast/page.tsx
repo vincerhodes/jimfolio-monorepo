@@ -51,7 +51,7 @@ export default function CapacityForecastPage() {
 
   const fetchCapacityData = async () => {
     try {
-      const response = await fetch('/api/capacity-forecast');
+      const response = await fetch('/veriflow/api/capacity-forecast');
       if (response.ok) {
         const data = await response.json();
         setHistoricalData(data.historicalData);
@@ -69,7 +69,7 @@ export default function CapacityForecastPage() {
   const handleStaffingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/capacity-forecast', {
+      const response = await fetch('/veriflow/api/capacity-forecast', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

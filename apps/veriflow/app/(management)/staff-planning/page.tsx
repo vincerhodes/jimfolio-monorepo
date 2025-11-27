@@ -53,7 +53,7 @@ export default function StaffPlanningPage() {
 
   const fetchStaffPlanningData = async () => {
     try {
-      const response = await fetch('/api/staff-planning');
+      const response = await fetch('/veriflow/api/staff-planning');
       if (response.ok) {
         const data = await response.json();
         setStaffData(data.staffData);

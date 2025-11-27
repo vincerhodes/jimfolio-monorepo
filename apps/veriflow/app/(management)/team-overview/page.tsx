@@ -51,7 +51,7 @@ export default function TeamOverviewPage() {
 
   const fetchAnalytics = async () => {
     try {
-      const response = await fetch('/api/analytics');
+      const response = await fetch('/veriflow/api/analytics');
       if (response.ok) {
         const data = await response.json();
         setAnalytics(data);

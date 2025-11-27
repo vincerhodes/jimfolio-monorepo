@@ -37,7 +37,7 @@ export default function CheckDetailPage() {
 
   const fetchCheckDetail = async (id: string) => {
     try {
-      const response = await fetch('/api/checks');
+      const response = await fetch('/veriflow/api/checks');
       if (response.ok) {
         const checks = await response.json();
         const foundCheck = checks.find((c: CheckDetail) => c.id === id);

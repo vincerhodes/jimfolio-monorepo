@@ -33,7 +33,7 @@ export default function MyChecksPage() {
 
   const fetchChecks = async () => {
     try {
-      const response = await fetch('/api/checks');
+      const response = await fetch('/veriflow/api/checks');
       if (response.ok) {
         const data = await response.json();
         // Filter for current user's checks (in real app, get from auth)

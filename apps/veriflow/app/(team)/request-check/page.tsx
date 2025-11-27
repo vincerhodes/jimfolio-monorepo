@@ -39,7 +39,7 @@ export default function RequestCheckPage() {
 
     try {
       // TODO: Replace with actual API call
-      const response = await fetch('/api/checks', {
+      const response = await fetch('/veriflow/api/checks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
