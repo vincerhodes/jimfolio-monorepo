@@ -29,6 +29,15 @@ npx prisma generate
 npx prisma migrate deploy
 npx prisma db seed
 
+# Verify database file exists before build
+echo "🔍 Verifying database file exists..."
+if [ ! -f "prisma/production.db" ]; then
+    echo "❌ Database file not found, creating empty database..."
+    touch prisma/production.db
+    npx prisma db push
+fi
+echo "✅ Database file verified: $(ls -la prisma/production.db)"
+
 # Build the application using Turborepo from monorepo root
 echo "🔨 Building application with Turborepo..."
 cd "$MONOREPO_ROOT"
