@@ -87,7 +87,7 @@ pm2 restart all
 
 ## 4. Nginx Configuration
 
-Configure Nginx to proxy traffic to your applications running on ports 3000 and 3001.
+Configure Nginx to proxy traffic to your applications running on ports 3000, 3001, and 3005.
 
 1.  **Copy the config file:**
     ```bash

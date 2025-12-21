@@ -34,7 +34,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-[12vw] leading-[0.9] font-bold tracking-tighter mb-8">
+          <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] xl:text-[7vw] 2xl:text-[6vw] leading-[0.9] font-bold tracking-tighter mb-8 max-w-[90vw]">
             DIGITAL <br />
             <span className="text-gray-500">CRAFTSMAN</span>
           </h1>
@@ -49,7 +49,7 @@ export default function Home() {
       <section id="work" className="py-32 px-6 max-w-7xl mx-auto">
         <div className="mb-16 flex items-end justify-between">
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight">SELECTED WORK</h2>
-          <span className="text-gray-500 hidden md:block">01 / 02</span>
+          <span className="text-gray-500 hidden md:block">01 / 03</span>
         </div>
 
         {/* Wealth Inequality Project */}
@@ -103,7 +103,7 @@ export default function Home() {
         </Link>
 
         {/* Sweet Reach */}
-        <Link href="/sweet-reach" className="block group">
+        <a href="/sweet-reach" className="block group">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -148,7 +148,95 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
-        </Link>
+        </a>
+
+        {/* Connexia */}
+        <a href="/connexia" className="block group mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-emerald-950/25 to-slate-950"
+          >
+            <div className="absolute inset-0 flex items-center justify-center p-12">
+              <div className="text-center">
+                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                  Connexia
+                </h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  Service delivery visibility & workflow orchestration
+                </p>
+                <div className="flex gap-4 justify-center text-sm text-gray-400">
+                  <span>Next.js</span>
+                  <span>•</span>
+                  <span>TypeScript</span>
+                  <span>•</span>
+                  <span>Dashboards</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
+              <div className="flex items-center gap-4">
+                <div className="bg-emerald-500/20 px-3 py-1 rounded-full text-xs border border-emerald-400/30 font-medium text-emerald-300">
+                  SHOWCASE
+                </div>
+                <div className="text-white">
+                  <h3 className="font-bold text-sm">Connexia Control Tower</h3>
+                  <p className="text-xs text-gray-300">Transparency for service delivery leadership</p>
+                </div>
+              </div>
+              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+                <ArrowRight size={20} />
+              </div>
+            </div>
+          </motion.div>
+        </a>
+
+        {/* VeriFlow */}
+        <a href="/veriflow" className="block group mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-violet-950/30 to-slate-950"
+          >
+            <div className="absolute inset-0 flex items-center justify-center p-12">
+              <div className="text-center">
+                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+                  VeriFlow
+                </h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  Document verification & workflow management
+                </p>
+                <div className="flex gap-4 justify-center text-sm text-gray-400">
+                  <span>Next.js</span>
+                  <span>•</span>
+                  <span>TypeScript</span>
+                  <span>•</span>
+                  <span>Prisma</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
+              <div className="flex items-center gap-4">
+                <div className="bg-violet-500/20 px-3 py-1 rounded-full text-xs border border-violet-400/30 font-medium text-violet-300">
+                  SHOWCASE
+                </div>
+                <div className="text-white">
+                  <h3 className="font-bold text-sm">VeriFlow Solutions</h3>
+                  <p className="text-xs text-gray-300">Verification pipeline demo & dashboards</p>
+                </div>
+              </div>
+              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+                <ArrowRight size={20} />
+              </div>
+            </div>
+          </motion.div>
+        </a>
       </section>
 
       {/* About Section */}

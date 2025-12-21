@@ -1,26 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter, Poppins, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import GlobalNav from '@/components/GlobalNav';
 
-const inter = Inter({ 
-  subsets: ['latin'], 
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const poppins = Poppins({ 
-  weight: ['600', '700', '800'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-  display: 'swap',
-});
-
-const jetbrains = JetBrains_Mono({ 
-  subsets: ['latin'],
-  variable: '--font-jetbrains',
-  display: 'swap',
-});
+const jimfolioHref =
+  process.env.NEXT_PUBLIC_JIMFOLIO_URL ??
+  (process.env.NODE_ENV === 'development' ? 'http://localhost:3100' : '/');
 
 export const metadata: Metadata = {
   title: 'Wealth Inequality in the UK | A Data Story',
@@ -47,7 +31,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} ${poppins.variable} ${jetbrains.variable} antialiased`}>
+      <body className="antialiased">
+        <a
+          href={jimfolioHref}
+          className="fixed left-4 bottom-4 z-50 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-medium text-slate-600 shadow-sm backdrop-blur hover:bg-white hover:text-slate-900"
+        >
+          ← Jimfolio
+        </a>
         <GlobalNav />
         {children}
       </body>

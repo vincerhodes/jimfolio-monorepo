@@ -9,11 +9,25 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:3100": "concurrently \"npm run dev:jimfolio:3100\" \"npm run dev:sweet-reach:3101\" \"npm run dev:veriflow:3102\" \"npm run dev:connexia:3103\" \"npm run dev:wealthinequality:3104\"",
+    "dev:jimfolio:3100": "set PORT=3100&& set CONNEXIA_PORT=3103&& set SWEET_REACH_PORT=3101&& set VERIFLOW_PORT=3102&& set WEALTHINEQUALITY_PORT=3104&& cd apps/jimfolio && npm run dev -- -p 3100",
+    "dev:sweet-reach:3101": "cd apps/sweet-reach && npm run dev -- -p 3101",
+    "dev:veriflow:3102": "cd apps/veriflow && npm run dev -- -p 3102",
+    "dev:connexia:3103": "cd apps/connexia && npm run dev -- -p 3103",
+    "dev:wealthinequality:3104": "cd apps/wealthinequality && npm run dev -- -p 3104",
+    "start:3100": "concurrently \"npm run start:jimfolio:3100\" \"npm run start:sweet-reach:3101\" \"npm run start:veriflow:3102\" \"npm run start:connexia:3103\" \"npm run start:wealthinequality:3104\"",
+    "start:jimfolio:3100": "set PORT=3100&& set PORTFOLIO_PROXY=1&& set CONNEXIA_PORT=3103&& set SWEET_REACH_PORT=3101&& set VERIFLOW_PORT=3102&& set WEALTHINEQUALITY_PORT=3104&& cd apps/jimfolio && npm run start -- -p 3100",
+    "start:sweet-reach:3101": "cd apps/sweet-reach && npm run start -- -p 3101",
+    "start:veriflow:3102": "cd apps/veriflow && npm run start -- -p 3102",
+    "start:connexia:3103": "cd apps/connexia && npm run start -- -p 3103",
+    "start:wealthinequality:3104": "cd apps/wealthinequality && npm run start -- -p 3104",
+    "live:3100": "npm run build && npm run start:3100",
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "prettier": "^3.1.0",
     "turbo": "^2.3.0",
     "typescript": "^5.3.3"
