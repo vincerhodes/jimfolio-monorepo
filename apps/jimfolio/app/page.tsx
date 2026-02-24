@@ -49,7 +49,7 @@ export default function Home() {
       <section id="work" className="py-32 px-6 max-w-7xl mx-auto">
         <div className="mb-16 flex items-end justify-between">
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight">SELECTED WORK</h2>
-          <span className="text-gray-500 hidden md:block">01 / 03</span>
+          <span className="text-gray-500 hidden md:block">01 / 05</span>
         </div>
 
         {/* Wealth Inequality Project */}
@@ -229,6 +229,94 @@ export default function Home() {
                 <div className="text-white">
                   <h3 className="font-bold text-sm">VeriFlow Solutions</h3>
                   <p className="text-xs text-gray-300">Verification pipeline demo & dashboards</p>
+                </div>
+              </div>
+              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+                <ArrowRight size={20} />
+              </div>
+            </div>
+          </motion.div>
+        </a>
+
+        {/* China Holidays */}
+        <a href="/chinahols" className="block group mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-red-950/30 via-rose-950/20 to-slate-950"
+          >
+            <div className="absolute inset-0 flex items-center justify-center p-12">
+              <div className="text-center">
+                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-red-500 to-rose-400 bg-clip-text text-transparent">
+                  中国假期
+                </h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  Interactive holiday itinerary presentation
+                </p>
+                <div className="flex gap-4 justify-center text-sm text-gray-400">
+                  <span>HTML</span>
+                  <span>•</span>
+                  <span>CSS</span>
+                  <span>•</span>
+                  <span>JavaScript</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
+              <div className="flex items-center gap-4">
+                <div className="bg-red-500/20 px-3 py-1 rounded-full text-xs border border-red-400/30 font-medium text-red-300">
+                  PRESENTATION
+                </div>
+                <div className="text-white">
+                  <h3 className="font-bold text-sm">China Holiday Planner</h3>
+                  <p className="text-xs text-gray-300">Northern & Southern route itineraries</p>
+                </div>
+              </div>
+              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+                <ArrowRight size={20} />
+              </div>
+            </div>
+          </motion.div>
+        </a>
+
+        {/* Fantasy League */}
+        <a href="/fantasy-league" className="block group mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-amber-950/30 to-slate-950"
+          >
+            <div className="absolute inset-0 flex items-center justify-center p-12">
+              <div className="text-center">
+                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
+                  Fantasy League
+                </h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  Sports gaming & fantasy team management
+                </p>
+                <div className="flex gap-4 justify-center text-sm text-gray-400">
+                  <span>Next.js</span>
+                  <span>•</span>
+                  <span>TypeScript</span>
+                  <span>•</span>
+                  <span>Prisma</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
+              <div className="flex items-center gap-4">
+                <div className="bg-amber-500/20 px-3 py-1 rounded-full text-xs border border-amber-400/30 font-medium text-amber-300">
+                  SHOWCASE
+                </div>
+                <div className="text-white">
+                  <h3 className="font-bold text-sm">Fantasy League Platform</h3>
+                  <p className="text-xs text-gray-300">Sports gaming & team management demo</p>
                 </div>
               </div>
               <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
