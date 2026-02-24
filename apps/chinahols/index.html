@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>China Adventures – Choose Your Route</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle">An Invitation to Explore</p>
+      <h1 class="hero-title">China Adventures</h1>
+      <p class="hero-tagline">Two incredible routes through ancient lands.<br>One unforgettable journey. Your choice.</p>
+      <div class="hero-scroll-hint">
+        <span>Discover the options</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Route Selector -->
+  <section class="route-selector" id="routes">
+    <div class="container">
+      <h2 class="section-heading">Two Routes, Two Stories</h2>
+      <p class="section-intro">Both journeys begin and end in Beijing, spanning 8 extraordinary days. Each offers a completely different window into China's history, landscapes, and cultures.</p>
+
+      <div class="option-cards">
+        <button class="option-card active" data-route="northern" id="card-northern">
+          <div class="card-icon">北</div>
+          <h3>Option 1</h3>
+          <p class="card-route-name">Xi'An Northern Route</p>
+          <p class="card-subtitle">Drive Along the Yellow River</p>
+          <p class="card-theme">Nomads, Settlements &amp; Civilizations</p>
+          <ul class="card-highlights">
+            <li>Yellow River &amp; Great Wall convergence</li>
+            <li>4,300-year-old Neolithic city</li>
+            <li>Hukou Waterfall</li>
+            <li>Mount Huashan</li>
+            <li>Terracotta Army</li>
+          </ul>
+          <span class="card-cta">View Itinerary →</span>
+        </button>
+
+        <button class="option-card" data-route="southern" id="card-southern">
+          <div class="card-icon">南</div>
+          <h3>Option 2</h3>
+          <p class="card-route-name">Xi'An → Chengdu Southern Route</p>
+          <p class="card-subtitle">From Dynasties to Spicy Foods</p>
+          <p class="card-theme">Ancient Kingdoms, Mountains &amp; Pandas</p>
+          <ul class="card-highlights">
+            <li>Terracotta Army</li>
+            <li>Ancient Shu Kingdom ruins</li>
+            <li>UNESCO Dujiangyan Irrigation</li>
+            <li>Giant Pandas at Wolong</li>
+            <li>Chengdu spicy food scene</li>
+          </ul>
+          <span class="card-cta">View Itinerary →</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Itineraries -->
+  <section class="itineraries">
+    <div class="container">
+
+      <!-- Northern Route -->
+      <div class="itinerary visible" id="route-northern">
+        <div class="itinerary-header">
+          <h2>Option 1 – Xi'An Northern Route</h2>
+          <p class="itinerary-theme">"Drive Along the Yellow River – Route to the Middle Kingdom: Nomads, Settlements and Civilizations"</p>
+        </div>
+
+        <div class="timeline">
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Arrival</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/inner-mongolia-grasslands.jpg" alt="Inner Mongolia grasslands" loading="lazy">
+              </div>
+              <h3>Beijing → Hohhot</h3>
+              <p class="location-tag">Inner Mongolia</p>
+              <p>Arrive in Beijing and travel to Hohhot, capital of Inner Mongolia. Pick up the car and prepare for the adventure ahead — driving downstream along China's mother river.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 1</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/yellow-river-canyon.jpg" alt="Yellow River canyon landscape" loading="lazy">
+              </div>
+              <h3>Laoniuwan Grand Canyon &amp; Shimao Neolithic City</h3>
+              <p class="location-tag">Yellow River · Yulin City</p>
+              <p>Begin at the <strong>Laoniuwan Grand Canyon</strong> — the dramatic point where the Yellow River meets the Great Wall. Drive downstream along the river.</p>
+              <p>Visit <strong>Shimao Neolithic City (~2300 BC)</strong>, a remarkable walled city with cultural and technological influences from the Eurasian Steppe, featuring early rituals and hierarchies of central China. One of the most important archaeological discoveries in recent decades.</p>
+              <p>Continue to <strong>Mahuangliang Loess Geopark</strong> with its stunning layered earth formations, then on to the old city of <strong>Yulin</strong>.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 2</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/tongwancheng-white-city.jpg" alt="Ancient desert ruins" loading="lazy">
+              </div>
+              <h3>Tongwancheng – City to Govern Myriads</h3>
+              <p class="location-tag">Yan'An City</p>
+              <p>Explore <strong>Tongwancheng (413 AD – 1226 AD)</strong>, also known as the White City. Founded as the capital of the Tiefu Tribe of the Southern Hun, who rose to prominence from mixtures with Chinese and Xianbei Dynasties.</p>
+              <p>The city endured climate changes and occupations by different dynasties until its destruction by the Mongols. A haunting testament to the rise and fall of steppe empires.</p>
+              <p>Continue to <strong>Yan'An City</strong>, a place of deep historical significance.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 3</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/hukou-waterfall.jpg" alt="Hukou Waterfall Yellow River" loading="lazy">
+              </div>
+              <h3>Wave Valley, Hukou Waterfall &amp; Hancheng</h3>
+              <p class="location-tag">Shaanxi · Yellow River</p>
+              <p>Walk through the breathtaking <strong>Wave Valley (波浪谷)</strong> — Shaanxi's own "The Wave", with stunning red sandstone formations carved by millennia of erosion.</p>
+              <p>Drive via Yan'An to witness the powerful <strong>AnSai Waist Drum Dance</strong>, an ancient folk performance full of energy and rhythm.</p>
+              <p>Arrive at the magnificent <strong>Hukou Waterfall</strong> — the largest yellow waterfall in the world, where the Yellow River narrows dramatically through a gorge. Pass through the legendary <strong>Yellow River Dragon Gate</strong>.</p>
+              <p>End the day in the beautifully preserved <strong>Hancheng Ancient Town</strong>.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 4</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/mount-huashan.jpg" alt="Mount Huashan dramatic peaks" loading="lazy">
+              </div>
+              <h3>Hancheng Ancient Town &amp; Mount Huashan</h3>
+              <p class="location-tag">Shaanxi</p>
+              <p>Explore <strong>Hancheng Ancient Town</strong> in the morning — one of China's best-preserved historical towns with traditional architecture spanning centuries.</p>
+              <p>Travel to <strong>Mount Huashan (华山)</strong>, one of China's Five Great Mountains, renowned for its sheer granite cliffs and breathtaking mountain trails. One of the most spectacular mountain experiences in all of China.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 5</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/terracotta-army.jpg" alt="Terracotta Army warriors" loading="lazy">
+              </div>
+              <h3>The First Emperor &amp; Xi'An</h3>
+              <p class="location-tag">Xi'An</p>
+              <p>"The First Emperor was not the first, but he continued to unify China in lots of ways."</p>
+              <p>Visit the <strong>Mausoleum of the First Qin Emperor (210 BC)</strong> — a UNESCO World Heritage Site and home to the legendary Terracotta Army. Thousands of life-sized warriors guarding the emperor's eternal kingdom.</p>
+              <p>Experience a spectacular <strong>night performance</strong> in Xi'An, bringing ancient history to life through music and dance.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 6</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/xian-city-walls.jpg" alt="Xi'An city walls at night" loading="lazy">
+              </div>
+              <h3>Xi'An City Tour</h3>
+              <p class="location-tag">Xi'An</p>
+              <p>A full day immersed in one of China's greatest ancient capitals. Explore tombs, museums, archaeologies, steles, the vibrant <strong>Muslim Quarter</strong>, ancient <strong>city walls</strong>, love stories of dynasties past, <strong>Silk Road</strong> heritage, traditional costumes, and live performances.</p>
+              <p>Xi'An was the starting point of the Silk Road and served as the capital for 13 dynasties — layers upon layers of history await around every corner.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 7</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/famen-temple.jpg" alt="Chinese Buddhist temple" loading="lazy">
+              </div>
+              <h3>Baoji – City of the Sacred Bird</h3>
+              <p class="location-tag">Baoji</p>
+              <p>Travel to <strong>Baoji</strong>, known as the City of the Sacred Bird, steeped in the legendary promises of the First Emperor.</p>
+              <p>Visit the magnificent <strong>FaMen Temple</strong>, one of China's most important Buddhist sites, housing relics of the Buddha himself.</p>
+              <p>Explore the <strong>Tomb No. 1 of Duke Qin (537 BC)</strong> — the tomb of the First Emperor's 16th predecessor, the Duke Jin of Qin. Notably, 166 human sacrifices were found here, a practice that was declining and would end roughly 150 years later.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 8</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/beijing-skyline.jpg" alt="Beijing skyline" loading="lazy">
+              </div>
+              <h3>Return to Beijing</h3>
+              <p class="location-tag">Beijing</p>
+              <p>Journey back to Beijing, carrying with you the echoes of nomadic empires, the roar of the Yellow River, and the silent army of the First Emperor.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Southern Route -->
+      <div class="itinerary" id="route-southern">
+        <div class="itinerary-header">
+          <h2>Option 2 – Xi'An → Chengdu Southern Route</h2>
+          <p class="itinerary-theme">"From Dynasties to Spicy Foods"</p>
+        </div>
+
+        <div class="timeline">
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Arrival</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/xian-ancient-city.jpg" alt="Xi'An ancient city" loading="lazy">
+              </div>
+              <h3>Beijing → Xi'An</h3>
+              <p class="location-tag">Xi'An</p>
+              <p>Arrive in Beijing and travel to Xi'An, the ancient capital. Pick up the car and settle in for the night. The adventure begins tomorrow.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 1</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/terracotta-army.jpg" alt="Terracotta Army warriors" loading="lazy">
+              </div>
+              <h3>Terracotta Army &amp; Xi'An by Night</h3>
+              <p class="location-tag">Xi'An</p>
+              <p>Visit the <strong>Mausoleum of the First Qin Emperor (210 BC)</strong> — a UNESCO World Heritage Site featuring the awe-inspiring Terracotta Army.</p>
+              <p>Spend the afternoon and evening on a <strong>city walk</strong> and enjoy spectacular <strong>night performances</strong> that bring Xi'An's ancient heritage to life.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 2</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/high-speed-train.jpg" alt="Chinese high-speed train" loading="lazy">
+              </div>
+              <h3>Xi'An City Walk &amp; Fast Train to Chengdu</h3>
+              <p class="location-tag">Xi'An → Chengdu</p>
+              <p>More of Xi'An's treasures — tombs, museums, archaeologies, steles, the <strong>Muslim Quarter</strong>, ancient city walls, love stories, dynasties, <strong>Silk Road</strong> heritage, costumes, and performances.</p>
+              <p>Board the <strong>fast train to Chengdu</strong> — a stunning journey through changing landscapes. Pick up a car in Chengdu.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 3</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/dujiangyan-irrigation.jpg" alt="Dujiangyan ancient irrigation" loading="lazy">
+              </div>
+              <h3>Ancient Shu Kingdom &amp; Dujiangyan</h3>
+              <p class="location-tag">Sichuan</p>
+              <p>Discover the <strong>Three Star Mound (三星堆) of the Ancient Shu Kingdom</strong> — a mysterious bronze-age civilization whose legendary founder was a silkworm keeper with protruding eyes, who helped establish the Zhou Dynasty.</p>
+              <p>Visit the <strong>Dujiangyan Irrigation System (3rd century BC)</strong> — a UNESCO World Heritage Site. The First Emperor's project of taming the floods by diverting water flow, still functioning after over 2,000 years.</p>
+              <p>Drive to the beautiful <strong>Bipeng Valley</strong> for the evening.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 4</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/bipeng-valley-lake.jpg" alt="Alpine valley with turquoise lake" loading="lazy">
+              </div>
+              <h3>Wenchuan &amp; Bipeng Valley Hike</h3>
+              <p class="location-tag">Wenchuan · Bipeng Valley</p>
+              <p>Enter the region of the <strong>Qiang People</strong> — depicted in Oracle Bone Script (the earliest Chinese characters) as "the people with sheep head decoration." Wenchuan is the hometown of the legend of <strong>Yu the Great</strong>, regarded as the ancestor of the Chinese people who controlled the Great Floods.</p>
+              <p>Enjoy a <strong>hike through Bipeng Valley</strong> — pristine alpine scenery with turquoise lakes, dense forests, and snow-capped peaks.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 5</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/danba-gyalrong-village.jpg" alt="Tibetan mountain village" loading="lazy">
+              </div>
+              <h3>Danba Gyalrong Villages <span class="optional-badge">Optional Detour</span></h3>
+              <p class="location-tag">Danba</p>
+              <p>A scenic detour to the stunning <strong>Danba Gyalrong Villages</strong> — ancient stone watchtowers and traditional Tibetan-influenced settlements perched on dramatic hillsides.</p>
+              <p>The Gyalrong dialect retains features of ancient languages — they are not Tibetan, although they share deep connections. If visiting in spring, the valleys are blanketed in <strong>pear blossoms</strong>.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 5–6</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/mount-skubla.jpg" alt="Majestic snow-capped mountain" loading="lazy">
+              </div>
+              <h3>Mount Skubla <span class="optional-badge">Optional</span></h3>
+              <p class="location-tag">Mount Skubla</p>
+              <p>An optional adventure to <strong>Mount Skubla</strong> — the mountain of the tutelary deity. Choose between a <strong>2-day comfort tour</strong> or a <strong>3-day hiking expedition</strong>.</p>
+              <p class="note">If choosing the Mount Skubla option, the Danba detour would be skipped.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 6</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/giant-panda.jpg" alt="Giant panda eating bamboo" loading="lazy">
+              </div>
+              <h3>Giant Pandas at Wolong</h3>
+              <p class="location-tag">Wolong · Chengdu</p>
+              <p>Visit the <strong>Wolong National Nature Reserve</strong> — one of the most important giant panda conservation centres in the world. Get up close with these beloved creatures in their natural mountain habitat.</p>
+              <p>Continue to <strong>Chengdu</strong> for the evening.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 7</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/sichuan-hotpot.jpg" alt="Sichuan spicy hotpot" loading="lazy">
+              </div>
+              <h3>Chengdu City Walk &amp; Spicy Foods</h3>
+              <p class="location-tag">Chengdu</p>
+              <p>A full day exploring vibrant <strong>Chengdu</strong> — teahouses, temples, traditional streets, and the incredible food scene. Sichuan cuisine is legendary for its bold flavours, numbing peppercorns, and fiery chilli.</p>
+              <p>From hotpot to mapo tofu, dan dan noodles to kung pao chicken — this is a feast for the senses.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-marker">
+              <span class="day-label">Day 8</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-img">
+                <img src="images/beijing-skyline.jpg" alt="Beijing skyline" loading="lazy">
+              </div>
+              <h3>Return to Beijing</h3>
+              <p class="location-tag">Beijing</p>
+              <p>Take the <strong>sleeper train</strong> or <strong>fly back to Beijing</strong>, carrying memories of ancient kingdoms, mountain valleys, giant pandas, and the fire of Sichuan cuisine.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="comparison" id="compare">
+    <div class="container">
+      <h2 class="section-heading">At a Glance</h2>
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Option 1 – Northern Route</th>
+              <th>Option 2 – Southern Route</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-label">Theme</td>
+              <td>Yellow River, nomadic empires, ancient civilizations</td>
+              <td>Ancient kingdoms, mountains, pandas, spicy food</td>
+            </tr>
+            <tr>
+              <td class="row-label">Landscape</td>
+              <td>River canyons, loess plateaus, waterfalls, sacred mountains</td>
+              <td>Alpine valleys, snow peaks, panda reserves, fertile plains</td>
+            </tr>
+            <tr>
+              <td class="row-label">UNESCO Sites</td>
+              <td>Mausoleum of First Qin Emperor</td>
+              <td>Mausoleum of First Qin Emperor, Dujiangyan Irrigation System</td>
+            </tr>
+            <tr>
+              <td class="row-label">Cities</td>
+              <td>Hohhot, Yulin, Yan'An, Hancheng, Xi'An, Baoji</td>
+              <td>Xi'An, Chengdu, Wenchuan, Danba</td>
+            </tr>
+            <tr>
+              <td class="row-label">Unique Highlights</td>
+              <td>Great Wall + Yellow River meeting point, Shimao (2300 BC), Hukou Waterfall, Mount Huashan</td>
+              <td>Sanxingdui bronze masks, Bipeng Valley hike, Giant Pandas, Sichuan cuisine</td>
+            </tr>
+            <tr>
+              <td class="row-label">Pace</td>
+              <td>Road-trip along the river, daily driving</td>
+              <td>Mix of train, driving, and optional hiking</td>
+            </tr>
+            <tr>
+              <td class="row-label">Optional Add-ons</td>
+              <td>—</td>
+              <td>Danba villages, Mount Skubla (2–3 day trek)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="choose">
+    <div class="container">
+      <h2>Which adventure calls to you?</h2>
+      <p>Let me know which route you'd prefer — or if you have any questions about either option. Both promise an unforgettable journey through China's incredible history and landscapes.</p>
+      <div class="cta-buttons">
+        <a href="#route-northern" class="cta-btn cta-northern" data-route="northern">I prefer the Northern Route</a>
+        <a href="#route-southern" class="cta-btn cta-southern" data-route="southern">I prefer the Southern Route</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Made with ❤️ for an unforgettable China adventure</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
