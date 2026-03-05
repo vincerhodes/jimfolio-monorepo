@@ -49,6 +49,33 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 3003
       }
+    },
+    {
+      name: "chinahols",
+      cwd: "./apps/chinahols",
+      script: "npm",
+      args: "start",
+      env: {
+        NODE_ENV: "production"
+      }
+    },
+    {
+      name: "powerbi",
+      cwd: "./apps/powerbi",
+      script: "npx",
+      args: "serve -l 3107",
+      env: {
+        NODE_ENV: "production"
+      }
+    },
+    {
+      name: "fantasy-league",
+      cwd: "./apps/fantasy-league",
+      script: "npx",
+      args: "serve -l 3108",
+      env: {
+        NODE_ENV: "production"
+      }
     }
   ]
 };

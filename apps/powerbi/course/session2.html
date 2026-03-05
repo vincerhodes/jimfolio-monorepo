@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2 | DAX, Power Query &amp; Analysis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="index.html" aria-label="Power BI course home">
+                <span class="logo-placeholder" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" role="img" aria-label="Power BI logo placeholder">
+                        <rect x="7" y="32" width="10" height="23" rx="2" fill="#F2C811"></rect>
+                        <rect x="23" y="24" width="10" height="31" rx="2" fill="#F2C811"></rect>
+                        <rect x="39" y="15" width="10" height="40" rx="2" fill="#F2C811"></rect>
+                        <circle cx="53" cy="12" r="4" fill="#F2C811"></circle>
+                    </svg>
+                </span>
+                <span>
+                    <h1>Session 2: DAX, Power Query &amp; Analysis</h1>
+                    <p>2 hours · Hands-on formulas, cleaning, and report analysis</p>
+                </span>
+            </a>
+            <nav class="top-nav" aria-label="Main navigation">
+                <a href="index.html">Overview</a>
+                <a href="session1.html">Session 1</a>
+                <a class="active" href="session2.html">Session 2</a>
+                <a href="data-explorer.html">Data Explorer</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-wrap">
+        <section class="card hero-card" id="s2-intro">
+            <span class="pill">Session 2 Focus</span>
+            <h2 class="section-title">From basic calculations to cleaner data</h2>
+            <p>
+                Session 2 introduces beginner DAX measures, Power Query transformations, and practical analysis features
+                used by business teams in day-to-day reporting.
+            </p>
+            <div class="note warning">
+                <p>
+                    Expectation reminder: this course is an introduction to get learners started, not advanced mastery.
+                    For comprehensive learning, the <a href="https://www.datacamp.com/tracks/power-bi-fundamentals">DataCamp Power BI Fundamentals Track</a> (17 hours)
+                    provides complete coverage beyond these two sessions.
+                </p>
+            </div>
+            <div class="btn-row">
+                <a class="button ghost" href="index.html#prerequisites">Review prerequisite links</a>
+                <a class="button primary" href="session1.html">Back to Session 1</a>
+            </div>
+            <label class="complete-control">
+                <input class="complete-checkbox" type="checkbox" data-section-id="s2-intro">
+                Mark section as complete
+            </label>
+        </section>
+
+        <section class="card" id="s2-dax">
+            <h2 class="section-title">Part 1: Basic DAX Measures</h2>
+            <p>
+                Use this section as a live demo. Each formula includes a copy button so learners can paste directly into Power BI.
+            </p>
+
+            <div class="accordion" data-accordion data-single="true" data-open-first="true">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Step 1: Calculated column example</button>
+                    <div class="accordion-panel" hidden>
+                        <p>Create a calculated column in order-details to get line totals using the related products table:</p>
+                        <div class="code-sample">
+                            <pre class="code-block" id="dax-line-total">LineTotal =
+RELATED(products[unitPrice]) * order-details[quantity] * (1 - order-details[discount])</pre>
+                            <button class="copy-btn" type="button" data-copy-target="dax-line-total">Copy to Clipboard</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Step 2: Core measures</button>
+                    <div class="accordion-panel" hidden>
+                        <div class="code-sample">
+                            <pre class="code-block" id="dax-total-sales">Total Sales = SUM(order-details[LineTotal])</pre>
+                            <button class="copy-btn" type="button" data-copy-target="dax-total-sales">Copy to Clipboard</button>
+                        </div>
+                        <div class="code-sample">
+                            <pre class="code-block" id="dax-total-orders">Total Orders = DISTINCTCOUNT(orders[orderID])</pre>
+                            <button class="copy-btn" type="button" data-copy-target="dax-total-orders">Copy to Clipboard</button>
+                        </div>
+                        <div class="code-sample">
+                            <pre class="code-block" id="dax-avg-order">Avg Order Value = DIVIDE([Total Sales], [Total Orders], 0)</pre>
+                            <button class="copy-btn" type="button" data-copy-target="dax-avg-order">Copy to Clipboard</button>
+                        </div>
+                        <div class="code-sample">
+                            <pre class="code-block" id="dax-customer-count">Customer Count = DISTINCTCOUNT(orders[customerID])</pre>
+                            <button class="copy-btn" type="button" data-copy-target="dax-customer-count">Copy to Clipboard</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Step 3: CALCULATE examples</button>
+                    <div class="accordion-panel" hidden>
+                        <div class="code-sample">
+                            <pre class="code-block" id="dax-beverages-sales">Beverages Sales =
+CALCULATE(
+    [Total Sales],
+    categories[categoryName] = "Beverages"
+)</pre>
+                            <button class="copy-btn" type="button" data-copy-target="dax-beverages-sales">Copy to Clipboard</button>
+                        </div>
+                        <div class="code-sample">
+                            <pre class="code-block" id="dax-germany-sales">Germany Sales =
+CALCULATE(
+    [Total Sales],
+    customers[country] = "Germany"
+)</pre>
+                            <button class="copy-btn" type="button" data-copy-target="dax-germany-sales">Copy to Clipboard</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="note info">
+                <p><strong>Talking point:</strong> use measures for dynamic report totals and calculated columns for row-level logic.</p>
+            </div>
+            <label class="complete-control">
+                <input class="complete-checkbox" type="checkbox" data-section-id="s2-dax">
+                Mark section as complete
+            </label>
+        </section>
+
+        <section class="card" id="s2-powerquery">
+            <h2 class="section-title">Part 2: Power Query Transforms (Beginner)</h2>
+            <p class="subtle">
+                Open dirty CSV files via <strong>Transform Data</strong> and run these guided clean-up blocks.
+            </p>
+
+            <div class="btn-row" style="margin-bottom: 1rem;">
+                <a class="button primary" href="../datasets/dirty/Employees_Dirty.csv" download>Employees_Dirty.csv</a>
+                <a class="button primary" href="../datasets/dirty/Sales_Dirty.csv" download>Sales_Dirty.csv</a>
+                <a class="button primary" href="../datasets/dirty/Departments_Dirty.csv" download>Departments_Dirty.csv</a>
+            </div>
+
+            <div class="accordion" data-accordion data-single="true" data-open-first="true">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Employees_Dirty.csv clean-up</button>
+                    <div class="accordion-panel" hidden>
+                        <ol>
+                            <li>Remove top rows (title rows + blank rows).</li>
+                            <li>Use first row as headers.</li>
+                            <li>Set data types: Salary = Whole Number, StartDate = Date.</li>
+                            <li>Text functions: Capitalize each word, Trim, Replace double spaces.</li>
+                            <li>Replace invalid values: N/A and PENDING to null.</li>
+                        </ol>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Sales_Dirty.csv clean-up</button>
+                    <div class="accordion-panel" hidden>
+                        <ol>
+                            <li>Remove top rows and promote headers.</li>
+                            <li>Replace "£" symbol in Sale Amount and set Decimal Number type.</li>
+                            <li>Replace invalid entries (REFUND, TBC) with null.</li>
+                            <li>Normalize text casing for Product Sold, Payment Method, and Region.</li>
+                            <li>Demonstrate Fill Down on suitable missing fields.</li>
+                        </ol>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Departments_Dirty.csv and model join</button>
+                    <div class="accordion-panel" hidden>
+                        <ol>
+                            <li>Remove top noise rows, promote headers.</li>
+                            <li>Close &amp; Apply all three queries.</li>
+                            <li>Create relationships: Employees[EmployeeID] → Sales[EmployeeID].</li>
+                            <li>Create relationship: Departments[Department] → Employees[Department].</li>
+                        </ol>
+                    </div>
+                </article>
+            </div>
+
+            <div class="tabs" data-tabs>
+                <div class="tab-list" role="tablist">
+                    <button class="tab-button" type="button" role="tab" data-tab-target="s2-pq-types">Data Types</button>
+                    <button class="tab-button" type="button" role="tab" data-tab-target="s2-pq-text">Text Functions</button>
+                    <button class="tab-button" type="button" role="tab" data-tab-target="s2-pq-rows">Rows/Columns</button>
+                    <button class="tab-button" type="button" role="tab" data-tab-target="s2-pq-analysis">Analysis Basics</button>
+                </div>
+
+                <div class="tab-panel" data-tab-panel="s2-pq-types">
+                    <ul>
+                        <li>Always verify data type icons in each column.</li>
+                        <li>Numbers stored as text cannot aggregate correctly in visuals.</li>
+                        <li>Dates must be proper Date type for slicing and trends.</li>
+                    </ul>
+                </div>
+
+                <div class="tab-panel" data-tab-panel="s2-pq-text">
+                    <ul>
+                        <li>Replace Values for symbols and bad values.</li>
+                        <li>Trim + Clean for spacing and hidden characters.</li>
+                        <li>Capitalize Each Word for consistent presentation.</li>
+                    </ul>
+                </div>
+
+                <div class="tab-panel" data-tab-panel="s2-pq-rows">
+                    <ul>
+                        <li>Remove Top Rows for pre-header report titles.</li>
+                        <li>Remove Blank Rows to stabilize joins.</li>
+                        <li>Remove unused columns early to simplify the model.</li>
+                    </ul>
+                </div>
+
+                <div class="tab-panel" data-tab-panel="s2-pq-analysis">
+                    <ul>
+                        <li>Applied Steps are your reusable data-cleaning script.</li>
+                        <li>Refresh replays the same transformations for new files.</li>
+                        <li>Use profiling (column quality/distribution) to spot anomalies.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <label class="complete-control">
+                <input class="complete-checkbox" type="checkbox" data-section-id="s2-powerquery">
+                Mark section as complete
+            </label>
+        </section>
+
+        <section class="card" id="s2-analysis">
+            <h2 class="section-title">Part 3: Analysis Features</h2>
+            <div class="accordion" data-accordion data-single="true" data-open-first="true">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Slicers and cross-filtering</button>
+                    <div class="accordion-panel" hidden>
+                        <ul>
+                            <li>Create Region + Category slicers and demonstrate combined filtering.</li>
+                            <li>Use Edit Interactions to control filter/highlight behavior.</li>
+                            <li>Explain why slicers are a must-have for business stakeholders.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Drillthrough and detail pages</button>
+                    <div class="accordion-panel" hidden>
+                        <ul>
+                            <li>Create a Customer Detail page and add CustomerName as drillthrough field.</li>
+                            <li>Right-click from summary visuals to navigate to detail context.</li>
+                            <li>Use back button to return to the summary page.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">Conditional formatting and tooltips</button>
+                    <div class="accordion-panel" hidden>
+                        <ul>
+                            <li>Apply color scales to matrix cells for fast interpretation.</li>
+                            <li>Add extra tooltip measures for richer context on hover.</li>
+                            <li>Briefly show bookmarks for guided navigation.</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <label class="complete-control">
+                <input class="complete-checkbox" type="checkbox" data-section-id="s2-analysis">
+                Mark section as complete
+            </label>
+        </section>
+
+        <section class="card" id="s2-next-steps">
+            <h2 class="section-title">Further Learning &amp; Next Steps</h2>
+            <div class="note warning">
+                <p>
+                    Final reminder: this bootcamp is only an introduction. It gives learners a practical start but they will need deeper study to master DAX and Power Query.
+                </p>
+            </div>
+
+            <div class="btn-row">
+                <a class="button primary" href="https://www.datacamp.com/courses/introduction-to-power-bi">Intro Course (up to 4 hrs)</a>
+                <a class="button primary" href="https://www.datacamp.com/tracks/power-bi-fundamentals">Full Power BI Fundamentals Track (17 hrs)</a>
+            </div>
+
+            <div class="table-wrap spaced-top">
+                <table>
+                    <thead>
+                        <tr><th>Learning Path</th><th>Goal</th><th>Suggested Resource</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>DAX Mastery</td><td>Context transition, time intelligence, optimization</td><td>SQLBI learning tracks + DAX Guide practice</td></tr>
+                        <tr><td>Power Query Mastery</td><td>Advanced shaping, query folding, M functions</td><td>Microsoft Learn Power Query path + hands-on projects</td></tr>
+                        <tr><td>Power BI Delivery</td><td>Publishing, sharing, governance, refresh</td><td>Microsoft Learn service administration modules</td></tr>
+                        <tr><td>Structured Learning</td><td>Complete Power BI fundamentals (17 hours)</td><td><a href="https://www.datacamp.com/tracks/power-bi-fundamentals">DataCamp Power BI Fundamentals Track</a></td></tr>
+                        <tr><td>Practical Practice</td><td>Portfolio-quality dashboards and storytelling</td><td>Repeat this course workflow on new datasets</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <label class="complete-control">
+                <input class="complete-checkbox" type="checkbox" data-section-id="s2-next-steps">
+                Mark section as complete
+            </label>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-card">
+            <strong>Session 2 complete.</strong> You now have a beginner-ready foundation in visuals, modelling, DAX, and Power Query.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

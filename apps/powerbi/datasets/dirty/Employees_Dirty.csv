@@ -1,0 +1,506 @@
+,,,,
+,,,,
+Company Staff List - Q4 2023,,,,
+Report Generated: 05/03/2026,,,,
+,,,,
+EmployeeID,FullName,Department,Salary,StartDate
+E001,Laura  Williams,IT 216,,2019-12-29
+E002,Daniel White,Finance 251,32841,05/23/2023
+E003,SARAH JOHNSON,Procurement 407,42679,02/08/2022
+E004,JAMES  LEE,Admin 371,61795,20th August 2024
+E005,SOPHIE CLARKE,Analytics 076,80022,16/11/2019
+E006,kate thompson,Finance 328,42582,2nd March 2022
+E007,daniel clarke,HR 448,47354,07/01/2024
+E008,Sophie Brown,Marketing 214,40327,2021-01-10
+E009,David White,Analytics 208,48535,2024-01-01
+E010,Zoe White,Customer Success 335,61687,27th July 2019
+E011,HANNAH LEE,IT 119,52523,09/03/2023
+E012,nathan hill,Finance 036,N/A,2021-10-13
+E013,DAVID KING,Admin 362,57054,2021-12-31
+E014,SARAH  WARD,Analytics 166,74704,2024-07-23
+E015,RACHEL WHITE,Operations 242,62785,2019-09-21
+E016,ben davies,IT 466,N/A,7th March 2020
+E017,Nathan Cooper,Operations 455,48359,10th April 2022
+E018,Sophie Robinson,IT 400,64426,10th May 2021
+E019,James Green,HR 448,39096,7th March 2019
+E020,John Hill,IT 420,48500,2021-01-07
+E021,leah ward,Compliance 172,52874,14/09/2023
+E022,David Ward,Sales 060,43468,13th August 2020
+E023,sarah  turner,IT 100,74478,5th May 2020
+E024,Daniel Thompson,Customer Success 272,54872,08/16/2019
+E025,Lisa Taylor,Finance 112,61445,02/18/2025
+E026,Leah Evans,Sales 387,72308,2021-09-04
+E027,lisa evans,IT 338,48956,2019-07-12
+E028,TOM JACKSON,IT 165,67591,08/25/2022
+E029,John Taylor,IT 486,68331,2019-02-15
+E030,ethan king,Finance 054,40392,06/05/2022
+E031,James Hill,Support 452,32656,06/04/2023
+E032,Lisa Smith,Procurement 405,74650,04/09/2020
+E033,Sophie Brown,HR 357,54071,01/09/2022
+E034,NATHAN WILSON,IT 288,,11/23/2021
+E035,amy white,Sales 225,52651,09/19/2023
+E036,Emma Johnson,IT 015,N/A,04/14/2021
+E037,John Williams,IT 450,77974,2019-07-06
+E038,rachel harris,Marketing 069,77281,19/11/2022
+E039,Oliver  White,Sales 378,71847,21/01/2022
+E040,HANNAH JOHNSON,Finance 264,35357,18/08/2024
+E041,mark clarke,Compliance 218,74589,06/12/2022
+E042,Megan Green,Procurement 394,N/A,1st June 2022
+E043,CHRIS THOMPSON,Operations 437,PENDING,13th June 2022
+E044,leah brown,Finance 328,30283,7th March 2021
+E045,Rachel Brown,Admin 061,47031,2024-06-13
+E046,Hannah Davies,Customer Success 272,47055,2021-11-17
+E047,Ben Johnson,Support 185,72679,11/23/2019
+E048,Mike Ward,HR 473,49466,01/05/2019
+E049,DAVID EVANS,Marketing 115,N/A,01/08/2024
+E050,megan walker,Support 084,35565,09/13/2024
+E051,Oliver Turner,Procurement 201,66366,10/04/2022
+E052,sarah harris,HR 448,77998,16/08/2022
+E053,john scott,HR 388,51721,2023-03-13
+E054,ethan  green,HR 070,79089,2021-06-07
+E055,David Lee,Customer Success 335,54647,18th April 2022
+E056,lisa hill,Sales 387,55238,6th May 2024
+E057,John Ward,Support 316,44691,04/25/2019
+E058,daniel  brown,Sales 225,79271,2019-11-15
+E059,MEGAN GREEN,Operations 071,44727,2019-06-27
+E060,Amy Harris,IT 074,44639,11/22/2024
+E061,CHRIS COOPER,Operations 408,69497,20th September 2022
+E062,Leah Smith,Compliance 467,42222,2021-11-28
+E063,Hannah Jackson,Compliance 172,77235,02/02/2023
+E064,John Williams,Support 277,67901,8th March 2021
+E065,Rachel Ward,Compliance 141,49723,2022-07-01
+E066,tom turner,Finance,55120,18th January 2025
+E067,BEN  JACKSON,Finance 328,45337,7th April 2022
+E068,lisa  johnson,Operations 071,70985,31st March 2024
+E069,James  Harris,IT 345,N/A,2019-10-03
+E070,David Robinson,Procurement 310,80489,3rd May 2021
+E071,Mark Taylor,Operations 279,70138,02/07/2020
+E072,James  Green,HR 301,,2021-01-08
+E073,Laura Brown,Support 185,58125,2020-02-22
+E074,DAVID DAVIES,Admin 458,71973,9th August 2020
+E075,Kate Davies,Sales 092,50328,2019-09-22
+E076,Tom  Jones,Sales 181,57000,2019-11-30
+E077,Leah Turner,Sales 177,57373,06/01/2023
+E078,sarah harris,Admin 248,67954,4th October 2023
+E079,lisa king,Finance 112,32535,2023-05-29
+E080,KATE GREEN,Compliance 030,39325,2020-07-29
+E081,Ben Hill,Sales 369,64735,04/07/2019
+E082,megan green,IT 450,62508,2022-01-15
+E083,nathan  ward,Admin 341,56971,2024-12-09
+E084,nathan cooper,Support 148,67462,17/11/2023
+E085,John  Hill,Support 391,49267,10th May 2021
+E086,SOPHIE ROBINSON,Finance 046,58763,08/11/2021
+E087,Nathan Smith,Support 422,49594,2023-01-26
+E088,Zoe  Harris,Compliance 143,52031,02/10/2024
+E089,ZOE HILL,Support 257,51869,09/12/2024
+E090,Chris Johnson,Support 244,51159,2023-09-15
+E091,ethan green,Admin 252,64663,12/03/2019
+E092,CHRIS  COOPER,Support 452,47989,04/16/2022
+E093,Ethan White,Support 084,80992,21st February 2019
+E094,DANIEL GREEN,Admin 192,PENDING,03/11/2019
+E095,Rachel  White,Compliance 410,81484,16th August 2019
+E096,David Wilson,Operations 202,75555,05/08/2020
+E097,megan  king,Compliance 343,67584,10/31/2022
+E098,Lisa Turner,Compliance 220,72331,11/18/2020
+E099,Oliver  Scott,Admin 414,N/A,2021-09-08
+E100,TOM HARRIS,Marketing 150,PENDING,9th December 2022
+E101,MEGAN ROBINSON,Finance 139,80310,15th June 2019
+E102,TOM  DAVIES,Marketing 217,55505,08/19/2020
+E103,ben brown,Customer Success 226,33246,8th June 2021
+E104,Hannah  Jones,Operations 355,53394,22/07/2020
+E105,oliver jackson,Analytics 057,34124,17/02/2024
+E106,MIKE TURNER,Admin,42893,25/02/2024
+E107,Amy Green,Marketing 152,57231,03/28/2023
+E108,david taylor,Compliance 141,58355,03/02/2020
+E109,Ethan Harris,Sales 060,74791,03/03/2019
+E110,Laura  Ward,Admin 188,67080,5th September 2019
+E111,tom  walker,Procurement 191,57025,19th December 2022
+E112,Lisa Jackson,Support 221,76318,12/25/2022
+E113,mike cooper,Marketing 025,51900,04/19/2020
+E114,Sarah Taylor,Compliance 141,N/A,09/09/2020
+E115,hannah  williams,Customer Success 471,81045,30th December 2020
+E116,James Evans,Support 482,66418,2024-08-27
+E117,zoe wilson,Admin 192,43066,26th December 2021
+E118,Tom  Turner,Operations 491,51057,2024-09-03
+E119,ZOE JONES,Analytics 016,45215,08/19/2021
+E120,Lisa White,Admin 188,69238,09/04/2021
+E121,Tom Thompson,Sales 342,32740,05/05/2020
+E122,Chris Walker,Marketing 429,79473,2020-05-29
+E123,Mark Wilson,Customer Success 390,81385,15/01/2022
+E124,LAURA CLARKE,Sales 091,71211,8th December 2024
+E125,daniel  jones,Sales 043,68242,12/15/2023
+E126,Laura  Walker,Admin 061,73607,2023-07-12
+E127,JOHN WALKER,Sales 182,31068,07/06/2023
+E128,Ben Smith,Admin 292,32554,10/20/2023
+E129,BEN  THOMPSON,Sales 378,53536,07/10/2021
+E130,ben thompson,Compliance 067,79717,23/01/2024
+E131,Mark Evans,Procurement 223,76515,11/22/2024
+E132,chris williams,Operations 153,N/A,17/06/2019
+E133,Mark Cooper,Procurement 243,37809,27/02/2022
+E134,sophie johnson,HR 353,40268,22/06/2020
+E135,Ben Wilson,Finance 247,58176,12/16/2024
+E136,DAVID  HILL,IT,30643,18/09/2022
+E137,LEAH GREEN,Compliance 227,N/A,12/11/2024
+E138,Nathan Williams,Admin 159,57747,2024-08-26
+E139,Ethan Evans,Admin 325,67712,20/04/2019
+E140,megan jones,Finance 082,70534,07/11/2023
+E141,mark cooper,Customer Success 222,37477,27th September 2023
+E142,James Williams,Admin,61668,2nd January 2023
+E143,Mike Green,Customer Success 137,46951,26/08/2019
+E144,rachel wilson,Finance 167,77542,2024-04-12
+E145,ZOE DAVIES,Customer Success 235,45793,10/26/2020
+E146,Sophie Lee,Marketing 295,61526,29th January 2020
+E147,Oliver Walker,HR 386,PENDING,19th April 2019
+E148,Ethan  Jones,IT 382,40806,05/08/2019
+E149,hannah johnson,Procurement 223,43737,09/11/2021
+E150,mark cooper,Compliance 062,53187,17th August 2019
+E151,oliver thompson,Finance 040,42421,10/16/2022
+E152,Chris Evans,Finance 171,58933,2023-01-15
+E153,Amy Green,Compliance 172,N/A,13th October 2022
+E154,MARK SMITH,Support 307,76324,03/28/2021
+E155,Lisa Clarke,Operations 267,51595,03/27/2022
+E156,Zoe Turner,Compliance 286,52966,20/10/2024
+E157,Mike Green,IT 015,56112,06/05/2019
+E158,ZOE KING,Analytics 479,81565,10/08/2023
+E159,sarah king,Support 319,N/A,12/29/2024
+E160,Ethan Jackson,HR 094,34431,2023-09-11
+E161,Zoe Jackson,Operations 376,46163,16/07/2019
+E162,MARK WILSON,HR 083,71404,2021-07-14
+E163,Sophie  Lee,HR 473,64491,2019-03-07
+E164,SARAH THOMPSON,Customer Success 442,53404,16/03/2023
+E165,Emma Johnson,Admin 374,36002,02/02/2021
+E166,TOM WILSON,HR 086,57540,06/10/2021
+E167,SOPHIE SCOTT,Support 316,67022,23/05/2023
+E168,emma  green,Support 330,59343,01/02/2021
+E169,LEAH  BROWN,Marketing 127,51938,4th January 2023
+E170,SOPHIE WALKER,Compliance 313,71816,09/27/2020
+E171,BEN CLARKE,Analytics 045,50282,2022-01-18
+E172,Emma Ward,Compliance 048,40963,10/20/2024
+E173,Mark Johnson,Operations 491,44137,02/25/2020
+E174,Amy Williams,Admin 443,32885,07/03/2023
+E175,Megan  Jones,HR 126,49121,2023-05-28
+E176,Tom Hill,Sales 342,59935,17th January 2022
+E177,Ben Harris,Sales 496,50713,07/01/2019
+E178,Leah Cooper,Analytics 203,50105,2023-04-11
+E179,Sophie Evans,Marketing 266,N/A,07/07/2024
+E180,Emma Walker,Operations 389,,2019-04-08
+E181,David King,IT 216,72374,26/03/2020
+E182,megan evans,Marketing 081,46386,2021-02-12
+E183,Oliver Davies,Customer Success 122,61384,08/11/2020
+E184,Chris Brown,IT 231,81028,27th September 2024
+E185,David Turner,Compliance,60066,5th February 2024
+E186,tom  green,Procurement 250,35496,12/04/2021
+E187,Tom  Thompson,Analytics 411,39196,04/05/2022
+E188,DAVID  TAYLOR,Procurement 200,45761,09/01/2021
+E189,Hannah Smith,Operations 071,49308,11th May 2023
+E190,SOPHIE WILSON,Analytics 317,51934,2023-09-08
+E191,Ben Davies,Support 391,71579,31/03/2020
+E192,laura walker,Support 319,37135,02/28/2023
+E193,Tom  Thompson,IT 205,57875,24th July 2019
+E194,John Harris,Compliance 263,62633,04/02/2023
+E195,Ben Scott,Customer Success 193,61042,11/06/2020
+E196,laura walker,Marketing 312,N/A,2022-03-23
+E197,ETHAN LEE,Compliance 026,47948,01/25/2025
+E198,JAMES EVANS,Customer Success 064,30351,2023-01-31
+E199,daniel walker,Compliance 172,56126,25th March 2020
+E200,John  Thompson,Sales 215,80426,04/08/2023
+E201,Tom  Wilson,Operations 097,49347,12/26/2021
+E202,DAVID WHITE,Sales 487,64064,2024-05-31
+E203,Chris Davies,IT 297,52768,28th February 2021
+E204,Rachel  Wilson,Sales 181,72339,10/22/2020
+E205,ethan white,Admin 192,60780,16/03/2019
+E206,Laura Brown,Admin 159,PENDING,2024-07-24
+E207,HANNAH JOHNSON,Sales 271,51103,29th January 2025
+E208,Hannah  Brown,Support 186,46906,07/11/2021
+E209,ZOE  DAVIES,Operations 256,PENDING,2021-08-04
+E210,HANNAH  WHITE,Operations 437,35820,20/02/2023
+E211,ZOE JONES,Customer Success 128,80237,12/07/2019
+E212,LISA SCOTT,IT 381,34100,12/14/2019
+E213,oliver cooper,Admin 072,75579,24/06/2021
+E214,Zoe Davies,Marketing 115,73457,4th December 2024
+E215,Tom Clarke,IT 449,30338,20/01/2024
+E216,sophie clarke,Analytics 103,46895,06/02/2023
+E217,EMMA CLARKE,Support 042,PENDING,29th September 2022
+E218,SARAH THOMPSON,Compliance 419,61051,25th August 2021
+E219,Sophie Brown,Marketing 031,64442,3rd May 2023
+E220,Sarah Walker,Marketing 214,PENDING,2021-03-16
+E221,Rachel Ward,Procurement 132,56606,21/04/2020
+E222,Tom Turner,Analytics 318,51908,25th August 2022
+E223,Leah Harris,Analytics 298,43355,2019-08-09
+E224,Oliver Jackson,Finance 096,N/A,2022-03-22
+E225,kate thompson,Customer Success 323,79726,11th May 2020
+E226,kate smith,Support 391,68526,28th October 2019
+E227,Ethan Cooper,Operations 398,79218,5th October 2023
+E228,Tom  Robinson,HR 258,59346,06/10/2020
+E229,ETHAN JACKSON,IT 231,62363,5th October 2022
+E230,nathan white,Admin 281,63613,11/08/2022
+E231,AMY DAVIES,Procurement 436,PENDING,2024-06-23
+E232,DANIEL EVANS,Admin 029,60502,03/09/2024
+E233,Nathan Hill,HR 388,30154,09/12/2024
+E234,tom robinson,Admin 117,37367,03/03/2023
+E235,Tom Jones,Compliance 170,N/A,08/27/2021
+E236,hannah  hill,Admin 075,53738,5th June 2020
+E237,Tom  White,HR 126,75110,1st September 2020
+E238,Chris White,IT 297,46532,05/24/2024
+E239,James Ward,Operations 397,51285,2020-03-30
+E240,Sophie Ward,Procurement 104,46876,2022-12-07
+E241,Kate  Scott,IT 100,PENDING,07/01/2022
+E242,oliver lee,Sales 073,37258,2024-11-17
+E243,Chris  Harris,Finance 054,43652,12/04/2024
+E244,TOM  WALKER,Compliance 229,71450,10/18/2022
+E245,HANNAH  WHITE,Support 174,59856,08/09/2022
+E246,john  robinson,Admin 024,N/A,15th March 2021
+E247,megan brown,Operations 114,66260,07/19/2023
+E248,Sarah Cooper,HR 224,57903,22nd October 2020
+E249,sophie brown,Compliance 440,79769,17/03/2020
+E250,ethan lee,Procurement 191,80072,2021-08-09
+E251,Daniel  Davies,Customer Success 230,38009,10/08/2020
+E252,MARK CLARKE,Marketing 363,81761,01/11/2024
+E253,David  Thompson,Sales,67919,2024-01-02
+E254,sarah green,IT 381,70116,28/12/2023
+E255,hannah brown,Procurement 407,69630,22nd June 2024
+E256,Ethan Cooper,Customer Success 413,32331,2023-04-23
+E257,Ethan Scott,Finance 112,66498,21/03/2019
+E258,Lisa Thompson,Finance 275,73683,05/16/2024
+E259,Kate  Jackson,Admin 061,N/A,07/14/2019
+E260,Ethan  Harris,Analytics 045,47366,2019-11-23
+E261,hannah walker,Procurement 310,76382,23rd August 2023
+E262,EMMA THOMPSON,Admin 438,32740,2019-11-24
+E263,TOM  WILSON,IT 338,N/A,2023-05-11
+E264,DANIEL WILLIAMS,Compliance 051,59729,17/09/2019
+E265,Mike Green,Finance 380,77480,16th July 2024
+E266,James Smith,Finance 054,PENDING,3rd October 2022
+E267,John King,Support 324,,2020-02-01
+E268,lisa jones,Support 221,77701,26/12/2024
+E269,John Cooper,HR 444,33694,12th March 2023
+E270,Sophie  Hill,Sales 033,54174,2021-02-05
+E271,OLIVER WALKER,HR 463,58432,8th August 2023
+E272,Leah Green,Sales 342,54170,2021-12-25
+E273,MEGAN TURNER,Marketing 432,44296,2023-09-06
+E274,oliver williams,HR 444,49834,2022-03-16
+E275,MARK DAVIES,Compliance 313,64486,2025-01-16
+E276,Laura Walker,HR 477,51668,10/01/2024
+E277,Ethan Robinson,Analytics 283,45530,9th September 2019
+E278,laura  lee,Marketing 178,76331,28/12/2021
+E279,kate  king,Finance 336,32684,20/09/2021
+E280,Sarah White,IT 231,44937,10/24/2021
+E281,Sophie Taylor,Customer Success 064,46584,2021-05-29
+E282,Zoe Robinson,IT 161,62508,17th November 2024
+E283,Amy Davies,Procurement 474,36875,17/01/2024
+E284,Emma  Scott,Finance 113,36633,28th September 2019
+E285,david walker,Finance 404,48565,29th September 2019
+E286,laura  thompson,Support 148,50912,06/06/2020
+E287,NATHAN ROBINSON,Support 291,74711,2024-09-08
+E288,John  Evans,Compliance 026,66461,5th August 2024
+E289,Ben Wilson,Finance 356,34682,2019-01-05
+E290,Hannah Johnson,Admin 248,57515,2021-12-15
+E291,Megan Green,Procurement 394,40024,2024-04-18
+E292,HANNAH KING,HR 190,60146,05/11/2020
+E293,nathan hill,Procurement 055,49612,02/04/2022
+E294,Emma Clarke,IT 100,70349,01/01/2022
+E295,Sophie Harris,Customer Success 361,79974,28/05/2020
+E296,lisa  davies,Finance 113,44426,6th August 2020
+E297,John Smith,Operations 455,79575,24/02/2020
+E298,John Jones,Compliance 419,46647,19/06/2023
+E299,Hannah  White,HR 454,74934,2020-03-18
+E300,John Evans,Operations 322,47972,2022-01-22
+E301,Mike Thompson,Admin 187,34256,05/19/2024
+E302,Ben  Ward,HR 094,65336,2024-02-07
+E303,James Johnson,Sales 241,66233,11/10/2019
+E304,Nathan Robinson,IT 111,81605,28th November 2023
+E305,SARAH DAVIES,Marketing 266,43215,2024-06-13
+E306,Daniel Cooper,Marketing 344,66390,18th August 2019
+E307,Chris Brown,Marketing 485,N/A,09/13/2021
+E308,Emma Jackson,IT 130,,22/12/2023
+E309,MARK JONES,Analytics 317,59410,04/22/2020
+E310,Rachel Davies,HR 333,N/A,06/02/2021
+E311,hannah scott,Support 422,44738,23rd April 2023
+E312,emma  robinson,HR 497,46103,2020-04-04
+E313,JAMES HARRIS,IT 288,67892,24th January 2019
+E314,Ben Harris,IT 439,36751,2022-03-15
+E315,JAMES JOHNSON,Sales 177,68898,2024-11-05
+E316,hannah  jackson,Finance 320,45093,2021-04-18
+E317,Hannah  Smith,Marketing 066,,7th June 2019
+E318,Chris Harris,Procurement 394,PENDING,11/24/2021
+E319,NATHAN DAVIES,Finance 175,PENDING,21/07/2023
+E320,AMY LEE,Marketing 485,64314,2023-11-09
+E321,Ethan Ward,Finance 046,N/A,30/10/2019
+E322,Tom Hill,Customer Success 323,69914,2022-07-18
+E323,MIKE WHITE,Operations 047,57646,20th June 2024
+E324,MEGAN HARRIS,Admin 339,N/A,15/07/2019
+E325,SOPHIE GREEN,Support 469,62197,14/06/2022
+E326,chris  robinson,Support 452,PENDING,8th July 2019
+E327,David Hill,Support 319,49184,2023-11-01
+E328,Kate Walker,Marketing 127,45030,12/12/2024
+E329,Lisa Harris,Marketing 150,36450,10/18/2023
+E330,James Hill,Operations 285,62593,21st February 2020
+E331,Hannah Thompson,Procurement 468,68667,17th December 2024
+E332,Zoe Hill,Sales 041,57326,01/13/2024
+E333,Rachel Williams,Compliance 445,30706,16th April 2020
+E334,Daniel Taylor,Admin 198,N/A,2021-11-11
+E335,Rachel Jackson,Finance 054,30156,2024-08-29
+E336,LISA COOPER,Customer Success 413,38770,15th October 2022
+E337,oliver white,Admin 414,PENDING,11/16/2024
+E338,emma johnson,Procurement 436,73631,11/04/2024
+E339,NATHAN  SCOTT,Marketing 150,68483,18th July 2023
+E340,Lisa King,IT 130,66780,12th December 2024
+E341,Zoe Evans,Finance 251,59346,2024-08-04
+E342,hannah  brown,Customer Success 300,65540,20/05/2020
+E343,LISA JACKSON,Operations 211,42400,25/05/2024
+E344,Emma Jackson,Admin 292,45874,30/08/2019
+E345,Ethan  Davies,Analytics 298,72650,29/07/2019
+E346,nathan harris,Compliance 313,48007,28/08/2022
+E347,TOM SCOTT,Marketing 363,N/A,12/19/2024
+E348,Ethan Cooper,Sales 043,81833,5th January 2024
+E349,Rachel  Evans,HR 357,N/A,2019-06-14
+E350,David  Evans,IT 205,41454,1st March 2022
+E351,sophie brown,IT 382,45085,22/07/2021
+E352,hannah robinson,Finance 175,61522,22nd December 2022
+E353,Megan Green,Analytics 411,68395,27th February 2022
+E354,LEAH WILSON,Procurement 223,71847,03/21/2023
+E355,lisa brown,Marketing 312,66415,2020-02-23
+E356,Hannah  Turner,Support 447,45860,05/02/2020
+E357,Leah  King,Marketing 421,76253,04/11/2019
+E358,sarah cooper,Procurement 240,58900,10/14/2023
+E359,tom  wilson,Operations 267,47044,29/02/2024
+E360,Oliver Thompson,Procurement 039,56353,2024-08-04
+E361,Lisa  Evans,HR 425,36349,6th September 2023
+E362,Emma White,Compliance 313,45274,23rd October 2024
+E363,Mike Harris,Support 294,60562,12/04/2022
+E364,Mark Harris,Support 372,59677,2020-04-16
+E365,Kate Smith,Compliance 133,PENDING,2025-01-14
+E366,leah  smith,Operations 038,81687,11/18/2021
+E367,Mike Jones,Compliance 030,47491,24th January 2020
+E368,sophie turner,Customer Success 465,PENDING,03/01/2021
+E369,Laura Ward,IT 165,33168,2020-05-04
+E370,john scott,Compliance 030,73363,17th July 2020
+E371,CHRIS  JOHNSON,Support 019,71464,01/06/2025
+E372,Emma Smith,Compliance 434,71700,02/01/2021
+E373,Chris Wilson,Admin 438,61139,08/23/2021
+E374,zoe walker,Sales 378,,18/12/2021
+E375,KATE LEE,Compliance 229,N/A,01/14/2021
+E376,john williams,Marketing 312,54520,07/01/2019
+E377,David Walker,Admin 379,65906,05/19/2023
+E378,Leah Wilson,Admin 017,37552,2023-01-31
+E379,megan hill,IT 381,60748,6th April 2021
+E380,Sarah Wilson,HR 357,70213,09/27/2021
+E381,Mike Lee,IT 044,41791,28th July 2019
+E382,JOHN SCOTT,Compliance 143,81585,02/11/2024
+E383,NATHAN COOPER,Analytics 360,47833,21/05/2023
+E384,Lisa  Green,Analytics 352,48656,2024-06-10
+E385,HANNAH ROBINSON,Analytics 493,71431,1st May 2021
+E386,KATE WILSON,Sales 169,57080,8th December 2022
+E387,Hannah Cooper,Support 330,49209,2020-05-29
+E388,Megan White,Customer Success 323,58837,2023-05-05
+E389,Sophie Clarke,Admin 414,81132,27th September 2021
+E390,Mike Johnson,Customer Success 323,32809,06/04/2024
+E391,oliver evans,Finance 121,50466,20th January 2019
+E392,John Wilson,HR 454,36299,23/02/2022
+E393,David Taylor,Procurement 480,80824,18/07/2024
+E394,david williams,HR 083,49193,06/23/2022
+E395,amy king,Procurement 145,65595,08/18/2019
+E396,Rachel Hill,Marketing 090,69883,04/02/2020
+E397,emma evans,Customer Success 222,56300,20/10/2021
+E398,Hannah Hill,Finance 032,76536,2022-05-10
+E399,Rachel King,HR,77326,23/12/2020
+E400,mike turner,Operations 337,,01/24/2019
+E401,zoe  turner,Sales 346,81500,01/17/2023
+E402,John  Taylor,Support 186,68023,4th August 2021
+E403,CHRIS HILL,Admin 354,78328,26th May 2020
+E404,james walker,Admin 029,41770,2019-02-12
+E405,Ethan Evans,Operations 114,41373,29/06/2019
+E406,Mark Turner,Analytics 099,58785,10/15/2020
+E407,LISA DAVIES,Support 316,64035,01/13/2020
+E408,Mike Jones,Finance 423,38652,29th September 2019
+E409,Mark Harris,Customer Success 122,50606,2023-05-04
+E410,kate turner,Admin 187,44994,20/04/2022
+E411,HANNAH HARRIS,Finance 275,38197,10/03/2023
+E412,DAVID ROBINSON,Customer Success 064,57819,11/12/2020
+E413,Hannah  White,IT 231,67618,2020-10-25
+E414,Kate Jackson,Admin 379,55047,4th March 2019
+E415,Kate  Ward,Analytics 280,57269,09/13/2021
+E416,ben robinson,Procurement 405,N/A,27/03/2021
+E417,tom  jones,Customer Success 230,N/A,23rd May 2022
+E418,Oliver Williams,Finance 023,48759,16th October 2023
+E419,BEN KING,Customer Success 433,51836,2023-02-21
+E420,Laura  Harris,Support 452,74473,23rd April 2021
+E421,Chris Evans,Analytics 078,49040,02/23/2019
+E422,EMMA THOMPSON,IT 111,78103,7th June 2021
+E423,Oliver  Taylor,Customer Success 222,63093,2022-05-20
+E424,Nathan  Brown,Analytics 045,57996,2020-10-11
+E425,James Taylor,Compliance 313,42433,2021-09-06
+E426,Emma Clarke,Marketing 432,PENDING,2021-10-12
+E427,tom johnson,Analytics 076,68624,2021-12-31
+E428,Zoe Hill,Support 478,63258,2021-07-21
+E429,Sophie Cooper,IT 426,33393,23rd July 2023
+E430,chris king,Finance 424,52297,29th March 2023
+E431,Hannah  Ward,Procurement 049,,11/10/2024
+E432,RACHEL LEE,Operations 337,78919,2023-05-31
+E433,Megan  Harris,HR 213,47889,2022-12-28
+E434,Mike  Jackson,Support 482,73306,05/09/2024
+E435,EMMA  HILL,Marketing 090,,29/03/2021
+E436,MEGAN CLARKE,Analytics 352,65026,21/04/2019
+E437,KATE CLARKE,Admin 354,64166,06/13/2023
+E438,amy smith,Operations 256,59580,15/12/2020
+E439,Lisa Jackson,Customer Success 465,73571,08/01/2022
+E440,Zoe  Jones,Sales 215,38610,31st August 2024
+E441,Mike  King,Marketing 025,35196,01/11/2021
+E442,Leah Jackson,Finance 237,45668,2020-02-08
+E443,Kate Scott,Customer Success 471,52160,05/23/2022
+E444,megan lee,Support 391,40951,5th November 2021
+E445,amy  cooper,HR 448,41543,26th February 2022
+E446,John Scott,Sales 182,59982,08/30/2019
+E447,nathan clarke,Procurement 405,62921,07/04/2020
+E448,Sophie  Hill,Finance 249,79217,22nd February 2024
+E449,David Evans,Compliance 313,60632,02/26/2019
+E450,Sarah Williams,Analytics 203,62508,2022-01-03
+E451,Sarah Robinson,Compliance 434,42187,2024-03-06
+E452,Mike Thompson,Procurement 243,,07/10/2022
+E453,Mike Wilson,IT 400,61497,13/07/2021
+E454,Sophie Lee,Marketing 066,48750,03/05/2024
+E455,MEGAN BROWN,Support 452,40025,01/11/2024
+E456,RACHEL HILL,Operations 279,49441,27/11/2023
+E457,Sarah Davies,Admin,53234,03/23/2020
+E458,ben white,Marketing 312,55620,03/06/2024
+E459,chris ward,IT 375,31637,19/06/2023
+E460,Sarah Evans,IT 288,PENDING,2019-09-04
+E461,Zoe  Brown,Admin 438,80426,8th April 2019
+E462,SOPHIE CLARKE,Analytics 317,67195,16/05/2019
+E463,Ethan  Jackson,Compliance 151,N/A,11th August 2024
+E464,Emma Davies,Compliance 263,67986,11/18/2019
+E465,Ben Lee,Admin 371,66498,28/12/2024
+E466,AMY  HARRIS,Compliance 219,N/A,2021-03-19
+E467,Kate Scott,Compliance 302,69045,08/09/2019
+E468,mark lee,Compliance 220,48731,20th December 2021
+E469,Zoe Lee,Marketing 296,71459,03/01/2025
+E470,Rachel Clarke,Operations 290,32636,17th February 2021
+E471,Kate Davies,Admin 061,47016,05/26/2022
+E472,Lisa Evans,Admin 334,62178,08/12/2024
+E473,Kate Brown,Operations 183,69806,12/02/2020
+E474,David Taylor,Support 452,40462,10/12/2019
+E475,Megan  Lee,HR 403,N/A,9th May 2023
+E476,amy white,Analytics 352,78994,01/09/2024
+E477,ETHAN WILLIAMS,Finance 424,77118,09/19/2019
+E478,Chris Harris,Operations 179,44669,28th July 2020
+E479,JAMES  WILSON,Operations 256,41003,30th November 2024
+E480,Leah Ward,Procurement 014,37946,11th October 2020
+E481,David Lee,Support 186,59426,4th November 2019
+E482,hannah clarke,Admin 462,30142,10/11/2024
+E483,David Jackson,Compliance 302,65882,10/14/2024
+E484,emma scott,Marketing 115,30850,2022-05-29
+E485,MEGAN TURNER,Customer Success 222,49377,28/10/2023
+E486,David Ward,HR 454,31975,11/27/2022
+E487,Megan Green,Support 028,67760,03/03/2022
+E488,Megan  King,Admin 325,64370,05/19/2024
+E489,Emma Brown,Admin 198,57133,01/23/2025
+E490,EMMA HARRIS,IT,69682,2019-02-14
+E491,ZOE WHITE,Customer Success 390,34061,08/13/2022
+E492,John Green,IT 381,51864,05/01/2024
+E493,Nathan Turner,Operations 267,66774,06/30/2022
+E494,David  Evans,HR 403,66050,05/04/2022
+E495,LAURA JACKSON,Finance 336,62186,03/13/2024
+E496,Hannah  Walker,HR 224,58278,8th December 2022
+E497,daniel smith,Admin 334,64229,29th January 2020
+E498,BEN  WILSON,Analytics 461,78978,2019-07-27
+E499,laura taylor,Analytics 431,31993,13/10/2024
+E500,Rachel Brown,Support 294,59371,2019-07-26

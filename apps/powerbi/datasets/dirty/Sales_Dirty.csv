@@ -1,0 +1,506 @@
+,,,,,,
+,,,,,,
+Monthly Sales Report,,,,,,
+Prepared by: Finance Team,,,,,,
+,,,,,,
+SaleID,EmployeeID,Product Sold,Sale Amount,Sale Date,Payment Method,Customer Region
+S0001,E136,Widget B,890.00,2024-08-23,Credit Card,south
+S0002,E920,TRAINING  BUNDLE,780.00,10/04/2024,cash,North
+S0003,E500,Implementation Support,£1650.00,25/10/2023,Bank Transfer,EAST
+S0004,E048,WIDGET  C,£450.00,2023-03-11,,North
+S0005,E096,Widget  B,890.00,05/25/2024,Cash,South
+S0006,E327,service package,£2100.50,11/07/2023,,SOUTH
+S0007,E481,Widget C,450,05/29/2023,Credit Card,west
+S0008,E078,Widget  A,£1250.00,21st March 2023,Credit Card,North
+S0009,E477,Widget  C,450.00,27th September 2023,,West
+S0010,E124,Widget B,£890.00,07/13/2023,Bank Transfer,NORTH
+S0011,E388,Service  Package,2100,2024-10-02,Credit Card,West
+S0012,E395,Widget  C,450.00,29/09/2023,Cash,North
+S0013,E264,SERVICE PACKAGE,2100,06/05/2023,Bank Transfer,north
+S0014,E366,Training Bundle,£780.00,2024-09-22,Cash,west
+S0015,E419,WIDGET A,1250.00,28th September 2024,,West
+S0016,E188,WIDGET  C,450,06/17/2023,credit card,WEST
+S0017,E264,WIDGET C,£450.00,2024-08-09,Cash,north
+S0018,E123,Widget A,1250.00,27/10/2023,,NORTH
+S0019,E162,widget b,890.00,10th March 2023,Bank Transfer,NORTH
+S0020,E116,Widget C,450,2023-02-14,,north
+S0021,E391,implementation support,1650.00,2024-03-18,Credit Card,East
+S0022,E472,SERVICE PACKAGE,REFUND,07/20/2024,,SOUTH
+S0023,E431,Widget  A,£1250.00,2024-01-05,Cash,WEST
+S0024,E015,widget  b,REFUND,04/04/2024,Purchase Order,North
+S0025,E207,Implementation Support,1650.00,29/10/2023,Purchase Order,West
+S0026,E246,Training Bundle,-780,2024-09-06,cash,west
+S0027,E363,SERVICE  PACKAGE,£2100.50,06/11/2023,Purchase Order,West
+S0028,E235,Widget C,£450.00,09/20/2023,cash,east
+S0029,E480,Implementation Support,-1650,2023-09-09,,South
+S0030,E004,Service Package,2100.50,14/09/2024,,west
+S0031,E295,service package,2100.50,08/01/2023,Purchase Order,SOUTH
+S0032,E464,Widget  B,890,2023-12-04,Credit Card,west
+S0033,E392,widget b,890.00,2023-10-31,Credit Card,SOUTH
+S0034,E459,Widget  C,REFUND,9th October 2023,Bank Transfer,east
+S0035,E457,WIDGET B,890.00,02/18/2023,Purchase Order,WEST
+S0036,E901,Service Package,2100.50,07/10/2024,Cash,WEST
+S0037,E412,Implementation Support,£1650.00,29/09/2023,Cash,South
+S0038,E473,WIDGET  A,1250.00,6th September 2023,Credit Card,East
+S0039,E396,widget b,890,05/06/2023,Purchase Order,East
+S0040,E090,Implementation Support,£1650.00,28th November 2024,Credit Card,West
+S0041,E227,TRAINING BUNDLE,780.00,01/14/2024,Credit Card,South
+S0042,E991,training bundle,£780.00,13/10/2023,Bank Transfer,East
+S0043,E409,Training Bundle,780,20/01/2024,PURCHASE ORDER,SOUTH
+S0044,E266,Widget A,£1250.00,06/27/2023,Bank Transfer,East
+S0045,E325,service package,£2100.50,10/01/2025,Purchase Order,North
+S0046,E095,Widget B,890.00,11th June 2023,Cash,North
+S0047,E169,Widget B,890,01/20/2025,Purchase Order,SOUTH
+S0048,E060,Service Package,REFUND,2nd December 2023,Bank Transfer,NORTH
+S0049,E444,Service Package,2100,05/24/2024,Cash,east
+S0050,E406,TRAINING BUNDLE,TBC,2024-08-26,Purchase Order,SOUTH
+S0051,E442,Implementation  Support,1650,05/11/2023,,WEST
+S0052,E167,Widget B,TBC,2023-06-23,Purchase Order,West
+S0053,E228,Widget A,£1250.00,01/28/2025,Cash,west
+S0054,E276,Widget  C,-450,04/18/2024,Purchase Order,South
+S0055,E483,Widget A,1250,2024-08-25,Purchase Order,South
+S0056,E483,widget  a,£1250.00,2023-09-05,Bank Transfer,west
+S0057,E406,Service Package,2100.50,2025-02-21,Purchase Order,SOUTH
+S0058,E304,IMPLEMENTATION  SUPPORT,£1650.00,01/08/2023,Bank Transfer,North
+S0059,E133,WIDGET A,1250.00,14th August 2024,Purchase Order,south
+S0060,E145,service package,£2100.50,18/04/2023,Purchase Order,north
+S0061,E103,WIDGET B,£890.00,16/08/2024,Cash,west
+S0062,E059,Widget C,450.00,09/10/2024,Cash,West
+S0063,E434,WIDGET B,-890,10/04/2023,Credit Card,SOUTH
+S0064,E357,implementation support,1650.00,12/02/2025,Credit Card,North
+S0065,E368,Training Bundle,780.00,26/07/2024,,south
+S0066,E093,Training Bundle,REFUND,03/14/2023,bank transfer,east
+S0067,E472,Implementation Support,1650,22nd February 2025,Credit Card,West
+S0068,E060,IMPLEMENTATION  SUPPORT,£1650.00,03/27/2023,Bank Transfer,East
+S0069,E149,Widget A,£1250.00,10/04/2023,Purchase Order,west
+S0070,E246,Widget C,450,23rd March 2023,CASH,South
+S0071,E483,WIDGET B,890,02/10/2023,Bank Transfer,East
+S0072,E119,widget a,£1250.00,2024-08-23,Purchase Order,West
+S0073,E151,IMPLEMENTATION SUPPORT,£1650.00,2025-02-28,Credit Card,east
+S0074,E120,widget b,890,21st November 2024,Purchase Order,north
+S0075,E246,Training Bundle,780,24/07/2024,Cash,South
+S0076,E387,WIDGET B,890,02/11/2024,Credit Card,east
+S0077,E036,widget b,890,21/12/2023,Bank Transfer,north
+S0078,E192,Widget B,890,24th February 2024,Bank Transfer,EAST
+S0079,E135,Widget B,890.00,14th January 2025,Purchase Order,West
+S0080,E233,Service  Package,2100,05/01/2023,Credit Card,North
+S0081,E375,service package,£2100.50,12/14/2023,Bank Transfer,north
+S0082,E257,WIDGET  A,1250.00,12/01/2025,Purchase Order,north
+S0083,E198,Service  Package,2100.50,16/03/2023,Purchase Order,North
+S0084,E309,Widget A,1250.00,2024-08-13,Bank Transfer,North
+S0085,E176,TRAINING  BUNDLE,REFUND,12th May 2024,Bank Transfer,SOUTH
+S0086,E335,implementation support,1650,04/22/2023,CREDIT CARD,WEST
+S0087,E466,Service Package,2100.50,19/03/2023,Cash,North
+S0088,E161,Training Bundle,£780.00,14th August 2024,Cash,EAST
+S0089,E279,Widget A,£1250.00,2023-04-10,Bank Transfer,East
+S0090,E023,SERVICE PACKAGE,2100.50,2023-07-26,Purchase Order,EAST
+S0091,E179,training bundle,£780.00,02/10/2023,Credit Card,NORTH
+S0092,E084,Widget A,1250.00,2023-10-19,,south
+S0093,E244,widget b,REFUND,2023-02-10,Purchase Order,north
+S0094,E251,Widget B,890.00,12th November 2024,,West
+S0095,E363,Service Package,£2100.50,22nd July 2023,credit card,North
+S0096,E064,implementation support,£1650.00,06/12/2023,Cash,WEST
+S0097,E018,Service Package,2100.50,02/19/2024,Credit Card,South
+S0098,E142,service  package,£2100.50,02/20/2025,Credit Card,NORTH
+S0099,E007,Implementation Support,REFUND,30/08/2024,Cash,South
+S0100,E292,Widget A,1250,2025-01-16,Cash,south
+S0101,E308,Implementation Support,£1650.00,04/15/2023,Bank Transfer,South
+S0102,E295,Widget A,£1250.00,19/09/2023,Cash,south
+S0103,E284,Implementation  Support,1650.00,2025-01-19,Purchase Order,West
+S0104,E122,Service  Package,£2100.50,15th July 2024,Cash,South
+S0105,E414,Service  Package,2100.50,03/03/2024,Credit Card,NORTH
+S0106,E358,Implementation Support,£1650.00,18/08/2023,Purchase Order,West
+S0107,E489,Training Bundle,£780.00,13/11/2024,Bank Transfer,North
+S0108,E032,WIDGET B,TBC,27/02/2025,Purchase Order,West
+S0109,E147,Training Bundle,780,10/31/2024,Purchase Order,South
+S0110,E258,Widget B,£890.00,21st January 2024,Bank Transfer,west
+S0111,E495,service package,TBC,2024-10-14,Bank Transfer,North
+S0112,E437,Widget C,450.00,14/10/2024,Purchase Order,North
+S0113,E354,Widget  B,£890.00,2023-09-25,Cash,North
+S0114,E150,Widget  B,£890.00,2023-02-22,Cash,East
+S0115,E169,implementation support,1650.00,05/04/2023,Purchase Order,West
+S0116,E137,Widget  A,1250.00,17th June 2023,Credit Card,east
+S0117,E385,widget  a,£1250.00,15th March 2024,Cash,west
+S0118,E074,training  bundle,780.00,4th March 2024,Cash,north
+S0119,E491,WIDGET B,890,2024-08-24,Purchase Order,north
+S0120,E327,training bundle,£780.00,03/30/2024,Credit Card,north
+S0121,E071,Widget A,£1250.00,31/10/2023,Cash,east
+S0122,E171,Service Package,2100,14/03/2023,,north
+S0123,E422,Widget B,890,02/15/2023,CREDIT CARD,North
+S0124,E359,widget  a,£1250.00,2023-02-20,,south
+S0125,E002,Service  Package,2100,29th January 2024,Bank Transfer,East
+S0126,E103,Training Bundle,780,07/25/2024,cash,west
+S0127,E498,Service  Package,REFUND,2024-07-04,Cash,SOUTH
+S0128,E242,widget b,£890.00,5th December 2023,BANK TRANSFER,east
+S0129,E384,training bundle,780,28/09/2023,,east
+S0130,E155,Widget C,£450.00,28/02/2023,Purchase Order,North
+S0131,E383,service package,2100.50,09/21/2023,,NORTH
+S0132,E273,widget c,£450.00,12/14/2024,Cash,south
+S0133,E039,Implementation Support,1650,21st January 2024,Bank Transfer,East
+S0134,E165,Widget C,450.00,2nd April 2024,Bank Transfer,South
+S0135,E450,Implementation Support,-1650,12/01/2025,Cash,EAST
+S0136,E043,Service Package,£2100.50,11th September 2024,Cash,EAST
+S0137,E462,Widget C,450.00,12/10/2024,Credit Card,south
+S0138,E155,Implementation Support,1650.00,2024-03-05,Credit Card,North
+S0139,E295,Implementation Support,£1650.00,24th November 2024,Bank Transfer,south
+S0140,E144,Training Bundle,780,03/06/2024,Bank Transfer,East
+S0141,E482,Implementation Support,1650,2024-11-05,Bank Transfer,north
+S0142,E488,training bundle,TBC,09/08/2023,Purchase Order,SOUTH
+S0143,E298,Training  Bundle,780,2024-05-10,BANK TRANSFER,North
+S0144,E430,Widget A,1250,06/28/2024,Cash,North
+S0145,E406,Training Bundle,780.00,2025-01-20,,north
+S0146,E195,Widget B,£890.00,04/01/2024,Cash,South
+S0147,E279,WIDGET C,£450.00,8th May 2024,Credit Card,WEST
+S0148,E278,WIDGET B,£890.00,09/15/2023,Purchase Order,North
+S0149,E441,WIDGET B,890,2023-10-22,,south
+S0150,E036,widget a,1250.00,9th January 2024,Bank Transfer,West
+S0151,E259,Implementation Support,£1650.00,2023-07-17,,east
+S0152,E055,training  bundle,-780,06/10/2023,Credit Card,East
+S0153,E071,Implementation Support,REFUND,02/14/2025,Credit Card,East
+S0154,E299,IMPLEMENTATION SUPPORT,£1650.00,2024-11-13,Bank Transfer,East
+S0155,E100,widget a,£1250.00,14th January 2025,Bank Transfer,South
+S0156,E020,service  package,£2100.50,4th July 2024,Bank Transfer,East
+S0157,E073,TRAINING BUNDLE,780.00,08/06/2024,Bank Transfer,South
+S0158,E339,Widget C,450,25/11/2023,Credit Card,EAST
+S0159,E208,service  package,2100,14th May 2024,Purchase Order,East
+S0160,E333,WIDGET C,£450.00,06/19/2024,Bank Transfer,East
+S0161,E008,training bundle,£780.00,20th January 2023,Cash,North
+S0162,E255,Widget C,450,07/19/2023,Credit Card,South
+S0163,E114,widget c,£450.00,2023-11-17,Credit Card,north
+S0164,E330,IMPLEMENTATION SUPPORT,1650.00,2023-04-23,Cash,West
+S0165,E054,Training Bundle,£780.00,2023-08-01,Bank Transfer,west
+S0166,E036,Widget B,890,20/02/2025,Bank Transfer,west
+S0167,E296,implementation support,£1650.00,07/07/2023,Purchase Order,north
+S0168,E013,Widget B,890.00,2024-07-21,Credit Card,south
+S0169,E354,implementation  support,£1650.00,15th February 2023,Credit Card,East
+S0170,E304,implementation support,1650.00,10/15/2023,Purchase Order,NORTH
+S0171,E456,Service Package,£2100.50,01/03/2024,BANK TRANSFER,north
+S0172,E364,SERVICE PACKAGE,2100,27th April 2023,Cash,NORTH
+S0173,E287,widget a,1250,08/11/2024,Credit Card,North
+S0174,E224,Service Package,2100,10/01/2024,Bank Transfer,East
+S0175,E122,implementation support,£1650.00,26/12/2023,Purchase Order,North
+S0176,E384,Service Package,2100.50,20th November 2023,Cash,West
+S0177,E334,training bundle,£780.00,03/16/2023,Bank Transfer,North
+S0178,E273,Widget A,1250.00,02/03/2024,Purchase Order,SOUTH
+S0179,E228,Service Package,2100,5th July 2024,Credit Card,South
+S0180,E944,Widget C,450,10th July 2024,Bank Transfer,North
+S0181,E395,widget a,TBC,17/08/2023,Cash,West
+S0182,E268,widget a,1250,08/13/2024,Purchase Order,South
+S0183,E457,widget  c,£450.00,2023-04-10,Cash,North
+S0184,E342,Widget C,REFUND,11/08/2023,Purchase Order,North
+S0185,E232,WIDGET A,1250,27/05/2024,Cash,North
+S0186,E172,Widget B,890,05/17/2024,CREDIT CARD,EAST
+S0187,E909,service package,£2100.50,18th February 2023,Credit Card,north
+S0188,E446,widget a,£1250.00,05/23/2024,Credit Card,South
+S0189,E453,Widget A,1250.00,14th April 2024,Bank Transfer,SOUTH
+S0190,E301,implementation support,1650,10/16/2024,Bank Transfer,East
+S0191,E225,implementation support,1650.00,31st October 2023,Purchase Order,SOUTH
+S0192,E441,widget b,890,12/30/2024,Cash,East
+S0193,E314,Implementation Support,1650,2023-10-01,Bank Transfer,South
+S0194,E305,TRAINING BUNDLE,780.00,2024-08-31,Cash,West
+S0195,E452,TRAINING BUNDLE,£780.00,5th June 2024,Cash,SOUTH
+S0196,E219,Service Package,£2100.50,21/10/2024,Cash,EAST
+S0197,E275,Service Package,£2100.50,04/02/2024,Credit Card,West
+S0198,E376,Widget B,-890,18th January 2024,Purchase Order,North
+S0199,E458,Widget  B,890,12/22/2023,Cash,west
+S0200,E293,Service Package,£2100.50,2024-06-05,Purchase Order,North
+S0201,E265,widget b,890.00,07/27/2023,Bank Transfer,West
+S0202,E957,service package,2100.50,2024-07-13,Purchase Order,West
+S0203,E403,SERVICE PACKAGE,£2100.50,29th June 2023,Credit Card,NORTH
+S0204,E352,WIDGET C,£450.00,2nd January 2025,Bank Transfer,EAST
+S0205,E362,service package,2100,2023-09-18,Bank Transfer,west
+S0206,E313,Service Package,2100,31st January 2023,Cash,west
+S0207,E437,widget a,1250.00,2023-09-14,Cash,South
+S0208,E441,Widget C,450.00,26th December 2024,Purchase Order,WEST
+S0209,E434,Widget A,1250.00,25/05/2023,Credit Card,South
+S0210,E266,IMPLEMENTATION SUPPORT,1650.00,12/11/2023,Bank Transfer,north
+S0211,E279,Service  Package,2100,19th May 2023,Credit Card,north
+S0212,E444,WIDGET C,£450.00,23/12/2024,,west
+S0213,E131,IMPLEMENTATION SUPPORT,1650.00,2023-10-06,Credit Card,east
+S0214,E047,Service Package,£2100.50,22nd March 2023,Credit Card,east
+S0215,E459,Implementation  Support,1650.00,2023-05-14,CASH,EAST
+S0216,E148,Implementation Support,1650,11/28/2024,Credit Card,south
+S0217,E189,Service Package,2100.50,12/01/2024,Bank Transfer,North
+S0218,E293,Widget B,890,18/03/2023,Bank Transfer,West
+S0219,E028,WIDGET C,450,21/08/2024,Cash,East
+S0220,E397,Service Package,2100.50,11/11/2024,Purchase Order,South
+S0221,E485,Widget  C,450,08/21/2024,purchase order,West
+S0222,E199,Implementation  Support,1650.00,4th July 2023,Bank Transfer,West
+S0223,E042,Widget A,£1250.00,10th February 2024,Bank Transfer,west
+S0224,E059,IMPLEMENTATION SUPPORT,1650.00,2024-02-17,Bank Transfer,North
+S0225,E079,implementation  support,1650,2023-04-25,Cash,SOUTH
+S0226,E942,WIDGET A,1250,09/04/2024,Cash,NORTH
+S0227,E219,Service Package,TBC,29/06/2024,,south
+S0228,E215,implementation  support,1650,07/20/2024,Bank Transfer,North
+S0229,E177,widget b,890,5th November 2023,Cash,East
+S0230,E223,IMPLEMENTATION  SUPPORT,1650.00,09/09/2023,Cash,East
+S0231,E073,training  bundle,780.00,04/15/2024,Bank Transfer,North
+S0232,E467,WIDGET  A,1250,08/08/2023,Bank Transfer,North
+S0233,E272,widget  b,£890.00,24/08/2024,Credit Card,north
+S0234,E282,Service Package,2100,19/11/2023,Purchase Order,NORTH
+S0235,E106,TRAINING BUNDLE,780,22nd August 2023,Bank Transfer,south
+S0236,E324,Widget  A,1250,01/31/2025,Bank Transfer,North
+S0237,E348,IMPLEMENTATION  SUPPORT,1650,12/24/2023,Purchase Order,EAST
+S0238,E121,SERVICE PACKAGE,2100,10/01/2024,Bank Transfer,East
+S0239,E077,Training Bundle,780.00,30/01/2023,Credit Card,SOUTH
+S0240,E054,IMPLEMENTATION SUPPORT,£1650.00,20th April 2024,Bank Transfer,north
+S0241,E447,Training Bundle,780,02/11/2023,Cash,EAST
+S0242,E117,Widget A,£1250.00,31st March 2024,Purchase Order,North
+S0243,E250,WIDGET  A,1250.00,04/30/2024,,NORTH
+S0244,E247,Training Bundle,780,04/06/2023,Credit Card,West
+S0245,E329,Service Package,£2100.50,11th May 2024,Credit Card,North
+S0246,E470,TRAINING BUNDLE,REFUND,31/05/2024,Purchase Order,East
+S0247,E297,IMPLEMENTATION SUPPORT,£1650.00,4th April 2023,Bank Transfer,West
+S0248,E074,widget a,1250.00,2023-11-22,Bank Transfer,south
+S0249,E165,Training Bundle,780,29th January 2024,credit card,East
+S0250,E126,implementation support,1650,07/02/2023,Cash,NORTH
+S0251,E051,Widget B,890,06/14/2023,Bank Transfer,north
+S0252,E088,Widget  C,450,2023-10-13,,SOUTH
+S0253,E419,Training Bundle,780.00,8th August 2024,Bank Transfer,South
+S0254,E087,widget c,450,2024-01-05,Bank Transfer,North
+S0255,E181,service  package,£2100.50,2024-12-28,Cash,west
+S0256,E239,IMPLEMENTATION SUPPORT,£1650.00,12/04/2024,purchase order,South
+S0257,E088,widget a,1250,12/04/2023,Purchase Order,WEST
+S0258,E235,implementation  support,1650.00,02/08/2023,Purchase Order,North
+S0259,E453,Implementation Support,1650,21/01/2023,Bank Transfer,South
+S0260,E209,widget c,450,07/28/2023,credit card,SOUTH
+S0261,E036,WIDGET B,£890.00,2024-08-27,Bank Transfer,NORTH
+S0262,E054,Implementation Support,£1650.00,18/02/2025,,East
+S0263,E146,Training Bundle,£780.00,11/14/2024,Cash,South
+S0264,E477,Widget C,£450.00,02/17/2024,Cash,East
+S0265,E027,WIDGET  B,£890.00,2023-11-07,Purchase Order,North
+S0266,E353,widget  c,450.00,20th June 2024,Credit Card,North
+S0267,E016,Implementation Support,1650,28/09/2024,Credit Card,east
+S0268,E457,Implementation Support,1650,08/22/2023,Bank Transfer,North
+S0269,E125,Service Package,2100.50,2024-10-27,Purchase Order,NORTH
+S0270,E166,widget b,890,13/02/2024,credit card,south
+S0271,E987,widget  a,1250.00,12/05/2023,Bank Transfer,West
+S0272,E036,Implementation Support,£1650.00,2024-11-25,Credit Card,south
+S0273,E472,widget a,1250.00,3rd April 2023,credit card,south
+S0274,E329,WIDGET  B,£890.00,21st August 2023,Credit Card,South
+S0275,E395,TRAINING BUNDLE,REFUND,07/20/2023,purchase order,south
+S0276,E017,training bundle,780.00,2024-08-28,Credit Card,SOUTH
+S0277,E431,Widget  A,£1250.00,12/22/2024,Credit Card,south
+S0278,E227,Implementation Support,1650,2023-12-21,Purchase Order,South
+S0279,E151,Service Package,£2100.50,2024-12-16,Cash,west
+S0280,E013,implementation  support,1650.00,10th May 2024,Purchase Order,West
+S0281,E023,Service  Package,£2100.50,27/12/2023,Credit Card,EAST
+S0282,E079,TRAINING  BUNDLE,£780.00,2024-03-04,Credit Card,East
+S0283,E262,Implementation Support,£1650.00,12/01/2024,Cash,West
+S0284,E392,TRAINING BUNDLE,TBC,02/03/2024,Credit Card,NORTH
+S0285,E100,Widget A,TBC,11/06/2023,Cash,East
+S0286,E311,Widget  C,-450,01/06/2025,Credit Card,North
+S0287,E373,Widget C,450,29/09/2023,Bank Transfer,West
+S0288,E229,WIDGET C,£450.00,26/04/2024,Cash,south
+S0289,E336,TRAINING BUNDLE,780.00,13th November 2024,Bank Transfer,WEST
+S0290,E010,Implementation Support,£1650.00,2024-01-20,Cash,north
+S0291,E477,SERVICE PACKAGE,2100.50,2023-05-17,Purchase Order,South
+S0292,E476,implementation support,REFUND,06/21/2024,Bank Transfer,South
+S0293,E093,widget a,1250,16/01/2025,Purchase Order,North
+S0294,E294,Widget  A,1250,03/07/2023,Cash,west
+S0295,E194,TRAINING BUNDLE,780,2024-03-18,Purchase Order,South
+S0296,E417,Training Bundle,780.00,2023-12-13,Credit Card,WEST
+S0297,E093,widget c,£450.00,2025-02-01,Cash,west
+S0298,E097,widget  a,1250,06/03/2024,,WEST
+S0299,E322,Training Bundle,780,05/05/2023,Bank Transfer,west
+S0300,E015,widget c,£450.00,02/18/2024,Purchase Order,North
+S0301,E086,WIDGET  C,450,10/04/2024,Bank Transfer,North
+S0302,E448,Widget B,890,21st July 2023,,EAST
+S0303,E371,Widget A,1250.00,2023-05-02,Cash,South
+S0304,E290,WIDGET B,£890.00,03/01/2024,Purchase Order,North
+S0305,E396,WIDGET B,890.00,17/04/2024,credit card,SOUTH
+S0306,E350,Service  Package,2100.50,01/22/2023,,north
+S0307,E419,Service Package,£2100.50,18/12/2024,Bank Transfer,NORTH
+S0308,E320,WIDGET B,£890.00,8th January 2023,Purchase Order,South
+S0309,E442,Widget A,£1250.00,2024-03-22,Purchase Order,north
+S0310,E238,WIDGET B,890.00,02/18/2025,Credit Card,NORTH
+S0311,E466,Service Package,2100.50,04/01/2023,Cash,WEST
+S0312,E224,IMPLEMENTATION SUPPORT,1650.00,8th November 2024,Purchase Order,east
+S0313,E030,WIDGET C,£450.00,05/30/2023,Bank Transfer,SOUTH
+S0314,E177,widget c,450.00,15/02/2024,,east
+S0315,E958,TRAINING BUNDLE,REFUND,15th March 2023,purchase order,North
+S0316,E299,widget c,450.00,2024-08-07,Bank Transfer,North
+S0317,E362,Widget A,1250,2024-07-16,Purchase Order,North
+S0318,E118,Widget B,£890.00,06/16/2024,Cash,East
+S0319,E250,WIDGET C,450.00,2025-01-17,Cash,WEST
+S0320,E146,Implementation  Support,REFUND,2023-08-28,Cash,South
+S0321,E323,service package,2100,2024-12-07,Cash,NORTH
+S0322,E460,Training Bundle,780,2023-01-12,Credit Card,north
+S0323,E325,Implementation Support,£1650.00,17/04/2024,CREDIT CARD,West
+S0324,E292,Widget B,£890.00,2023-01-01,PURCHASE ORDER,south
+S0325,E040,Widget B,890.00,06/18/2023,Cash,West
+S0326,E432,Widget C,450,24/09/2023,Purchase Order,West
+S0327,E370,Widget B,£890.00,11/05/2024,Cash,north
+S0328,E147,WIDGET A,£1250.00,1st July 2024,Cash,North
+S0329,E463,Implementation Support,£1650.00,2024-08-02,Credit Card,EAST
+S0330,E230,Widget A,-1250,19/10/2024,Bank Transfer,east
+S0331,E295,Widget B,£890.00,28th October 2023,Purchase Order,East
+S0332,E070,Training Bundle,780,12/05/2024,Bank Transfer,South
+S0333,E157,widget c,450,24th December 2023,,North
+S0334,E291,widget c,450,31st October 2023,Bank Transfer,West
+S0335,E333,Widget  C,450,14th July 2023,,South
+S0336,E261,Training Bundle,£780.00,5th October 2024,Cash,West
+S0337,E951,Widget  A,£1250.00,06/11/2023,Bank Transfer,North
+S0338,E086,Training Bundle,£780.00,27/11/2023,Credit Card,south
+S0339,E400,service  package,£2100.50,27/01/2024,Cash,south
+S0340,E101,service package,2100,04/22/2024,Cash,East
+S0341,E003,widget a,1250,04/29/2024,Cash,North
+S0342,E154,Widget C,TBC,19/07/2024,Bank Transfer,North
+S0343,E113,Widget C,450.00,2025-02-27,Credit Card,South
+S0344,E212,service package,2100,2024-07-27,Purchase Order,West
+S0345,E049,Widget  A,1250.00,06/04/2023,Cash,North
+S0346,E217,WIDGET B,890.00,18/11/2023,Credit Card,West
+S0347,E185,Service Package,-2100,2023-11-23,Credit Card,West
+S0348,E127,TRAINING BUNDLE,780.00,2024-03-19,Cash,North
+S0349,E385,Training Bundle,£780.00,2nd May 2023,Bank Transfer,north
+S0350,E228,training bundle,780.00,18th February 2025,Cash,West
+S0351,E442,Widget A,£1250.00,19th February 2024,Cash,north
+S0352,E232,Widget B,890.00,10/01/2025,purchase order,West
+S0353,E357,WIDGET A,£1250.00,2023-07-04,Cash,north
+S0354,E480,WIDGET C,450.00,2024-05-07,Cash,West
+S0355,E231,widget  b,890,23rd September 2023,Purchase Order,SOUTH
+S0356,E356,implementation support,£1650.00,2023-08-24,Purchase Order,West
+S0357,E379,widget  c,450,2024-04-23,Credit Card,NORTH
+S0358,E285,SERVICE PACKAGE,2100,07/21/2023,Purchase Order,west
+S0359,E394,service package,2100.50,21st September 2023,Credit Card,EAST
+S0360,E091,Widget B,890.00,21/12/2024,Purchase Order,East
+S0361,E278,Training Bundle,£780.00,11/13/2023,Cash,West
+S0362,E410,WIDGET A,1250,2023-11-19,Purchase Order,East
+S0363,E303,Service  Package,2100.50,23/01/2024,,North
+S0364,E485,Widget B,890.00,2024-01-05,Cash,East
+S0365,E380,WIDGET A,1250,05/30/2023,Purchase Order,East
+S0366,E324,TRAINING  BUNDLE,780,11/03/2024,Purchase Order,west
+S0367,E413,widget a,£1250.00,2024-09-08,Credit Card,South
+S0368,E370,Widget  A,1250,21st May 2024,Credit Card,West
+S0369,E235,service  package,REFUND,22nd May 2023,Cash,West
+S0370,E179,WIDGET A,1250,09/14/2024,Bank Transfer,SOUTH
+S0371,E422,Widget  A,£1250.00,15/05/2023,Credit Card,west
+S0372,E236,Implementation Support,1650,27/09/2023,Cash,South
+S0373,E442,Service Package,-2100,23/07/2023,,SOUTH
+S0374,E064,Service Package,2100,2024-07-12,Credit Card,South
+S0375,E351,Service Package,£2100.50,2023-07-30,Credit Card,West
+S0376,E493,TRAINING BUNDLE,£780.00,07/03/2024,Cash,east
+S0377,E045,Widget A,1250.00,12/04/2024,Purchase Order,North
+S0378,E329,Widget B,890.00,18/09/2024,Bank Transfer,West
+S0379,E108,widget b,890.00,2023-06-26,Cash,East
+S0380,E103,Widget A,£1250.00,2023-10-30,CASH,North
+S0381,E128,Widget A,£1250.00,10th September 2024,Bank Transfer,west
+S0382,E990,Service Package,2100.50,01/20/2025,Credit Card,WEST
+S0383,E459,Widget B,REFUND,18/01/2024,Bank Transfer,South
+S0384,E244,widget  a,1250.00,06/14/2024,Cash,West
+S0385,E449,Implementation Support,1650,2023-12-07,Cash,NORTH
+S0386,E314,Widget C,450,21/10/2023,Cash,north
+S0387,E333,WIDGET  A,£1250.00,31/07/2024,Bank Transfer,north
+S0388,E386,Service Package,2100,02/04/2024,CASH,SOUTH
+S0389,E038,WIDGET B,890,2024-03-03,Purchase Order,East
+S0390,E398,Service  Package,£2100.50,2023-07-02,Credit Card,SOUTH
+S0391,E067,Training Bundle,780.00,13/03/2024,Purchase Order,WEST
+S0392,E089,Widget B,£890.00,01/25/2024,Credit Card,East
+S0393,E473,widget c,450,13th August 2023,Purchase Order,WEST
+S0394,E175,WIDGET A,1250.00,13/09/2023,Purchase Order,south
+S0395,E282,service  package,2100.50,2023-05-20,Purchase Order,North
+S0396,E354,IMPLEMENTATION  SUPPORT,£1650.00,04/26/2024,Cash,South
+S0397,E010,service package,2100.50,21st September 2023,Bank Transfer,South
+S0398,E124,widget  b,-890,11/04/2024,,South
+S0399,E093,widget  a,£1250.00,2024-03-12,cash,South
+S0400,E144,IMPLEMENTATION SUPPORT,1650.00,05/10/2024,Bank Transfer,West
+S0401,E301,WIDGET  A,1250,2023-10-09,Bank Transfer,EAST
+S0402,E313,Widget  A,REFUND,08/07/2023,Purchase Order,South
+S0403,E408,Service Package,2100,2025-01-04,Bank Transfer,NORTH
+S0404,E420,Widget C,£450.00,04/04/2024,Purchase Order,west
+S0405,E295,Service Package,2100.50,2024-12-14,Cash,North
+S0406,E208,TRAINING BUNDLE,780,2024-11-18,Credit Card,North
+S0407,E301,Training Bundle,£780.00,17th November 2023,Cash,WEST
+S0408,E025,Widget B,890.00,13/01/2023,Cash,South
+S0409,E350,Implementation Support,1650,4th September 2023,Bank Transfer,North
+S0410,E215,Widget C,REFUND,1st April 2024,Bank Transfer,North
+S0411,E242,SERVICE PACKAGE,£2100.50,10/09/2023,,east
+S0412,E436,Training Bundle,780.00,02/24/2025,Bank Transfer,SOUTH
+S0413,E388,IMPLEMENTATION SUPPORT,£1650.00,7th November 2023,Purchase Order,North
+S0414,E323,Widget A,1250.00,01/24/2025,Bank Transfer,East
+S0415,E212,WIDGET C,450.00,11/27/2024,CASH,North
+S0416,E221,training bundle,780.00,09/04/2023,Credit Card,North
+S0417,E344,IMPLEMENTATION  SUPPORT,REFUND,2024-04-02,Purchase Order,EAST
+S0418,E456,Widget A,1250.00,02/11/2025,Purchase Order,NORTH
+S0419,E159,Widget A,1250.00,20/06/2024,Cash,east
+S0420,E433,WIDGET C,450,23/09/2024,Purchase Order,North
+S0421,E043,Widget A,1250.00,2024-07-18,Purchase Order,South
+S0422,E038,training  bundle,REFUND,4th June 2023,,north
+S0423,E260,service  package,2100.50,10/23/2024,Purchase Order,east
+S0424,E239,Implementation Support,1650.00,11/02/2023,Bank Transfer,WEST
+S0425,E331,Widget A,1250,08/10/2024,,north
+S0426,E448,training bundle,780.00,1st August 2023,Cash,north
+S0427,E238,widget c,450.00,20/06/2024,Cash,west
+S0428,E017,IMPLEMENTATION SUPPORT,1650,11/17/2024,Purchase Order,South
+S0429,E148,widget a,TBC,04/15/2024,Purchase Order,WEST
+S0430,E244,IMPLEMENTATION SUPPORT,£1650.00,2024-02-16,Bank Transfer,South
+S0431,E035,Implementation Support,1650,2025-01-05,Cash,South
+S0432,E480,SERVICE PACKAGE,2100,2023-06-16,Bank Transfer,South
+S0433,E433,WIDGET A,TBC,5th January 2024,Cash,north
+S0434,E093,training bundle,£780.00,08/11/2024,BANK TRANSFER,South
+S0435,E051,widget  a,1250.00,17th June 2023,Purchase Order,East
+S0436,E257,training bundle,£780.00,26th April 2024,Credit Card,West
+S0437,E491,Service Package,£2100.50,2024-12-14,Bank Transfer,West
+S0438,E188,widget a,1250,01/29/2023,Cash,east
+S0439,E410,service  package,£2100.50,2023-12-26,Bank Transfer,East
+S0440,E408,Widget  A,£1250.00,2024-10-13,CASH,west
+S0441,E359,Service  Package,£2100.50,14th June 2024,Credit Card,EAST
+S0442,E069,Widget C,450.00,14th March 2023,Bank Transfer,north
+S0443,E144,Widget C,450.00,16th December 2023,Cash,WEST
+S0444,E479,Implementation Support,1650,14th November 2023,Purchase Order,west
+S0445,E917,widget c,450,2024-05-28,Credit Card,North
+S0446,E401,Widget A,£1250.00,10th November 2024,Purchase Order,West
+S0447,E173,Training Bundle,780.00,23rd September 2024,Bank Transfer,West
+S0448,E246,training bundle,780.00,30/04/2024,Cash,SOUTH
+S0449,E447,widget a,£1250.00,2025-02-12,Credit Card,SOUTH
+S0450,E045,Training Bundle,780,2024-03-31,Purchase Order,South
+S0451,E315,training  bundle,780.00,2023-11-11,Bank Transfer,West
+S0452,E416,SERVICE PACKAGE,REFUND,12/27/2024,Purchase Order,North
+S0453,E330,implementation support,1650.00,27th August 2024,Credit Card,NORTH
+S0454,E280,Training  Bundle,TBC,27th July 2024,Credit Card,West
+S0455,E192,widget b,TBC,2nd November 2023,Purchase Order,NORTH
+S0456,E352,WIDGET B,890.00,3rd May 2023,Cash,west
+S0457,E193,Widget  C,£450.00,10/01/2024,Cash,west
+S0458,E175,widget b,890.00,01/18/2023,Cash,WEST
+S0459,E192,training bundle,£780.00,19/04/2023,Credit Card,North
+S0460,E472,Widget B,REFUND,2023-05-12,Bank Transfer,West
+S0461,E208,Widget A,1250.00,11th July 2024,Bank Transfer,west
+S0462,E264,Implementation  Support,£1650.00,22nd October 2023,Cash,West
+S0463,E099,widget b,£890.00,14/11/2024,Bank Transfer,SOUTH
+S0464,E040,Widget C,£450.00,05/30/2023,Credit Card,SOUTH
+S0465,E305,service package,REFUND,26th April 2024,CREDIT CARD,North
+S0466,E166,Implementation  Support,£1650.00,22/05/2024,Bank Transfer,South
+S0467,E050,Widget  B,-890,2023-03-26,Credit Card,North
+S0468,E009,IMPLEMENTATION SUPPORT,1650,2nd November 2024,bank transfer,north
+S0469,E206,WIDGET  A,TBC,2024-10-01,Bank Transfer,West
+S0470,E287,WIDGET C,£450.00,2025-01-17,Purchase Order,North
+S0471,E061,WIDGET C,TBC,12/07/2024,Bank Transfer,west
+S0472,E262,SERVICE  PACKAGE,£2100.50,10/06/2024,Purchase Order,NORTH
+S0473,E093,Training Bundle,£780.00,2025-01-18,,North
+S0474,E207,Widget A,£1250.00,2023-02-06,Purchase Order,NORTH
+S0475,E203,training bundle,£780.00,09/10/2024,Credit Card,East
+S0476,E287,Widget A,£1250.00,23rd February 2023,purchase order,South
+S0477,E943,TRAINING BUNDLE,780.00,16/09/2023,Cash,WEST
+S0478,E261,widget  a,£1250.00,07/02/2025,Bank Transfer,East
+S0479,E485,Implementation Support,1650.00,27th September 2024,Purchase Order,South
+S0480,E483,Widget C,450,13th November 2023,Purchase Order,EAST
+S0481,E433,WIDGET B,890,7th October 2024,Purchase Order,north
+S0482,E129,widget  a,1250.00,12/15/2024,Cash,East
+S0483,E457,Training Bundle,REFUND,13th February 2025,Credit Card,WEST
+S0484,E147,Widget  C,£450.00,3rd October 2024,Cash,West
+S0485,E167,Widget A,TBC,06/21/2024,,North
+S0486,E030,training bundle,780.00,2023-05-28,credit card,West
+S0487,E246,training bundle,780,19/07/2023,Bank Transfer,NORTH
+S0488,E068,Widget A,1250.00,22nd October 2023,Purchase Order,EAST
+S0489,E092,IMPLEMENTATION SUPPORT,£1650.00,11/11/2024,Credit Card,West
+S0490,E319,TRAINING  BUNDLE,780,03/26/2024,Credit Card,South
+S0491,E959,WIDGET  A,REFUND,21st January 2025,Credit Card,South
+S0492,E114,widget b,890.00,03/01/2024,Cash,East
+S0493,E138,Widget B,890,12/28/2024,Purchase Order,WEST
+S0494,E308,training bundle,780.00,21/08/2023,Purchase Order,NORTH
+S0495,E122,Widget B,£890.00,18th March 2023,Bank Transfer,north
+S0496,E018,Widget  B,890.00,19th September 2024,,south
+S0497,E132,implementation support,1650,08/11/2023,Purchase Order,EAST
+S0498,E345,WIDGET B,£890.00,3rd February 2023,Bank Transfer,South
+S0499,E318,Service Package,£2100.50,17th March 2024,Credit Card,North
+S0500,E367,widget b,890.00,26th January 2024,Cash,East

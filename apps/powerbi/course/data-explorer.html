@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Explorer | Power BI Course Datasets</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .data-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+        .data-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            padding: 1.2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .data-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .data-card h3 {
+            margin: 0 0 0.6rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .data-card .meta {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+        }
+        .data-card .description {
+            font-size: 0.92rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        .sample-table {
+            font-size: 0.75rem;
+            margin: 0.8rem 0;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        .sample-table table {
+            min-width: 100%;
+        }
+        .sample-table th {
+            background: #1f2937;
+            color: #f8fafc;
+            padding: 0.4rem 0.5rem;
+            font-size: 0.7rem;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+        .sample-table td {
+            padding: 0.35rem 0.5rem;
+            border-bottom: 1px solid #ecf0f4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .sample-table tr:nth-child(even) {
+            background: #fafbfc;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--pbi-yellow);
+            color: #111827;
+            font-weight: 700;
+            padding: 0.5rem 0.9rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border: 1px solid var(--pbi-yellow);
+            transition: all 0.18s ease;
+        }
+        .download-btn:hover {
+            background: var(--pbi-yellow-strong);
+            transform: translateY(-1px);
+        }
+        .file-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, var(--pbi-yellow) 0%, var(--pbi-yellow-strong) 100%);
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #111827;
+        }
+        .dirty-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #fff0f1;
+            color: #c0252a;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            margin-left: 0.5rem;
+        }
+        .clean-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #e7f8ef;
+            color: #0f7d42;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            margin-left: 0.5rem;
+        }
+        .section-heading {
+            margin: 2rem 0 0.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--pbi-yellow);
+        }
+        .section-heading h2 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="index.html" aria-label="Power BI course home">
+                <span class="logo-placeholder" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" role="img" aria-label="Power BI logo placeholder">
+                        <rect x="7" y="32" width="10" height="23" rx="2" fill="#F2C811"></rect>
+                        <rect x="23" y="24" width="10" height="31" rx="2" fill="#F2C811"></rect>
+                        <rect x="39" y="15" width="10" height="40" rx="2" fill="#F2C811"></rect>
+                        <circle cx="53" cy="12" r="4" fill="#F2C811"></circle>
+                    </svg>
+                </span>
+                <span>
+                    <h1>Data Explorer</h1>
+                    <p>Download datasets and view samples</p>
+                </span>
+            </a>
+            <nav class="top-nav" aria-label="Main navigation">
+                <a href="index.html">Overview</a>
+                <a href="session1.html">Session 1</a>
+                <a href="session2.html">Session 2</a>
+                <a class="active" href="data-explorer.html">Data Explorer</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-wrap">
+        <section class="card hero-card" id="explorer-intro">
+            <span class="pill">Dataset Reference</span>
+            <h2 class="section-title">All Course Datasets</h2>
+            <p>
+                Browse all available datasets for the Power BI course. Each file includes a description,
+                column information, and a small sample preview. Use the download buttons to get the files.
+            </p>
+            <div class="badge-row">
+                <span class="badge yellow">Northwind: Clean data for Session 1</span>
+                <span class="badge green">Dirty files for Power Query exercises</span>
+            </div>
+        </section>
+
+        <!-- NORTHWIND SECTION -->
+        <div class="section-heading">
+            <h2>Northwind Dataset (Clean)</h2>
+        </div>
+        <p class="subtle">Classic sample database for learning data modeling and visualization. Use these files for Session 1 demos.</p>
+
+        <div class="data-grid">
+            <!-- customers.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> customers.csv <span class="clean-badge">CLEAN</span></h3>
+                <div class="meta">91 rows · 11 columns · Customer dimension table</div>
+                <div class="description">
+                    Customer master data with contact information, addresses, and regional data.
+                    Use <strong>customerID</strong> to join with the orders table.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>customerID</th><th>companyName</th><th>contactName</th><th>city</th><th>country</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>ALFKI</td><td>Alfreds Futterkiste</td><td>Maria Anders</td><td>Berlin</td><td>Germany</td></tr>
+                            <tr><td>ANATR</td><td>Ana Trujillo Emparedados</td><td>Ana Trujillo</td><td>México D.F.</td><td>Mexico</td></tr>
+                            <tr><td>ANTON</td><td>Antonio Moreno Taquería</td><td>Antonio Moreno</td><td>México D.F.</td><td>Mexico</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/northwind/customers.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download customers.csv
+                </a>
+            </div>
+
+            <!-- products.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> products.csv <span class="clean-badge">CLEAN</span></h3>
+                <div class="meta">77 rows · 10 columns · Product dimension table</div>
+                <div class="description">
+                    Product catalog with pricing, stock levels, and supplier references.
+                    Use <strong>productID</strong> to join with order-details, <strong>categoryID</strong> to join with categories.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>productID</th><th>productName</th><th>unitPrice</th><th>unitsInStock</th><th>categoryID</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Chai</td><td>18.00</td><td>39</td><td>1</td></tr>
+                            <tr><td>2</td><td>Chang</td><td>19.00</td><td>17</td><td>1</td></tr>
+                            <tr><td>3</td><td>Aniseed Syrup</td><td>10.00</td><td>13</td><td>2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/northwind/products.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download products.csv
+                </a>
+            </div>
+
+            <!-- orders.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> orders.csv <span class="clean-badge">CLEAN</span></h3>
+                <div class="meta">830 rows · 14 columns · Order header fact table</div>
+                <div class="description">
+                    Order headers with customer references, dates, and shipping information.
+                    Use <strong>orderID</strong> to join with order-details, <strong>customerID</strong> to join with customers.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>orderID</th><th>customerID</th><th>orderDate</th><th>shipCity</th><th>shipCountry</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>10248</td><td>VINET</td><td>1996-07-04</td><td>Reims</td><td>France</td></tr>
+                            <tr><td>10249</td><td>TOMSP</td><td>1996-07-05</td><td>Münster</td><td>Germany</td></tr>
+                            <tr><td>10250</td><td>HANAR</td><td>1996-07-08</td><td>Rio de Janeiro</td><td>Brazil</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/northwind/orders.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download orders.csv
+                </a>
+            </div>
+
+            <!-- order-details.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> order-details.csv <span class="clean-badge">CLEAN</span></h3>
+                <div class="meta">2155 rows · 5 columns · Order line items fact table</div>
+                <div class="description">
+                    Individual line items for each order with quantity, price, and discount.
+                    This is a junction table linking orders to products. Use <strong>orderID</strong> and <strong>productID</strong>.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>orderID</th><th>productID</th><th>unitPrice</th><th>quantity</th><th>discount</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>10248</td><td>11</td><td>14.00</td><td>12</td><td>0.00</td></tr>
+                            <tr><td>10248</td><td>42</td><td>9.80</td><td>10</td><td>0.00</td></tr>
+                            <tr><td>10248</td><td>72</td><td>34.80</td><td>5</td><td>0.00</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/northwind/order-details.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download order-details.csv
+                </a>
+            </div>
+
+            <!-- categories.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> categories.csv <span class="clean-badge">CLEAN</span></h3>
+                <div class="meta">8 rows · 4 columns · Category dimension table</div>
+                <div class="description">
+                    Product category names and descriptions. Use <strong>categoryID</strong> to join with products table.
+                    Great for grouping products in visualizations.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>categoryID</th><th>categoryName</th><th>description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Beverages</td><td>Soft drinks, coffees, teas...</td></tr>
+                            <tr><td>2</td><td>Condiments</td><td>Sweet and savory sauces...</td></tr>
+                            <tr><td>3</td><td>Confections</td><td>Desserts, candies...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/northwind/categories.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download categories.csv
+                </a>
+            </div>
+
+            <!-- employees.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> employees.csv <span class="clean-badge">CLEAN</span></h3>
+                <div class="meta">9 rows · 17 columns · Employee dimension table</div>
+                <div class="description">
+                    Employee information including names, titles, hire dates, and contact details.
+                    Use <strong>employeeID</strong> to join with orders table to analyze by salesperson.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>employeeID</th><th>lastName</th><th>firstName</th><th>title</th><th>hireDate</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Davolio</td><td>Nancy</td><td>Sales Representative</td><td>1992-05-01</td></tr>
+                            <tr><td>2</td><td>Fuller</td><td>Andrew</td><td>Vice President, Sales</td><td>1992-08-14</td></tr>
+                            <tr><td>3</td><td>Leverling</td><td>Janet</td><td>Sales Representative</td><td>1992-04-01</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/northwind/employees.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download employees.csv
+                </a>
+            </div>
+
+            <!-- shippers.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> shippers.csv <span class="clean-badge">CLEAN</span></h3>
+                <div class="meta">3 rows · 3 columns · Shipper dimension table</div>
+                <div class="description">
+                    Shipping company reference data. Use <strong>shipperID</strong> to analyze delivery methods.
+                    Small lookup table for enriching order data.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>shipperID</th><th>companyName</th><th>phone</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Speedy Express</td><td>(503) 555-9831</td></tr>
+                            <tr><td>2</td><td>United Package</td><td>(503) 555-3199</td></tr>
+                            <tr><td>3</td><td>Federal Shipping</td><td>(503) 555-9931</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/northwind/shippers.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download shippers.csv
+                </a>
+            </div>
+
+            <!-- suppliers.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> suppliers.csv <span class="clean-badge">CLEAN</span></h3>
+                <div class="meta">29 rows · 12 columns · Supplier dimension table</div>
+                <div class="description">
+                    Vendor and supplier contact information. Use <strong>supplierID</strong> to join with products.
+                    Useful for supply chain analysis and vendor performance reporting.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>supplierID</th><th>companyName</th><th>contactName</th><th>country</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Exotic Liquids</td><td>Charlotte Cooper</td><td>UK</td></tr>
+                            <tr><td>2</td><td>New Orleans Cajun Delights</td><td>Shelley Burke</td><td>USA</td></tr>
+                            <tr><td>3</td><td>Grandma Kelly's Homestead</td><td>Regina Murphy</td><td>USA</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/northwind/suppliers.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download suppliers.csv
+                </a>
+            </div>
+        </div>
+
+        <!-- DIRTY DATA SECTION -->
+        <div class="section-heading">
+            <h2>Dirty Datasets (Power Query Exercises)</h2>
+        </div>
+        <p class="subtle">These files contain intentional data quality issues for learning Power Query transformations. Use these files for Session 2 exercises.</p>
+
+        <div class="data-grid">
+            <!-- Employees_Dirty.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> Employees_Dirty.csv <span class="dirty-badge">DIRTY</span></h3>
+                <div class="meta">~500 rows · 5 columns · Power Query cleaning exercise</div>
+                <div class="description">
+                    <strong>Issues:</strong> Header noise rows, inconsistent text casing, double spaces in names,
+                    mixed date formats (ISO, US, UK, written), N/A and PENDING as missing values,
+                    inconsistent department naming with numbers.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>EmployeeID</th><th>FullName</th><th>Department</th><th>Salary</th><th>StartDate</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>E001</td><td>Laura  Williams</td><td>IT 216</td><td>(blank)</td><td>2019-12-29</td></tr>
+                            <tr><td>E003</td><td>SARAH JOHNSON</td><td>Procurement 407</td><td>42679</td><td>02/08/2022</td></tr>
+                            <tr><td>E004</td><td>JAMES  LEE</td><td>Admin 371</td><td>61795</td><td>20th August 2024</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/dirty/Employees_Dirty.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download Employees_Dirty.csv
+                </a>
+            </div>
+
+            <!-- Sales_Dirty.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> Sales_Dirty.csv <span class="dirty-badge">DIRTY</span></h3>
+                <div class="meta">~500 rows · 7 columns · Power Query cleaning exercise</div>
+                <div class="description">
+                    <strong>Issues:</strong> £ currency symbols in amounts, REFUND and TBC as invalid entries,
+                    mixed date formats, inconsistent casing (uppercase products), blank payment methods,
+                    inconsistent region names (south/North/EAST).
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>SaleID</th><th>EmployeeID</th><th>Product Sold</th><th>Sale Amount</th><th>Sale Date</th><th>Region</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>S0001</td><td>E136</td><td>Widget B</td><td>890.00</td><td>2024-08-23</td><td>south</td></tr>
+                            <tr><td>S0002</td><td>E920</td><td>TRAINING BUNDLE</td><td>780.00</td><td>10/04/2024</td><td>North</td></tr>
+                            <tr><td>S0003</td><td>E500</td><td>Implementation Support</td><td>£1650.00</td><td>25/10/2023</td><td>EAST</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/dirty/Sales_Dirty.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download Sales_Dirty.csv
+                </a>
+            </div>
+
+            <!-- Departments_Dirty.csv -->
+            <div class="data-card">
+                <h3><span class="file-icon">CSV</span> Departments_Dirty.csv <span class="dirty-badge">DIRTY</span></h3>
+                <div class="meta">~10 rows · 3 columns · Power Query cleaning exercise</div>
+                <div class="description">
+                    <strong>Issues:</strong> Extra header rows with report metadata, blank lines,
+                    irregular spacing. Demonstrates the "Remove Top Rows" and "Promote Headers" transforms
+                    needed for exported report data.
+                </div>
+                <div class="sample-table">
+                    <table>
+                        <thead>
+                            <tr><th>Department</th><th>Manager</th><th>Budget</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>(blank)</td><td>(blank)</td><td>(blank)</td></tr>
+                            <tr><td>(blank)</td><td>(blank)</td><td>(blank)</td></tr>
+                            <tr><td>Department Report</td><td>(blank)</td><td>(blank)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="download-btn" href="../datasets/dirty/Departments_Dirty.csv" download>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
+                    Download Departments_Dirty.csv
+                </a>
+            </div>
+        </div>
+
+        <!-- DATA MODEL REFERENCE -->
+        <section class="card" style="margin-top: 2rem;">
+            <h2 class="section-title">Data Model Reference</h2>
+            <p class="subtle">Recommended table relationships for the Northwind dataset in Power BI.</p>
+            <div class="table-wrap" style="margin-top: 1rem;">
+                <table>
+                    <thead>
+                        <tr><th>From Table</th><th>Column</th><th>To Table</th><th>Column</th><th>Cardinality</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>customers</td><td>customerID</td><td>orders</td><td>customerID</td><td>One-to-Many</td></tr>
+                        <tr><td>orders</td><td>orderID</td><td>order-details</td><td>orderID</td><td>One-to-Many</td></tr>
+                        <tr><td>products</td><td>productID</td><td>order-details</td><td>productID</td><td>One-to-Many</td></tr>
+                        <tr><td>categories</td><td>categoryID</td><td>products</td><td>categoryID</td><td>One-to-Many</td></tr>
+                        <tr><td>employees</td><td>employeeID</td><td>orders</td><td>employeeID</td><td>One-to-Many</td></tr>
+                        <tr><td>shippers</td><td>shipperID</td><td>orders</td><td>shipVia</td><td>One-to-Many</td></tr>
+                        <tr><td>suppliers</td><td>supplierID</td><td>products</td><td>supplierID</td><td>One-to-Many</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-card">
+            <strong>Data Explorer</strong> · Browse and download all course datasets · Back to <a href="index.html">Course Overview</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
