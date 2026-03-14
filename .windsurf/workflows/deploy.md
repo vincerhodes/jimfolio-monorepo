@@ -59,12 +59,13 @@ Excluded:
 ### VPS remote steps (automated)
 
 The SSH heredoc in `deploy.sh` performs:
-1. Backs up current deploy to `/tmp/jimfolio-backup-TIMESTAMP`
+1. Backs up source files to `/tmp/jimfolio-backup-TIMESTAMP` (excludes `node_modules`/`.next` for speed)
 2. Unpacks tarball into `/home/jimmy/jimfolio-monorepo`
-3. Runs `npm ci --omit=dev` per app workspace
-4. Runs `prisma generate` for `sweet-reach` and `veriflow`
-5. Runs `pm2 reload ecosystem.config.js --update-env` (or `pm2 start` if first run)
-6. Saves PM2 process list
+3. Runs `npm ci --omit=dev` from repo root (installs all workspace deps via root lock file)
+4. Runs `npm ci --omit=dev` inside `apps/jimfolio` and `apps/sweet-reach` (they have their own lock files)
+5. Runs `prisma generate` for `sweet-reach` and `veriflow`
+6. Runs `pm2 reload ecosystem.config.js --update-env` (or `pm2 start` if first run)
+7. Saves PM2 process list
 
 ### Post-deploy verification
 

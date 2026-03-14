@@ -140,26 +140,34 @@ TARBALL="${VPS_TARBALL_PATH}"
 DEPLOY_DIR="${VPS_DEPLOY_DIR}"
 BACKUP_DIR="/tmp/jimfolio-backup-\$(date +'%Y%m%d-%H%M%S')"
 
-echo "[remote] Backing up current deploy to \$BACKUP_DIR ..."
+echo "[remote] Backing up source files to \$BACKUP_DIR ..."
 if [ -d "\$DEPLOY_DIR" ]; then
-    cp -r "\$DEPLOY_DIR" "\$BACKUP_DIR" 2>/dev/null || true
+    mkdir -p "\$BACKUP_DIR"
+    rsync -a --exclude='node_modules' --exclude='.next' --exclude='.turbo' \
+        "\$DEPLOY_DIR/" "\$BACKUP_DIR/" 2>/dev/null || true
 fi
 
 echo "[remote] Unpacking tarball..."
 mkdir -p "\$DEPLOY_DIR"
 tar -xzf "\$TARBALL" -C "\$DEPLOY_DIR"
 
-echo "[remote] Installing dependencies..."
-for app in jimfolio sweet-reach connexia veriflow wealthinequality; do
-    echo "[remote]   -> \$app"
-    cd "\$DEPLOY_DIR/apps/\$app"
-    npm ci --omit=dev
+echo "[remote] Installing root workspace dependencies..."
+cd "\$DEPLOY_DIR"
+npm ci --omit=dev
+
+echo "[remote] Installing deps for apps with own lock files..."
+for app in jimfolio sweet-reach; do
+    if [ -f "\$DEPLOY_DIR/apps/\$app/package-lock.json" ]; then
+        echo "[remote]   -> \$app"
+        cd "\$DEPLOY_DIR/apps/\$app"
+        npm ci --omit=dev
+    fi
 done
 cd "\$DEPLOY_DIR"
 
 echo "[remote] Generating Prisma clients..."
-cd "\$DEPLOY_DIR/apps/sweet-reach" && npx prisma generate || true
-cd "\$DEPLOY_DIR/apps/veriflow"    && npx prisma generate || true
+(cd "\$DEPLOY_DIR/apps/sweet-reach" && npx prisma generate) || true
+(cd "\$DEPLOY_DIR/apps/veriflow"    && npx prisma generate) || true
 
 echo "[remote] Reloading PM2 processes..."
 cd "\$DEPLOY_DIR"

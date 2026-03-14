@@ -4,48 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>China Study 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800&family=Inter:wght@300;400;500;600;700;800;900&family=Inconsolata:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body class="page-study">
 
-<!-- PAGE SWITCHER BAR -->
-<div class="page-switcher">
-  <a class="ps-link ps-home" href="index.html">← Home</a>
-  <div class="ps-label">You are reading</div>
-  <div class="ps-pages">
-    <a class="ps-link" href="itinerary.html">🗺️ China Itinerary</a>
-    <div class="ps-arrow">⟷</div>
-    <div class="ps-current">📖 China Study</div>
+<!-- SINGLE HEADER -->
+<header class="site-header">
+  <a class="sh-home" href="index.html">← Home</a>
+  <div class="sh-sections">
+    <button class="sh-btn" onclick="goTo('ch1')">Qin Shi Huang</button>
+    <button class="sh-btn" onclick="goTo('ch2')">Warring States</button>
+    <button class="sh-btn" onclick="goTo('ch3')">Unification</button>
+    <button class="sh-btn" onclick="goTo('ch4')">South</button>
+    <button class="sh-btn" onclick="goTo('ch5')">Sanxingdui</button>
+    <button class="sh-btn" onclick="goTo('ch6')">Li Bing</button>
+    <button class="sh-btn" onclick="goTo('ch7')">Goddess</button>
+    <button class="sh-btn" onclick="goTo('ch8')">Li Bai</button>
   </div>
-</div>
-
-<!-- NAV -->
-<nav>
-  <button class="nav-btn" onclick="goTo('ch1')">Qin Shi Huang</button>
-  <span class="nav-sep">·</span>
-  <button class="nav-btn" onclick="goTo('ch2')">China Before Unification</button>
-  <span class="nav-sep">·</span>
-  <button class="nav-btn" onclick="goTo('ch3')">The Unification</button>
-  <span class="nav-sep">·</span>
-  <button class="nav-btn" onclick="goTo('ch4')">South Expansion</button>
-  <span class="nav-sep">·</span>
-  <button class="nav-btn" onclick="goTo('ch5')">Sanxingdui</button>
-  <span class="nav-sep">·</span>
-  <button class="nav-btn" onclick="goTo('ch6')">Li Bing & Dujiangyan</button>
-  <span class="nav-sep">·</span>
-  <button class="nav-btn" onclick="goTo('ch7')">The Gorge Goddess</button>
-  <span class="nav-sep">·</span>
-  <button class="nav-btn" onclick="goTo('ch8')">Li Bai at Baidicheng</button>
-  <span class="nav-sep">·</span>
-  <a class="nav-switcher" href="itinerary.html">🗺 China Itinerary →</a>
-</nav>
+  <a class="sh-switch" href="itinerary.html">🗺️ Itinerary</a>
+</header>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-watermark">史</div>
   <div class="hero-label">Stories behind the journey · 历史</div>
-  <h1>The <em>histories</em> that made these places</h1>
+  <h1><span class="kinetic-word" style="animation-delay:0.3s">The</span> <em><span class="kinetic-word" style="animation-delay:0.6s">histories</span></em> <span class="kinetic-word" style="animation-delay:0.9s">that</span> <span class="kinetic-word" style="animation-delay:1.1s">made</span> <span class="kinetic-word" style="animation-delay:1.3s">these</span> <span class="kinetic-word" style="animation-delay:1.5s">places</span></h1>
   <div class="hero-divider"></div>
   <p class="hero-sub">Wars, emperors, engineers, poets, and goddesses — the real stories behind every place you're about to visit.</p>
   <div class="scroll-hint">↓ begin reading</div>
@@ -66,7 +51,7 @@
   <h2>The Boy Who Would Be<br><em>Heaven's Son</em></h2>
   <div class="chapter-cn">秦始皇 — Qin Shi Huang</div>
 
-  <img src="images/study-01-ed1deb54.jpg" alt="Qin Shi Huang · Terracotta Warriors" />
+  <img src="images/study-01-ed1deb54.jpg" alt="Qin Shi Huang · Terracotta Warriors" loading="lazy" />
 
   <div class="prose">
     <p>He was born in a dungeon. In 259 BC, in the city of Handan, a Qin hostage prince named Yiren fathered a child under circumstances so politically dangerous that the boy spent his earliest years in captivity in a rival kingdom. His name was Ying Zheng. Nobody who saw him in that cell could have imagined that this child would one day rule the largest empire the world had yet seen — or that his dynasty's name, <em>Qin</em> (秦, pronounced roughly "chin"), would travel westward along the Silk Road and become the origin of the very word <em>China</em>. The Sanskrit <em>Cīna</em>, the Persian <em>Chīn</em>, the Latin <em>Sina</em> — all trace back, most scholars believe, to the state that Ying Zheng ruled. He gave his kingdom to the world as a name before the world knew what to do with it.</p>
@@ -140,7 +125,7 @@
   <h2>Seven Kingdoms,<br><em>Five Centuries of War</em></h2>
   <div class="chapter-cn">战国时代 — The Warring States Period</div>
 
-  <img src="images/study-02-2d8d9193.jpg" alt="The Warring States · 475–221 BC" />
+  <img src="images/study-02-2d8d9193.jpg" alt="The Warring States · 475–221 BC" loading="lazy" />
 
   <div class="prose">
     <p>Before Qin Shi Huang, there was no China. There was a patchwork of competing kingdoms — seven major powers and dozens of smaller ones — that had been fighting each other for supremacy since around 475 BC. This era is called the Warring States Period, and it was exactly as brutal as it sounds: a 250-year war of annihilation in which millions died, entire cities were massacred, and noble families that had ruled for centuries were wiped from history in a single campaign season.</p>
@@ -201,7 +186,7 @@
   <h2>One Script, One Weight,<br><em>One Emperor</em></h2>
   <div class="chapter-cn">書同文，車同軌 — Same Script, Same Tracks</div>
 
-    <img src="images/study-03-35b0e218.jpg" alt="The Qin Empire · Unification 221 BC" />
+    <img src="images/study-03-35b0e218.jpg" alt="The Qin Empire · Unification 221 BC" loading="lazy" />
 
   <div class="prose">
     <p>The military conquest was the easy part. Ying Zheng — who now declared himself <em>Shi Huangdi</em>, the First August Emperor — understood that defeating six kingdoms in battle was meaningless if the conquered peoples simply continued to think of themselves as Chu, as Zhao, as Qi. What he needed was not just territorial control but a transformation of identity. He needed to make people think of themselves, for the first time, as something that had no name yet.</p>
@@ -274,7 +259,7 @@
   <h2>Into the <em>Land of Yue</em></h2>
   <div class="chapter-cn">南征 — The Southern Campaigns</div>
 
-    <img src="images/study-04-434d4d2d.jpg" alt="The Southern Campaigns · 214 BC" />
+    <img src="images/study-04-434d4d2d.jpg" alt="The Southern Campaigns · 214 BC" loading="lazy" />
 
   <div class="prose">
     <p>When Qin Shi Huang looked south from his unified empire, he saw lands that had never been part of the Qin world. The vast territories beyond the Yangtze River were home to the <strong>Baiyue</strong> — the Hundred Yue peoples — a mosaic of indigenous groups who farmed terraced rice paddies, fished the great rivers, and spoke languages unrelated to anything in the Qin heartland. To the far south lay the kingdoms of <strong>Nanyue</strong> (modern Guangdong and Vietnam) and <strong>Minyue</strong> (modern Fujian). Beyond them, the world dissolved into jungle.</p>
@@ -306,7 +291,7 @@
   <h2>The Kingdom of Shu:<br><em>Gold Masks and Ivory</em></h2>
   <div class="chapter-cn">三星堆 — Sanxingdui, Three Star Mound</div>
 
-  <img src="images/study-05-0bf89e35.jpg" alt="Sanxingdui · Bronze Age Shu Kingdom" />
+  <img src="images/study-05-0bf89e35.jpg" alt="Sanxingdui · Bronze Age Shu Kingdom" loading="lazy" />
 
   <div class="prose">
     <p>In 1986, farmers digging in a field near the town of Guanghan — about 40 kilometres north of Chengdu — hit something hard. What they uncovered over the following months would rewrite everything historians thought they knew about ancient Sichuan. Two ritual pits, packed with the most extraordinary objects: enormous bronze masks with protruding eyes and ears that extend into wings, a bronze tree nearly four metres tall hung with jade leaves and bronze birds, life-size human figures with hands clasped as if in offering, thousands of elephant tusks, cowrie shells from the Indian Ocean, and carved jade discs of a type found nowhere else on earth. Someone had smashed these objects deliberately and buried them together — a ceremony of destruction and interment so total that nothing like it had ever been seen before in Chinese archaeology.</p>
@@ -377,7 +362,7 @@
   <h2>Li Bing and the<br><em>River That Did Not Need a Dam</em></h2>
   <div class="chapter-cn">李冰治水 — Li Bing Tames the Water</div>
 
-  <img src="images/study-06-547187df.jpg" alt="Dujiangyan Irrigation System · 256 BC" />
+  <img src="images/study-06-547187df.jpg" alt="Dujiangyan Irrigation System · 256 BC" loading="lazy" />
 
   <div class="prose">
     <p>Before the Dujiangyan irrigation system was built, the Chengdu Plain was a land of extremes. Each spring, when the snows melted in the Qionglai Mountains, the Min River would burst its banks and drown the lowlands in catastrophic floods. Each summer, the same plains would bake and crack without water. The people of Sichuan lived in cycles of deluge and drought, and the land that is now one of China's most productive agricultural regions was half-wasteland.</p>
@@ -450,7 +435,7 @@
   <h2>She Who Became<br><em>the Mountain</em></h2>
   <div class="chapter-cn">神女峰 — Shennv Peak, the Goddess Peak</div>
 
-  <img src="images/study-07-54ef5f42.jpg" alt="Shennv Peak · Wu Gorge · Wushan" />
+  <img src="images/study-07-54ef5f42.jpg" alt="Shennv Peak · Wu Gorge · Wushan" loading="lazy" />
 
   <div class="prose">
     <p>High above the Yangtze, where the Wu Gorge narrows between walls of limestone that rise a thousand metres from the water, there stands a single pinnacle of rock. Seen from below, especially in the early morning when mist fills the gorge and only the peak stands above the cloud, it has the unmistakable silhouette of a woman — robed, upright, facing east, looking out forever over the river below. The Chinese have called her <strong>Shennv</strong>, the Goddess, for at least three thousand years. Every poet, emperor and traveller who has passed through the gorge has written about her.</p>
@@ -494,7 +479,7 @@
   <h2>The Poet in Exile,<br><em>Released at Dawn</em></h2>
   <div class="chapter-cn">早发白帝城 — Early Departure from Baidicheng</div>
 
-  <img src="images/study-08-aea8579a.jpg" alt="Baidicheng · White Emperor City" />
+  <img src="images/study-08-aea8579a.jpg" alt="Baidicheng · White Emperor City" loading="lazy" />
 
   <div class="prose">
     <p><strong>Li Bai</strong> is the greatest poet in the Chinese literary tradition — which, given that tradition's depth, makes him one of the greatest poets who ever lived. He was born around 701 AD, probably in Central Asia (his exact origins remain debated), and arrived in the Tang Dynasty court as a prodigy so brilliant that the Emperor Xuanzong made him a court poet. He was also a drunk, a Taoist mystic, and a man wholly unable to navigate the politics of the imperial court. He was eventually dismissed — politely, but firmly — and spent the rest of his life wandering, writing, drinking, and producing some of the most beautiful verse in any language.</p>
@@ -548,6 +533,8 @@
   <div class="footer-link-wrap">
     <a href="itinerary.html">🗺 View China Itinerary →</a>
   </div>
+  <div class="footer-attr">Prepared by Prajna & Tin Ead for Mark, Bec & Stan</div>
+  <div class="footer-updated">Last updated March 2026</div>
 </footer>
 
 <script>
@@ -570,12 +557,12 @@ chapters.forEach(c => obs.observe(c));
 
 // Active nav
 const sections = ['ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8'];
-const navBtns = document.querySelectorAll('.nav-btn');
+const navBtns = document.querySelectorAll('.sh-btn');
 window.addEventListener('scroll', () => {
   let cur = '';
   sections.forEach(id => {
     const el = document.getElementById(id);
-    if (el && window.scrollY >= el.offsetTop - 120) cur = id;
+    if (el && window.scrollY >= el.offsetTop - 80) cur = id;
   });
   navBtns.forEach((btn, i) => btn.classList.toggle('active', sections[i] === cur));
 }, { passive: true });

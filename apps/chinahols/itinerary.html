@@ -4,572 +4,603 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>China Itinerary 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800&family=Inter:wght@300;400;500;600;700;800;900&family=Inconsolata:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body class="page-itinerary">
+<body class="page-study">
 
-<!-- SINGLE HEADER BAR -->
+<!-- SINGLE HEADER -->
 <header class="site-header">
   <a class="sh-home" href="index.html">← Home</a>
-  <div class="sh-cities">
-    <button class="sh-btn" onclick="goTo('beijing')">北京</button>
-    <button class="sh-btn" onclick="goTo('xian')">西安</button>
-    <button class="sh-btn" onclick="goTo('dujiangyan')">都江堰</button>
-    <button class="sh-btn" onclick="goTo('chengdu')">成都</button>
-    <button class="sh-btn" onclick="goTo('wushan')">巫山</button>
-    <button class="sh-btn" onclick="goTo('chongqing')">重庆</button>
+  <div class="sh-sections">
+    <button class="sh-btn" onclick="goTo('beijing')">北京 Beijing</button>
+    <button class="sh-btn" onclick="goTo('xian')">西安 Xi'an</button>
+    <button class="sh-btn" onclick="goTo('dujiangyan')">都江堰 Dujiangyan</button>
+    <button class="sh-btn" onclick="goTo('chengdu')">成都 Chengdu</button>
+    <button class="sh-btn" onclick="goTo('wushan')">巫山 Wushan</button>
+    <button class="sh-btn" onclick="goTo('chongqing')">重庆 Chongqing</button>
   </div>
-  <a class="sh-switch" href="study.html">📖 Study Guide</a>
+  <a class="sh-switch" href="study.html">📖 Study</a>
 </header>
 
-<!-- COMPACT HERO WITH MAP -->
-<section class="itin-hero">
-  <div class="itin-hero-text">
-    <div class="itin-hero-eyebrow">30 March – 9 April 2026 · 家庭旅行</div>
-    <h1>Our China <em>Adventure</em></h1>
-    <p class="itin-hero-sub">16 places · 6 ancient characters · 3,500 years of history</p>
-    <div class="itin-hero-route">
-      <span style="color:var(--bj)">北京</span> →
-      <span style="color:var(--xa)">西安</span> →
-      <span style="color:var(--dj)">都江堰</span> →
-      <span style="color:var(--cd)">成都</span> →
-      <span style="color:var(--ws)">巫山</span> →
-      <span style="color:var(--cq)">重庆</span>
-    </div>
-  </div>
-  <div class="itin-hero-map">
-    <img src="images/itinerary-01-ff4204fd.jpg" alt="Route map Beijing to Chongqing" />
-  </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-watermark">旅</div>
+  <div class="hero-label">Day-by-day itinerary · 行程</div>
+  <h1><span class="kinetic-word" style="animation-delay:0.3s">Our</span> <span class="kinetic-word" style="animation-delay:0.5s">China</span> <em><span class="kinetic-word" style="animation-delay:0.8s">Adventure</span></em></h1>
+  <div class="hero-divider"></div>
+  <p class="hero-sub">30 March – 9 April 2026 · 16 places · 6 ancient characters · 3,500 years of history</p>
+  <div class="scroll-hint">↓ begin exploring</div>
 </section>
+
 
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- BEIJING -->
 <!-- ══════════════════════════════════════════════════════ -->
-<section class="city-section" id="beijing">
-  <div class="city-hero" style="background: linear-gradient(135deg, #c84010 0%, #e85820 60%, #a03008 100%);" data-char="京">
-    <div class="city-hero-info">
-      <div class="city-stop-num">STOP 01 · DAYS 1 & 2</div>
-      <div class="city-dates">30–31 March 2026 · Monday & Tuesday</div>
-      <div class="city-name-cn">北京</div>
-      <div class="city-name-en">Beijing</div>
-      <div class="city-tag-pill">Imperial Capital · 首都</div>
-    </div>
-    <div class="city-hero-char">
-      <div class="char-block">
-        <div class="script-pair">
-          <div class="script-unit">
-            <div class="script-label">甲骨文<br>Oracle Bone</div>
-            <img src="images/itinerary-02-024004d5.jpg" alt="京 oracle bone" class="script-img" />
-          </div>
-          <div class="script-arrow">→</div>
-          <div class="script-unit">
-            <div class="script-label">楷書<br>Ordinary Script</div>
-            <img src="images/itinerary-03-206b11fc.png" alt="京 ordinary script" class="script-img" />
-          </div>
-        </div>
-        <div class="etym-text">
-          <strong>京</strong> — a tall watchtower on a raised platform. From this image of a commanding structure came <em>great capital, important place</em>. 北京 means <em>"Northern Capital."</em>
-        </div>
+<div id="beijing"></div>
+<article class="chapter">
+  <div class="chapter-rule">
+    <div class="chapter-rule-line"></div>
+    <div class="chapter-rule-ornament">京</div>
+    <div class="chapter-rule-line"></div>
+  </div>
+  <div class="chapter-number">Stop 01 · Days 1 & 2</div>
+  <div class="chapter-context">📍 30–31 March 2026 · Monday & Tuesday</div>
+  <h2>北京<br><em>Beijing</em></h2>
+  <div class="chapter-cn">Imperial Capital · 首都</div>
+
+  <img src="images/itinerary-04-434d4d2d.jpg" alt="Mutianyu Great Wall" />
+
+  <div class="itin-etym-block">
+    <div class="script-pair">
+      <div class="script-unit">
+        <div class="script-label">甲骨文<br>Oracle Bone</div>
+        <img src="images/itinerary-02-024004d5.jpg" alt="京 oracle bone" class="script-img" />
       </div>
+      <div class="script-arrow">→</div>
+      <div class="script-unit">
+        <div class="script-label">楷書<br>Ordinary Script</div>
+        <img src="images/itinerary-03-206b11fc.png" alt="京 ordinary script" class="script-img" />
+      </div>
+    </div>
+    <div class="etym-text">
+      <strong>京</strong> — a tall watchtower on a raised platform. From this image of a commanding structure came <em>great capital, important place</em>. 北京 means <em>"Northern Capital."</em>
     </div>
   </div>
 
-  <div class="places-grid">
-    <div class="place-card" style="--ca: var(--bj)">
-      <img src="images/itinerary-04-434d4d2d.jpg" alt="Mutianyu Great Wall" />
-      <div class="card-body">
-        <div class="pc-num">BJ · 01</div>
-        <div class="pc-badge badge-h">UNESCO</div>
-        <span class="pc-emoji">🧱</span>
+  <div class="itin-place" style="--ca: var(--bj)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🧱</span>
+      <div>
         <div class="pc-cn">慕田峪长城</div>
         <div class="pc-en">Mutianyu Great Wall</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">The most dramatic stretch of the Wall near Beijing — wild crenellations across forested ridgelines, reached by cable car. The least crowded of the main sections.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">📍</span>70km north of Beijing</div>
-          <div class="pc-fact"><span class="pc-fact-i">🚡</span>Cable car available — easy on the knees</div>
-          <div class="pc-fact"><span class="pc-fact-i">🕐</span>Built: Ming Dynasty, 1368–1644 AD</div>
-        </div>
       </div>
+      <div class="pc-badge badge-h">UNESCO</div>
     </div>
-    <div class="place-card" style="--ca: var(--xa)">
-      <img src="images/itinerary-05-b69e4509.jpg" alt="The Forbidden City" />
-      <div class="card-body">
-        <div class="pc-num">BJ · 02</div>
-        <div class="pc-badge badge-h">UNESCO</div>
-        <span class="pc-emoji">🏯</span>
-        <div class="pc-cn">故宫</div>
-        <div class="pc-en">The Forbidden City</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">9,999 rooms of vermilion walls and golden rooftiles. Home to 24 emperors for five centuries. Now the world's most visited museum. Closed Mondays — plan accordingly.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">📅</span>Open 08:30 — closed every Monday</div>
-          <div class="pc-fact"><span class="pc-fact-i">📐</span>720,000 m² — 178 acres of palace</div>
-          <div class="pc-fact"><span class="pc-fact-i">🏛️</span>Built 1406–1420 AD, Ming Dynasty</div>
-        </div>
-      </div>
+    <p class="pc-desc">The most dramatic stretch of the Wall near Beijing — wild crenellations across forested ridgelines, reached by cable car. The least crowded of the main sections.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">📍</span>70km north of Beijing</div>
+      <div class="pc-fact"><span class="pc-fact-i">🚡</span>Cable car available — easy on the knees</div>
+      <div class="pc-fact"><span class="pc-fact-i">🕐</span>Built: Ming Dynasty, 1368–1644 AD</div>
     </div>
   </div>
-</section>
+
+  <img src="images/itinerary-05-b69e4509.jpg" alt="The Forbidden City" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--bj)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🏯</span>
+      <div>
+        <div class="pc-cn">故宫</div>
+        <div class="pc-en">The Forbidden City</div>
+      </div>
+      <div class="pc-badge badge-h">UNESCO</div>
+    </div>
+    <p class="pc-desc">9,999 rooms of vermilion walls and golden rooftiles. Home to 24 emperors for five centuries. Now the world's most visited museum. Closed Mondays — plan accordingly.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">📅</span>Open 08:30 — closed every Monday</div>
+      <div class="pc-fact"><span class="pc-fact-i">📐</span>720,000 m² — 178 acres of palace</div>
+      <div class="pc-fact"><span class="pc-fact-i">🏛️</span>Built 1406–1420 AD, Ming Dynasty</div>
+    </div>
+  </div>
+</article>
 
 
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- XI'AN -->
 <!-- ══════════════════════════════════════════════════════ -->
-<section class="city-section" id="xian">
-  <div class="city-hero" style="background: linear-gradient(135deg, #8c1808 0%, #b82818 60%, #701008 100%);" data-char="安">
-    <div class="city-hero-info">
-      <div class="city-stop-num">STOP 02 · DAYS 3 & 4</div>
-      <div class="city-dates">1–2 April 2026 · Wednesday & Thursday</div>
-      <div class="city-name-cn">西安</div>
-      <div class="city-name-en">Xi'an</div>
-      <div class="city-tag-pill">Ancient Silk Road Capital · 丝绸之路</div>
-    </div>
-    <div class="city-hero-char">
-      <div class="char-block">
-        <div class="script-pair">
-          <div class="script-unit">
-            <div class="script-label">甲骨文<br>Oracle Bone</div>
-            <img src="images/itinerary-06-9d7a28dc.jpg" alt="安 oracle bone" class="script-img" />
-          </div>
-          <div class="script-arrow">→</div>
-          <div class="script-unit">
-            <div class="script-label">楷書<br>Ordinary Script</div>
-            <img src="images/itinerary-07-f90fb3b7.png" alt="安 ordinary script" class="script-img" />
-          </div>
-        </div>
-        <div class="etym-text">
-          <strong>安</strong> — a woman seated beneath a roof. A woman safe under her own roof was the image of <em>peace and harmony</em>. 西安 means <em>"Western Peace"</em> — China's capital for over a thousand years.
-        </div>
+<div class="section-divide">
+  <div class="section-divide-bg">安</div>
+  <h3>Westward: <em>The Silk Road Capital</em></h3>
+  <p>From the Northern Capital to the ancient gateway to Central Asia</p>
+</div>
+
+<div id="xian"></div>
+<article class="chapter">
+  <div class="chapter-rule">
+    <div class="chapter-rule-line"></div>
+    <div class="chapter-rule-ornament">安</div>
+    <div class="chapter-rule-line"></div>
+  </div>
+  <div class="chapter-number">Stop 02 · Days 3 & 4</div>
+  <div class="chapter-context">📍 1–2 April 2026 · Wednesday & Thursday</div>
+  <h2>西安<br><em>Xi'an</em></h2>
+  <div class="chapter-cn">Ancient Silk Road Capital · 丝绸之路</div>
+
+  <div class="itin-etym-block">
+    <div class="script-pair">
+      <div class="script-unit">
+        <div class="script-label">甲骨文<br>Oracle Bone</div>
+        <img src="images/itinerary-06-9d7a28dc.jpg" alt="安 oracle bone" class="script-img" loading="lazy" />
       </div>
+      <div class="script-arrow">→</div>
+      <div class="script-unit">
+        <div class="script-label">楷書<br>Ordinary Script</div>
+        <img src="images/itinerary-07-f90fb3b7.png" alt="安 ordinary script" class="script-img" loading="lazy" />
+      </div>
+    </div>
+    <div class="etym-text">
+      <strong>安</strong> — a woman seated beneath a roof. A woman safe under her own roof was the image of <em>peace and harmony</em>. 西安 means <em>"Western Peace"</em> — China's capital for over a thousand years.
     </div>
   </div>
 
-  <div class="places-grid">
-    <div class="place-card" style="--ca: #c8703a">
-      <img src="images/itinerary-08-433827f7.jpg" alt="Terracotta Warriors" />
-      <div class="card-body">
-        <div class="pc-num">XA · 01</div>
-        <div class="pc-badge badge-h">UNESCO</div>
-        <span class="pc-emoji">⚔️</span>
+  <img src="images/itinerary-08-433827f7.jpg" alt="Terracotta Warriors" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--xa)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">⚔️</span>
+      <div>
         <div class="pc-cn">秦始皇兵马俑</div>
         <div class="pc-en">Terracotta Warriors</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">Eight thousand life-size clay soldiers buried in 210 BC to guard the First Emperor. Discovered in 1974 by a farmer digging a well. Every single face is unique.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🗓️</span>Built 246–208 BC under Qin Shi Huang</div>
-          <div class="pc-fact"><span class="pc-fact-i">⏱️</span>Open 08:30 · allow 2–3 hours</div>
-          <div class="pc-fact"><span class="pc-fact-i">🦶</span>Flat hangar halls — good for knees</div>
-        </div>
       </div>
+      <div class="pc-badge badge-h">UNESCO</div>
     </div>
-    <div class="place-card" style="--ca: #9b7c3a">
-      <img src="images/itinerary-09-434d4d2d.jpg" alt="Muslim Quarter" />
-      <div class="card-body">
-        <div class="pc-num">XA · 02</div>
-        <span class="pc-emoji">🍢</span>
-        <div class="pc-cn">回民街</div>
-        <div class="pc-en">Muslim Quarter</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">Lantern-hung alleys where Xi'an's Hui Muslim community has traded for a thousand years. Lamb skewers, pomegranate juice, cumin smoke — a teenager's dream of street food.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🕌</span>Home to the Great Mosque, 742 AD</div>
-          <div class="pc-fact"><span class="pc-fact-i">🌙</span>Most atmospheric at dusk, lanterns lit</div>
-        </div>
-      </div>
-    </div>
-    <div class="place-card" style="--ca: #6a8c5a">
-      <img src="images/itinerary-10-434d4d2d.jpg" alt="Bell Tower & Big Wild Goose Pagoda" />
-      <div class="card-body">
-        <div class="pc-num">XA · 03</div>
-        <span class="pc-emoji">🔔</span>
-        <div class="pc-cn">钟楼 / 大雁塔</div>
-        <div class="pc-en">Bell Tower & Big Wild Goose Pagoda</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">The Bell Tower marks the exact centre of ancient Xi'an. The Pagoda was built in 652 AD to house Buddhist scriptures carried back from India along the Silk Road by the monk Xuanzang.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🏗️</span>Bell Tower 1384 AD · Pagoda 652 AD</div>
-          <div class="pc-fact"><span class="pc-fact-i">⛲</span>Musical fountain show at night in the square</div>
-        </div>
-      </div>
-    </div>
-    <div class="place-card" style="--ca: #8a7050">
-      <img src="images/itinerary-11-434d4d2d.jpg" alt="Shuyuanmen Antique Street" />
-      <div class="card-body">
-        <div class="pc-num">XA · 04</div>
-        <span class="pc-emoji">📚</span>
-        <div class="pc-cn">书院门</div>
-        <div class="pc-en">Shuyuanmen Antique Street</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">A cobblestone street of calligraphy studios and scroll painters beside the old City Wall. The best place in Xi'an for handmade souvenirs — name seals cut while you wait.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🖌️</span>Watch calligraphers working in open studios</div>
-          <div class="pc-fact"><span class="pc-fact-i">🧱</span>Leads directly to the South Gate of the City Wall</div>
-        </div>
-      </div>
+    <p class="pc-desc">Eight thousand life-size clay soldiers buried in 210 BC to guard the First Emperor. Discovered in 1974 by a farmer digging a well. Every single face is unique.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🗓️</span>Built 246–208 BC under Qin Shi Huang</div>
+      <div class="pc-fact"><span class="pc-fact-i">⏱️</span>Open 08:30 · allow 2–3 hours</div>
+      <div class="pc-fact"><span class="pc-fact-i">🦶</span>Flat hangar halls — good for knees</div>
     </div>
   </div>
-</section>
+
+  <img src="images/itinerary-09-434d4d2d.jpg" alt="Muslim Quarter" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--xa)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🍢</span>
+      <div>
+        <div class="pc-cn">回民街</div>
+        <div class="pc-en">Muslim Quarter</div>
+      </div>
+    </div>
+    <p class="pc-desc">Lantern-hung alleys where Xi'an's Hui Muslim community has traded for a thousand years. Lamb skewers, pomegranate juice, cumin smoke — a teenager's dream of street food.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🕌</span>Home to the Great Mosque, 742 AD</div>
+      <div class="pc-fact"><span class="pc-fact-i">🌙</span>Most atmospheric at dusk, lanterns lit</div>
+    </div>
+  </div>
+
+  <img src="images/itinerary-10-434d4d2d.jpg" alt="Bell Tower & Big Wild Goose Pagoda" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--xa)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🔔</span>
+      <div>
+        <div class="pc-cn">钟楼 / 大雁塔</div>
+        <div class="pc-en">Bell Tower & Big Wild Goose Pagoda</div>
+      </div>
+    </div>
+    <p class="pc-desc">The Bell Tower marks the exact centre of ancient Xi'an. The Pagoda was built in 652 AD to house Buddhist scriptures carried back from India along the Silk Road by the monk Xuanzang.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🏗️</span>Bell Tower 1384 AD · Pagoda 652 AD</div>
+      <div class="pc-fact"><span class="pc-fact-i">⛲</span>Musical fountain show at night in the square</div>
+    </div>
+  </div>
+
+  <div class="itin-place" style="--ca: var(--xa)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">📚</span>
+      <div>
+        <div class="pc-cn">书院门</div>
+        <div class="pc-en">Shuyuanmen Antique Street</div>
+      </div>
+    </div>
+    <p class="pc-desc">A cobblestone street of calligraphy studios and scroll painters beside the old City Wall. The best place in Xi'an for handmade souvenirs — name seals cut while you wait.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🖌️</span>Watch calligraphers working in open studios</div>
+      <div class="pc-fact"><span class="pc-fact-i">🧱</span>Leads directly to the South Gate of the City Wall</div>
+    </div>
+  </div>
+</article>
 
 
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- DUJIANGYAN -->
 <!-- ══════════════════════════════════════════════════════ -->
-<section class="city-section" id="dujiangyan">
-  <div class="city-hero" style="background: linear-gradient(135deg, #0e6050 0%, #1a8868 60%, #0a4840 100%);" data-char="川">
-    <div class="city-hero-info">
-      <div class="city-stop-num">STOP 03 · DAY 5 MORNING</div>
-      <div class="city-dates">3 April 2026 · Friday morning</div>
-      <div class="city-name-cn">都江堰</div>
-      <div class="city-name-en">Dujiangyan</div>
-      <div class="city-tag-pill">Ancient Engineering · UNESCO · 世界遗产</div>
-    </div>
-    <div class="city-hero-char">
-      <div class="char-block">
-        <div class="script-pair">
-          <div class="script-unit">
-            <div class="script-label">甲骨文<br>Oracle Bone</div>
-            <img src="images/itinerary-15-d027095f.jpg" alt="川 oracle bone" class="script-img" />
-          </div>
-          <div class="script-arrow">→</div>
-          <div class="script-unit">
-            <div class="script-label">楷書<br>Ordinary Script</div>
-            <img src="images/itinerary-16-fa1abb80.png" alt="川 ordinary script" class="script-img" />
-          </div>
-        </div>
-        <div class="etym-text">
-          <strong>川</strong> — three flowing lines side by side, each curving to suggest current. Not one river but branching flows. 川 means <em>"river, flowing waterway,"</em> and gives Sichuan (四川 — <em>Four Rivers</em>) its name.
-        </div>
+<div class="section-divide">
+  <div class="section-divide-bg">川</div>
+  <h3>Into the Mountains: <em>Sichuan</em></h3>
+  <p>From the Silk Road to the Land of Four Rivers</p>
+</div>
+
+<div id="dujiangyan"></div>
+<article class="chapter">
+  <div class="chapter-rule">
+    <div class="chapter-rule-line"></div>
+    <div class="chapter-rule-ornament">川</div>
+    <div class="chapter-rule-line"></div>
+  </div>
+  <div class="chapter-number">Stop 03 · Day 5 Morning</div>
+  <div class="chapter-context">📍 3 April 2026 · Friday morning</div>
+  <h2>都江堰<br><em>Dujiangyan</em></h2>
+  <div class="chapter-cn">Ancient Engineering · UNESCO · 世界遗产</div>
+
+  <div class="itin-etym-block">
+    <div class="script-pair">
+      <div class="script-unit">
+        <div class="script-label">甲骨文<br>Oracle Bone</div>
+        <img src="images/itinerary-15-d027095f.jpg" alt="川 oracle bone" class="script-img" loading="lazy" />
       </div>
+      <div class="script-arrow">→</div>
+      <div class="script-unit">
+        <div class="script-label">楷書<br>Ordinary Script</div>
+        <img src="images/itinerary-16-fa1abb80.png" alt="川 ordinary script" class="script-img" loading="lazy" />
+      </div>
+    </div>
+    <div class="etym-text">
+      <strong>川</strong> — three flowing lines side by side, each curving to suggest current. Not one river but branching flows. 川 means <em>"river, flowing waterway,"</em> and gives Sichuan (四川 — <em>Four Rivers</em>) its name.
     </div>
   </div>
 
-  <div class="places-grid">
-    <div class="place-card" style="--ca: var(--dj)">
-      <img src="images/itinerary-14-6e19bd2c.jpg" alt="Dujiangyan Irrigation System" />
-      <div class="card-body">
-        <div class="pc-num">DJ · 01</div>
-        <div class="pc-badge badge-n">UNESCO</div>
-        <span class="pc-emoji">💧</span>
+  <img src="images/itinerary-14-6e19bd2c.jpg" alt="Dujiangyan Irrigation System" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--dj)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">💧</span>
+      <div>
         <div class="pc-cn">都江堰水利工程</div>
         <div class="pc-en">Dujiangyan Irrigation System</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">The world's oldest operating irrigation system — built in 256 BC without a dam. The river splits itself and regulates itself using only geometry. Still watering 5.3 million hectares today.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🗓️</span>Built 256 BC by governor Li Bing · still working</div>
-          <div class="pc-fact"><span class="pc-fact-i">🌊</span>No dam, no valves — the river regulates itself</div>
-          <div class="pc-fact"><span class="pc-fact-i">🚶</span>Mostly flat riverside paths</div>
-        </div>
       </div>
+      <div class="pc-badge badge-n">UNESCO</div>
+    </div>
+    <p class="pc-desc">The world's oldest operating irrigation system — built in 256 BC without a dam. The river splits itself and regulates itself using only geometry. Still watering 5.3 million hectares today.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🗓️</span>Built 256 BC by governor Li Bing · still working</div>
+      <div class="pc-fact"><span class="pc-fact-i">🌊</span>No dam, no valves — the river regulates itself</div>
+      <div class="pc-fact"><span class="pc-fact-i">🚶</span>Mostly flat riverside paths</div>
     </div>
   </div>
-</section>
+</article>
 
 
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- CHENGDU & WOLONG -->
 <!-- ══════════════════════════════════════════════════════ -->
-<section class="city-section" id="chengdu">
-  <div class="city-hero" style="background: linear-gradient(135deg, #1a6828 0%, #2a9040 60%, #0e5020 100%);" data-char="蓉">
-    <div class="city-hero-info">
-      <div class="city-stop-num">STOP 04 · DAYS 5 & 6</div>
-      <div class="city-dates">3–4 April 2026 · Friday afternoon & Saturday</div>
-      <div class="city-name-cn">成都 & 卧龙</div>
-      <div class="city-name-en">Chengdu & Wolong</div>
-      <div class="city-tag-pill">Sichuan Heartland · 四川 · Giant Pandas</div>
-    </div>
-    <div class="city-hero-char">
-      <div class="char-block">
-        <div class="script-pair">
-          <div class="script-unit">
-            <div class="script-label">甲骨文<br>Oracle Bone</div>
-            <img src="images/itinerary-15-d027095f.jpg" alt="川 oracle bone" class="script-img" />
-          </div>
-          <div class="script-arrow">→</div>
-          <div class="script-unit">
-            <div class="script-label">楷書<br>Ordinary Script</div>
-            <img src="images/itinerary-16-fa1abb80.png" alt="川 ordinary script" class="script-img" />
-          </div>
-        </div>
-        <div class="etym-text">
-          <strong>四川</strong> — <em>four rivers</em>. The Min, Tuo, Jialing, and Wu flow through the Red Basin. Li Bing's irrigation at Dujiangyan made it all possible. The landscape those managed waters created is where pandas still eat bamboo today.
-        </div>
+<div id="chengdu"></div>
+<article class="chapter">
+  <div class="chapter-rule">
+    <div class="chapter-rule-line"></div>
+    <div class="chapter-rule-ornament">蓉</div>
+    <div class="chapter-rule-line"></div>
+  </div>
+  <div class="chapter-number">Stop 04 · Days 5 & 6</div>
+  <div class="chapter-context">📍 3–4 April 2026 · Friday afternoon & Saturday</div>
+  <h2>成都 & 卧龙<br><em>Chengdu & Wolong</em></h2>
+  <div class="chapter-cn">Sichuan Heartland · 四川 · Giant Pandas</div>
+
+  <div class="itin-etym-block">
+    <div class="script-pair">
+      <div class="script-unit">
+        <div class="script-label">甲骨文<br>Oracle Bone</div>
+        <img src="images/itinerary-15-d027095f.jpg" alt="川 oracle bone" class="script-img" loading="lazy" />
       </div>
+      <div class="script-arrow">→</div>
+      <div class="script-unit">
+        <div class="script-label">楷書<br>Ordinary Script</div>
+        <img src="images/itinerary-16-fa1abb80.png" alt="川 ordinary script" class="script-img" loading="lazy" />
+      </div>
+    </div>
+    <div class="etym-text">
+      <strong>四川</strong> — <em>four rivers</em>. The Min, Tuo, Jialing, and Wu flow through the Red Basin. Li Bing's irrigation at Dujiangyan made it all possible. The landscape those managed waters created is where pandas still eat bamboo today.
     </div>
   </div>
 
-  <div class="places-grid">
-    <div class="place-card" style="--ca: var(--cd)">
-      <img src="images/itinerary-17-2d8d9193.jpg" alt="Wolong Giant Panda Reserve" />
-      <div class="card-body">
-        <div class="pc-num">CD · 01</div>
-        <div class="pc-badge badge-n">Nature Reserve</div>
-        <span class="pc-emoji">🐼</span>
+  <img src="images/itinerary-17-2d8d9193.jpg" alt="Wolong Giant Panda Reserve" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--cd)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🐼</span>
+      <div>
         <div class="pc-cn">卧龙大熊猫自然保护区</div>
         <div class="pc-en">Wolong Giant Panda Reserve</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">A real mountain nature reserve, not a zoo. Pandas are most active 9–11:30am, tumbling around with spectacular indifference to onlookers. Buggy service available inside.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🐾</span>Active time: 09:00–11:30 only — arrive early</div>
-          <div class="pc-fact"><span class="pc-fact-i">🚐</span>Buggy service within reserve — easy on the knees</div>
-          <div class="pc-fact"><span class="pc-fact-i">📍</span>130km from Chengdu · ~1h 45m drive</div>
-        </div>
       </div>
+      <div class="pc-badge badge-n">Nature Reserve</div>
     </div>
-    <div class="place-card" style="--ca: #8a6030">
-      <img src="images/itinerary-18-9c2cfe28.jpg" alt="Wuhou Temple" />
-      <div class="card-body">
-        <div class="pc-num">CD · 02</div>
-        <span class="pc-emoji">⚔️</span>
-        <div class="pc-cn">武侯祠</div>
-        <div class="pc-en">Wuhou Temple</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">A temple-museum for the heroes of the Three Kingdoms (220–280 AD). The great strategist Zhuge Liang is enshrined here — China's eternal symbol of wisdom and loyalty. Shaded gardens, gentle walking, many benches.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🏛️</span>Founded 223 AD · rebuilt 304 AD</div>
-          <div class="pc-fact"><span class="pc-fact-i">🍜</span>Adjacent to Jinli Old Street for food</div>
-        </div>
-      </div>
-    </div>
-    <div class="place-card" style="--ca: #6a7c4a">
-      <img src="images/itinerary-19-434d4d2d.jpg" alt="Du Fu's Thatched Cottage" />
-      <div class="card-body">
-        <div class="pc-num">CD · 03</div>
-        <span class="pc-emoji">🏡</span>
-        <div class="pc-cn">杜甫草堂</div>
-        <div class="pc-en">Du Fu's Thatched Cottage</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">Where the Tang poet Du Fu lived in exile (759–762 AD), writing 240 of his 1,400 poems. A serene garden with lotus ponds and bamboo groves. The most knee-friendly site on the whole trip.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">✍️</span>Du Fu wrote here during the An Lushan Rebellion</div>
-          <div class="pc-fact"><span class="pc-fact-i">🍵</span>Traditional teahouses within the grounds</div>
-        </div>
-      </div>
+    <p class="pc-desc">A real mountain nature reserve, not a zoo. Pandas are most active 9–11:30am, tumbling around with spectacular indifference to onlookers. Buggy service available inside.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🐾</span>Active time: 09:00–11:30 only — arrive early</div>
+      <div class="pc-fact"><span class="pc-fact-i">🚐</span>Buggy service within reserve — easy on the knees</div>
+      <div class="pc-fact"><span class="pc-fact-i">📍</span>130km from Chengdu · ~1h 45m drive</div>
     </div>
   </div>
-</section>
+
+  <img src="images/itinerary-18-9c2cfe28.jpg" alt="Wuhou Temple" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--cd)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">⚔️</span>
+      <div>
+        <div class="pc-cn">武侯祠</div>
+        <div class="pc-en">Wuhou Temple</div>
+      </div>
+    </div>
+    <p class="pc-desc">A temple-museum for the heroes of the Three Kingdoms (220–280 AD). The great strategist Zhuge Liang is enshrined here — China's eternal symbol of wisdom and loyalty. Shaded gardens, gentle walking, many benches.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🏛️</span>Founded 223 AD · rebuilt 304 AD</div>
+      <div class="pc-fact"><span class="pc-fact-i">🍜</span>Adjacent to Jinli Old Street for food</div>
+    </div>
+  </div>
+
+  <div class="itin-place" style="--ca: var(--cd)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🏡</span>
+      <div>
+        <div class="pc-cn">杜甫草堂</div>
+        <div class="pc-en">Du Fu's Thatched Cottage</div>
+      </div>
+    </div>
+    <p class="pc-desc">Where the Tang poet Du Fu lived in exile (759–762 AD), writing 240 of his 1,400 poems. A serene garden with lotus ponds and bamboo groves. The most knee-friendly site on the whole trip.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">✍️</span>Du Fu wrote here during the An Lushan Rebellion</div>
+      <div class="pc-fact"><span class="pc-fact-i">🍵</span>Traditional teahouses within the grounds</div>
+    </div>
+  </div>
+</article>
 
 
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- WUSHAN & THREE GORGES -->
 <!-- ══════════════════════════════════════════════════════ -->
-<section class="city-section" id="wushan">
-  <div class="city-hero" style="background: linear-gradient(135deg, #3a1878 0%, #5a2898 60%, #280e58 100%);" data-char="巫">
-    <div class="city-hero-info">
-      <div class="city-stop-num">STOP 05 · DAYS 7 & 8</div>
-      <div class="city-dates">5–6 April 2026 · Sunday & Monday</div>
-      <div class="city-name-cn">巫山 · 三峡</div>
-      <div class="city-name-en">Wushan & the Three Gorges</div>
-      <div class="city-tag-pill">Yangtze River · The Gorges · 长江三峡</div>
-    </div>
-    <div class="city-hero-char">
-      <div class="char-block">
-        <div class="script-pair">
-          <div class="script-unit">
-            <div class="script-label">甲骨文<br>Oracle Bone</div>
-            <img src="images/itinerary-20-e7c24be9.jpg" alt="巫 oracle bone" class="script-img" />
-          </div>
-          <div class="script-arrow">→</div>
-          <div class="script-unit">
-            <div class="script-label">楷書<br>Ordinary Script</div>
-            <img src="images/itinerary-21-bb13d789.jpg" alt="巫 ordinary script" class="script-img" />
-          </div>
-        </div>
-        <div class="etym-text">
-          <strong>巫</strong> — a shaman with arms spread wide, a ritual object in each hand, caught mid-dance calling spirits. 巫山 means <em>Shaman Mountain</em> — named for what ancient peoples felt inside the gorge: the presence of something other than ordinary life.
-        </div>
+<div class="section-divide">
+  <div class="section-divide-bg">巫</div>
+  <h3>Down the Yangtze: <em>The Gorges</em></h3>
+  <p>From the Sichuan heartland into the shaman mountains</p>
+</div>
+
+<div id="wushan"></div>
+<article class="chapter">
+  <div class="chapter-rule">
+    <div class="chapter-rule-line"></div>
+    <div class="chapter-rule-ornament">巫</div>
+    <div class="chapter-rule-line"></div>
+  </div>
+  <div class="chapter-number">Stop 05 · Days 7 & 8</div>
+  <div class="chapter-context">📍 5–6 April 2026 · Sunday & Monday</div>
+  <h2>巫山 · 三峡<br><em>Wushan & the Three Gorges</em></h2>
+  <div class="chapter-cn">Yangtze River · The Gorges · 长江三峡</div>
+
+  <div class="itin-etym-block">
+    <div class="script-pair">
+      <div class="script-unit">
+        <div class="script-label">甲骨文<br>Oracle Bone</div>
+        <img src="images/itinerary-20-e7c24be9.jpg" alt="巫 oracle bone" class="script-img" loading="lazy" />
       </div>
+      <div class="script-arrow">→</div>
+      <div class="script-unit">
+        <div class="script-label">楷書<br>Ordinary Script</div>
+        <img src="images/itinerary-21-bb13d789.jpg" alt="巫 ordinary script" class="script-img" loading="lazy" />
+      </div>
+    </div>
+    <div class="etym-text">
+      <strong>巫</strong> — a shaman with arms spread wide, a ritual object in each hand, caught mid-dance calling spirits. 巫山 means <em>Shaman Mountain</em> — named for what ancient peoples felt inside the gorge: the presence of something other than ordinary life.
     </div>
   </div>
 
-  <div class="places-grid">
-    <div class="place-card" style="--ca: #3a8898">
-      <img src="images/itinerary-22-434d4d2d.jpg" alt="Little Three Gorges Cruise" />
-      <div class="card-body">
-        <div class="pc-num">WS · 01</div>
-        <span class="pc-emoji">🚢</span>
+  <img src="images/itinerary-22-434d4d2d.jpg" alt="Little Three Gorges Cruise" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--ws)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🚢</span>
+      <div>
         <div class="pc-cn">小三峡游船</div>
         <div class="pc-en">Little Three Gorges Cruise</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">A four-hour boat journey into the Daning River — sheer limestone cliffs hundreds of metres on both sides, wild macaque monkeys on the banks. Seated throughout. The most spectacular thing on the whole itinerary.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">⛵</span>Departures 09:00 and 14:00 from Wushan</div>
-          <div class="pc-fact"><span class="pc-fact-i">♿</span>Seated throughout — ideal for mobility</div>
-          <div class="pc-fact"><span class="pc-fact-i">🦅</span>Macaque monkeys on the banks, river eagles above</div>
-        </div>
       </div>
     </div>
-    <div class="place-card" style="--ca: #5a7898">
-      <img src="images/itinerary-23-434d4d2d.jpg" alt="Shennv Peak — The Goddess" />
-      <div class="card-body">
-        <div class="pc-num">WS · 02</div>
-        <span class="pc-emoji">🏔️</span>
-        <div class="pc-cn">神女峰</div>
-        <div class="pc-en">Shennv Peak — The Goddess</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">A solitary rock pinnacle with the unmistakable silhouette of a woman — Yao Ji, daughter of the Queen Mother of the West, who turned to stone rather than leave the mountains she loved. Shuttle buses to viewpoint.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🚌</span>Shuttle buses — no difficult walking needed</div>
-          <div class="pc-fact"><span class="pc-fact-i">☁️</span>Most dramatic in morning mist</div>
-        </div>
-      </div>
-    </div>
-    <div class="place-card" style="--ca: #7a6898">
-      <img src="images/itinerary-24-ff4204fd.jpg" alt="Baidicheng — White Emperor City" />
-      <div class="card-body">
-        <div class="pc-num">WS · 03</div>
-        <span class="pc-emoji">🏯</span>
-        <div class="pc-cn">白帝城</div>
-        <div class="pc-en">Baidicheng — White Emperor City</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">A temple-fortress on a rocky island at the mouth of Qutang Gorge. The poet Li Bai received his pardon from exile here at dawn in 762 AD and wrote one of China's most memorised poems. Views down the gorge are unforgettable.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">📜</span>Li Bai's 早发白帝城 written here, 762 AD</div>
-          <div class="pc-fact"><span class="pc-fact-i">🏝️</span>On a rocky island — reached by boat or bridge</div>
-          <div class="pc-fact"><span class="pc-fact-i">📍</span>At Fengjie — near your car pick-up point</div>
-        </div>
-      </div>
+    <p class="pc-desc">A four-hour boat journey into the Daning River — sheer limestone cliffs hundreds of metres on both sides, wild macaque monkeys on the banks. Seated throughout. The most spectacular thing on the whole itinerary.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">⛵</span>Departures 09:00 and 14:00 from Wushan</div>
+      <div class="pc-fact"><span class="pc-fact-i">♿</span>Seated throughout — ideal for mobility</div>
+      <div class="pc-fact"><span class="pc-fact-i">🦅</span>Macaque monkeys on the banks, river eagles above</div>
     </div>
   </div>
-</section>
+
+  <img src="images/itinerary-23-434d4d2d.jpg" alt="Shennv Peak — The Goddess" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--ws)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🏔️</span>
+      <div>
+        <div class="pc-cn">神女峰</div>
+        <div class="pc-en">Shennv Peak — The Goddess</div>
+      </div>
+    </div>
+    <p class="pc-desc">A solitary rock pinnacle with the unmistakable silhouette of a woman — Yao Ji, daughter of the Queen Mother of the West, who turned to stone rather than leave the mountains she loved. Shuttle buses to viewpoint.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🚌</span>Shuttle buses — no difficult walking needed</div>
+      <div class="pc-fact"><span class="pc-fact-i">☁️</span>Most dramatic in morning mist</div>
+    </div>
+  </div>
+
+  <img src="images/itinerary-24-ff4204fd.jpg" alt="Baidicheng — White Emperor City" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--ws)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🏯</span>
+      <div>
+        <div class="pc-cn">白帝城</div>
+        <div class="pc-en">Baidicheng — White Emperor City</div>
+      </div>
+    </div>
+    <p class="pc-desc">A temple-fortress on a rocky island at the mouth of Qutang Gorge. The poet Li Bai received his pardon from exile here at dawn in 762 AD and wrote one of China's most memorised poems. Views down the gorge are unforgettable.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">📜</span>Li Bai's 早发白帝城 written here, 762 AD</div>
+      <div class="pc-fact"><span class="pc-fact-i">🏝️</span>On a rocky island — reached by boat or bridge</div>
+      <div class="pc-fact"><span class="pc-fact-i">📍</span>At Fengjie — near your car pick-up point</div>
+    </div>
+  </div>
+</article>
 
 
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- YANGTZE INTERLUDE -->
 <!-- ══════════════════════════════════════════════════════ -->
-<section class="river-interlude">
-  <div class="river-char-block">
-    <div class="script-pair" style="margin-bottom: 16px;">
+<div class="section-divide" style="background: linear-gradient(160deg, #091620 0%, #0c1f30 40%, #0e1828 100%); border-top: 3px solid #2a6890;">
+  <div class="section-divide-bg" style="color: rgba(42,136,168,0.05);">江</div>
+  <h3 style="color: #60b8c8;">江 · <em>The Great River</em></h3>
+  <p>The Yangtze — and a sound older than any single civilisation</p>
+</div>
+
+<article class="chapter">
+  <div class="itin-etym-block" style="background: rgba(42,104,144,0.06); border-color: rgba(42,136,168,0.18);">
+    <div class="script-pair">
       <div class="script-unit">
         <div class="script-label">金文<br>Bronze Ware Script</div>
-        <img src="images/itinerary-25-f746e825.jpg" alt="江 bronze ware script" class="script-img" />
+        <img src="images/itinerary-25-f746e825.jpg" alt="江 bronze ware script" class="script-img" loading="lazy" />
       </div>
       <div class="script-arrow" style="color: rgba(42,136,168,0.4);">→</div>
       <div class="script-unit">
         <div class="script-label">楷書<br>Ordinary Script</div>
-        <img src="images/itinerary-26-7063d6b6.png" alt="江 ordinary script" class="script-img" />
+        <img src="images/itinerary-26-7063d6b6.png" alt="江 ordinary script" class="script-img" loading="lazy" />
       </div>
     </div>
-    <div class="etym-head" style="color: #60b8c8;">江 · The Great River · and the Ganges</div>
     <div class="etym-text">
       <strong>江</strong> is a phono-semantic compound: the water radical (氵, three flowing drops) on the left combined with 工 (gōng) which carries the sound. 江 specifically meant the great river of the south — the Yangtze — as distinct from 河 (hé), the Yellow River of the north. <strong>Remarkably</strong>, the Old Chinese pronunciation of 江 (<em>krong / klong</em>) is strikingly close to river names across Southeast Asia: Sanskrit <em>Gaṅgā</em> (the Ganges), Khmer <em>Mekong</em> (the great river), and the <em>-kong</em> root in many river names. The oldest sound for "great river in the south" may share a common origin older than any single civilisation.
     </div>
   </div>
-</section>
+</article>
 
 
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- CHONGQING -->
 <!-- ══════════════════════════════════════════════════════ -->
-<section class="city-section" id="chongqing">
-  <div class="city-hero" style="background: linear-gradient(135deg, #3a1878 0%, #5a2898 60%, #280e58 100%);" data-char="庆">
-    <div class="city-hero-info">
-      <div class="city-stop-num">STOP 06 · DAYS 8 & 9</div>
-      <div class="city-dates">6–7 April 2026 · Monday & Tuesday</div>
-      <div class="city-name-cn">重庆</div>
-      <div class="city-name-en">Chongqing</div>
-      <div class="city-tag-pill">Mountain Megalopolis · 山城</div>
-    </div>
-    <div class="city-hero-char">
-      <div class="char-block">
-        <div class="script-pair">
-          <div class="script-unit">
-            <div class="script-label">甲骨文<br>Oracle Bone</div>
-            <img src="images/itinerary-27-6d0cadf7.jpg" alt="庆 oracle bone" class="script-img" />
-          </div>
-          <div class="script-arrow">→</div>
-          <div class="script-unit">
-            <div class="script-label">楷書<br>Ordinary Script</div>
-            <img src="images/itinerary-28-6a86e4ec.png" alt="庆 ordinary script" class="script-img" />
-          </div>
-        </div>
-        <div class="etym-text">
-          <strong>庆</strong> — a person wearing a deer skin, with <em>heart</em> (心) beneath. The deer skin was a precious ceremonial gift — to arrive wearing one was to come bearing the most heartfelt congratulations. 重庆 means <em>"double celebration."</em>
-        </div>
+<div class="section-divide">
+  <div class="section-divide-bg">庆</div>
+  <h3>The Final City: <em>Double Celebration</em></h3>
+  <p>Where the Yangtze meets the Jialing — and where this journey ends</p>
+</div>
+
+<div id="chongqing"></div>
+<article class="chapter">
+  <div class="chapter-rule">
+    <div class="chapter-rule-line"></div>
+    <div class="chapter-rule-ornament">庆</div>
+    <div class="chapter-rule-line"></div>
+  </div>
+  <div class="chapter-number">Stop 06 · Days 8 & 9</div>
+  <div class="chapter-context">📍 6–7 April 2026 · Monday & Tuesday</div>
+  <h2>重庆<br><em>Chongqing</em></h2>
+  <div class="chapter-cn">Mountain Megalopolis · 山城</div>
+
+  <div class="itin-etym-block">
+    <div class="script-pair">
+      <div class="script-unit">
+        <div class="script-label">甲骨文<br>Oracle Bone</div>
+        <img src="images/itinerary-27-6d0cadf7.jpg" alt="庆 oracle bone" class="script-img" loading="lazy" />
       </div>
+      <div class="script-arrow">→</div>
+      <div class="script-unit">
+        <div class="script-label">楷書<br>Ordinary Script</div>
+        <img src="images/itinerary-28-6a86e4ec.png" alt="庆 ordinary script" class="script-img" loading="lazy" />
+      </div>
+    </div>
+    <div class="etym-text">
+      <strong>庆</strong> — a person wearing a deer skin, with <em>heart</em> (心) beneath. The deer skin was a precious ceremonial gift — to arrive wearing one was to come bearing the most heartfelt congratulations. 重庆 means <em>"double celebration."</em>
     </div>
   </div>
 
-  <div class="places-grid">
-    <div class="place-card" style="--ca: var(--cq)">
-      <img src="images/itinerary-29-434d4d2d.jpg" alt="Hongya Cave" />
-      <div class="card-body">
-        <div class="pc-num">CQ · 01</div>
-        <span class="pc-emoji">🏮</span>
+  <img src="images/itinerary-29-434d4d2d.jpg" alt="Hongya Cave" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--cq)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🏮</span>
+      <div>
         <div class="pc-cn">洪崖洞</div>
         <div class="pc-en">Hongya Cave</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">Eleven stacked floors of restaurants and bars built into a cliff face over the Jialing River, blazing with red lanterns at night. Said to have inspired Miyazaki's Spirited Away. Arrive at dusk.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🌆</span>Best at dusk — arrive around 6pm</div>
-          <div class="pc-fact"><span class="pc-fact-i">⚠️</span>Multiple levels involve stairs — plan the route carefully</div>
-        </div>
       </div>
     </div>
-    <div class="place-card" style="--ca: #c8944a">
-      <img src="images/itinerary-30-434d4d2d.jpg" alt="Jiefangbei Liberation Monument" />
-      <div class="card-body">
-        <div class="pc-num">CQ · 02</div>
-        <span class="pc-emoji">🗽</span>
-        <div class="pc-cn">解放碑</div>
-        <div class="pc-en">Jiefangbei Liberation Monument</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">Chongqing's Times Square — a 27-metre war memorial tower surrounded by neon-lit pedestrian streets humming until midnight. Street food, crowds, energy. Flat pedestrian zone — good for mobility.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🏗️</span>Built 1947, commemorating WWII victory</div>
-          <div class="pc-fact"><span class="pc-fact-i">🛍️</span>Flat pedestrian zone — good for mobility</div>
-        </div>
-      </div>
-    </div>
-    <div class="place-card" style="--ca: #a8904a">
-      <img src="images/itinerary-31-434d4d2d.jpg" alt="Liziba Monorail Station" />
-      <div class="card-body">
-        <div class="pc-num">CQ · 03</div>
-        <span class="pc-emoji">🚇</span>
-        <div class="pc-cn">李子坝轻轨站</div>
-        <div class="pc-en">Liziba Monorail Station</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">A metro line that passes directly through the 6th–8th floors of a residential apartment block. Residents hear trains through their walls. A 13-year-old will talk about this for years. Flat street-level viewing.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🚋</span>Active public Line 2 — trains every ~5 mins</div>
-          <div class="pc-fact"><span class="pc-fact-i">🚶</span>Street-level viewing platform — no climbing</div>
-        </div>
-      </div>
-    </div>
-    <div class="place-card" style="--ca: #4a8898">
-      <img src="images/itinerary-32-1f4b40fc.jpg" alt="Chaotianmen Confluence" />
-      <div class="card-body">
-        <div class="pc-num">CQ · 04</div>
-        <span class="pc-emoji">🌊</span>
-        <div class="pc-cn">朝天门</div>
-        <div class="pc-en">Chaotianmen</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">The headland where the Yangtze and Jialing rivers meet in a visible line of two different-coloured waters. One of the great river views in China. Lift access from the dock area.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🌊</span>Two rivers visibly meet — different colours of water</div>
-          <div class="pc-fact"><span class="pc-fact-i">🛗</span>Lift access available from riverside</div>
-        </div>
-      </div>
-    </div>
-    <div class="place-card" style="--ca: #7a6858">
-      <img src="images/itinerary-33-2d8d9193.jpg" alt="Eling Park" />
-      <div class="card-body">
-        <div class="pc-num">CQ · 05</div>
-        <div class="pc-badge badge-w">⚠ Steep terrain</div>
-        <span class="pc-emoji">🌃</span>
-        <div class="pc-cn">鹅岭公园</div>
-        <div class="pc-en">Eling Park</div>
-        <div class="pc-div"></div>
-        <p class="pc-desc">Panoramic hilltop view of Chongqing's cyberpunk skyline — skyscrapers on cliffsides, illuminated highways threading between mountains. Worth the climb for those who can manage it.</p>
-        <div class="pc-facts">
-          <div class="pc-fact"><span class="pc-fact-i">🦯</span>Involves inclines and steps — challenging for bad knees</div>
-          <div class="pc-fact"><span class="pc-fact-i">💡</span>Mum could rest at a riverside café while others climb</div>
-        </div>
-      </div>
+    <p class="pc-desc">Eleven stacked floors of restaurants and bars built into a cliff face over the Jialing River, blazing with red lanterns at night. Said to have inspired Miyazaki's Spirited Away. Arrive at dusk.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🌆</span>Best at dusk — arrive around 6pm</div>
+      <div class="pc-fact"><span class="pc-fact-i">⚠️</span>Multiple levels involve stairs — plan the route carefully</div>
     </div>
   </div>
-</section>
+
+  <div class="itin-place" style="--ca: var(--cq)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🗽</span>
+      <div>
+        <div class="pc-cn">解放碑</div>
+        <div class="pc-en">Jiefangbei Liberation Monument</div>
+      </div>
+    </div>
+    <p class="pc-desc">Chongqing's Times Square — a 27-metre war memorial tower surrounded by neon-lit pedestrian streets humming until midnight. Street food, crowds, energy. Flat pedestrian zone — good for mobility.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🏗️</span>Built 1947, commemorating WWII victory</div>
+      <div class="pc-fact"><span class="pc-fact-i">🛍️</span>Flat pedestrian zone — good for mobility</div>
+    </div>
+  </div>
+
+  <div class="itin-place" style="--ca: var(--cq)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🚇</span>
+      <div>
+        <div class="pc-cn">李子坝轻轨站</div>
+        <div class="pc-en">Liziba Monorail Station</div>
+      </div>
+    </div>
+    <p class="pc-desc">A metro line that passes directly through the 6th–8th floors of a residential apartment block. Residents hear trains through their walls. A 13-year-old will talk about this for years. Flat street-level viewing.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🚋</span>Active public Line 2 — trains every ~5 mins</div>
+      <div class="pc-fact"><span class="pc-fact-i">🚶</span>Street-level viewing platform — no climbing</div>
+    </div>
+  </div>
+
+  <img src="images/itinerary-32-1f4b40fc.jpg" alt="Chaotianmen Confluence" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--cq)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🌊</span>
+      <div>
+        <div class="pc-cn">朝天门</div>
+        <div class="pc-en">Chaotianmen</div>
+      </div>
+    </div>
+    <p class="pc-desc">The headland where the Yangtze and Jialing rivers meet in a visible line of two different-coloured waters. One of the great river views in China. Lift access from the dock area.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🌊</span>Two rivers visibly meet — different colours of water</div>
+      <div class="pc-fact"><span class="pc-fact-i">🛗</span>Lift access available from riverside</div>
+    </div>
+  </div>
+
+  <img src="images/itinerary-33-2d8d9193.jpg" alt="Eling Park" loading="lazy" />
+
+  <div class="itin-place" style="--ca: var(--cq)">
+    <div class="itin-place-head">
+      <span class="pc-emoji">🌃</span>
+      <div>
+        <div class="pc-cn">鹅岭公园</div>
+        <div class="pc-en">Eling Park</div>
+      </div>
+      <div class="pc-badge badge-w">⚠ Steep terrain</div>
+    </div>
+    <p class="pc-desc">Panoramic hilltop view of Chongqing's cyberpunk skyline — skyscrapers on cliffsides, illuminated highways threading between mountains. Worth the climb for those who can manage it.</p>
+    <div class="pc-facts">
+      <div class="pc-fact"><span class="pc-fact-i">🦯</span>Involves inclines and steps — challenging for bad knees</div>
+      <div class="pc-fact"><span class="pc-fact-i">💡</span>Mum could rest at a riverside café while others climb</div>
+    </div>
+  </div>
+</article>
 
 <footer>
   <p>一路顺风</p>
@@ -577,6 +608,8 @@
   <div class="footer-link-wrap">
     <a href="study.html">📖 Read China Study →</a>
   </div>
+  <div class="footer-attr">Prepared by Prajna & Tin Ead for Mark, Bec & Stan</div>
+  <div class="footer-updated">Last updated March 2026</div>
 </footer>
 
 <script>
@@ -585,14 +618,14 @@ function goTo(id) {
   if (el) window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 64, behavior: 'smooth' });
 }
 
-// Scroll reveal for cards
-const cards = document.querySelectorAll('.place-card');
+// Scroll reveal for chapters
+const chapters = document.querySelectorAll('.chapter');
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
   });
-}, { threshold: 0.08 });
-cards.forEach((c, i) => { c.style.transitionDelay = (i % 4) * 70 + 'ms'; obs.observe(c); });
+}, { threshold: 0.02 });
+chapters.forEach(c => obs.observe(c));
 
 // Active nav highlighting
 const sections = ['beijing','xian','dujiangyan','chengdu','wushan','chongqing'];
