@@ -895,8 +895,8 @@ footer .footer-updated {
 .chapter-rule-ornament { font-family: 'Noto Serif SC', serif; font-size: 22px; color: var(--gold); }
 .chapter-number { font-size: 10px; color: var(--gold); margin-bottom: 10px; }
 .chapter-context {
-  font-family: 'Inconsolata', monospace; font-size: 10px;
-  letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase;
+  font-family: 'Inconsolata', monospace; font-size: 13px;
+  letter-spacing: 0.15em; color: var(--dim); text-transform: uppercase;
   margin-bottom: 28px;
 }
 .chapter h2 {
@@ -1120,6 +1120,10 @@ footer .footer-updated {
 .itin-place-head .pc-badge {
   position: static; margin-left: auto; flex-shrink: 0;
 }
+.itin-place-img {
+  width: 100%; aspect-ratio: 16/9; object-fit: cover;
+  border-radius: var(--radius-sm); margin-bottom: 16px;
+}
 .itin-place .pc-desc {
   font-size: 15px; color: var(--mid);
   line-height: 1.8; margin-bottom: 16px;
@@ -1178,7 +1182,10 @@ footer .footer-updated {
   .char-block { padding: 18px; }
   .places-grid { grid-template-columns: 1fr; padding: 20px; gap: 16px; }
   .river-interlude { padding: 48px 24px; }
-  .sh-btn { font-size: 10px; padding: 8px 12px; min-height: 44px; min-width: 44px; }
+  .site-header { padding: 0 12px; gap: 4px; }
+  .sh-home { font-size: 11px; padding: 6px 8px; }
+  .sh-btn { font-size: 10px; padding: 8px 10px; min-height: 40px; min-width: 40px; }
+  .sh-switch { font-size: 10px; padding: 5px 10px; }
   .chapter { padding: 80px 20px 60px; }
   .fact-band { margin: 44px -20px; padding: 28px 20px; }
   .pull-quote { padding: 24px 20px; }
@@ -1198,5 +1205,7 @@ footer .footer-updated {
 
 @media (max-width: 420px) {
   .char-block { flex-direction: column; align-items: stretch; }
-  .sh-btn { font-size: 9px; padding: 8px 10px; }
+  .sh-btn { font-size: 9px; padding: 6px 8px; letter-spacing: 0.04em; }
+  .sh-home { font-size: 10px; padding: 6px; }
+  .sh-switch { font-size: 9px; padding: 4px 8px; }
 }
