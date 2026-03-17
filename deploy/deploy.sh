@@ -155,6 +155,9 @@ echo "[remote] Installing root workspace dependencies..."
 cd "\$DEPLOY_DIR"
 npm ci --omit=dev
 
+echo "[remote] Installing typescript (needed by Next.js to load next.config.ts)..."
+npm install typescript --no-save
+
 echo "[remote] Installing deps for apps with own lock files..."
 for app in jimfolio sweet-reach; do
     if [ -f "\$DEPLOY_DIR/apps/\$app/package-lock.json" ]; then
