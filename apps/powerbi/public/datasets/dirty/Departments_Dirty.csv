@@ -1,0 +1,505 @@
+,,,,
+Department List,,,,
+Last Updated: Mar 2026,,,,
+,,,,
+DeptID,Department,Manager,Budget,Location
+D001,Admin,E031,287008,Manchester - Floor 2
+D002,HR,E264,76777,Leeds - Floor 2
+D003,Sales,E200,222162,Remote
+D004,Compliance,E032,330981,Remote
+D005,IT,E090,382748,Manchester - Floor 1
+D006,Compliance,E244,364040,Leeds - Floor 2
+D007,IT,E310,414601,London - Floor 2
+D008,Finance,E317,168703,Manchester - Floor 2
+D009,Marketing,E173,396378,Bristol - Floor 1
+D010,IT,E080,300050,Leeds - Floor 2
+D011,Compliance,E466,190561,Bristol - Floor 1
+D012,Marketing,E227,342389,Manchester - Floor 1
+D013,Procurement 013,E382,140030,Bristol - Floor 1
+D014,Procurement 014,E293,343286,Manchester - Floor 2
+D015,IT 015,E288,269986,Bristol - Floor 1
+D016,Analytics 016,E422,71228,London - Floor 1
+D017,Admin 017,E408,394783,London - Floor 1
+D018,HR 018,E197,306724,Remote
+D019,Support 019,E170,232748,Manchester - Floor 2
+D020,Marketing 020,E491,347513,Leeds - Floor 2
+D021,Finance 021,E346,213937,London - Floor 1
+D022,IT 022,E236,323690,Remote
+D023,Finance 023,E280,338717,Remote
+D024,Admin 024,E080,423155,Bristol - Floor 1
+D025,Marketing 025,E306,319344,Manchester - Floor 1
+D026,Compliance 026,E373,117712,Manchester - Floor 1
+D027,Support 027,E375,255212,Manchester - Floor 2
+D028,Support 028,E229,180601,London - Floor 3
+D029,Admin 029,E017,233191,Bristol - Floor 1
+D030,Compliance 030,E298,341246,Leeds - Floor 2
+D031,Marketing 031,E354,129226,Manchester - Floor 2
+D032,Finance 032,E467,212773,London - Floor 3
+D033,Sales 033,E107,313453,London - Floor 2
+D034,Operations 034,E262,265116,Manchester - Floor 1
+D035,Procurement 035,E309,181084,London - Floor 2
+D036,Finance 036,E105,95330,London - Floor 3
+D037,Analytics 037,E096,154457,Leeds - Floor 2
+D038,Operations 038,E056,433661,Leeds - Floor 2
+D039,Procurement 039,E167,73889,Bristol - Floor 1
+D040,Finance 040,E288,360144,Leeds - Floor 2
+D041,Sales 041,E142,198770,Remote
+D042,Support 042,E291,93340,Bristol - Floor 1
+D043,Sales 043,E349,219329,London - Floor 3
+D044,IT 044,E230,321153,Leeds - Floor 2
+D045,Analytics 045,E090,322504,Manchester - Floor 2
+D046,Finance 046,E497,107321,Remote
+D047,Operations 047,E346,209481,Manchester - Floor 1
+D048,Compliance 048,E317,315150,London - Floor 2
+D049,Procurement 049,E121,246049,Manchester - Floor 2
+D050,Finance 050,E076,338266,London - Floor 1
+D051,Compliance 051,E388,368137,Remote
+D052,Operations 052,E276,449661,London - Floor 3
+D053,Analytics 053,E211,435183,London - Floor 3
+D054,Finance 054,E330,393811,Manchester - Floor 2
+D055,Procurement 055,E479,456094,London - Floor 1
+D056,Admin 056,E483,445272,Remote
+D057,Analytics 057,E008,423182,Manchester - Floor 2
+D058,IT 058,E349,178938,London - Floor 3
+D059,Sales 059,E144,272347,Manchester - Floor 2
+D060,Sales 060,E010,206607,Manchester - Floor 1
+D061,Admin 061,E016,111238,Leeds - Floor 2
+D062,Compliance 062,E360,232359,London - Floor 3
+D063,Analytics 063,E033,234751,Remote
+D064,Customer Success 064,E145,333966,Manchester - Floor 1
+D065,Marketing 065,E371,367891,London - Floor 3
+D066,Marketing 066,E008,131910,Leeds - Floor 2
+D067,Compliance 067,E385,436928,London - Floor 1
+D068,Analytics 068,E098,136486,London - Floor 2
+D069,Marketing 069,E378,61766,Remote
+D070,HR 070,E406,205229,London - Floor 3
+D071,Operations 071,E322,358012,Bristol - Floor 1
+D072,Admin 072,E384,107159,Manchester - Floor 1
+D073,Sales 073,E060,271007,Manchester - Floor 1
+D074,IT 074,E489,162845,Leeds - Floor 2
+D075,Admin 075,E332,109852,Bristol - Floor 1
+D076,Analytics 076,E189,84288,Manchester - Floor 2
+D077,Customer Success 077,E466,127120,Leeds - Floor 2
+D078,Analytics 078,E165,312682,London - Floor 2
+D079,Sales 079,E166,450397,Bristol - Floor 1
+D080,Support 080,E179,89187,Leeds - Floor 2
+D081,Marketing 081,E136,396915,London - Floor 1
+D082,Finance 082,E274,160528,London - Floor 1
+D083,HR 083,E318,400651,Bristol - Floor 1
+D084,Support 084,E318,170953,Bristol - Floor 1
+D085,Customer Success 085,E412,139614,Remote
+D086,HR 086,E442,338057,London - Floor 2
+D087,Compliance 087,E017,114539,Leeds - Floor 2
+D088,Compliance 088,E130,364320,Manchester - Floor 1
+D089,Finance 089,E368,208570,Manchester - Floor 2
+D090,Marketing 090,E339,317185,London - Floor 1
+D091,Sales 091,E332,386749,London - Floor 3
+D092,Sales 092,E055,100966,London - Floor 1
+D093,IT 093,E003,451554,London - Floor 3
+D094,HR 094,E388,338224,London - Floor 3
+D095,Sales 095,E196,429320,London - Floor 1
+D096,Finance 096,E302,370984,Leeds - Floor 2
+D097,Operations 097,E182,177675,London - Floor 2
+D098,Operations 098,E487,130129,London - Floor 1
+D099,Analytics 099,E071,81787,London - Floor 2
+D100,IT 100,E494,357554,London - Floor 3
+D101,Customer Success 101,E058,294953,London - Floor 1
+D102,Sales 102,E325,253522,Manchester - Floor 2
+D103,Analytics 103,E455,275227,Leeds - Floor 2
+D104,Procurement 104,E282,454328,Leeds - Floor 2
+D105,Operations 105,E356,348013,London - Floor 3
+D106,Marketing 106,E180,337137,London - Floor 3
+D107,Analytics 107,E456,264060,Leeds - Floor 2
+D108,Admin 108,E091,166276,Leeds - Floor 2
+D109,Operations 109,E115,165510,Bristol - Floor 1
+D110,IT 110,E385,366071,Bristol - Floor 1
+D111,IT 111,E202,411928,Leeds - Floor 2
+D112,Finance 112,E451,231674,Manchester - Floor 1
+D113,Finance 113,E359,62447,Bristol - Floor 1
+D114,Operations 114,E042,279567,Remote
+D115,Marketing 115,E083,226350,Manchester - Floor 1
+D116,HR 116,E444,251457,Manchester - Floor 2
+D117,Admin 117,E057,379481,Bristol - Floor 1
+D118,Marketing 118,E190,383076,Remote
+D119,IT 119,E299,65442,Bristol - Floor 1
+D120,Operations 120,E001,171429,London - Floor 1
+D121,Finance 121,E367,183045,London - Floor 1
+D122,Customer Success 122,E376,131470,Leeds - Floor 2
+D123,Compliance 123,E390,426462,Bristol - Floor 1
+D124,Procurement 124,E135,164709,London - Floor 2
+D125,Operations 125,E400,217685,London - Floor 1
+D126,HR 126,E220,196787,London - Floor 3
+D127,Marketing 127,E169,104966,Bristol - Floor 1
+D128,Customer Success 128,E433,150772,Manchester - Floor 2
+D129,Procurement 129,E461,158671,Leeds - Floor 2
+D130,IT 130,E218,192976,Remote
+D131,Admin 131,E307,144703,London - Floor 1
+D132,Procurement 132,E428,178606,London - Floor 1
+D133,Compliance 133,E012,260135,Manchester - Floor 1
+D134,Operations 134,E405,418037,Manchester - Floor 2
+D135,Procurement 135,E211,120968,Bristol - Floor 1
+D136,Finance 136,E473,455121,Leeds - Floor 2
+D137,Customer Success 137,E340,203654,Leeds - Floor 2
+D138,Admin 138,E007,107673,London - Floor 1
+D139,Finance 139,E415,356837,Manchester - Floor 2
+D140,Sales 140,E374,92952,London - Floor 1
+D141,Compliance 141,E048,277187,Remote
+D142,Customer Success 142,E192,304693,Manchester - Floor 1
+D143,Compliance 143,E158,180961,Leeds - Floor 2
+D144,Analytics 144,E412,358681,London - Floor 2
+D145,Procurement 145,E325,374847,Remote
+D146,HR 146,E176,246044,Bristol - Floor 1
+D147,Analytics 147,E466,274165,Leeds - Floor 2
+D148,Support 148,E462,323934,Leeds - Floor 2
+D149,Support 149,E195,421745,London - Floor 1
+D150,Marketing 150,E134,404744,Bristol - Floor 1
+D151,Compliance 151,E261,71797,London - Floor 2
+D152,Marketing 152,E429,316719,Manchester - Floor 1
+D153,Operations 153,E485,224612,Bristol - Floor 1
+D154,Support 154,E481,436512,London - Floor 2
+D155,HR 155,E318,340804,London - Floor 1
+D156,Sales 156,E025,272577,London - Floor 1
+D157,Marketing 157,E327,450856,Manchester - Floor 1
+D158,Admin 158,E452,200055,Remote
+D159,Admin 159,E018,84391,Manchester - Floor 1
+D160,Procurement 160,E052,170517,Manchester - Floor 1
+D161,IT 161,E133,72940,Remote
+D162,Sales 162,E390,241801,Bristol - Floor 1
+D163,HR 163,E053,338794,London - Floor 3
+D164,Analytics 164,E494,346956,Leeds - Floor 2
+D165,IT 165,E165,120323,Manchester - Floor 1
+D166,Analytics 166,E177,257144,London - Floor 3
+D167,Finance 167,E202,147327,London - Floor 1
+D168,Operations 168,E124,168342,Manchester - Floor 2
+D169,Sales 169,E486,239477,Leeds - Floor 2
+D170,Compliance 170,E139,86280,London - Floor 1
+D171,Finance 171,E237,156542,Leeds - Floor 2
+D172,Compliance 172,E179,377307,London - Floor 3
+D173,Operations 173,E365,73869,Remote
+D174,Support 174,E089,350823,London - Floor 2
+D175,Finance 175,E450,232108,London - Floor 3
+D176,Admin 176,E423,115560,London - Floor 1
+D177,Sales 177,E248,250066,London - Floor 3
+D178,Marketing 178,E343,180231,Leeds - Floor 2
+D179,Operations 179,E212,349417,London - Floor 3
+D180,Sales 180,E308,205155,Manchester - Floor 1
+D181,Sales 181,E429,104952,London - Floor 3
+D182,Sales 182,E475,155585,Manchester - Floor 1
+D183,Operations 183,E336,68631,Leeds - Floor 2
+D184,Marketing 184,E145,113508,Manchester - Floor 1
+D185,Support 185,E302,402946,London - Floor 1
+D186,Support 186,E116,252239,London - Floor 1
+D187,Admin 187,E197,304499,Manchester - Floor 2
+D188,Admin 188,E109,443016,London - Floor 2
+D189,Customer Success 189,E316,409455,London - Floor 2
+D190,HR 190,E019,159893,Bristol - Floor 1
+D191,Procurement 191,E051,239516,Remote
+D192,Admin 192,E421,435319,London - Floor 3
+D193,Customer Success 193,E143,314338,Manchester - Floor 2
+D194,Analytics 194,E065,106334,Manchester - Floor 1
+D195,Customer Success 195,E086,282864,Bristol - Floor 1
+D196,Compliance 196,E330,338083,London - Floor 3
+D197,Admin 197,E254,87848,Manchester - Floor 1
+D198,Admin 198,E117,284986,London - Floor 3
+D199,Customer Success 199,E440,438290,Manchester - Floor 1
+D200,Procurement 200,E477,400574,Manchester - Floor 2
+D201,Procurement 201,E038,327899,London - Floor 2
+D202,Operations 202,E084,408456,Manchester - Floor 1
+D203,Analytics 203,E029,145038,Leeds - Floor 2
+D204,Support 204,E342,302452,Bristol - Floor 1
+D205,IT 205,E385,385849,Remote
+D206,Finance 206,E221,337270,London - Floor 2
+D207,Analytics 207,E250,209762,London - Floor 3
+D208,Analytics 208,E019,350586,Leeds - Floor 2
+D209,Compliance 209,E333,442973,Bristol - Floor 1
+D210,IT 210,E457,161379,Remote
+D211,Operations 211,E073,349674,London - Floor 1
+D212,IT 212,E226,384034,Manchester - Floor 2
+D213,HR 213,E478,457797,Remote
+D214,Marketing 214,E250,172939,London - Floor 2
+D215,Sales 215,E400,391930,London - Floor 2
+D216,IT 216,E182,337606,Bristol - Floor 1
+D217,Marketing 217,E472,134329,Remote
+D218,Compliance 218,E202,316070,Remote
+D219,Compliance 219,E354,211422,Manchester - Floor 1
+D220,Compliance 220,E048,162324,London - Floor 2
+D221,Support 221,E048,253729,London - Floor 2
+D222,Customer Success 222,E494,257953,London - Floor 1
+D223,Procurement 223,E158,76720,Leeds - Floor 2
+D224,HR 224,E353,334489,Leeds - Floor 2
+D225,Sales 225,E371,249041,London - Floor 3
+D226,Customer Success 226,E141,216630,London - Floor 1
+D227,Compliance 227,E282,114292,London - Floor 3
+D228,Sales 228,E361,92395,Manchester - Floor 2
+D229,Compliance 229,E200,252889,London - Floor 2
+D230,Customer Success 230,E108,88004,Remote
+D231,IT 231,E364,437355,Manchester - Floor 2
+D232,Compliance 232,E174,375693,London - Floor 1
+D233,Admin 233,E237,286261,Manchester - Floor 1
+D234,Support 234,E326,296454,London - Floor 1
+D235,Customer Success 235,E263,240014,Leeds - Floor 2
+D236,Support 236,E029,245713,Bristol - Floor 1
+D237,Finance 237,E136,76527,London - Floor 2
+D238,Support 238,E067,264123,Leeds - Floor 2
+D239,Compliance 239,E480,161761,Remote
+D240,Procurement 240,E428,363621,Leeds - Floor 2
+D241,Sales 241,E469,347029,Bristol - Floor 1
+D242,Operations 242,E294,372506,London - Floor 1
+D243,Procurement 243,E053,166079,London - Floor 1
+D244,Support 244,E007,360104,London - Floor 3
+D245,Marketing 245,E094,232007,London - Floor 3
+D246,Finance 246,E071,251475,Manchester - Floor 1
+D247,Finance 247,E149,194351,London - Floor 3
+D248,Admin 248,E462,170881,Leeds - Floor 2
+D249,Finance 249,E015,231888,Bristol - Floor 1
+D250,Procurement 250,E066,291453,London - Floor 1
+D251,Finance 251,E150,109567,London - Floor 3
+D252,Admin 252,E404,394136,Manchester - Floor 1
+D253,Sales 253,E432,214060,Remote
+D254,Support 254,E061,449617,Manchester - Floor 2
+D255,Admin 255,E376,128758,Bristol - Floor 1
+D256,Operations 256,E363,217466,Remote
+D257,Support 257,E019,110869,London - Floor 3
+D258,HR 258,E012,292746,Leeds - Floor 2
+D259,Analytics 259,E275,444617,Remote
+D260,HR 260,E216,227261,London - Floor 2
+D261,Operations 261,E063,277922,London - Floor 3
+D262,HR 262,E360,91322,London - Floor 2
+D263,Compliance 263,E492,281787,Bristol - Floor 1
+D264,Finance 264,E200,339680,London - Floor 1
+D265,Compliance 265,E138,331819,Manchester - Floor 2
+D266,Marketing 266,E085,381766,Leeds - Floor 2
+D267,Operations 267,E039,265242,Manchester - Floor 2
+D268,Analytics 268,E429,89745,Bristol - Floor 1
+D269,Finance 269,E008,412482,Manchester - Floor 1
+D270,Analytics 270,E458,421821,Remote
+D271,Sales 271,E066,443781,Leeds - Floor 2
+D272,Customer Success 272,E333,382395,Remote
+D273,Operations 273,E152,420134,London - Floor 2
+D274,Analytics 274,E426,156627,Manchester - Floor 2
+D275,Finance 275,E498,381740,Remote
+D276,HR 276,E063,438968,London - Floor 3
+D277,Support 277,E460,180124,London - Floor 3
+D278,Finance 278,E256,403305,Remote
+D279,Operations 279,E016,151643,Manchester - Floor 1
+D280,Analytics 280,E442,333358,Manchester - Floor 2
+D281,Admin 281,E432,94048,Manchester - Floor 2
+D282,Customer Success 282,E373,347601,London - Floor 3
+D283,Analytics 283,E451,283550,London - Floor 3
+D284,Marketing 284,E254,125726,Bristol - Floor 1
+D285,Operations 285,E340,131512,Leeds - Floor 2
+D286,Compliance 286,E465,302137,Manchester - Floor 1
+D287,HR 287,E017,308273,London - Floor 1
+D288,IT 288,E146,359104,Remote
+D289,Operations 289,E029,299755,Bristol - Floor 1
+D290,Operations 290,E231,457845,London - Floor 1
+D291,Support 291,E221,211946,London - Floor 3
+D292,Admin 292,E171,431132,Manchester - Floor 1
+D293,Marketing 293,E114,112645,London - Floor 2
+D294,Support 294,E170,285960,Manchester - Floor 2
+D295,Marketing 295,E338,204246,Bristol - Floor 1
+D296,Marketing 296,E489,168040,Leeds - Floor 2
+D297,IT 297,E091,441379,Manchester - Floor 2
+D298,Analytics 298,E407,391104,Remote
+D299,Compliance 299,E134,68660,Manchester - Floor 2
+D300,Customer Success 300,E025,330448,London - Floor 2
+D301,HR 301,E113,269192,Remote
+D302,Compliance 302,E086,453028,London - Floor 3
+D303,Support 303,E067,284096,Leeds - Floor 2
+D304,Customer Success 304,E171,186069,Remote
+D305,Marketing 305,E197,71209,Bristol - Floor 1
+D306,HR 306,E381,428911,Manchester - Floor 2
+D307,Support 307,E331,379187,Remote
+D308,IT 308,E439,97500,Manchester - Floor 1
+D309,Customer Success 309,E006,439294,London - Floor 3
+D310,Procurement 310,E361,186289,Leeds - Floor 2
+D311,Sales 311,E425,82596,London - Floor 1
+D312,Marketing 312,E256,278399,Manchester - Floor 1
+D313,Compliance 313,E255,106128,London - Floor 1
+D314,Support 314,E372,244004,Leeds - Floor 2
+D315,Compliance 315,E328,384210,London - Floor 2
+D316,Support 316,E459,309859,Remote
+D317,Analytics 317,E128,245291,Remote
+D318,Analytics 318,E417,250046,Bristol - Floor 1
+D319,Support 319,E455,285360,Manchester - Floor 1
+D320,Finance 320,E082,167538,London - Floor 3
+D321,Compliance 321,E041,136480,Remote
+D322,Operations 322,E477,88396,Remote
+D323,Customer Success 323,E138,294495,Manchester - Floor 1
+D324,Support 324,E316,362020,Manchester - Floor 1
+D325,Admin 325,E222,279880,Bristol - Floor 1
+D326,Customer Success 326,E430,275282,Bristol - Floor 1
+D327,Finance 327,E019,381999,London - Floor 1
+D328,Finance 328,E136,380637,Manchester - Floor 2
+D329,Support 329,E248,417405,Remote
+D330,Support 330,E114,81181,Manchester - Floor 2
+D331,IT 331,E371,157472,Leeds - Floor 2
+D332,Admin 332,E255,454405,Manchester - Floor 2
+D333,HR 333,E475,137705,Bristol - Floor 1
+D334,Admin 334,E050,282935,Bristol - Floor 1
+D335,Customer Success 335,E390,99171,Remote
+D336,Finance 336,E332,297544,London - Floor 3
+D337,Operations 337,E328,186578,Manchester - Floor 1
+D338,IT 338,E450,323587,Manchester - Floor 2
+D339,Admin 339,E362,451475,Bristol - Floor 1
+D340,Support 340,E230,416598,Manchester - Floor 1
+D341,Admin 341,E122,105462,Remote
+D342,Sales 342,E362,348794,London - Floor 1
+D343,Compliance 343,E293,102501,Leeds - Floor 2
+D344,Marketing 344,E108,172288,London - Floor 3
+D345,IT 345,E100,223217,Remote
+D346,Sales 346,E126,148155,Manchester - Floor 2
+D347,Support 347,E366,108760,Leeds - Floor 2
+D348,Analytics 348,E349,98076,London - Floor 1
+D349,Operations 349,E245,452043,Bristol - Floor 1
+D350,Marketing 350,E079,63169,Leeds - Floor 2
+D351,Customer Success 351,E429,370926,London - Floor 2
+D352,Analytics 352,E436,160431,London - Floor 2
+D353,HR 353,E190,249540,London - Floor 3
+D354,Admin 354,E401,266160,Remote
+D355,Operations 355,E499,335148,London - Floor 1
+D356,Finance 356,E013,104005,Manchester - Floor 1
+D357,HR 357,E153,157426,London - Floor 2
+D358,Customer Success 358,E341,322340,London - Floor 1
+D359,Customer Success 359,E284,305409,Leeds - Floor 2
+D360,Analytics 360,E168,209434,Leeds - Floor 2
+D361,Customer Success 361,E461,276937,Manchester - Floor 2
+D362,Admin 362,E396,407286,Manchester - Floor 1
+D363,Marketing 363,E058,423980,Remote
+D364,Analytics 364,E493,169168,Bristol - Floor 1
+D365,Operations 365,E342,107133,London - Floor 2
+D366,Compliance 366,E378,280310,London - Floor 3
+D367,Procurement 367,E251,320305,Remote
+D368,Admin 368,E399,438079,London - Floor 2
+D369,Sales 369,E149,341913,London - Floor 2
+D370,Marketing 370,E321,115977,London - Floor 1
+D371,Admin 371,E098,365139,Bristol - Floor 1
+D372,Support 372,E441,307395,Bristol - Floor 1
+D373,Compliance 373,E466,289491,Manchester - Floor 1
+D374,Admin 374,E037,357672,London - Floor 2
+D375,IT 375,E393,293691,Bristol - Floor 1
+D376,Operations 376,E201,188278,Manchester - Floor 1
+D377,Operations 377,E442,123981,Bristol - Floor 1
+D378,Sales 378,E419,130656,Leeds - Floor 2
+D379,Admin 379,E326,170670,London - Floor 1
+D380,Finance 380,E115,355373,Remote
+D381,IT 381,E127,388933,London - Floor 2
+D382,IT 382,E099,341179,London - Floor 2
+D383,Marketing 383,E181,437912,Leeds - Floor 2
+D384,HR 384,E181,298732,London - Floor 3
+D385,Customer Success 385,E107,428465,London - Floor 1
+D386,HR 386,E117,337460,Bristol - Floor 1
+D387,Sales 387,E128,299857,Bristol - Floor 1
+D388,HR 388,E431,454002,Remote
+D389,Operations 389,E094,144526,London - Floor 3
+D390,Customer Success 390,E065,377785,London - Floor 2
+D391,Support 391,E274,250327,London - Floor 3
+D392,Compliance 392,E389,271364,London - Floor 3
+D393,Support 393,E150,422513,Remote
+D394,Procurement 394,E438,163818,London - Floor 1
+D395,Operations 395,E126,371570,Bristol - Floor 1
+D396,Admin 396,E477,334634,London - Floor 2
+D397,Operations 397,E124,277394,Bristol - Floor 1
+D398,Operations 398,E229,376206,London - Floor 3
+D399,Compliance 399,E129,163384,London - Floor 3
+D400,IT 400,E387,359433,London - Floor 3
+D401,Marketing 401,E417,388855,London - Floor 2
+D402,Compliance 402,E145,200264,Manchester - Floor 2
+D403,HR 403,E393,447855,Manchester - Floor 2
+D404,Finance 404,E361,234829,Manchester - Floor 2
+D405,Procurement 405,E397,236400,London - Floor 2
+D406,Customer Success 406,E172,354784,Bristol - Floor 1
+D407,Procurement 407,E021,69956,Manchester - Floor 1
+D408,Operations 408,E471,82800,Manchester - Floor 1
+D409,HR 409,E390,380021,Bristol - Floor 1
+D410,Compliance 410,E111,244658,Manchester - Floor 1
+D411,Analytics 411,E391,207921,Bristol - Floor 1
+D412,Sales 412,E406,191511,London - Floor 1
+D413,Customer Success 413,E395,118593,Remote
+D414,Admin 414,E137,256183,Bristol - Floor 1
+D415,IT 415,E245,321470,Manchester - Floor 1
+D416,Finance 416,E403,261863,London - Floor 2
+D417,Finance 417,E442,236471,London - Floor 1
+D418,Admin 418,E151,400163,Bristol - Floor 1
+D419,Compliance 419,E143,327119,London - Floor 3
+D420,IT 420,E111,303916,Manchester - Floor 2
+D421,Marketing 421,E253,345925,London - Floor 2
+D422,Support 422,E178,188812,London - Floor 3
+D423,Finance 423,E358,312744,London - Floor 3
+D424,Finance 424,E132,114472,London - Floor 2
+D425,HR 425,E487,81297,London - Floor 1
+D426,IT 426,E169,155824,Manchester - Floor 2
+D427,Admin 427,E084,127157,London - Floor 3
+D428,Compliance 428,E029,310593,Remote
+D429,Marketing 429,E294,121428,Manchester - Floor 1
+D430,Customer Success 430,E036,280656,London - Floor 3
+D431,Analytics 431,E373,78270,Leeds - Floor 2
+D432,Marketing 432,E346,389862,Leeds - Floor 2
+D433,Customer Success 433,E498,443610,London - Floor 2
+D434,Compliance 434,E445,107806,Bristol - Floor 1
+D435,IT 435,E454,229605,Bristol - Floor 1
+D436,Procurement 436,E396,89941,London - Floor 3
+D437,Operations 437,E473,281135,Remote
+D438,Admin 438,E317,233868,Remote
+D439,IT 439,E019,257863,Bristol - Floor 1
+D440,Compliance 440,E276,330737,London - Floor 2
+D441,Compliance 441,E055,165662,Bristol - Floor 1
+D442,Customer Success 442,E200,187325,Bristol - Floor 1
+D443,Admin 443,E161,314629,Leeds - Floor 2
+D444,HR 444,E090,175408,London - Floor 3
+D445,Compliance 445,E135,347757,London - Floor 1
+D446,Support 446,E279,94229,Remote
+D447,Support 447,E424,388543,London - Floor 1
+D448,HR 448,E098,244672,Bristol - Floor 1
+D449,IT 449,E132,364011,Remote
+D450,IT 450,E328,317626,London - Floor 2
+D451,IT 451,E289,399264,Manchester - Floor 1
+D452,Support 452,E299,137218,Remote
+D453,Finance 453,E145,320193,Remote
+D454,HR 454,E188,283847,Manchester - Floor 1
+D455,Operations 455,E469,93316,Bristol - Floor 1
+D456,Analytics 456,E255,329082,Manchester - Floor 1
+D457,Procurement 457,E055,166014,Bristol - Floor 1
+D458,Admin 458,E128,83944,London - Floor 3
+D459,Sales 459,E115,189191,Manchester - Floor 2
+D460,HR 460,E052,421814,London - Floor 3
+D461,Analytics 461,E351,152629,Remote
+D462,Admin 462,E445,67046,London - Floor 1
+D463,HR 463,E445,276068,Remote
+D464,HR 464,E305,229167,Manchester - Floor 2
+D465,Customer Success 465,E080,328106,Leeds - Floor 2
+D466,IT 466,E303,347058,Remote
+D467,Compliance 467,E201,225858,Bristol - Floor 1
+D468,Procurement 468,E242,128259,Remote
+D469,Support 469,E359,101290,Leeds - Floor 2
+D470,Procurement 470,E415,110862,Bristol - Floor 1
+D471,Customer Success 471,E413,76394,London - Floor 3
+D472,Admin 472,E174,240168,Bristol - Floor 1
+D473,HR 473,E460,149153,Bristol - Floor 1
+D474,Procurement 474,E192,381448,Manchester - Floor 2
+D475,Analytics 475,E358,351769,Bristol - Floor 1
+D476,Support 476,E076,427582,Manchester - Floor 2
+D477,HR 477,E374,311170,London - Floor 3
+D478,Support 478,E075,161204,Bristol - Floor 1
+D479,Analytics 479,E161,152251,Leeds - Floor 2
+D480,Procurement 480,E241,319428,London - Floor 1
+D481,Marketing 481,E457,268653,Manchester - Floor 2
+D482,Support 482,E434,437971,Manchester - Floor 1
+D483,Procurement 483,E468,332123,Remote
+D484,Finance 484,E424,412604,London - Floor 3
+D485,Marketing 485,E104,177698,London - Floor 3
+D486,IT 486,E062,379349,London - Floor 1
+D487,Sales 487,E481,332364,London - Floor 3
+D488,Finance 488,E491,134937,Leeds - Floor 2
+D489,Operations 489,E263,205015,Manchester - Floor 2
+D490,Admin 490,E153,289840,Bristol - Floor 1
+D491,Operations 491,E116,116888,Manchester - Floor 1
+D492,IT 492,E276,439625,Manchester - Floor 1
+D493,Analytics 493,E109,234429,Manchester - Floor 1
+D494,Marketing 494,E239,145734,London - Floor 3
+D495,Operations 495,E129,173591,Manchester - Floor 1
+D496,Sales 496,E266,152971,Leeds - Floor 2
+D497,HR 497,E320,283041,Remote
+D498,IT 498,E140,123122,London - Floor 1
+D499,Compliance 499,E256,289007,London - Floor 3
+D500,Admin 500,E494,190364,Manchester - Floor 2

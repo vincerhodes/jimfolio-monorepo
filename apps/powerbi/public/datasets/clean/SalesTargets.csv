@@ -1,0 +1,145 @@
+TargetID,Region,Category,Quarter,TargetAmount
+T0001,East,Furniture,Q1 2023,151297
+T0002,East,Office Supplies,Q1 2023,105054
+T0003,East,Technology,Q1 2023,189096
+T0004,North,Furniture,Q1 2023,154405
+T0005,North,Office Supplies,Q1 2023,89573
+T0006,North,Technology,Q1 2023,196763
+T0007,South,Furniture,Q1 2023,137349
+T0008,South,Office Supplies,Q1 2023,90814
+T0009,South,Technology,Q1 2023,158389
+T0010,West,Furniture,Q1 2023,139673
+T0011,West,Office Supplies,Q1 2023,79541
+T0012,West,Technology,Q1 2023,157768
+T0013,East,Furniture,Q2 2023,168423
+T0014,East,Office Supplies,Q2 2023,101852
+T0015,East,Technology,Q2 2023,210349
+T0016,North,Furniture,Q2 2023,152428
+T0017,North,Office Supplies,Q2 2023,97139
+T0018,North,Technology,Q2 2023,185150
+T0019,South,Furniture,Q2 2023,131483
+T0020,South,Office Supplies,Q2 2023,95655
+T0021,South,Technology,Q2 2023,192477
+T0022,West,Furniture,Q2 2023,140483
+T0023,West,Office Supplies,Q2 2023,88055
+T0024,West,Technology,Q2 2023,160675
+T0025,East,Furniture,Q3 2023,168593
+T0026,East,Office Supplies,Q3 2023,107667
+T0027,East,Technology,Q3 2023,221687
+T0028,North,Furniture,Q3 2023,178320
+T0029,North,Office Supplies,Q3 2023,107237
+T0030,North,Technology,Q3 2023,220970
+T0031,South,Furniture,Q3 2023,156570
+T0032,South,Office Supplies,Q3 2023,90240
+T0033,South,Technology,Q3 2023,203324
+T0034,West,Furniture,Q3 2023,152929
+T0035,West,Office Supplies,Q3 2023,99455
+T0036,West,Technology,Q3 2023,190447
+T0037,East,Furniture,Q4 2023,184955
+T0038,East,Office Supplies,Q4 2023,127700
+T0039,East,Technology,Q4 2023,221573
+T0040,North,Furniture,Q4 2023,177250
+T0041,North,Office Supplies,Q4 2023,118821
+T0042,North,Technology,Q4 2023,241953
+T0043,South,Furniture,Q4 2023,161739
+T0044,South,Office Supplies,Q4 2023,96671
+T0045,South,Technology,Q4 2023,218420
+T0046,West,Furniture,Q4 2023,155870
+T0047,West,Office Supplies,Q4 2023,103676
+T0048,West,Technology,Q4 2023,186518
+T0049,East,Furniture,Q1 2024,162226
+T0050,East,Office Supplies,Q1 2024,91670
+T0051,East,Technology,Q1 2024,201943
+T0052,North,Furniture,Q1 2024,140761
+T0053,North,Office Supplies,Q1 2024,85860
+T0054,North,Technology,Q1 2024,185970
+T0055,South,Furniture,Q1 2024,141518
+T0056,South,Office Supplies,Q1 2024,86980
+T0057,South,Technology,Q1 2024,173271
+T0058,West,Furniture,Q1 2024,118180
+T0059,West,Office Supplies,Q1 2024,88676
+T0060,West,Technology,Q1 2024,166785
+T0061,East,Furniture,Q2 2024,158051
+T0062,East,Office Supplies,Q2 2024,98064
+T0063,East,Technology,Q2 2024,220004
+T0064,North,Furniture,Q2 2024,144717
+T0065,North,Office Supplies,Q2 2024,99954
+T0066,North,Technology,Q2 2024,185651
+T0067,South,Furniture,Q2 2024,133423
+T0068,South,Office Supplies,Q2 2024,95879
+T0069,South,Technology,Q2 2024,194044
+T0070,West,Furniture,Q2 2024,129732
+T0071,West,Office Supplies,Q2 2024,88560
+T0072,West,Technology,Q2 2024,189031
+T0073,East,Furniture,Q3 2024,175491
+T0074,East,Office Supplies,Q3 2024,112727
+T0075,East,Technology,Q3 2024,234977
+T0076,North,Furniture,Q3 2024,163712
+T0077,North,Office Supplies,Q3 2024,106365
+T0078,North,Technology,Q3 2024,192642
+T0079,South,Furniture,Q3 2024,157259
+T0080,South,Office Supplies,Q3 2024,87514
+T0081,South,Technology,Q3 2024,195567
+T0082,West,Furniture,Q3 2024,147490
+T0083,West,Office Supplies,Q3 2024,96156
+T0084,West,Technology,Q3 2024,182855
+T0085,East,Furniture,Q4 2024,172739
+T0086,East,Office Supplies,Q4 2024,117853
+T0087,East,Technology,Q4 2024,257212
+T0088,North,Furniture,Q4 2024,166717
+T0089,North,Office Supplies,Q4 2024,113119
+T0090,North,Technology,Q4 2024,208330
+T0091,South,Furniture,Q4 2024,171837
+T0092,South,Office Supplies,Q4 2024,101288
+T0093,South,Technology,Q4 2024,203592
+T0094,West,Furniture,Q4 2024,160970
+T0095,West,Office Supplies,Q4 2024,103774
+T0096,West,Technology,Q4 2024,196722
+T0097,East,Furniture,Q1 2025,165120
+T0098,East,Office Supplies,Q1 2025,92816
+T0099,East,Technology,Q1 2025,204197
+T0100,North,Furniture,Q1 2025,148486
+T0101,North,Office Supplies,Q1 2025,88414
+T0102,North,Technology,Q1 2025,197392
+T0103,South,Furniture,Q1 2025,134523
+T0104,South,Office Supplies,Q1 2025,78563
+T0105,South,Technology,Q1 2025,169757
+T0106,West,Furniture,Q1 2025,138742
+T0107,West,Office Supplies,Q1 2025,77372
+T0108,West,Technology,Q1 2025,158190
+T0109,East,Furniture,Q2 2025,177372
+T0110,East,Office Supplies,Q2 2025,106658
+T0111,East,Technology,Q2 2025,214200
+T0112,North,Furniture,Q2 2025,159471
+T0113,North,Office Supplies,Q2 2025,95091
+T0114,North,Technology,Q2 2025,198676
+T0115,South,Furniture,Q2 2025,139461
+T0116,South,Office Supplies,Q2 2025,90653
+T0117,South,Technology,Q2 2025,195504
+T0118,West,Furniture,Q2 2025,130033
+T0119,West,Office Supplies,Q2 2025,79554
+T0120,West,Technology,Q2 2025,172596
+T0121,East,Furniture,Q3 2025,169871
+T0122,East,Office Supplies,Q3 2025,111683
+T0123,East,Technology,Q3 2025,228309
+T0124,North,Furniture,Q3 2025,154750
+T0125,North,Office Supplies,Q3 2025,96922
+T0126,North,Technology,Q3 2025,200593
+T0127,South,Furniture,Q3 2025,138604
+T0128,South,Office Supplies,Q3 2025,97498
+T0129,South,Technology,Q3 2025,199756
+T0130,West,Furniture,Q3 2025,141629
+T0131,West,Office Supplies,Q3 2025,93527
+T0132,West,Technology,Q3 2025,175659
+T0133,East,Furniture,Q4 2025,172477
+T0134,East,Office Supplies,Q4 2025,127045
+T0135,East,Technology,Q4 2025,228727
+T0136,North,Furniture,Q4 2025,179222
+T0137,North,Office Supplies,Q4 2025,115367
+T0138,North,Technology,Q4 2025,226064
+T0139,South,Furniture,Q4 2025,163726
+T0140,South,Office Supplies,Q4 2025,99515
+T0141,South,Technology,Q4 2025,189665
+T0142,West,Furniture,Q4 2025,167233
+T0143,West,Office Supplies,Q4 2025,92630
+T0144,West,Technology,Q4 2025,206788

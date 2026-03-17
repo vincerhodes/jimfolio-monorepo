@@ -1,0 +1,241 @@
+ProductID,ProductName,Category,UnitPrice
+P0001,Paper Pack Plus,Office Supplies,49.23
+P0002,Monitor Max,Technology,1243.84
+P0003,Laptop Dock Core,Technology,815.18
+P0004,Laptop Dock Advanced,Technology,928.75
+P0005,Table Pro,Furniture,602.23
+P0006,Label Roll Core,Office Supplies,90.64
+P0007,Mouse Plus,Technology,717.24
+P0008,Webcam Core,Technology,209.12
+P0009,Notebook Plus,Office Supplies,150.99
+P0010,Cabinet Pro,Furniture,620.86
+P0011,Folder Set Plus,Office Supplies,149.08
+P0012,Projector Plus,Technology,200.65
+P0013,Keyboard Advanced,Technology,94.04
+P0014,Bookshelf Pro,Furniture,242.81
+P0015,Pen Bundle Plus,Office Supplies,59.55
+P0016,Chair Core,Furniture,589.65
+P0017,Cabinet Pro 17,Furniture,823.14
+P0018,Notebook Plus 18,Office Supplies,15.26
+P0019,Notebook Max,Office Supplies,53.76
+P0020,Notebook Max 20,Office Supplies,123.22
+P0021,Mouse Pro,Technology,617.49
+P0022,Marker Set Core,Office Supplies,23.75
+P0023,Notebook Advanced,Office Supplies,146.32
+P0024,Folder Set Max,Office Supplies,167.87
+P0025,Laptop Dock Compact,Technology,1309.53
+P0026,Router Plus,Technology,1058.90
+P0027,Folder Set Pro,Office Supplies,108.79
+P0028,Webcam Pro,Technology,954.88
+P0029,Sticky Notes Core,Office Supplies,167.89
+P0030,Storage Rack Max,Furniture,549.29
+P0031,Drawer Unit Advanced,Furniture,143.05
+P0032,Desk Max,Furniture,722.15
+P0033,Folder Set Max 33,Office Supplies,128.27
+P0034,Paper Pack Pro,Office Supplies,29.99
+P0035,Notebook Max 35,Office Supplies,161.43
+P0036,Notebook Plus 36,Office Supplies,22.45
+P0037,Planner Compact,Office Supplies,93.15
+P0038,Drawer Unit Pro,Furniture,378.61
+P0039,Headset Max,Technology,554.12
+P0040,Webcam Pro 40,Technology,151.31
+P0041,Mouse Plus 41,Technology,129.17
+P0042,Pen Bundle Core,Office Supplies,52.18
+P0043,Label Roll Advanced,Office Supplies,95.58
+P0044,Headset Advanced,Technology,67.97
+P0045,Marker Set Pro,Office Supplies,98.91
+P0046,Storage Rack Pro,Furniture,705.69
+P0047,Table Pro 47,Furniture,934.90
+P0048,Mouse Compact,Technology,1266.91
+P0049,Router Plus 49,Technology,1094.82
+P0050,Storage Rack Compact,Furniture,321.60
+P0051,Router Advanced,Technology,951.24
+P0052,Webcam Compact,Technology,555.54
+P0053,Label Roll Plus,Office Supplies,67.95
+P0054,Projector Compact,Technology,214.72
+P0055,Router Pro,Technology,345.87
+P0056,Bookshelf Plus,Furniture,145.67
+P0057,Folder Set Core,Office Supplies,9.21
+P0058,Laptop Dock Compact 58,Technology,673.68
+P0059,Notebook Advanced 59,Office Supplies,27.31
+P0060,Bookshelf Plus 60,Furniture,955.35
+P0061,Bookshelf Max,Furniture,279.82
+P0062,Folder Set Advanced,Office Supplies,134.97
+P0063,Router Compact,Technology,552.53
+P0064,Label Roll Core 64,Office Supplies,31.06
+P0065,Router Core,Technology,546.59
+P0066,Paper Pack Plus 66,Office Supplies,99.54
+P0067,Label Roll Advanced 67,Office Supplies,65.90
+P0068,Laptop Dock Advanced 68,Technology,1047.86
+P0069,Desk Advanced,Furniture,429.50
+P0070,Folder Set Compact,Office Supplies,29.12
+P0071,Laptop Dock Advanced 71,Technology,976.79
+P0072,Webcam Max,Technology,540.62
+P0073,Workstation Plus,Furniture,815.35
+P0074,Drawer Unit Core,Furniture,230.22
+P0075,Notebook Pro,Office Supplies,179.94
+P0076,Folder Set Pro 76,Office Supplies,148.60
+P0077,Laptop Dock Plus,Technology,1183.20
+P0078,Webcam Core 78,Technology,848.33
+P0079,Pen Bundle Plus 79,Office Supplies,92.83
+P0080,Desk Pro,Furniture,225.12
+P0081,Projector Advanced,Technology,323.23
+P0082,Label Roll Advanced 82,Office Supplies,34.53
+P0083,Keyboard Compact,Technology,638.75
+P0084,Router Plus 84,Technology,1204.64
+P0085,Mouse Max,Technology,640.29
+P0086,Pen Bundle Core 86,Office Supplies,17.16
+P0087,Laptop Dock Core 87,Technology,428.29
+P0088,Table Compact,Furniture,612.10
+P0089,Chair Advanced,Furniture,901.95
+P0090,Desk Pro 90,Furniture,500.01
+P0091,Storage Rack Max 91,Furniture,363.34
+P0092,Router Max,Technology,1232.40
+P0093,Webcam Core 93,Technology,189.48
+P0094,Storage Rack Core,Furniture,478.47
+P0095,Storage Rack Plus,Furniture,516.78
+P0096,Table Max,Furniture,426.70
+P0097,Storage Rack Core 97,Furniture,942.77
+P0098,Marker Set Advanced,Office Supplies,109.65
+P0099,Laptop Dock Core 99,Technology,1127.16
+P0100,Router Core 100,Technology,1079.17
+P0101,Headset Core,Technology,1170.27
+P0102,Projector Advanced 102,Technology,510.95
+P0103,Chair Pro,Furniture,525.60
+P0104,Paper Pack Core,Office Supplies,134.77
+P0105,Folder Set Pro 105,Office Supplies,125.17
+P0106,Notebook Advanced 106,Office Supplies,14.56
+P0107,Headset Compact,Technology,386.85
+P0108,Sticky Notes Compact,Office Supplies,141.17
+P0109,Bookshelf Core,Furniture,692.92
+P0110,Webcam Plus,Technology,584.53
+P0111,Notebook Pro 111,Office Supplies,92.88
+P0112,Paper Pack Plus 112,Office Supplies,71.21
+P0113,Pen Bundle Advanced,Office Supplies,90.77
+P0114,Router Max 114,Technology,1351.38
+P0115,Paper Pack Core 115,Office Supplies,12.50
+P0116,Headset Advanced 116,Technology,419.14
+P0117,Webcam Max 117,Technology,96.51
+P0118,Notebook Max 118,Office Supplies,17.20
+P0119,Drawer Unit Compact,Furniture,351.07
+P0120,Storage Rack Pro 120,Furniture,591.48
+P0121,Pen Bundle Pro,Office Supplies,111.95
+P0122,Router Max 122,Technology,46.89
+P0123,Label Roll Advanced 123,Office Supplies,72.61
+P0124,Planner Core,Office Supplies,172.06
+P0125,Headset Pro,Technology,115.75
+P0126,Chair Pro 126,Furniture,805.39
+P0127,Folder Set Plus 127,Office Supplies,15.15
+P0128,Keyboard Max,Technology,644.71
+P0129,Planner Compact 129,Office Supplies,78.37
+P0130,Headset Pro 130,Technology,774.70
+P0131,Webcam Advanced,Technology,1019.89
+P0132,Drawer Unit Max,Furniture,317.19
+P0133,Drawer Unit Compact 133,Furniture,529.73
+P0134,Table Plus,Furniture,240.76
+P0135,Monitor Advanced,Technology,1042.84
+P0136,Pen Bundle Pro 136,Office Supplies,48.07
+P0137,Monitor Max 137,Technology,825.38
+P0138,Mouse Core,Technology,1247.87
+P0139,Paper Pack Max,Office Supplies,19.14
+P0140,Router Core 140,Technology,121.24
+P0141,Mouse Compact 141,Technology,1056.85
+P0142,Headset Plus,Technology,1319.14
+P0143,Paper Pack Compact,Office Supplies,157.81
+P0144,Bookshelf Plus 144,Furniture,584.91
+P0145,Drawer Unit Pro 145,Furniture,435.29
+P0146,Projector Compact 146,Technology,1144.90
+P0147,Router Pro 147,Technology,1199.26
+P0148,Workstation Core,Furniture,693.41
+P0149,Marker Set Core 149,Office Supplies,89.84
+P0150,Desk Plus,Furniture,498.61
+P0151,Monitor Compact,Technology,1236.71
+P0152,Drawer Unit Plus,Furniture,310.15
+P0153,Folder Set Compact 153,Office Supplies,128.38
+P0154,Planner Plus,Office Supplies,25.18
+P0155,Desk Compact,Furniture,540.49
+P0156,Pen Bundle Plus 156,Office Supplies,135.37
+P0157,Planner Plus 157,Office Supplies,91.62
+P0158,Storage Rack Pro 158,Furniture,681.63
+P0159,Storage Rack Pro 159,Furniture,525.97
+P0160,Projector Plus 160,Technology,1104.61
+P0161,Laptop Dock Compact 161,Technology,51.34
+P0162,Folder Set Plus 162,Office Supplies,90.98
+P0163,Notebook Advanced 163,Office Supplies,63.68
+P0164,Desk Max 164,Furniture,215.03
+P0165,Marker Set Advanced 165,Office Supplies,126.18
+P0166,Mouse Core 166,Technology,278.54
+P0167,Label Roll Compact,Office Supplies,114.73
+P0168,Bookshelf Advanced,Furniture,298.27
+P0169,Planner Max,Office Supplies,98.35
+P0170,Router Max 170,Technology,1171.53
+P0171,Monitor Pro,Technology,329.24
+P0172,Folder Set Plus 172,Office Supplies,50.04
+P0173,Mouse Plus 173,Technology,133.54
+P0174,Cabinet Plus,Furniture,977.28
+P0175,Notebook Pro 175,Office Supplies,90.34
+P0176,Paper Pack Plus 176,Office Supplies,128.17
+P0177,Workstation Pro,Furniture,346.85
+P0178,Marker Set Pro 178,Office Supplies,26.14
+P0179,Monitor Pro 179,Technology,836.18
+P0180,Chair Plus,Furniture,742.31
+P0181,Drawer Unit Advanced 181,Furniture,622.94
+P0182,Chair Core 182,Furniture,807.78
+P0183,Workstation Pro 183,Furniture,536.08
+P0184,Label Roll Max,Office Supplies,44.11
+P0185,Planner Advanced,Office Supplies,131.99
+P0186,Projector Advanced 186,Technology,996.04
+P0187,Marker Set Plus,Office Supplies,108.88
+P0188,Drawer Unit Pro 188,Furniture,780.72
+P0189,Projector Core,Technology,58.77
+P0190,Webcam Compact 190,Technology,1260.12
+P0191,Planner Core 191,Office Supplies,49.67
+P0192,Drawer Unit Plus 192,Furniture,853.32
+P0193,Drawer Unit Advanced 193,Furniture,499.49
+P0194,Notebook Max 194,Office Supplies,153.83
+P0195,Webcam Max 195,Technology,1245.10
+P0196,Sticky Notes Core 196,Office Supplies,55.56
+P0197,Chair Max,Furniture,375.54
+P0198,Mouse Advanced,Technology,1235.86
+P0199,Workstation Core 199,Furniture,346.08
+P0200,Cabinet Core,Furniture,753.26
+P0201,Bookshelf Max 201,Furniture,632.50
+P0202,Folder Set Core 202,Office Supplies,19.62
+P0203,Mouse Core 203,Technology,343.31
+P0204,Marker Set Core 204,Office Supplies,15.12
+P0205,Webcam Plus 205,Technology,935.54
+P0206,Desk Compact 206,Furniture,505.85
+P0207,Monitor Plus,Technology,1072.78
+P0208,Paper Pack Core 208,Office Supplies,132.77
+P0209,Mouse Max 209,Technology,1343.94
+P0210,Laptop Dock Pro,Technology,1384.66
+P0211,Pen Bundle Advanced 211,Office Supplies,106.53
+P0212,Planner Core 212,Office Supplies,137.62
+P0213,Label Roll Advanced 213,Office Supplies,129.90
+P0214,Pen Bundle Pro 214,Office Supplies,62.64
+P0215,Planner Advanced 215,Office Supplies,82.08
+P0216,Mouse Pro 216,Technology,1097.30
+P0217,Planner Core 217,Office Supplies,105.68
+P0218,Notebook Pro 218,Office Supplies,80.84
+P0219,Cabinet Compact,Furniture,712.53
+P0220,Table Max 220,Furniture,216.72
+P0221,Cabinet Compact 221,Furniture,446.95
+P0222,Table Max 222,Furniture,504.35
+P0223,Notebook Plus 223,Office Supplies,96.02
+P0224,Keyboard Pro,Technology,727.86
+P0225,Folder Set Compact 225,Office Supplies,83.98
+P0226,Marker Set Compact,Office Supplies,24.76
+P0227,Router Plus 227,Technology,571.12
+P0228,Label Roll Core 228,Office Supplies,65.05
+P0229,Sticky Notes Advanced,Office Supplies,101.23
+P0230,Cabinet Plus 230,Furniture,504.60
+P0231,Table Pro 231,Furniture,446.10
+P0232,Projector Plus 232,Technology,693.60
+P0233,Planner Max 233,Office Supplies,168.01
+P0234,Sticky Notes Max,Office Supplies,9.04
+P0235,Sticky Notes Pro,Office Supplies,29.27
+P0236,Folder Set Plus 236,Office Supplies,80.81
+P0237,Paper Pack Max 237,Office Supplies,166.08
+P0238,Webcam Max 238,Technology,1242.93
+P0239,Sticky Notes Pro 239,Office Supplies,160.30
+P0240,Projector Pro,Technology,407.80

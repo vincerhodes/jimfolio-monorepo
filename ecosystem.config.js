@@ -62,10 +62,11 @@ module.exports = {
     {
       name: "powerbi",
       cwd: "./apps/powerbi",
-      script: "npx",
-      args: "serve -l 3107",
+      script: "npm",
+      args: "start",
       env: {
-        NODE_ENV: "production"
+        NODE_ENV: "production",
+        PORT: 3107
       }
     },
     {
