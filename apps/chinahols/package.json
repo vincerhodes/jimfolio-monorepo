@@ -3,7 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node -e \"const h=require('http'),f=require('fs'),p=require('path');const m={'.html':'text/html','.css':'text/css','.js':'application/javascript','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.gif':'image/gif','.webp':'image/webp','.svg':'image/svg+xml','.ico':'image/x-icon','.json':'application/json','.pdf':'application/pdf'};h.createServer((q,r)=>{let u=q.url.split('?')[0];u=u==='/'?'/index.html':u;const fp=p.join(__dirname,decodeURIComponent(u));f.readFile(fp,(e,d)=>{if(e){r.writeHead(404);r.end('Not found');return}r.writeHead(200,{'Content-Type':m[p.extname(fp)]||'application/octet-stream'});r.end(d)})}).listen(process.env.PORT||3106,()=>console.log('Serving on http://localhost:'+(process.env.PORT||3106)))\"",
-    "start": "node -e \"const h=require('http'),f=require('fs'),p=require('path');const m={'.html':'text/html','.css':'text/css','.js':'application/javascript','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.gif':'image/gif','.webp':'image/webp','.svg':'image/svg+xml','.ico':'image/x-icon','.json':'application/json','.pdf':'application/pdf'};h.createServer((q,r)=>{let u=q.url.split('?')[0];u=u==='/'||u==='/chinahols'||u==='/chinahols/'?'/index.html':u.replace('/chinahols','');const fp=p.join(__dirname,decodeURIComponent(u));f.readFile(fp,(e,d)=>{if(e){r.writeHead(404);r.end('Not found');return}r.writeHead(200,{'Content-Type':m[p.extname(fp)]||'application/octet-stream'});r.end(d)})}).listen(process.env.PORT||3106,process.env.HOST||'localhost',()=>console.log('Serving on http://'+(process.env.HOST||'localhost')+':'+(process.env.PORT||3106)))\""
+    "dev": "next dev -p 3106",
+    "build": "next build",
+    "start": "next start -p 3106",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "16.0.3",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
   }
 }
