@@ -21,7 +21,7 @@ function transformMarkup(markup: string) {
   return markup
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
     .replace(/\s+onclick="goTo\('([^']+)'\)"/g, ' data-go-to="$1"')
-    .replace(/\shref="(index\.html|itinerary\.html|study\.html|planning\.html|index-archive\.html)"/g, (_, href: string) => ` href="${linkMap[href]}"`)
+    .replace(/\shref="(index\.html|itinerary\.html|study\.html|planning\.html|index-archive\.html)(#[^"]*)?"/g, (_, href: string, hash?: string) => ` href="${linkMap[href]}${hash ?? ""}"`)
     .replace(/\ssrc="images\/([^"]+)"/g, ` src="${BASE_PATH}/images/$1"`)
     .replace(/\shref="originalpdfs\/([^"]+)"/g, ` href="${BASE_PATH}/originalpdfs/$1"`);
 }

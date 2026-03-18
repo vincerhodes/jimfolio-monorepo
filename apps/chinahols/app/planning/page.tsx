@@ -3,7 +3,7 @@ import LegacyHtmlPage from "@/components/LegacyHtmlPage";
 
 export const metadata: Metadata = {
   title: "China Planning & Packing Guide 2026",
-  description: "Planning, weather, and packing guide for Mark, Beck, and Stan.",
+  description: "Planning, weather, and packing guide for Mark, Bec, and Stan.",
 };
 
 const sections = ["overview", "weather", "packing", "beijing", "xian", "dujiangyan", "chengdu", "wushan", "chongqing"];

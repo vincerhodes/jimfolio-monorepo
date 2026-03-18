@@ -1148,6 +1148,10 @@ footer .footer-updated {
 
 .landing-link-bar {
   margin: -8px auto 40px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
   animation: fadeUp 0.5s ease-out 1.7s both;
 }
 .landing-quick-link {

@@ -29,10 +29,10 @@
   <div class="hero-label">Planning & packing guide · 准备</div>
   <h1><span class="kinetic-word" style="animation-delay:0.3s">Plan</span> <span class="kinetic-word" style="animation-delay:0.5s">the</span> <span class="kinetic-word" style="animation-delay:0.7s">trip,</span><br><em><span class="kinetic-word" style="animation-delay:1.0s">pack smart</span></em></h1>
   <div class="hero-divider"></div>
-  <p class="hero-sub">For Mark, Beck & Stan — two adults and one 13-year-old travelling 30 March to 9 April 2026. Expect cool northern mornings, mild Sichuan afternoons, and warmer, more humid river-city evenings by the end of the journey.</p>
+  <p class="hero-sub">For Mark, Bec & Stan — two adults and one 13-year-old travelling 30 March to 9 April 2026. Expect cool northern mornings, mild Sichuan afternoons, and warmer, more humid river-city evenings by the end of the journey.</p>
   <div class="hero-chapters">
-    <button class="chapter-pill" onclick="goTo('weather')">Weather at a glance</button>
-    <button class="chapter-pill" onclick="goTo('packing')">Interactive checklist</button>
+    <button class="chapter-pill" onclick="goTo('overview')">Planning guide overview</button>
+    <button class="chapter-pill" onclick="goTo('packing')">Jump to packing checklist</button>
     <button class="chapter-pill" onclick="goTo('beijing')">Place-by-place notes</button>
     <button class="chapter-pill" onclick="goTo('chongqing')">Final city strategy</button>
   </div>
@@ -52,7 +52,7 @@
   <div class="prose">
     <p>This trip does not need heavy winter luggage and it does not need summer gear. The smart approach is layered spring packing: breathable tops for active afternoons, one genuinely useful warm layer for early mornings and breezy viewpoints, and a lightweight waterproof outer layer for Sichuan and the Yangtze stretch.</p>
     <p>The route starts coolest in Beijing and Xi'an, where exposed stone sites and the Great Wall can feel fresh first thing in the morning. It then softens in Dujiangyan and Chengdu, where the air is greener and slightly damper, before turning warmer and more humid around Wushan and Chongqing. That means one suitcase strategy can work for the whole journey: comfortable walking clothes, easy layers, broken-in shoes, and compact day bags rather than bulky extras.</p>
-    <p>For Mark, Beck, and Stan, I would pack for long sightseeing days, a few early starts, occasional drizzle, and plenty of snacks, water, tissues, and charging power on hand. The best family travel gear on this route is the gear that keeps everyone comfortable without making every transfer feel heavy.</p>
+    <p>For Mark, Bec, and Stan, I would pack for long sightseeing days, a few early starts, occasional drizzle, and plenty of snacks, water, tissues, and charging power on hand. The best family travel gear on this route is the gear that keeps everyone comfortable without making every transfer feel heavy.</p>
   </div>
   <div class="fact-band">
     <div class="fact-item">
@@ -205,10 +205,11 @@
   <div class="chapter-number">Interactive packing guide</div>
   <div class="chapter-context">Tick items off as you prepare</div>
   <h2>The family packing list,<br><em>done properly</em></h2>
-  <div class="chapter-cn">行李清单 · Mark, Beck & Stan</div>
+  <div class="chapter-cn">行李清单 · Mark, Bec & Stan</div>
   <div class="prose">
     <p>The sweet spot for this trip is a capsule wardrobe plus a well-run day bag. Aim for repeat-wear basics in easy colours, one warm layer per person, one light rain layer per person, and comfortable shoes that are already proven. Formal outfits are optional; practical comfort is not.</p>
     <p>Stan is old enough to carry his own essentials and entertainment, which will make travel days smoother for everyone. The adults should split the critical items between bags: documents, medicine, charging gear, and emergency cash should never all live in one place.</p>
+    <p>Also, because this household somehow contains tea devotees travelling with coffee drinkers, pack the teabag of choice before anyone stages a diplomatic incident. Mark and Stan can bring their race faces for sim racing and any surprise karting detour, while Bec should absolutely arrive with shopping energy and a little spare bag space.</p>
   </div>
   <div class="planning-grid">
     <section class="guide-card">
@@ -225,7 +226,7 @@
     </section>
     <section class="guide-card">
       <h3>What not to overpack</h3>
-      <p>Heavy coats, bulky jumpers, multiple spare shoes, and lots of dressy clothing that will just ride around unused.</p>
+      <p>Heavy coats, bulky jumpers, multiple spare shoes, and lots of dressy clothing that will just ride around unused. Save a bit of room in Bec's case for shopping wins.</p>
     </section>
   </div>
   <div class="checklist-shell">
@@ -264,7 +265,7 @@
         <h3>Core clothing for everyone</h3>
         <p>Enough for layers and repeat wear, without loading the bags down.</p>
         <label class="packing-check"><input type="checkbox" id="pack-mark-tops"><span>Mark: 5 to 6 easy tops packed</span></label>
-        <label class="packing-check"><input type="checkbox" id="pack-beck-tops"><span>Beck: 5 to 6 easy tops packed</span></label>
+        <label class="packing-check"><input type="checkbox" id="pack-beck-tops"><span>Bec: 5 to 6 easy tops packed</span></label>
         <label class="packing-check"><input type="checkbox" id="pack-stan-tops"><span>Stan: 5 to 6 easy tops packed</span></label>
         <label class="packing-check"><input type="checkbox" id="pack-trousers"><span>Two pairs of long trousers each</span></label>
         <label class="packing-check"><input type="checkbox" id="pack-midlayers"><span>One warm mid-layer each</span></label>
@@ -311,6 +312,14 @@
         <label class="packing-check"><input type="checkbox" id="pack-stan-cable"><span>Stan: charging cable or charging plan for his devices</span></label>
         <label class="packing-check"><input type="checkbox" id="pack-stan-bag"><span>Stan: small backpack packed with his own essentials</span></label>
         <label class="packing-check"><input type="checkbox" id="pack-stan-layer"><span>Stan: one spare top and socks easy to reach on travel days</span></label>
+      </section>
+      <section class="checklist-card">
+        <h3>Family-specific extras</h3>
+        <p>The serious planning bits, plus the very important extras that would absolutely be mentioned if forgotten.</p>
+        <label class="packing-check"><input type="checkbox" id="pack-tea"><span>Favourite teabags packed, because the coffee drinkers are apparently travelling with proper tea standards</span></label>
+        <label class="packing-check"><input type="checkbox" id="pack-mark-race"><span>Mark: race face ready for sim racing and any surprise karting chance</span></label>
+        <label class="packing-check"><input type="checkbox" id="pack-stan-race"><span>Stan: race face ready for sim rigs, karts, and general speed-related excitement</span></label>
+        <label class="packing-check"><input type="checkbox" id="pack-bec-shop"><span>Bec: shopping energy ready and a bit of suitcase space reserved</span></label>
       </section>
     </div>
   </div>
@@ -507,7 +516,7 @@
   <div class="footer-link-wrap">
     <a href="itinerary.html">🗺 View China Itinerary →</a>
   </div>
-  <div class="footer-attr">Prepared for Mark, Beck & Stan</div>
+  <div class="footer-attr">Prepared for Mark, Bec & Stan</div>
   <div class="footer-updated">Last updated March 2026</div>
 </footer>
 <script>
