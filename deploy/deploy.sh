@@ -1,15 +1,23 @@
 #!/bin/bash
 # =============================================================================
-# Jimfolio Monorepo - Local Deployment Script
+# Jimfolio Monorepo - Deployment Script
 # =============================================================================
-# Usage: ./deploy/deploy.sh [--message "commit message"] [--skip-git] [--skip-build]
+# Usage: ./deploy/deploy.sh [--message "commit message"] [--skip-git]
+#
+# Strategy: git push locally, then SSH → git pull + build on VPS.
+# This avoids large tarball SCP transfers that can stall on slow connections.
 #
 # Steps:
 #   1. Git commit all outstanding changes and push to GitHub
-#   2. Build all apps via Turbo
-#   3. Package everything into a tarball (no node_modules)
-#   4. SCP tarball to VPS
-#   5. SSH into VPS and run remote-deploy.sh
+#   2. SSH into VPS: git pull, full npm ci, sequential Prisma+build for each
+#      Prisma app (sweet-reach then veriflow) to avoid client conflicts, then
+#      build remaining apps, set up runtime node_modules, reload PM2.
+#
+# Prisma isolation note:
+#   sweet-reach and veriflow both write to the same root node_modules/@prisma/client.
+#   Fix: build sweet-reach (with its Prisma client) first, then overwrite with
+#   veriflow's client and build veriflow. After the build, sweet-reach gets its
+#   own node_modules via npm ci --omit=dev so it has an isolated runtime client.
 # =============================================================================
 
 set -euo pipefail
@@ -19,8 +27,6 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 VPS_HOST="jimfolio"                           # SSH alias from ~/.ssh/config
 VPS_DEPLOY_DIR="/home/jimmy/jimfolio-monorepo"
-VPS_TARBALL_PATH="/tmp/jimfolio-deploy.tar.gz"
-LOCAL_TARBALL="/tmp/jimfolio-deploy.tar.gz"
 SSH_READY_ATTEMPTS=12
 SSH_READY_DELAY=20
 
@@ -61,7 +67,6 @@ wait_for_ssh() {
 # ---------------------------------------------------------------------------
 COMMIT_MSG="chore: deploy $(date +'%Y-%m-%d %H:%M')"
 SKIP_GIT=false
-SKIP_BUILD=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -69,8 +74,6 @@ while [[ $# -gt 0 ]]; do
             COMMIT_MSG="$2"; shift 2 ;;
         --skip-git)
             SKIP_GIT=true; shift ;;
-        --skip-build)
-            SKIP_BUILD=true; shift ;;
         *)
             error "Unknown argument: $1" ;;
     esac
@@ -88,7 +91,7 @@ info "Repo root: $REPO_ROOT"
 # Step 1 — Git commit & push
 # ---------------------------------------------------------------------------
 if [ "$SKIP_GIT" = false ]; then
-    log "Step 1/5: Committing and pushing to GitHub..."
+    log "Step 1/2: Committing and pushing to GitHub..."
     cd "$REPO_ROOT"
 
     git add -A
@@ -104,118 +107,61 @@ if [ "$SKIP_GIT" = false ]; then
     git push origin "$CURRENT_BRANCH"
     log "Pushed branch '$CURRENT_BRANCH' to origin."
 else
-    warn "Step 1/5: Skipping git (--skip-git flag set)."
+    warn "Step 1/2: Skipping git (--skip-git flag set)."
 fi
 
 # ---------------------------------------------------------------------------
-# Step 2 — Build
+# Step 2 — Remote deploy via git pull + build on VPS
 # ---------------------------------------------------------------------------
-if [ "$SKIP_BUILD" = false ]; then
-    log "Step 2/5: Building all apps via Turbo..."
-    cd "$REPO_ROOT"
-    npm run build
-    log "Build complete."
-else
-    warn "Step 2/5: Skipping build (--skip-build flag set)."
-fi
-
-# ---------------------------------------------------------------------------
-# Step 3 — Create tarball
-# ---------------------------------------------------------------------------
-log "Step 3/5: Creating deployment tarball..."
-cd "$REPO_ROOT"
-
-# Include everything except node_modules, .git, turbo cache, and temp files.
-# Build artefacts (.next/*, dist/*) ARE included because we built locally.
-tar --exclude='./node_modules' \
-    --exclude='./.git' \
-    --exclude='./.turbo' \
-    --exclude='./apps/*/node_modules' \
-    --exclude='./apps/*/.next/cache' \
-    --exclude='./packages/*/node_modules' \
-    --exclude='./apps/veriflow/prisma/production.db' \
-    --exclude='./apps/sweet-reach/sweet-reach-data' \
-    --exclude='*.log' \
-    -czf "$LOCAL_TARBALL" \
-    .
-
-TARBALL_SIZE=$(du -sh "$LOCAL_TARBALL" | cut -f1)
-log "Tarball created: $LOCAL_TARBALL ($TARBALL_SIZE)"
-
-# ---------------------------------------------------------------------------
-# Step 4 — Transfer to VPS
-# ---------------------------------------------------------------------------
-log "Step 4/5: Uploading tarball to VPS..."
-wait_for_ssh "before upload"
-scp "$LOCAL_TARBALL" "${VPS_HOST}:${VPS_TARBALL_PATH}"
-log "Upload complete."
-
-# ---------------------------------------------------------------------------
-# Step 5 — Remote deploy
-# ---------------------------------------------------------------------------
-log "Step 5/5: Running remote deploy on VPS..."
+log "Step 2/2: Running remote deploy on VPS (git pull + build)..."
 wait_for_ssh "before remote deploy"
-ssh "$VPS_HOST" bash << ENDSSH
+
+ssh "$VPS_HOST" bash << 'ENDSSH'
 set -euo pipefail
 
-TARBALL="${VPS_TARBALL_PATH}"
-DEPLOY_DIR="${VPS_DEPLOY_DIR}"
-BACKUP_DIR="/tmp/jimfolio-backup-\$(date +'%Y%m%d-%H%M%S')"
+DEPLOY_DIR="/home/jimmy/jimfolio-monorepo"
 
-echo "[remote] Backing up source files to \$BACKUP_DIR ..."
-if [ -d "\$DEPLOY_DIR" ]; then
-    mkdir -p "\$BACKUP_DIR"
-    rsync -a --exclude='node_modules' --exclude='.next' --exclude='.turbo' \
-        "\$DEPLOY_DIR/" "\$BACKUP_DIR/" 2>/dev/null || true
-fi
+echo "[remote] Pulling latest code..."
+cd "$DEPLOY_DIR"
+git pull origin main
 
-echo "[remote] Unpacking tarball..."
-mkdir -p "\$DEPLOY_DIR"
-tar -xzf "\$TARBALL" -C "\$DEPLOY_DIR"
+echo "[remote] Installing all deps (including devDeps needed for build)..."
+npm ci
 
-echo "[remote] Installing root workspace dependencies..."
-cd "\$DEPLOY_DIR"
-rm -rf "\$DEPLOY_DIR/node_modules"
-npm ci --omit=dev
+echo "[remote] === Building sweet-reach (Prisma first, then build) ==="
+(cd "$DEPLOY_DIR/apps/sweet-reach" && npx prisma generate)
+npx turbo run build --filter=@jimfolio/sweet-reach
 
-echo "[remote] Installing typescript (needed by Next.js to load next.config.ts)..."
-npm install typescript --no-save
+echo "[remote] === Building veriflow (Prisma second, overwrites root client) ==="
+(cd "$DEPLOY_DIR/apps/veriflow" && npx prisma generate)
+npx turbo run build --filter=@jimfolio/veriflow
 
-echo "[remote] Installing deps for apps with own lock files..."
-for app in jimfolio sweet-reach; do
-    if [ -f "\$DEPLOY_DIR/apps/\$app/package-lock.json" ]; then
-        echo "[remote]   -> \$app"
-        cd "\$DEPLOY_DIR/apps/\$app"
-        rm -rf "\$DEPLOY_DIR/apps/\$app/node_modules"
-        npm ci --omit=dev
-    fi
-done
-cd "\$DEPLOY_DIR"
+echo "[remote] === Building all other apps ==="
+npx turbo run build \
+    --filter=!@jimfolio/sweet-reach \
+    --filter=!@jimfolio/veriflow
 
-echo "[remote] Generating Prisma clients..."
-(cd "\$DEPLOY_DIR/apps/sweet-reach" && npx prisma generate) || true
-(cd "\$DEPLOY_DIR/apps/veriflow"    && npx prisma generate) || true
+echo "[remote] === Runtime setup: sweet-reach gets isolated node_modules ==="
+rm -rf "$DEPLOY_DIR/apps/sweet-reach/node_modules"
+(cd "$DEPLOY_DIR/apps/sweet-reach" && npm ci --omit=dev)
+(cd "$DEPLOY_DIR/apps/sweet-reach" && npx prisma generate)
+echo "[remote] sweet-reach runtime Prisma: OK"
 
-echo "[remote] Reloading PM2 processes..."
-cd "\$DEPLOY_DIR"
-if pm2 list | grep -q 'jimfolio'; then
+echo "[remote] === Veriflow runtime Prisma (uses root node_modules) ==="
+(cd "$DEPLOY_DIR/apps/veriflow" && npx prisma generate)
+echo "[remote] veriflow runtime Prisma: OK"
+
+echo "[remote] === Reloading PM2 ==="
+if pm2 list | grep -q 'online'; then
     pm2 reload ecosystem.config.js --update-env
 else
     pm2 start ecosystem.config.js
 fi
 pm2 save
 
-echo "[remote] Cleaning up tarball..."
-rm -f "\$TARBALL"
-
 echo "[remote] Done."
 pm2 list
 ENDSSH
-
-# ---------------------------------------------------------------------------
-# Cleanup local tarball
-# ---------------------------------------------------------------------------
-rm -f "$LOCAL_TARBALL"
 
 log ""
 log "==========================================="
