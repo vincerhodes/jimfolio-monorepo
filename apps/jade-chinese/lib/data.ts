@@ -1,0 +1,364 @@
+export type Word = {
+  zh: string;
+  py: string;
+  en: string;
+  cat: string;
+};
+
+export type Lesson = {
+  id: string;
+  title: string;
+  description: string;
+  hsk: number;
+  words: Word[];
+};
+
+export type VocabWord = Word & {
+  hsk: number;
+  lesson: string;
+};
+
+export type Phrase = {
+  zh: string;
+  py: string;
+  en: string;
+  cat: string;
+};
+
+export type NumberEntry = {
+  n: number;
+  zh: string;
+  py: string;
+};
+
+export type LargeNumber = {
+  zh: string;
+  py: string;
+  en: string;
+};
+
+export const lessons: Lesson[] = [
+  {
+    id: 'hsk1-greetings',
+    title: 'Greetings & Basics',
+    description: 'Your very first Mandarin words',
+    hsk: 1,
+    words: [
+      { zh: '你好',   py: 'nǐ hǎo',    en: 'Hello',         cat: 'Greetings' },
+      { zh: '谢谢',   py: 'xiè xiè',   en: 'Thank you',     cat: 'Greetings' },
+      { zh: '对不起', py: 'duì bu qǐ', en: 'Sorry',         cat: 'Greetings' },
+      { zh: '再见',   py: 'zài jiàn',  en: 'Goodbye',       cat: 'Greetings' },
+      { zh: '是',     py: 'shì',       en: 'To be / Yes',   cat: 'Basics' },
+      { zh: '不',     py: 'bù',        en: 'No / Not',      cat: 'Basics' },
+      { zh: '号',     py: 'hào',       en: 'Number / Size', cat: 'Basics' },
+    ],
+  },
+  {
+    id: 'hsk1-pronouns',
+    title: 'Pronouns & Questions',
+    description: 'Referring to people and asking questions',
+    hsk: 1,
+    words: [
+      { zh: '我',   py: 'wǒ',       en: 'I / Me',              cat: 'Pronouns' },
+      { zh: '你',   py: 'nǐ',       en: 'You',                 cat: 'Pronouns' },
+      { zh: '他',   py: 'tā',       en: 'He / Him',            cat: 'Pronouns' },
+      { zh: '她',   py: 'tā',       en: 'She / Her',           cat: 'Pronouns' },
+      { zh: '我们', py: 'wǒ men',   en: 'We / Us',             cat: 'Pronouns' },
+      { zh: '他们', py: 'tā men',   en: 'They / Them',         cat: 'Pronouns' },
+      { zh: '什么', py: 'shén me',  en: 'What',                cat: 'Questions' },
+      { zh: '哪',   py: 'nǎ',       en: 'Which / Where',       cat: 'Questions' },
+      { zh: '哪儿', py: 'nǎr',      en: 'Where',               cat: 'Questions' },
+      { zh: '谁',   py: 'shuí',     en: 'Who',                 cat: 'Questions' },
+      { zh: '几',   py: 'jǐ',       en: 'How many (small)',    cat: 'Questions' },
+      { zh: '多少', py: 'duō shao', en: 'How many / How much', cat: 'Questions' },
+      { zh: '怎么', py: 'zěn me',   en: 'How',                 cat: 'Questions' },
+    ],
+  },
+  {
+    id: 'hsk1-family',
+    title: 'Family & People',
+    description: 'Family members and common social roles',
+    hsk: 1,
+    words: [
+      { zh: '爸爸', py: 'bà ba',     en: 'Dad / Father',    cat: 'Family' },
+      { zh: '妈妈', py: 'mā ma',     en: 'Mom / Mother',    cat: 'Family' },
+      { zh: '哥哥', py: 'gē ge',     en: 'Older brother',   cat: 'Family' },
+      { zh: '姐姐', py: 'jiě jie',   en: 'Older sister',    cat: 'Family' },
+      { zh: '弟弟', py: 'dì di',     en: 'Younger brother', cat: 'Family' },
+      { zh: '妹妹', py: 'mèi mei',   en: 'Younger sister',  cat: 'Family' },
+      { zh: '朋友', py: 'péng yǒu',  en: 'Friend',          cat: 'People' },
+      { zh: '老师', py: 'lǎo shī',   en: 'Teacher',         cat: 'People' },
+      { zh: '学生', py: 'xué shēng', en: 'Student',         cat: 'People' },
+    ],
+  },
+  {
+    id: 'hsk1-places',
+    title: 'Places',
+    description: 'Common locations you will visit or talk about',
+    hsk: 1,
+    words: [
+      { zh: '中国', py: 'zhōng guó',  en: 'China',              cat: 'Places' },
+      { zh: '学校', py: 'xué xiào',   en: 'School',             cat: 'Places' },
+      { zh: '家',   py: 'jiā',        en: 'Home / Family',      cat: 'Places' },
+      { zh: '饭店', py: 'fàn diàn',   en: 'Restaurant / Hotel', cat: 'Places' },
+      { zh: '医院', py: 'yī yuàn',    en: 'Hospital',           cat: 'Places' },
+      { zh: '商店', py: 'shāng diàn', en: 'Shop / Store',       cat: 'Places' },
+    ],
+  },
+  {
+    id: 'hsk1-verbs',
+    title: 'Everyday Verbs',
+    description: 'Essential action words for daily life',
+    hsk: 1,
+    words: [
+      { zh: '吃',   py: 'chī',      en: 'To eat',              cat: 'Verbs' },
+      { zh: '喝',   py: 'hē',       en: 'To drink',            cat: 'Verbs' },
+      { zh: '说',   py: 'shuō',     en: 'To speak / To say',   cat: 'Verbs' },
+      { zh: '看',   py: 'kàn',      en: 'To look / To watch',  cat: 'Verbs' },
+      { zh: '听',   py: 'tīng',     en: 'To listen',           cat: 'Verbs' },
+      { zh: '写',   py: 'xiě',      en: 'To write',            cat: 'Verbs' },
+      { zh: '读',   py: 'dú',       en: 'To read',             cat: 'Verbs' },
+      { zh: '学习', py: 'xué xí',   en: 'To study / To learn', cat: 'Verbs' },
+      { zh: '工作', py: 'gōng zuò', en: 'To work / Work',      cat: 'Verbs' },
+      { zh: '爱',   py: 'ài',       en: 'To love / Love',      cat: 'Verbs' },
+      { zh: '有',   py: 'yǒu',      en: 'To have',             cat: 'Verbs' },
+      { zh: '来',   py: 'lái',      en: 'To come',             cat: 'Verbs' },
+      { zh: '去',   py: 'qù',       en: 'To go',               cat: 'Verbs' },
+      { zh: '回',   py: 'huí',      en: 'To return',           cat: 'Verbs' },
+      { zh: '买',   py: 'mǎi',      en: 'To buy',              cat: 'Verbs' },
+    ],
+  },
+  {
+    id: 'hsk1-adjectives',
+    title: 'Adjectives',
+    description: 'Describing people, things and feelings',
+    hsk: 1,
+    words: [
+      { zh: '好',   py: 'hǎo',      en: 'Good / Well',    cat: 'Adjectives' },
+      { zh: '大',   py: 'dà',       en: 'Big / Large',    cat: 'Adjectives' },
+      { zh: '小',   py: 'xiǎo',     en: 'Small / Little', cat: 'Adjectives' },
+      { zh: '多',   py: 'duō',      en: 'Many / Much',    cat: 'Adjectives' },
+      { zh: '少',   py: 'shǎo',     en: 'Few / Little',   cat: 'Adjectives' },
+      { zh: '冷',   py: 'lěng',     en: 'Cold',           cat: 'Adjectives' },
+      { zh: '热',   py: 'rè',       en: 'Hot',            cat: 'Adjectives' },
+      { zh: '高兴', py: 'gāo xìng', en: 'Happy',          cat: 'Adjectives' },
+    ],
+  },
+  {
+    id: 'hsk1-food-time',
+    title: 'Food & Time',
+    description: 'Food vocabulary and talking about when',
+    hsk: 1,
+    words: [
+      { zh: '水',   py: 'shuǐ',      en: 'Water',     cat: 'Food & Drink' },
+      { zh: '茶',   py: 'chá',       en: 'Tea',       cat: 'Food & Drink' },
+      { zh: '米饭', py: 'mǐ fàn',    en: 'Rice',      cat: 'Food & Drink' },
+      { zh: '面条', py: 'miàn tiáo', en: 'Noodles',   cat: 'Food & Drink' },
+      { zh: '苹果', py: 'píng guǒ',  en: 'Apple',     cat: 'Food & Drink' },
+      { zh: '今天', py: 'jīn tiān',  en: 'Today',     cat: 'Time' },
+      { zh: '明天', py: 'míng tiān', en: 'Tomorrow',  cat: 'Time' },
+      { zh: '昨天', py: 'zuó tiān',  en: 'Yesterday', cat: 'Time' },
+      { zh: '现在', py: 'xiàn zài',  en: 'Now',       cat: 'Time' },
+      { zh: '年',   py: 'nián',      en: 'Year',      cat: 'Time' },
+      { zh: '月',   py: 'yuè',       en: 'Month',     cat: 'Time' },
+      { zh: '日',   py: 'rì',        en: 'Day',       cat: 'Time' },
+    ],
+  },
+  {
+    id: 'hsk1-shopping',
+    title: 'Shopping & Language',
+    description: 'Money, shopping, and talking about languages',
+    hsk: 1,
+    words: [
+      { zh: '钱',   py: 'qián',      en: 'Money',            cat: 'Shopping' },
+      { zh: '块',   py: 'kuài',      en: 'Yuan (spoken)',    cat: 'Shopping' },
+      { zh: '中文', py: 'zhōng wén', en: 'Chinese language', cat: 'Language' },
+      { zh: '英语', py: 'yīng yǔ',   en: 'English language', cat: 'Language' },
+    ],
+  },
+  {
+    id: 'hsk2-health',
+    title: 'Health & Body',
+    description: 'Body parts and health-related vocabulary',
+    hsk: 2,
+    words: [
+      { zh: '身体', py: 'shēn tǐ',  en: 'Body / Health', cat: 'Health' },
+      { zh: '头',   py: 'tóu',      en: 'Head',          cat: 'Health' },
+      { zh: '眼睛', py: 'yǎn jīng', en: 'Eyes',          cat: 'Health' },
+      { zh: '耳朵', py: 'ěr duǒ',   en: 'Ears',          cat: 'Health' },
+      { zh: '手',   py: 'shǒu',     en: 'Hand',          cat: 'Health' },
+    ],
+  },
+  {
+    id: 'hsk2-adjectives',
+    title: 'More Adjectives',
+    description: 'Expanding your descriptive vocabulary',
+    hsk: 2,
+    words: [
+      { zh: '高',   py: 'gāo',     en: 'Tall / High',         cat: 'Adjectives' },
+      { zh: '矮',   py: 'ǎi',      en: 'Short (height)',      cat: 'Adjectives' },
+      { zh: '长',   py: 'cháng',   en: 'Long',                cat: 'Adjectives' },
+      { zh: '短',   py: 'duǎn',    en: 'Short (length)',      cat: 'Adjectives' },
+      { zh: '快',   py: 'kuài',    en: 'Fast / Quick',        cat: 'Adjectives' },
+      { zh: '慢',   py: 'màn',     en: 'Slow',                cat: 'Adjectives' },
+      { zh: '贵',   py: 'guì',     en: 'Expensive',           cat: 'Adjectives' },
+      { zh: '便宜', py: 'pián yi', en: 'Cheap / Inexpensive', cat: 'Adjectives' },
+      { zh: '新',   py: 'xīn',     en: 'New',                 cat: 'Adjectives' },
+      { zh: '旧',   py: 'jiù',     en: 'Old (things)',        cat: 'Adjectives' },
+      { zh: '累',   py: 'lèi',     en: 'Tired',               cat: 'Adjectives' },
+      { zh: '忙',   py: 'máng',    en: 'Busy',                cat: 'Adjectives' },
+    ],
+  },
+  {
+    id: 'hsk2-verbs',
+    title: 'More Verbs',
+    description: 'Expanding your action vocabulary',
+    hsk: 2,
+    words: [
+      { zh: '等',   py: 'děng',     en: 'To wait',             cat: 'Verbs' },
+      { zh: '知道', py: 'zhī dào',  en: 'To know',             cat: 'Verbs' },
+      { zh: '觉得', py: 'jué de',   en: 'To feel / To think',  cat: 'Verbs' },
+      { zh: '帮助', py: 'bāng zhù', en: 'To help',             cat: 'Verbs' },
+      { zh: '开始', py: 'kāi shǐ',  en: 'To start / Begin',    cat: 'Verbs' },
+      { zh: '完成', py: 'wán chéng',en: 'To complete / Finish', cat: 'Verbs' },
+      { zh: '告诉', py: 'gào sù',   en: 'To tell',             cat: 'Verbs' },
+      { zh: '认识', py: 'rèn shi',  en: 'To know (a person)',  cat: 'Verbs' },
+    ],
+  },
+  {
+    id: 'hsk2-transport',
+    title: 'Transport & Weather',
+    description: 'Getting around and talking about the weather',
+    hsk: 2,
+    words: [
+      { zh: '公共汽车', py: 'gōng gòng qì chē', en: 'Bus',            cat: 'Transport' },
+      { zh: '出租车',   py: 'chū zū chē',        en: 'Taxi',           cat: 'Transport' },
+      { zh: '飞机',     py: 'fēi jī',            en: 'Airplane',       cat: 'Transport' },
+      { zh: '火车',     py: 'huǒ chē',           en: 'Train',          cat: 'Transport' },
+      { zh: '地铁',     py: 'dì tiě',            en: 'Subway / Metro', cat: 'Transport' },
+      { zh: '天气',     py: 'tiān qì',           en: 'Weather',        cat: 'Weather' },
+      { zh: '下雨',     py: 'xià yǔ',            en: 'To rain',        cat: 'Weather' },
+      { zh: '下雪',     py: 'xià xuě',           en: 'To snow',        cat: 'Weather' },
+      { zh: '太阳',     py: 'tài yáng',          en: 'Sun',            cat: 'Weather' },
+      { zh: '时间',     py: 'shí jiān',          en: 'Time',           cat: 'Time' },
+      { zh: '小时',     py: 'xiǎo shí',          en: 'Hour',           cat: 'Time' },
+      { zh: '分钟',     py: 'fēn zhōng',         en: 'Minute',         cat: 'Time' },
+      { zh: '星期',     py: 'xīng qī',           en: 'Week',           cat: 'Time' },
+    ],
+  },
+  {
+    id: 'hsk3-conjunctions',
+    title: 'Conjunctions',
+    description: 'Linking ideas together in sentences',
+    hsk: 3,
+    words: [
+      { zh: '虽然', py: 'suī rán', en: 'Although / Even though', cat: 'Conjunctions' },
+      { zh: '但是', py: 'dàn shì', en: 'But / However',          cat: 'Conjunctions' },
+      { zh: '因为', py: 'yīn wèi', en: 'Because',                cat: 'Conjunctions' },
+      { zh: '所以', py: 'suǒ yǐ',  en: 'Therefore / So',         cat: 'Conjunctions' },
+      { zh: '如果', py: 'rú guǒ',  en: 'If',                     cat: 'Conjunctions' },
+      { zh: '而且', py: 'ér qiě',  en: 'And / Moreover',         cat: 'Conjunctions' },
+    ],
+  },
+  {
+    id: 'hsk3-abstract',
+    title: 'Abstract Concepts',
+    description: 'Nouns for ideas, problems and methods',
+    hsk: 3,
+    words: [
+      { zh: '经验', py: 'jīng yàn', en: 'Experience',                cat: 'Abstract' },
+      { zh: '问题', py: 'wèn tí',   en: 'Problem / Question',        cat: 'Abstract' },
+      { zh: '方法', py: 'fāng fǎ',  en: 'Method / Way',              cat: 'Abstract' },
+      { zh: '关系', py: 'guān xi',  en: 'Relationship / Connection', cat: 'Abstract' },
+    ],
+  },
+  {
+    id: 'hsk3-verbs',
+    title: 'Advanced Verbs',
+    description: 'Complex verbs for nuanced expression',
+    hsk: 3,
+    words: [
+      { zh: '记得', py: 'jì de',     en: 'To remember',             cat: 'Verbs' },
+      { zh: '忘记', py: 'wàng jì',   en: 'To forget',               cat: 'Verbs' },
+      { zh: '解释', py: 'jiě shì',   en: 'To explain',              cat: 'Verbs' },
+      { zh: '选择', py: 'xuǎn zé',   en: 'To choose / Choice',      cat: 'Verbs' },
+      { zh: '比较', py: 'bǐ jiào',   en: 'To compare / Relatively', cat: 'Verbs' },
+      { zh: '打算', py: 'dǎ suàn',   en: 'To plan / Intend',        cat: 'Verbs' },
+      { zh: '担心', py: 'dān xīn',   en: 'To worry',                cat: 'Verbs' },
+      { zh: '相信', py: 'xiāng xìn', en: 'To believe / Trust',      cat: 'Verbs' },
+    ],
+  },
+  {
+    id: 'hsk3-adjectives',
+    title: 'Advanced Adjectives',
+    description: 'Richer adjectives for precise descriptions',
+    hsk: 3,
+    words: [
+      { zh: '容易', py: 'róng yì',   en: 'Easy',                 cat: 'Adjectives' },
+      { zh: '复杂', py: 'fù zá',     en: 'Complex / Complicated', cat: 'Adjectives' },
+      { zh: '重要', py: 'zhòng yào', en: 'Important',             cat: 'Adjectives' },
+      { zh: '安静', py: 'ān jìng',   en: 'Quiet / Peaceful',      cat: 'Adjectives' },
+      { zh: '特别', py: 'tè bié',    en: 'Special / Especially',  cat: 'Adjectives' },
+      { zh: '普通', py: 'pǔ tōng',   en: 'Ordinary / Common',     cat: 'Adjectives' },
+      { zh: '聪明', py: 'cōng míng', en: 'Clever / Smart',        cat: 'Adjectives' },
+    ],
+  },
+];
+
+export const vocabulary: VocabWord[] = lessons.flatMap(l =>
+  l.words.map(w => ({ ...w, hsk: l.hsk, lesson: l.id }))
+);
+
+export const phrases: Phrase[] = [
+  { zh: '你好吗？',         py: 'Nǐ hǎo ma?',              en: 'How are you?',                   cat: 'Greetings' },
+  { zh: '我很好，谢谢。',   py: 'Wǒ hěn hǎo, xiè xiè.',    en: "I'm very well, thank you.",      cat: 'Greetings' },
+  { zh: '你叫什么名字？',   py: 'Nǐ jiào shén me míng zì?', en: "What's your name?",              cat: 'Greetings' },
+  { zh: '我叫___。',        py: 'Wǒ jiào ___.',              en: 'My name is ___.',                cat: 'Greetings' },
+  { zh: '很高兴认识你。',   py: 'Hěn gāo xìng rèn shi nǐ.', en: 'Nice to meet you.',             cat: 'Greetings' },
+  { zh: '你是哪国人？',     py: 'Nǐ shì nǎ guó rén?',       en: 'What country are you from?',    cat: 'Greetings' },
+  { zh: '这个多少钱？',     py: 'Zhè ge duō shao qián?',     en: 'How much is this?',             cat: 'Shopping' },
+  { zh: '太贵了！',         py: 'Tài guì le!',               en: "That's too expensive!",         cat: 'Shopping' },
+  { zh: '可以便宜一点吗？', py: 'Kě yǐ pián yì yī diǎn ma?',en: 'Can you make it cheaper?',     cat: 'Shopping' },
+  { zh: '我要这个。',       py: 'Wǒ yào zhè ge.',            en: 'I want this one.',              cat: 'Shopping' },
+  { zh: '我不要。',         py: 'Wǒ bú yào.',                en: "I don't want it.",              cat: 'Shopping' },
+  { zh: '菜单在哪里？',     py: 'Cài dān zài nǎ lǐ?',       en: 'Where is the menu?',            cat: 'Restaurant' },
+  { zh: '我要点菜。',       py: 'Wǒ yào diǎn cài.',          en: "I'd like to order.",            cat: 'Restaurant' },
+  { zh: '我不吃肉。',       py: 'Wǒ bù chī ròu.',            en: "I don't eat meat.",             cat: 'Restaurant' },
+  { zh: '好吃！',           py: 'Hǎo chī!',                  en: 'Delicious!',                    cat: 'Restaurant' },
+  { zh: '买单！',           py: 'Mǎi dān!',                  en: 'The bill, please!',             cat: 'Restaurant' },
+  { zh: '请问，厕所在哪里？',py: 'Qǐng wèn, cè suǒ zài nǎ lǐ?',en: 'Excuse me, where is the bathroom?', cat: 'Getting Around' },
+  { zh: '我迷路了。',       py: 'Wǒ mí lù le.',              en: 'I am lost.',                    cat: 'Getting Around' },
+  { zh: '怎么去___？',      py: 'Zěn me qù ___?',            en: 'How do I get to ___?',          cat: 'Getting Around' },
+  { zh: '请叫出租车。',     py: 'Qǐng jiào chū zū chē.',     en: 'Please call a taxi.',           cat: 'Getting Around' },
+  { zh: '我不舒服。',       py: 'Wǒ bù shū fu.',             en: "I don't feel well.",            cat: 'Emergency' },
+  { zh: '请叫医生。',       py: 'Qǐng jiào yī shēng.',       en: 'Please call a doctor.',         cat: 'Emergency' },
+  { zh: '救命！',           py: 'Jiù mìng!',                 en: 'Help!',                         cat: 'Emergency' },
+  { zh: '我听不懂。',       py: 'Wǒ tīng bù dǒng.',          en: "I don't understand.",           cat: 'Language Help' },
+  { zh: '请说慢一点。',     py: 'Qǐng shuō màn yī diǎn.',    en: 'Please speak more slowly.',     cat: 'Language Help' },
+  { zh: '你会说英语吗？',   py: 'Nǐ huì shuō yīng yǔ ma?',  en: 'Can you speak English?',        cat: 'Language Help' },
+  { zh: '请再说一遍。',     py: 'Qǐng zài shuō yī biàn.',    en: 'Please say that again.',        cat: 'Language Help' },
+  { zh: '我在学中文。',     py: 'Wǒ zài xué zhōng wén.',     en: 'I am learning Chinese.',        cat: 'Language Help' },
+];
+
+export const numbers: NumberEntry[] = [
+  { n: 0,  zh: '零', py: 'líng' },
+  { n: 1,  zh: '一', py: 'yī' },
+  { n: 2,  zh: '二', py: 'èr' },
+  { n: 3,  zh: '三', py: 'sān' },
+  { n: 4,  zh: '四', py: 'sì' },
+  { n: 5,  zh: '五', py: 'wǔ' },
+  { n: 6,  zh: '六', py: 'liù' },
+  { n: 7,  zh: '七', py: 'qī' },
+  { n: 8,  zh: '八', py: 'bā' },
+  { n: 9,  zh: '九', py: 'jiǔ' },
+  { n: 10, zh: '十', py: 'shí' },
+];
+
+export const largeNumbers: LargeNumber[] = [
+  { zh: '二十',   py: 'èr shí',     en: '20' },
+  { zh: '三十',   py: 'sān shí',    en: '30' },
+  { zh: '一百',   py: 'yī bǎi',     en: '100' },
+  { zh: '一千',   py: 'yī qiān',    en: '1,000' },
+  { zh: '一万',   py: 'yī wàn',     en: '10,000' },
+  { zh: '一百万', py: 'yī bǎi wàn', en: '1,000,000' },
+];

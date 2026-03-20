@@ -71,6 +71,16 @@ module.exports = {
       }
     },
     {
+      name: "jade-chinese",
+      cwd: "./apps/jade-chinese",
+      script: "npm",
+      args: "start",
+      env: {
+        NODE_ENV: "production",
+        PORT: 3109
+      }
+    },
+    {
       name: "fantasy-league",
       cwd: "./apps/fantasy-league",
       script: "npx",

@@ -49,7 +49,7 @@ export default function Home() {
       <section id="work" className="py-32 px-6 max-w-7xl mx-auto">
         <div className="mb-16 flex items-end justify-between">
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight">SELECTED WORK</h2>
-          <span className="text-gray-500 hidden md:block">01 / 05</span>
+          <span className="text-gray-500 hidden md:block">01 / 06</span>
         </div>
 
         {/* Wealth Inequality Project */}
@@ -273,6 +273,50 @@ export default function Home() {
                 <div className="text-white">
                   <h3 className="font-bold text-sm">China Holiday Planner</h3>
                   <p className="text-xs text-gray-300">Northern & Southern route itineraries</p>
+                </div>
+              </div>
+              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+                <ArrowRight size={20} />
+              </div>
+            </div>
+          </motion.div>
+        </a>
+
+        {/* JADE Chinese */}
+        <a href="/jade-chinese/" className="block group mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-emerald-950/30 via-green-950/20 to-slate-950"
+          >
+            <div className="absolute inset-0 flex items-center justify-center p-12">
+              <div className="text-center">
+                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-green-300 bg-clip-text text-transparent">
+                  玉 JADE Chinese
+                </h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  Interactive Mandarin learning with flashcards, quizzes &amp; vocabulary
+                </p>
+                <div className="flex gap-4 justify-center text-sm text-gray-400">
+                  <span>Next.js</span>
+                  <span>•</span>
+                  <span>React</span>
+                  <span>•</span>
+                  <span>Tailwind CSS</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
+              <div className="flex items-center gap-4">
+                <div className="bg-emerald-500/20 px-3 py-1 rounded-full text-xs border border-emerald-400/30 font-medium text-emerald-300">
+                  LEARNING TOOL
+                </div>
+                <div className="text-white">
+                  <h3 className="font-bold text-sm">JADE Chinese</h3>
+                  <p className="text-xs text-gray-300">HSK 1–3 Mandarin learning companion</p>
                 </div>
               </div>
               <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
