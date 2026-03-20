@@ -21,6 +21,8 @@ VPS_HOST="jimfolio"                           # SSH alias from ~/.ssh/config
 VPS_DEPLOY_DIR="/home/jimmy/jimfolio-monorepo"
 VPS_TARBALL_PATH="/tmp/jimfolio-deploy.tar.gz"
 LOCAL_TARBALL="/tmp/jimfolio-deploy.tar.gz"
+SSH_READY_ATTEMPTS=12
+SSH_READY_DELAY=20
 
 # ---------------------------------------------------------------------------
 # Colours
@@ -35,6 +37,24 @@ log()     { echo -e "${GREEN}[$(date +'%H:%M:%S')] $*${NC}"; }
 info()    { echo -e "${CYAN}[$(date +'%H:%M:%S')] $*${NC}"; }
 warn()    { echo -e "${YELLOW}[$(date +'%H:%M:%S')] WARNING: $*${NC}"; }
 error()   { echo -e "${RED}[$(date +'%H:%M:%S')] ERROR: $*${NC}"; exit 1; }
+
+wait_for_ssh() {
+    local context="$1"
+    local attempt=1
+
+    while [ "$attempt" -le "$SSH_READY_ATTEMPTS" ]; do
+        if ssh -o BatchMode=yes -o ConnectTimeout=5 "$VPS_HOST" true >/dev/null 2>&1; then
+            log "SSH ready on $VPS_HOST ($context)."
+            return 0
+        fi
+
+        warn "SSH not ready on $VPS_HOST ($context). Retry $attempt/$SSH_READY_ATTEMPTS in ${SSH_READY_DELAY}s."
+        sleep "$SSH_READY_DELAY"
+        attempt=$((attempt + 1))
+    done
+
+    error "SSH on $VPS_HOST did not become ready ($context)."
+}
 
 # ---------------------------------------------------------------------------
 # Parse arguments
@@ -126,6 +146,7 @@ log "Tarball created: $LOCAL_TARBALL ($TARBALL_SIZE)"
 # Step 4 — Transfer to VPS
 # ---------------------------------------------------------------------------
 log "Step 4/5: Uploading tarball to VPS..."
+wait_for_ssh "before upload"
 scp "$LOCAL_TARBALL" "${VPS_HOST}:${VPS_TARBALL_PATH}"
 log "Upload complete."
 
@@ -133,6 +154,7 @@ log "Upload complete."
 # Step 5 — Remote deploy
 # ---------------------------------------------------------------------------
 log "Step 5/5: Running remote deploy on VPS..."
+wait_for_ssh "before remote deploy"
 ssh "$VPS_HOST" bash << ENDSSH
 set -euo pipefail
 
@@ -153,6 +175,7 @@ tar -xzf "\$TARBALL" -C "\$DEPLOY_DIR"
 
 echo "[remote] Installing root workspace dependencies..."
 cd "\$DEPLOY_DIR"
+rm -rf "\$DEPLOY_DIR/node_modules"
 npm ci --omit=dev
 
 echo "[remote] Installing typescript (needed by Next.js to load next.config.ts)..."
@@ -163,6 +186,7 @@ for app in jimfolio sweet-reach; do
     if [ -f "\$DEPLOY_DIR/apps/\$app/package-lock.json" ]; then
         echo "[remote]   -> \$app"
         cd "\$DEPLOY_DIR/apps/\$app"
+        rm -rf "\$DEPLOY_DIR/apps/\$app/node_modules"
         npm ci --omit=dev
     fi
 done
