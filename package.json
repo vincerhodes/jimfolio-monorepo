@@ -21,6 +21,8 @@
     "start:veriflow:3102": "cd apps/veriflow && npm run start -- -p 3102",
     "start:connexia:3103": "cd apps/connexia && npm run start -- -p 3103",
     "start:wealthinequality:3104": "cd apps/wealthinequality && npm run start -- -p 3104",
+    "dev:wesplit:3110": "cd apps/wesplit && npm run dev -- -p 3110",
+    "start:wesplit:3110": "cd apps/wesplit && npm run start -- -p 3110",
     "live:3100": "npm run build && npm run start:3100",
     "lint": "turbo run lint",
     "clean": "turbo run clean",

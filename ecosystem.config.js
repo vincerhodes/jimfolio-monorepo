@@ -81,6 +81,16 @@ module.exports = {
       }
     },
     {
+      name: "wesplit",
+      cwd: "./apps/wesplit",
+      script: "npm",
+      args: "start",
+      env: {
+        NODE_ENV: "production",
+        PORT: 3110
+      }
+    },
+    {
       name: "fantasy-league",
       cwd: "./apps/fantasy-league",
       script: "npx",

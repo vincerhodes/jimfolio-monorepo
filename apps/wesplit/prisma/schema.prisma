@@ -1,0 +1,20 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  description String
+  amount      Float
+  currency    String   @default("CNY")
+  paidBy      String
+  splitWith   String   // JSON array e.g. '["mark","jim","stan"]'
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+}
