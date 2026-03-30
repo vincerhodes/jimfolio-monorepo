@@ -26,18 +26,18 @@ export async function loginAction(_prevState: unknown, formData: FormData) {
     path: '/',
   });
 
-  redirect('/expenses');
+  redirect('/wesplit/expenses');
 }
 
 export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete('wesplit_session');
-  redirect('/login');
+  redirect('/wesplit/login');
 }
 
 export async function addExpenseAction(formData: FormData) {
   const user = await getCurrentUser();
-  if (!user) redirect('/login');
+  if (!user) redirect('/wesplit/login');
 
   const description = (formData.get('description') as string)?.trim();
   const amountStr = formData.get('amount') as string;
@@ -64,7 +64,7 @@ export async function addExpenseAction(formData: FormData) {
 
 export async function deleteExpenseAction(id: string) {
   const user = await getCurrentUser();
-  if (!user) redirect('/login');
+  if (!user) redirect('/wesplit/login');
 
   await prisma.expense.delete({ where: { id } });
 

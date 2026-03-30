@@ -9,7 +9,7 @@ import ExpenseCard from '@/components/ExpenseCard';
 
 export default async function ExpensesPage() {
   const user = await getCurrentUser();
-  if (!user) redirect('/login');
+  if (!user) redirect('/wesplit/login');
 
   const rawExpenses = await prisma.expense.findMany({
     orderBy: { date: 'desc' },
