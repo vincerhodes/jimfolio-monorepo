@@ -1,4 +1,5 @@
-import { ExpenseWithParsed, capitalize } from '@/lib/types';
+import { ExpenseWithParsed, capitalize, toDateInputValue } from '@/lib/types';
+import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 
 export default function ExpenseCard({ expense }: { expense: ExpenseWithParsed }) {
@@ -7,6 +8,10 @@ export default function ExpenseCard({ expense }: { expense: ExpenseWithParsed })
     month: 'short',
   });
   const perPerson = expense.amount / expense.splitWith.length;
+  const editableExpense = {
+    ...expense,
+    date: toDateInputValue(expense.date),
+  };
 
   return (
     <div className="bg-white rounded-xl border border-slate-100 p-4">
@@ -27,7 +32,10 @@ export default function ExpenseCard({ expense }: { expense: ExpenseWithParsed })
         </div>
         <div className="flex flex-col items-end gap-2 shrink-0">
           <p className="font-semibold text-teal-600 text-lg">¥{expense.amount.toFixed(2)}</p>
-          <DeleteButton id={expense.id} />
+          <div className="flex items-center gap-1">
+            <EditButton expense={editableExpense} />
+            <DeleteButton id={expense.id} />
+          </div>
         </div>
       </div>
     </div>
