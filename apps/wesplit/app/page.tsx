@@ -3,5 +3,5 @@ import { getCurrentUser } from '@/lib/auth';
 
 export default async function RootPage() {
   const user = await getCurrentUser();
-  redirect(user ? '/wesplit/expenses' : '/wesplit/login');
+  redirect(user ? '/expenses' : '/login');
 }
