@@ -13,7 +13,6 @@ function parseDateInput(dateInput: string): Date {
 
 function parseExpenseFormData(formData: FormData) {
   const id = (formData.get('id') as string)?.trim();
-  const username = (formData.get('username') as string)?.toLowerCase().trim();
   const description = (formData.get('description') as string)?.trim();
   const amountStr = formData.get('amount') as string;
   const paidBy = (formData.get('paidBy') as string)?.toLowerCase().trim();
@@ -22,13 +21,12 @@ function parseExpenseFormData(formData: FormData) {
 
   const amount = Number.parseFloat(amountStr);
 
-  if (!username || !description || !paidBy || !date || !splitWith.length || Number.isNaN(amount) || amount <= 0) {
+  if (!description || !paidBy || !date || !splitWith.length || Number.isNaN(amount) || amount <= 0) {
     return { error: 'Please fill in all fields correctly' };
   }
 
   return {
     id,
-    username,
     description,
     amount,
     paidBy,
