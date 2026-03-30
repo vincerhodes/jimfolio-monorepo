@@ -13,10 +13,24 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <div className="text-5xl mb-3">✂️</div>
           <h1 className="text-3xl font-bold text-teal-600">WeSplit</h1>
-          <p className="text-slate-500 mt-1 text-sm">China holiday expenses</p>
+          <p className="text-slate-500 mt-1 text-sm">Enter the shared password, then choose your name</p>
         </div>
 
         <form action={action} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              Entry password
+            </label>
+            <input
+              type="password"
+              name="password"
+              required
+              autoComplete="current-password"
+              className="w-full border border-slate-200 rounded-xl px-3 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+              placeholder="Shared app password"
+            />
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               Who are you?
@@ -31,20 +45,6 @@ export default function LoginPage() {
                 <option key={p} value={p}>{capitalize(p)}</option>
               ))}
             </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              required
-              autoComplete="current-password"
-              className="w-full border border-slate-200 rounded-xl px-3 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-              placeholder="Your password"
-            />
           </div>
 
           {state?.error && (

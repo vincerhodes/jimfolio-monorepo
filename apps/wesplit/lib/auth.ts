@@ -9,9 +9,7 @@ export async function getCurrentUser(): Promise<string | null> {
   return session;
 }
 
-export function verifyPassword(username: string, password: string): boolean {
-  if (!VALID_USERS.has(username)) return false;
-  const envKey = `${username.toUpperCase()}_PASSWORD`;
-  const expected = process.env[envKey];
+export function verifyAppPassword(password: string): boolean {
+  const expected = process.env.WESPLIT_PASSWORD;
   return !!expected && password === expected;
 }

@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { verifyPassword, getCurrentUser } from '@/lib/auth';
+import { verifyAppPassword, getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 
 export async function loginAction(_prevState: unknown, formData: FormData) {
@@ -14,8 +14,8 @@ export async function loginAction(_prevState: unknown, formData: FormData) {
     return { error: 'Please fill in all fields' };
   }
 
-  if (!verifyPassword(username, password)) {
-    return { error: 'Wrong password, please try again' };
+  if (!verifyAppPassword(password)) {
+    return { error: 'Wrong entry password, please try again' };
   }
 
   const cookieStore = await cookies();
