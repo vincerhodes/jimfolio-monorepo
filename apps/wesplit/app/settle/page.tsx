@@ -8,7 +8,7 @@ import BottomNav from '@/components/BottomNav';
 
 export default async function SettlePage() {
   const user = await getCurrentUser();
-  if (!user) redirect('/wesplit/login');
+  if (!user) redirect('/login');
 
   const rawExpenses = await prisma.expense.findMany();
   const expenses = rawExpenses.map(parseExpense);
