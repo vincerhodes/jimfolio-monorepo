@@ -1,0 +1,10 @@
+{
+  "name": "@jimfolio/standash",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve . -p 3121 --no-clipboard",
+    "start": "npx serve -l 3111",
+    "build": "echo 'static app, no build step'"
+  }
+}

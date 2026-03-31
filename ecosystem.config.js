@@ -98,6 +98,15 @@ module.exports = {
       env: {
         NODE_ENV: "production"
       }
+    },
+    {
+      name: "standash",
+      cwd: "./apps/standash",
+      script: "npx",
+      args: "serve -l 3111",
+      env: {
+        NODE_ENV: "production"
+      }
     }
   ]
 };
