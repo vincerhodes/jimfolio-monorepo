@@ -1,0 +1,51 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Recipe {
+  id          String   @id @default(cuid())
+  title       String
+  servings    Int?
+  ingredients String   // JSON: [{ name, quantity, unit, notes? }]  — metric only
+  steps       String   // JSON: [{ stepNumber, instruction }]        — self-contained
+  prompt      String   // original user request (merged structured + free text)
+  model       String   // OpenRouter model used
+  createdAt   DateTime @default(now())
+}
+
+model Bean {
+  id        String    @id @default(cuid())
+  name      String
+  roaster   String?
+  origin    String?
+  variety   String?
+  roastDate DateTime
+  notes     String?
+  archived  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  brews     BrewLog[]
+}
+
+model BrewMethod {
+  id    String    @id @default(cuid())
+  label String    @unique // e.g. "Espresso — Lelit Bianca", "V60 pour-over"
+  brews BrewLog[]
+}
+
+model BrewLog {
+  id        String     @id @default(cuid())
+  beanId    String
+  bean      Bean       @relation(fields: [beanId], references: [id])
+  methodId  String
+  method    BrewMethod @relation(fields: [methodId], references: [id])
+  brewDate  DateTime   @default(now())
+  grindSize String?    // free text: "12 clicks", "3.5" — varies by grinder
+  rating    Int?       // 1–5
+  notes     String?
+  createdAt DateTime   @default(now())
+}

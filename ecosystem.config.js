@@ -107,6 +107,16 @@ module.exports = {
       env: {
         NODE_ENV: "production"
       }
+    },
+    {
+      name: "crema",
+      cwd: "./apps/crema",
+      script: "npm",
+      args: "start",
+      env: {
+        NODE_ENV: "production",
+        PORT: 3113
+      }
     }
   ]
 };

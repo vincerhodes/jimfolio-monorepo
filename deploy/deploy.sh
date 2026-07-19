@@ -139,7 +139,8 @@ npx turbo run build --filter=@jimfolio/veriflow
 echo "[remote] === Building all other apps ==="
 npx turbo run build \
     --filter=!@jimfolio/sweet-reach \
-    --filter=!@jimfolio/veriflow
+    --filter=!@jimfolio/veriflow \
+    --filter=!@jimfolio/crema
 
 echo "[remote] === Runtime setup: sweet-reach gets isolated node_modules ==="
 rm -rf "$DEPLOY_DIR/apps/sweet-reach/node_modules"
@@ -150,6 +151,15 @@ echo "[remote] sweet-reach runtime Prisma: OK"
 echo "[remote] === Veriflow runtime Prisma (uses root node_modules) ==="
 (cd "$DEPLOY_DIR/apps/veriflow" && npx prisma generate)
 echo "[remote] veriflow runtime Prisma: OK"
+
+echo "[remote] === crema: isolated install + migrate + seed + build ==="
+# crema installs standalone (own lockfile, --workspaces=false) so its Prisma
+# client never conflicts with sweet-reach/veriflow in root node_modules.
+(cd "$DEPLOY_DIR/apps/crema" && npm ci --workspaces=false)
+(cd "$DEPLOY_DIR/apps/crema" && npx prisma migrate deploy)
+(cd "$DEPLOY_DIR/apps/crema" && npx prisma db seed)
+(cd "$DEPLOY_DIR/apps/crema" && npm run build)
+echo "[remote] crema: OK"
 
 echo "[remote] === Reloading PM2 ==="
 if pm2 list | grep -q 'online'; then

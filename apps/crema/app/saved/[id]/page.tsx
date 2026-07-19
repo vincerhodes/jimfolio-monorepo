@@ -1,0 +1,39 @@
+import { notFound } from "next/navigation";
+import { db } from "@/lib/db";
+import { recipeSchema } from "@/lib/recipe-schema";
+import RecipeView from "@/components/RecipeView";
+
+export const dynamic = "force-dynamic";
+
+export default async function SavedRecipePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const row = await db.recipe.findUnique({ where: { id } });
+  if (!row) notFound();
+
+  const parsed = recipeSchema.safeParse({
+    title: row.title,
+    servings: row.servings ?? undefined,
+    ingredients: JSON.parse(row.ingredients),
+    steps: JSON.parse(row.steps),
+  });
+  if (!parsed.success) notFound();
+
+  const recipe = parsed.data;
+
+  return (
+    <main className="mx-auto max-w-4xl p-8">
+      <h1 className="text-2xl font-bold">{recipe.title}</h1>
+      <p className="mt-1 text-sm text-neutral-500">
+        {recipe.servings ? `Serves ${recipe.servings} · ` : ""}
+        Generated with {row.model}
+      </p>
+      <div className="mt-8">
+        <RecipeView recipe={recipe} />
+      </div>
+    </main>
+  );
+}
