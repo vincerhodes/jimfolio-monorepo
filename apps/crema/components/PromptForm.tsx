@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MODELS, DEFAULT_MODEL_ID } from "@/lib/models";
 import { API_BASE } from "@/lib/api-base";
 import type { RecipeData } from "@/lib/recipe-schema";
@@ -9,7 +9,10 @@ interface PromptFormProps {
   onGenerated: (result: { recipe: RecipeData; prompt: string; model: string }) => void;
 }
 
+type Mode = "ingredients" | "idea";
+
 interface FormState {
+  idea: string;
   ingredients: string;
   cuisine: string;
   maxTime: string;
@@ -19,6 +22,7 @@ interface FormState {
 }
 
 const initialForm: FormState = {
+  idea: "",
   ingredients: "",
   cuisine: "",
   maxTime: "",
@@ -29,27 +33,59 @@ const initialForm: FormState = {
 
 export default function PromptForm({ onGenerated }: PromptFormProps) {
   const [form, setForm] = useState<FormState>(initialForm);
+  const [mode, setMode] = useState<Mode>("ingredients");
+  const [usePantry, setUsePantry] = useState(true);
+  const [pantryNames, setPantryNames] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [retryable, setRetryable] = useState(false);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/api/pantry`)
+      .then((res) => (res.ok ? res.json() : { items: [] }))
+      .then((data: { items?: { name: string }[] }) =>
+        setPantryNames((data.items ?? []).map((item) => item.name))
+      )
+      .catch(() => setPantryNames([]));
+  }, []);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
+  function mergedIngredients(): string {
+    const parts: string[] = [];
+    if (usePantry) parts.push(...pantryNames);
+    if (form.ingredients.trim()) parts.push(form.ingredients.trim());
+    return parts.join(", ");
+  }
+
   function buildPayload() {
-    const payload: Record<string, unknown> = { model: form.model };
-    if (form.ingredients.trim()) payload.ingredients = form.ingredients.trim();
+    const payload: Record<string, unknown> = { model: form.model, mode };
+    if (mode === "idea") {
+      if (form.idea.trim()) payload.idea = form.idea.trim();
+    } else {
+      const ingredients = mergedIngredients();
+      if (ingredients) payload.ingredients = ingredients;
+      if (form.freeText.trim()) payload.freeText = form.freeText.trim();
+    }
     if (form.cuisine.trim()) payload.cuisine = form.cuisine.trim();
     if (form.maxTime) payload.maxTime = Number(form.maxTime);
     if (form.servings) payload.servings = Number(form.servings);
-    if (form.freeText.trim()) payload.freeText = form.freeText.trim();
     return payload;
   }
 
   function buildPromptSummary(): string {
+    if (mode === "idea") {
+      const lines: string[] = [`Create a recipe for: ${form.idea.trim()}`];
+      if (form.cuisine.trim()) lines.push(`- Cuisine: ${form.cuisine.trim()}`);
+      if (form.maxTime) lines.push(`- Maximum total time: ${form.maxTime} minutes`);
+      if (form.servings) lines.push(`- Servings: ${form.servings}`);
+      return lines.join("\n");
+    }
     const lines: string[] = ["Generate a recipe with these constraints:"];
-    if (form.ingredients.trim()) lines.push(`- Ingredients on hand: ${form.ingredients.trim()}`);
+    const ingredients = mergedIngredients();
+    if (ingredients) lines.push(`- Ingredients on hand: ${ingredients}`);
     if (form.cuisine.trim()) lines.push(`- Cuisine: ${form.cuisine.trim()}`);
     if (form.maxTime) lines.push(`- Maximum total time: ${form.maxTime} minutes`);
     if (form.servings) lines.push(`- Servings: ${form.servings}`);
@@ -76,6 +112,12 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
           setError("That model isn't allowed. Pick another one.");
         } else if (data?.error === "missing_api_key") {
           setError("OPENROUTER_API_KEY is not configured on the server.");
+        } else if (data?.error === "invalid_request") {
+          setError(
+            mode === "idea"
+              ? "Enter a dish idea first (at least 3 characters)."
+              : "Add some ingredients (or enable your pantry) first."
+          );
         } else {
           setError("Generation failed. Please try again.");
           setRetryable(true);
@@ -99,19 +141,64 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
         if (!loading) generate();
       }}
     >
-      <div>
-        <label htmlFor="ingredients" className="block text-sm font-medium">
-          Ingredients on hand
+      <div className="flex gap-4">
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <input
+            type="radio"
+            name="mode"
+            checked={mode === "ingredients"}
+            onChange={() => setMode("ingredients")}
+          />
+          Ingredients I have
         </label>
-        <input
-          id="ingredients"
-          type="text"
-          value={form.ingredients}
-          onChange={(e) => update("ingredients", e.target.value)}
-          placeholder="chicken, rice, broccoli"
-          className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
-        />
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <input
+            type="radio"
+            name="mode"
+            checked={mode === "idea"}
+            onChange={() => setMode("idea")}
+          />
+          Recipe for…
+        </label>
       </div>
+
+      {mode === "idea" ? (
+        <div>
+          <label htmlFor="idea" className="block text-sm font-medium">
+            Dish idea
+          </label>
+          <input
+            id="idea"
+            type="text"
+            value={form.idea}
+            onChange={(e) => update("idea", e.target.value)}
+            placeholder="mushroom risotto"
+            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+          />
+        </div>
+      ) : (
+        <div>
+          <label htmlFor="ingredients" className="block text-sm font-medium">
+            Ingredients on hand
+          </label>
+          <input
+            id="ingredients"
+            type="text"
+            value={form.ingredients}
+            onChange={(e) => update("ingredients", e.target.value)}
+            placeholder="chicken, rice, broccoli"
+            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+          />
+          <label className="mt-2 flex items-center gap-2 text-sm text-neutral-600">
+            <input
+              type="checkbox"
+              checked={usePantry}
+              onChange={(e) => setUsePantry(e.target.checked)}
+            />
+            Use my pantry{pantryNames.length > 0 ? ` (${pantryNames.length} items)` : ""}
+          </label>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div>
@@ -157,19 +244,21 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
         </div>
       </div>
 
-      <div>
-        <label htmlFor="freeText" className="block text-sm font-medium">
-          Anything else? (optional)
-        </label>
-        <textarea
-          id="freeText"
-          value={form.freeText}
-          onChange={(e) => update("freeText", e.target.value)}
-          placeholder="e.g. make it spicy, one-pot only"
-          rows={2}
-          className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
-        />
-      </div>
+      {mode === "ingredients" && (
+        <div>
+          <label htmlFor="freeText" className="block text-sm font-medium">
+            Anything else? (optional)
+          </label>
+          <textarea
+            id="freeText"
+            value={form.freeText}
+            onChange={(e) => update("freeText", e.target.value)}
+            placeholder="e.g. make it spicy, one-pot only"
+            rows={2}
+            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+          />
+        </div>
+      )}
 
       <div>
         <label htmlFor="model" className="block text-sm font-medium">
