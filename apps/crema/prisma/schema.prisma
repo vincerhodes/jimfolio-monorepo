@@ -38,6 +38,13 @@ model BrewMethod {
   brews BrewLog[]
 }
 
+model PantryItem {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  category  String?
+  createdAt DateTime @default(now())
+}
+
 model BrewLog {
   id        String     @id @default(cuid())
   beanId    String
@@ -45,7 +52,9 @@ model BrewLog {
   methodId  String
   method    BrewMethod @relation(fields: [methodId], references: [id])
   brewDate  DateTime   @default(now())
-  grindSize String?    // free text: "12 clicks", "3.5" — varies by grinder
+  grindSize String?    // legacy free text: "12 clicks", "3.5" — old rows only
+  grinder   String?
+  grindSetting Float?
   rating    Int?       // 1–5
   notes     String?
   createdAt DateTime   @default(now())

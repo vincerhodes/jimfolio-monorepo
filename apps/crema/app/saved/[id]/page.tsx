@@ -14,6 +14,12 @@ export default async function SavedRecipePage({
   const row = await db.recipe.findUnique({ where: { id } });
   if (!row) notFound();
 
+  const pantry = await db.pantryItem.findMany({
+    orderBy: { name: "asc" },
+    select: { name: true },
+  });
+  const pantryItems = pantry.map((item) => item.name);
+
   const parsed = recipeSchema.safeParse({
     title: row.title,
     servings: row.servings ?? undefined,
@@ -32,7 +38,7 @@ export default async function SavedRecipePage({
         Generated with {row.model}
       </p>
       <div className="mt-8">
-        <RecipeView recipe={recipe} />
+        <RecipeView recipe={recipe} pantryItems={pantryItems} />
       </div>
     </main>
   );

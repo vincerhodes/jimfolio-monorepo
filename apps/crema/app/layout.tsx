@@ -26,6 +26,9 @@ export default function RootLayout({
             <Link href="/saved" className="text-sm text-neutral-600 hover:underline">
               Saved
             </Link>
+            <Link href="/pantry" className="text-sm text-neutral-600 hover:underline">
+              Pantry
+            </Link>
             <Link href="/coffee" className="text-sm text-neutral-600 hover:underline">
               Coffee
             </Link>

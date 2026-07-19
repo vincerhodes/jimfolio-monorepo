@@ -1,4 +1,6 @@
 export interface GenerateInput {
+  mode?: "ingredients" | "idea";
+  idea?: string;
   ingredients?: string;
   cuisine?: string;
   maxTime?: number;
@@ -28,6 +30,13 @@ Rules:
 Use realistic quantities and techniques. Keep instructions clear and concise.`;
 
 export function buildUserPrompt(input: GenerateInput): string {
+  if (input.mode === "idea") {
+    const lines: string[] = [`Create a recipe for: ${input.idea}`];
+    if (input.cuisine) lines.push(`- Cuisine: ${input.cuisine}`);
+    if (input.maxTime) lines.push(`- Maximum total time: ${input.maxTime} minutes`);
+    if (input.servings) lines.push(`- Servings: ${input.servings}`);
+    return lines.join("\n");
+  }
   const lines: string[] = ["Generate a recipe with these constraints:"];
   if (input.ingredients) lines.push(`- Ingredients on hand: ${input.ingredients}`);
   if (input.cuisine) lines.push(`- Cuisine: ${input.cuisine}`);

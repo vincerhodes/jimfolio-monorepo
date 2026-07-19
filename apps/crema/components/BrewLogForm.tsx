@@ -13,6 +13,7 @@ interface BrewMethod {
 interface BrewLogFormProps {
   beanId: string;
   roastDate: string; // ISO string, serialized from the server component
+  grinders: string[]; // distinct grinder names used before, for the datalist
 }
 
 function todayInputValue(): string {
@@ -23,12 +24,13 @@ function todayInputValue(): string {
   return `${y}-${m}-${d}`;
 }
 
-export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
+export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogFormProps) {
   const router = useRouter();
   const [methods, setMethods] = useState<BrewMethod[]>([]);
   const [methodId, setMethodId] = useState("");
   const [brewDate, setBrewDate] = useState(todayInputValue());
-  const [grindSize, setGrindSize] = useState("");
+  const [grinder, setGrinder] = useState("");
+  const [grindSetting, setGrindSetting] = useState("");
   const [rating, setRating] = useState<number | null>(null);
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
@@ -58,7 +60,9 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
         body: JSON.stringify({
           methodId,
           brewDate: brewDate || undefined,
-          grindSize: grindSize.trim() || undefined,
+          grinder: grinder.trim() || undefined,
+          grindSetting:
+            grindSetting.trim() === "" ? undefined : Number(grindSetting),
           rating: rating ?? undefined,
           notes: notes.trim() || undefined,
         }),
@@ -68,7 +72,8 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
         return;
       }
       setBrewDate(todayInputValue());
-      setGrindSize("");
+      setGrinder("");
+      setGrindSetting("");
       setRating(null);
       setNotes("");
       router.refresh();
@@ -87,7 +92,7 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
         if (!loading && methodId) submit();
       }}
     >
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
         <div>
           <label htmlFor="brew-method" className="block text-sm font-medium">
             Method
@@ -125,15 +130,37 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
           )}
         </div>
         <div>
-          <label htmlFor="brew-grind" className="block text-sm font-medium">
-            Grind size
+          <label htmlFor="brew-grinder" className="block text-sm font-medium">
+            Grinder
           </label>
           <input
-            id="brew-grind"
+            id="brew-grinder"
             type="text"
-            value={grindSize}
-            onChange={(e) => setGrindSize(e.target.value)}
-            placeholder="12 clicks"
+            list="grinder-options"
+            value={grinder}
+            onChange={(e) => setGrinder(e.target.value)}
+            placeholder="Comandante"
+            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+          />
+          <datalist id="grinder-options">
+            {grinders.map((g) => (
+              <option key={g} value={g} />
+            ))}
+          </datalist>
+        </div>
+        <div>
+          <label htmlFor="brew-grind-setting" className="block text-sm font-medium">
+            Grind setting
+          </label>
+          <input
+            id="brew-grind-setting"
+            type="number"
+            step="0.5"
+            min="0"
+            max="100"
+            value={grindSetting}
+            onChange={(e) => setGrindSetting(e.target.value)}
+            placeholder="22"
             className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
           />
         </div>

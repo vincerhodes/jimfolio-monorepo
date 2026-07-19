@@ -12,7 +12,7 @@ interface Generated {
   model: string;
 }
 
-export default function Generator() {
+export default function Generator({ pantryItems = [] }: { pantryItems?: string[] }) {
   const [generated, setGenerated] = useState<Generated | null>(null);
 
   return (
@@ -31,7 +31,7 @@ export default function Generator() {
           {generated.recipe.servings && (
             <p className="text-sm text-neutral-500">Serves {generated.recipe.servings}</p>
           )}
-          <RecipeView recipe={generated.recipe} />
+          <RecipeView recipe={generated.recipe} pantryItems={pantryItems} />
         </div>
       )}
     </div>

@@ -5,11 +5,26 @@ interface BrewLogTableProps {
     id: string;
     brewDate: Date;
     grindSize: string | null;
+    grinder: string | null;
+    grindSetting: number | null;
     rating: number | null;
     notes: string | null;
     method: { label: string };
   }[];
   roastDate: Date;
+}
+
+function formatGrind(brew: {
+  grindSize: string | null;
+  grinder: string | null;
+  grindSetting: number | null;
+}): string {
+  if (brew.grinder && brew.grindSetting !== null) {
+    return `${brew.grinder} · ${brew.grindSetting}`;
+  }
+  if (brew.grinder) return brew.grinder;
+  if (brew.grindSetting !== null) return String(brew.grindSetting);
+  return brew.grindSize ?? "—";
 }
 
 export default function BrewLogTable({ brews, roastDate }: BrewLogTableProps) {
@@ -36,7 +51,7 @@ export default function BrewLogTable({ brews, roastDate }: BrewLogTableProps) {
             <tr key={brew.id} className="border-b border-neutral-100">
               <td className="py-2 pr-4 whitespace-nowrap">{formatDate(brew.brewDate)}</td>
               <td className="py-2 pr-4">{brew.method.label}</td>
-              <td className="py-2 pr-4">{brew.grindSize ?? "—"}</td>
+              <td className="py-2 pr-4">{formatGrind(brew)}</td>
               <td className="py-2 pr-4 whitespace-nowrap">
                 {ageDays} day{ageDays === 1 ? "" : "s"}
               </td>

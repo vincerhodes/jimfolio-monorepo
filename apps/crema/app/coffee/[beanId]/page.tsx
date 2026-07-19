@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { daysBetween, formatDate } from "@/lib/coffee";
 import BrewLogTable from "@/components/BrewLogTable";
 import BrewLogForm from "@/components/BrewLogForm";
+import DialInSummary from "@/components/DialInSummary";
 import ArchiveToggle from "@/components/ArchiveToggle";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +26,39 @@ export default async function BeanPage({
   if (!bean) notFound();
 
   const ageDays = daysBetween(bean.roastDate, new Date());
+
+  const grinders = (
+    await db.brewLog.findMany({
+      where: { grinder: { not: null } },
+      distinct: ["grinder"],
+      select: { grinder: true },
+    })
+  )
+    .map((row) => row.grinder)
+    .filter((g): g is string => g !== null);
+
+  // Best brew per method: highest rating, tie-break most recent brewDate.
+  // Only brews with a grind setting are eligible.
+  const bestByMethod = new Map<string, (typeof bean.brews)[number]>();
+  for (const brew of bean.brews) {
+    if (brew.grindSetting === null) continue;
+    const current = bestByMethod.get(brew.methodId);
+    if (
+      !current ||
+      (brew.rating ?? 0) > (current.rating ?? 0) ||
+      ((brew.rating ?? 0) === (current.rating ?? 0) &&
+        brew.brewDate > current.brewDate)
+    ) {
+      bestByMethod.set(brew.methodId, brew);
+    }
+  }
+  const dialInEntries = [...bestByMethod.values()].map((brew) => ({
+    methodLabel: brew.method.label,
+    grinder: brew.grinder,
+    grindSetting: brew.grindSetting as number,
+    ageDays: daysBetween(bean.roastDate, brew.brewDate),
+    rating: brew.rating,
+  }));
 
   return (
     <main className="mx-auto max-w-4xl p-8">
@@ -59,13 +93,21 @@ export default async function BeanPage({
       </div>
 
       <div className="mt-8">
+        <DialInSummary entries={dialInEntries} />
+      </div>
+
+      <div className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">Brews</h2>
         <BrewLogTable brews={bean.brews} roastDate={bean.roastDate} />
       </div>
 
       <div className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">Log brew</h2>
-        <BrewLogForm beanId={bean.id} roastDate={bean.roastDate.toISOString()} />
+        <BrewLogForm
+          beanId={bean.id}
+          roastDate={bean.roastDate.toISOString()}
+          grinders={grinders}
+        />
       </div>
     </main>
   );
