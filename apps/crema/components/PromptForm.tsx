@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MODELS, DEFAULT_MODEL_ID } from "@/lib/models";
+import { API_BASE } from "@/lib/api-base";
 import type { RecipeData } from "@/lib/recipe-schema";
 
 interface PromptFormProps {
@@ -61,7 +62,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
     setError(null);
     setRetryable(false);
     try {
-      const res = await fetch("/crema/api/generate", {
+      const res = await fetch(`${API_BASE}/api/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(buildPayload()),

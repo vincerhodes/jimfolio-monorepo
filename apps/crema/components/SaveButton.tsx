@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { RecipeData } from "@/lib/recipe-schema";
+import { API_BASE } from "@/lib/api-base";
 
 interface SaveButtonProps {
   recipe: RecipeData;
@@ -18,7 +19,7 @@ export default function SaveButton({ recipe, prompt, model }: SaveButtonProps) {
     setSaving(true);
     setError(null);
     try {
-      const res = await fetch("/crema/api/recipes", {
+      const res = await fetch(`${API_BASE}/api/recipes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ recipe, prompt, model }),

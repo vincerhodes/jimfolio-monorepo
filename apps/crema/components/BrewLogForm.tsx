@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { daysBetween } from "@/lib/coffee";
+import { API_BASE } from "@/lib/api-base";
 
 interface BrewMethod {
   id: string;
@@ -34,7 +35,7 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/crema/api/brew-methods")
+    fetch(`${API_BASE}/api/brew-methods`)
       .then((res) => (res.ok ? res.json() : []))
       .then((data: BrewMethod[]) => {
         setMethods(data);
@@ -51,7 +52,7 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/crema/api/beans/${beanId}/brews`, {
+      const res = await fetch(`${API_BASE}/api/beans/${beanId}/brews`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

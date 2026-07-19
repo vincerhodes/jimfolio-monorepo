@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { API_BASE } from "@/lib/api-base";
 
 interface ArchiveToggleProps {
   beanId: string;
@@ -17,7 +18,7 @@ export default function ArchiveToggle({ beanId, archived }: ArchiveToggleProps) 
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/crema/api/beans/${beanId}`, {
+      const res = await fetch(`${API_BASE}/api/beans/${beanId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ archived: !archived }),

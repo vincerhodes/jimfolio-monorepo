@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { API_BASE } from "@/lib/api-base";
 
 interface FormState {
   name: string;
@@ -35,7 +36,7 @@ export default function BeanForm() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/crema/api/beans", {
+      const res = await fetch(`${API_BASE}/api/beans`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
