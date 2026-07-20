@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: "/wesplit",
+  basePath: process.env.VERCEL ? "" : "/wesplit",
   async headers() {
     return [
       {
