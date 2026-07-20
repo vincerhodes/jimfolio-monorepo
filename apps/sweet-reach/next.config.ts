@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: '/sweet-reach',
+  basePath: process.env.VERCEL ? "" : "/sweet-reach",
   experimental: {
     serverActions: {
       allowedOrigins: ['localhost:3000', 'localhost:3100', '127.0.0.1:3100', '127.0.0.1:52340', 'localhost:52340']

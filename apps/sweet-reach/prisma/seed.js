@@ -1,5 +1,16 @@
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+
+// Use Turso when configured, otherwise the local sqlite file (DATABASE_URL).
+const prisma = process.env.TURSO_DATABASE_URL
+  ? new PrismaClient({
+      adapter: new (require('@prisma/adapter-libsql').PrismaLibSQL)(
+        require('@libsql/client').createClient({
+          url: process.env.TURSO_DATABASE_URL,
+          authToken: process.env.TURSO_AUTH_TOKEN,
+        })
+      ),
+    })
+  : new PrismaClient();
 
 async function main() {
   console.log('Start aggressive seeding ...');

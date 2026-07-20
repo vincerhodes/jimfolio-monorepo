@@ -6,20 +6,23 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.0",
+    "@libsql/client": "^0.8.1",
+    "@prisma/adapter-libsql": "^5.22.0",
+    "@prisma/client": "^5.22.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.554.0",
     "nanoid": "^5.1.6",
     "next": "16.2.0",
     "picocolors": "^1.1.1",
-    "prisma": "^5.10.0",
+    "prisma": "^5.22.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "recharts": "^3.4.1",
