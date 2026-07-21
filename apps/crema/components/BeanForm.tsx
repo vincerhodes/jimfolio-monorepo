@@ -22,9 +22,35 @@ const initialForm: FormState = {
   notes: "",
 };
 
-export default function BeanForm() {
+interface EditableBean {
+  id: string;
+  name: string;
+  roaster: string | null;
+  origin: string | null;
+  variety: string | null;
+  roastDate: string; // ISO string, serialized from the server component
+  notes: string | null;
+}
+
+interface BeanFormProps {
+  bean?: EditableBean; // when set, the form edits instead of adding
+  onDone?: () => void; // called after a successful edit or on Cancel
+}
+
+export default function BeanForm({ bean, onDone }: BeanFormProps) {
   const router = useRouter();
-  const [form, setForm] = useState<FormState>(initialForm);
+  const [form, setForm] = useState<FormState>(
+    bean
+      ? {
+          name: bean.name,
+          roaster: bean.roaster ?? "",
+          origin: bean.origin ?? "",
+          variety: bean.variety ?? "",
+          roastDate: bean.roastDate.slice(0, 10),
+          notes: bean.notes ?? "",
+        }
+      : initialForm
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,23 +62,30 @@ export default function BeanForm() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api/beans`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.name.trim(),
-          roaster: form.roaster.trim() || undefined,
-          origin: form.origin.trim() || undefined,
-          variety: form.variety.trim() || undefined,
-          roastDate: form.roastDate,
-          notes: form.notes.trim() || undefined,
-        }),
-      });
+      const res = await fetch(
+        bean ? `${API_BASE}/api/beans/${bean.id}` : `${API_BASE}/api/beans`,
+        {
+          method: bean ? "PATCH" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.name.trim(),
+            roaster: form.roaster.trim() || (bean ? null : undefined),
+            origin: form.origin.trim() || (bean ? null : undefined),
+            variety: form.variety.trim() || (bean ? null : undefined),
+            roastDate: form.roastDate,
+            notes: form.notes.trim() || (bean ? null : undefined),
+          }),
+        }
+      );
       if (!res.ok) {
         setError("Couldn't save the bean. Check the fields and try again.");
         return;
       }
-      setForm(initialForm);
+      if (bean) {
+        onDone?.();
+      } else {
+        setForm(initialForm);
+      }
       router.refresh();
     } catch {
       setError("Network error. Try again.");
@@ -157,13 +190,25 @@ export default function BeanForm() {
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="btn-primary"
-      >
-        {loading ? "Adding…" : "Add bean"}
-      </button>
+      <div className="flex gap-3">
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn-primary"
+        >
+          {loading ? "Saving…" : bean ? "Save changes" : "Add bean"}
+        </button>
+        {onDone && (
+          <button
+            type="button"
+            onClick={onDone}
+            disabled={loading}
+            className="btn-secondary"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }

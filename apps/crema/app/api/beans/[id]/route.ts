@@ -3,7 +3,13 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 
 const patchSchema = z.object({
-  archived: z.boolean(),
+  archived: z.boolean().optional(),
+  name: z.string().trim().min(1).optional(),
+  roaster: z.string().trim().nullable().optional(),
+  origin: z.string().trim().nullable().optional(),
+  variety: z.string().trim().nullable().optional(),
+  roastDate: z.coerce.date().optional(),
+  notes: z.string().trim().nullable().optional(),
 });
 
 export async function GET(
@@ -44,10 +50,20 @@ export async function PATCH(
     return NextResponse.json({ error: "invalid_patch" }, { status: 400 });
   }
 
+  const { archived, name, roaster, origin, variety, roastDate, notes } = parsed.data;
+
   try {
     const bean = await db.bean.update({
       where: { id },
-      data: { archived: parsed.data.archived },
+      data: {
+        ...(archived !== undefined ? { archived } : {}),
+        ...(name !== undefined ? { name } : {}),
+        ...(roaster !== undefined ? { roaster: roaster || null } : {}),
+        ...(origin !== undefined ? { origin: origin || null } : {}),
+        ...(variety !== undefined ? { variety: variety || null } : {}),
+        ...(roastDate !== undefined ? { roastDate } : {}),
+        ...(notes !== undefined ? { notes: notes || null } : {}),
+      },
     });
     return NextResponse.json(bean);
   } catch {
