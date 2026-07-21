@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { RecipeData } from "@/lib/recipe-schema";
 import { inPantry } from "@/lib/pantry-match";
+import { API_BASE } from "@/lib/api-base";
 import IngredientList from "./IngredientList";
 import StepGuide from "./StepGuide";
 
@@ -15,14 +16,35 @@ export default function RecipeView({ recipe, pantryItems = [] }: RecipeViewProps
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [overrides, setOverrides] = useState<Record<number, boolean>>({});
   const [copied, setCopied] = useState(false);
+  const [pantry, setPantry] = useState<string[]>(pantryItems);
+  const [added, setAdded] = useState<Record<number, boolean>>({});
 
   const checked = recipe.ingredients.map(
-    (ing, i) => overrides[i] ?? inPantry(ing.name, pantryItems)
+    (ing, i) => overrides[i] ?? inPantry(ing.name, pantry)
   );
   const shoppingList = recipe.ingredients.filter((_, i) => !checked[i]);
 
   function toggle(index: number) {
     setOverrides((prev) => ({ ...prev, [index]: !checked[index] }));
+  }
+
+  async function addToPantry(index: number) {
+    const name = recipe.ingredients[index].name;
+    const res = await fetch(`${API_BASE}/api/pantry`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
+    // 201 created, or 409 duplicate — either way it's in the pantry now
+    if (res.status === 201 || res.status === 409) {
+      setPantry((prev) => (prev.includes(name) ? prev : [...prev, name]));
+      setOverrides((prev) => {
+        const next = { ...prev };
+        delete next[index];
+        return next;
+      });
+      setAdded((prev) => ({ ...prev, [index]: true }));
+    }
   }
 
   async function copyShoppingList() {
@@ -66,7 +88,14 @@ export default function RecipeView({ recipe, pantryItems = [] }: RecipeViewProps
             </ul>
           </div>
         )}
-        <IngredientList ingredients={recipe.ingredients} checked={checked} onToggle={toggle} />
+        <IngredientList
+          ingredients={recipe.ingredients}
+          checked={checked}
+          onToggle={toggle}
+          canAddToPantry={recipe.ingredients.map((ing) => !inPantry(ing.name, pantry))}
+          addedToPantry={added}
+          onAddToPantry={addToPantry}
+        />
       </div>
       <StepGuide
         steps={recipe.steps}
