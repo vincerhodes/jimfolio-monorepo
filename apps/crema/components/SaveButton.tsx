@@ -42,7 +42,7 @@ export default function SaveButton({ recipe, prompt, model }: SaveButtonProps) {
         type="button"
         onClick={save}
         disabled={saved || saving}
-        className="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        className="btn-primary"
       >
         {saved ? "Saved ✓" : saving ? "Saving…" : "Save recipe"}
       </button>

@@ -18,7 +18,7 @@ export default function IngredientList({ ingredients, checked, onToggle }: Ingre
                 type="checkbox"
                 checked={checked?.[i] ?? false}
                 onChange={() => onToggle(i)}
-                className="mr-2 align-middle"
+                className="mr-2 align-middle accent-[var(--accent)]"
                 aria-label={`Have ${ing.name}`}
               />
             )}
@@ -26,7 +26,7 @@ export default function IngredientList({ ingredients, checked, onToggle }: Ingre
               {ing.quantity} {ing.unit}
             </span>{" "}
             {ing.name}
-            {ing.notes && <span className="text-neutral-500"> ({ing.notes})</span>}
+            {ing.notes && <span className="text-[#7a6a5d]"> ({ing.notes})</span>}
           </li>
         ))}
       </ul>

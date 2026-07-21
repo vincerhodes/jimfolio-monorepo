@@ -86,7 +86,7 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
 
   return (
     <form
-      className="space-y-4 rounded-lg border border-neutral-200 p-6"
+      className="card space-y-4 p-6"
       onSubmit={(e) => {
         e.preventDefault();
         if (!loading && methodId) submit();
@@ -102,7 +102,7 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
             required
             value={methodId}
             onChange={(e) => setMethodId(e.target.value)}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           >
             {methods.map((m) => (
               <option key={m.id} value={m.id}>
@@ -121,10 +121,10 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
             required
             value={brewDate}
             onChange={(e) => setBrewDate(e.target.value)}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
           {agePreview !== null && (
-            <p className="mt-1 text-xs text-neutral-500">
+            <p className="mt-1 text-xs text-[#7a6a5d]">
               Beans will be {agePreview} day{agePreview === 1 ? "" : "s"} old
             </p>
           )}
@@ -140,7 +140,7 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
             value={grinder}
             onChange={(e) => setGrinder(e.target.value)}
             placeholder="Comandante"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
           <datalist id="grinder-options">
             {grinders.map((g) => (
@@ -161,7 +161,7 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
             value={grindSetting}
             onChange={(e) => setGrindSetting(e.target.value)}
             placeholder="22"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
         </div>
       </div>
@@ -177,7 +177,7 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
               className={`text-2xl ${
                 rating !== null && star <= rating
                   ? "text-amber-500"
-                  : "text-neutral-300"
+                  : "text-[#d8cfc4]"
               }`}
               aria-label={`Rate ${star} star${star === 1 ? "" : "s"}`}
             >
@@ -196,7 +196,7 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={2}
-          className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+          className="input"
         />
       </div>
 
@@ -209,7 +209,7 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
       <button
         type="submit"
         disabled={loading || !methodId}
-        className="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        className="btn-primary"
       >
         {loading ? "Logging…" : "Log brew"}
       </button>

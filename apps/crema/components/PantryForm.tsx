@@ -55,7 +55,7 @@ export default function PantryForm() {
 
   return (
     <form
-      className="space-y-4 rounded-lg border border-neutral-200 p-6"
+      className="card space-y-4 p-6"
       onSubmit={(e) => {
         e.preventDefault();
         if (!loading) submit();
@@ -73,7 +73,7 @@ export default function PantryForm() {
             value={form.name}
             onChange={(e) => update("name", e.target.value)}
             placeholder="Eggs"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
         </div>
         <div>
@@ -86,7 +86,7 @@ export default function PantryForm() {
             value={form.category}
             onChange={(e) => update("category", e.target.value)}
             placeholder="dairy"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
         </div>
       </div>
@@ -100,7 +100,7 @@ export default function PantryForm() {
       <button
         type="submit"
         disabled={loading}
-        className="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        className="btn-primary"
       >
         {loading ? "Adding…" : "Add item"}
       </button>

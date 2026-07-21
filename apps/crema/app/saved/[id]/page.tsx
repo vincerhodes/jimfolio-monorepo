@@ -31,9 +31,12 @@ export default async function SavedRecipePage({
   const recipe = parsed.data;
 
   return (
-    <main className="mx-auto max-w-4xl p-8">
-      <h1 className="text-2xl font-bold">{recipe.title}</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+    <main
+      className="mx-auto max-w-4xl p-8"
+      style={{ "--accent": "#5f7a52" } as React.CSSProperties}
+    >
+      <h1 className="page-title">{recipe.title}</h1>
+      <p className="mt-1 text-sm text-[#7a6a5d]">
         {recipe.servings ? `Serves ${recipe.servings} · ` : ""}
         Generated with {row.model}
       </p>

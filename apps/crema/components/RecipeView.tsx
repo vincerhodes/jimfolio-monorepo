@@ -48,7 +48,7 @@ export default function RecipeView({ recipe, pantryItems = [] }: RecipeViewProps
               <button
                 type="button"
                 onClick={copyShoppingList}
-                className="rounded border border-neutral-300 px-3 py-1 text-sm font-medium"
+                className="btn-secondary btn-sm"
               >
                 {copied ? "Copied" : "Copy"}
               </button>
@@ -60,7 +60,7 @@ export default function RecipeView({ recipe, pantryItems = [] }: RecipeViewProps
                     {ing.quantity} {ing.unit}
                   </span>{" "}
                   {ing.name}
-                  {ing.notes && <span className="text-neutral-500"> ({ing.notes})</span>}
+                  {ing.notes && <span className="text-[#7a6a5d]"> ({ing.notes})</span>}
                 </li>
               ))}
             </ul>
