@@ -6,6 +6,8 @@ import ProgressCheckbox from "@/components/ProgressCheckbox";
 
 export const metadata = { title: "Session 1 | Visualisations & Data Modelling" };
 
+const BASE = process.env.VERCEL ? "" : "/powerbi";
+
 export default function Session1Page() {
   return (
     <>
@@ -66,10 +68,10 @@ export default function Session1Page() {
                   <li>Call out the Fields pane and explain data type icons.</li>
                 </ol>
                 <div className="btn-row">
-                  <a className="button primary" href="/powerbi/datasets/northwind/customers.csv" download>customers.csv</a>
-                  <a className="button primary" href="/powerbi/datasets/northwind/products.csv" download>products.csv</a>
-                  <a className="button primary" href="/powerbi/datasets/northwind/orders.csv" download>orders.csv</a>
-                  <a className="button primary" href="/powerbi/datasets/northwind/order-details.csv" download>order-details.csv</a>
+                  <a className="button primary" href={`${BASE}/datasets/northwind/customers.csv`} download>customers.csv</a>
+                  <a className="button primary" href={`${BASE}/datasets/northwind/products.csv`} download>products.csv</a>
+                  <a className="button primary" href={`${BASE}/datasets/northwind/orders.csv`} download>orders.csv</a>
+                  <a className="button primary" href={`${BASE}/datasets/northwind/order-details.csv`} download>order-details.csv</a>
                 </div>
                 <div className="note info"><p><strong>Tip:</strong> Show how to rename report pages to &quot;Overview&quot; and &quot;Model Check&quot;.</p></div>
               </>

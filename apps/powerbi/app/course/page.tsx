@@ -6,6 +6,8 @@ import ProgressCheckbox from "@/components/ProgressCheckbox";
 
 export const metadata = { title: "Power BI for Beginners | Course Overview" };
 
+const BASE = process.env.VERCEL ? "" : "/powerbi";
+
 export default function OverviewPage() {
   return (
     <>
@@ -121,12 +123,12 @@ export default function OverviewPage() {
                 <table>
                   <thead><tr><th>File</th><th>Use Case</th><th>Key Join Columns</th><th>Download</th></tr></thead>
                   <tbody>
-                    <tr><td>customers.csv</td><td>Customer attributes and regions</td><td>customerID</td><td><a className="button primary" href="/powerbi/datasets/northwind/customers.csv" download>Download</a></td></tr>
-                    <tr><td>products.csv</td><td>Product catalog and categories</td><td>productID</td><td><a className="button primary" href="/powerbi/datasets/northwind/products.csv" download>Download</a></td></tr>
-                    <tr><td>orders.csv</td><td>Transactional fact table</td><td>orderID, customerID</td><td><a className="button primary" href="/powerbi/datasets/northwind/orders.csv" download>Download</a></td></tr>
-                    <tr><td>order-details.csv</td><td>Order line items (link orders to products)</td><td>orderID, productID</td><td><a className="button primary" href="/powerbi/datasets/northwind/order-details.csv" download>Download</a></td></tr>
-                    <tr><td>employees.csv</td><td>Employee information</td><td>employeeID</td><td><a className="button primary" href="/powerbi/datasets/northwind/employees.csv" download>Download</a></td></tr>
-                    <tr><td>categories.csv</td><td>Product categories</td><td>categoryID</td><td><a className="button primary" href="/powerbi/datasets/northwind/categories.csv" download>Download</a></td></tr>
+                    <tr><td>customers.csv</td><td>Customer attributes and regions</td><td>customerID</td><td><a className="button primary" href={`${BASE}/datasets/northwind/customers.csv`} download>Download</a></td></tr>
+                    <tr><td>products.csv</td><td>Product catalog and categories</td><td>productID</td><td><a className="button primary" href={`${BASE}/datasets/northwind/products.csv`} download>Download</a></td></tr>
+                    <tr><td>orders.csv</td><td>Transactional fact table</td><td>orderID, customerID</td><td><a className="button primary" href={`${BASE}/datasets/northwind/orders.csv`} download>Download</a></td></tr>
+                    <tr><td>order-details.csv</td><td>Order line items (link orders to products)</td><td>orderID, productID</td><td><a className="button primary" href={`${BASE}/datasets/northwind/order-details.csv`} download>Download</a></td></tr>
+                    <tr><td>employees.csv</td><td>Employee information</td><td>employeeID</td><td><a className="button primary" href={`${BASE}/datasets/northwind/employees.csv`} download>Download</a></td></tr>
+                    <tr><td>categories.csv</td><td>Product categories</td><td>categoryID</td><td><a className="button primary" href={`${BASE}/datasets/northwind/categories.csv`} download>Download</a></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -136,9 +138,9 @@ export default function OverviewPage() {
                 <table>
                   <thead><tr><th>File</th><th>Intended Cleaning Demo</th><th>Issues Injected</th><th>Download</th></tr></thead>
                   <tbody>
-                    <tr><td>Employees_Dirty.csv</td><td>Text cleanup + salary type fixes</td><td>header noise, casing, N/A/PENDING, mixed dates</td><td><a className="button primary" href="/powerbi/datasets/dirty/Employees_Dirty.csv" download>Download</a></td></tr>
-                    <tr><td>Sales_Dirty.csv</td><td>Currency/date cleanup + fill down</td><td>£ symbols, REFUND/TBC, blanks, mixed casing</td><td><a className="button primary" href="/powerbi/datasets/dirty/Sales_Dirty.csv" download>Download</a></td></tr>
-                    <tr><td>Departments_Dirty.csv</td><td>Header row cleanup + joins</td><td>extra rows + blank lines</td><td><a className="button primary" href="/powerbi/datasets/dirty/Departments_Dirty.csv" download>Download</a></td></tr>
+                    <tr><td>Employees_Dirty.csv</td><td>Text cleanup + salary type fixes</td><td>header noise, casing, N/A/PENDING, mixed dates</td><td><a className="button primary" href={`${BASE}/datasets/dirty/Employees_Dirty.csv`} download>Download</a></td></tr>
+                    <tr><td>Sales_Dirty.csv</td><td>Currency/date cleanup + fill down</td><td>£ symbols, REFUND/TBC, blanks, mixed casing</td><td><a className="button primary" href={`${BASE}/datasets/dirty/Sales_Dirty.csv`} download>Download</a></td></tr>
+                    <tr><td>Departments_Dirty.csv</td><td>Header row cleanup + joins</td><td>extra rows + blank lines</td><td><a className="button primary" href={`${BASE}/datasets/dirty/Departments_Dirty.csv`} download>Download</a></td></tr>
                   </tbody>
                 </table>
               </div>
