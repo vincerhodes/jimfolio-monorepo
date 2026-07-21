@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const BASE_PATH = "/chinahols";
+const BASE_PATH = process.env.VERCEL ? "" : "/chinahols";
 
 const linkMap: Record<string, string> = {
   "index.html": `${BASE_PATH}`,
