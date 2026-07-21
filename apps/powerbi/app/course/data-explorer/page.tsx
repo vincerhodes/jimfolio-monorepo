@@ -3,6 +3,8 @@ import Header from "@/components/Header";
 
 export const metadata = { title: "Data Explorer | Power BI Course Datasets" };
 
+const BASE = process.env.VERCEL ? "" : "/powerbi";
+
 const DownloadIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>
 );
@@ -44,7 +46,7 @@ export default function DataExplorerPage() {
               <tr><td>ANATR</td><td>Ana Trujillo Emparedados</td><td>Ana Trujillo</td><td>México D.F.</td><td>Mexico</td></tr>
               <tr><td>ANTON</td><td>Antonio Moreno Taquería</td><td>Antonio Moreno</td><td>México D.F.</td><td>Mexico</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/northwind/customers.csv" download><DownloadIcon /> Download customers.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/northwind/customers.csv`} download><DownloadIcon /> Download customers.csv</a>
           </div>
 
           <div className="data-card">
@@ -56,7 +58,7 @@ export default function DataExplorerPage() {
               <tr><td>2</td><td>Chang</td><td>19.00</td><td>17</td><td>1</td></tr>
               <tr><td>3</td><td>Aniseed Syrup</td><td>10.00</td><td>13</td><td>2</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/northwind/products.csv" download><DownloadIcon /> Download products.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/northwind/products.csv`} download><DownloadIcon /> Download products.csv</a>
           </div>
 
           <div className="data-card">
@@ -68,7 +70,7 @@ export default function DataExplorerPage() {
               <tr><td>10249</td><td>TOMSP</td><td>1996-07-05</td><td>Münster</td><td>Germany</td></tr>
               <tr><td>10250</td><td>HANAR</td><td>1996-07-08</td><td>Rio de Janeiro</td><td>Brazil</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/northwind/orders.csv" download><DownloadIcon /> Download orders.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/northwind/orders.csv`} download><DownloadIcon /> Download orders.csv</a>
           </div>
 
           <div className="data-card">
@@ -80,7 +82,7 @@ export default function DataExplorerPage() {
               <tr><td>10248</td><td>42</td><td>9.80</td><td>10</td><td>0.00</td></tr>
               <tr><td>10248</td><td>72</td><td>34.80</td><td>5</td><td>0.00</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/northwind/order-details.csv" download><DownloadIcon /> Download order-details.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/northwind/order-details.csv`} download><DownloadIcon /> Download order-details.csv</a>
           </div>
 
           <div className="data-card">
@@ -92,7 +94,7 @@ export default function DataExplorerPage() {
               <tr><td>2</td><td>Condiments</td><td>Sweet and savory sauces...</td></tr>
               <tr><td>3</td><td>Confections</td><td>Desserts, candies...</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/northwind/categories.csv" download><DownloadIcon /> Download categories.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/northwind/categories.csv`} download><DownloadIcon /> Download categories.csv</a>
           </div>
 
           <div className="data-card">
@@ -104,7 +106,7 @@ export default function DataExplorerPage() {
               <tr><td>2</td><td>Fuller</td><td>Andrew</td><td>Vice President, Sales</td><td>1992-08-14</td></tr>
               <tr><td>3</td><td>Leverling</td><td>Janet</td><td>Sales Representative</td><td>1992-04-01</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/northwind/employees.csv" download><DownloadIcon /> Download employees.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/northwind/employees.csv`} download><DownloadIcon /> Download employees.csv</a>
           </div>
 
           <div className="data-card">
@@ -116,7 +118,7 @@ export default function DataExplorerPage() {
               <tr><td>2</td><td>United Package</td><td>(503) 555-3199</td></tr>
               <tr><td>3</td><td>Federal Shipping</td><td>(503) 555-9931</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/northwind/shippers.csv" download><DownloadIcon /> Download shippers.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/northwind/shippers.csv`} download><DownloadIcon /> Download shippers.csv</a>
           </div>
 
           <div className="data-card">
@@ -128,7 +130,7 @@ export default function DataExplorerPage() {
               <tr><td>2</td><td>New Orleans Cajun Delights</td><td>Shelley Burke</td><td>USA</td></tr>
               <tr><td>3</td><td>Grandma Kelly&#39;s Homestead</td><td>Regina Murphy</td><td>USA</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/northwind/suppliers.csv" download><DownloadIcon /> Download suppliers.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/northwind/suppliers.csv`} download><DownloadIcon /> Download suppliers.csv</a>
           </div>
         </div>
 
@@ -146,7 +148,7 @@ export default function DataExplorerPage() {
               <tr><td>E003</td><td>SARAH JOHNSON</td><td>Procurement 407</td><td>42679</td><td>02/08/2022</td></tr>
               <tr><td>E004</td><td>JAMES  LEE</td><td>Admin 371</td><td>61795</td><td>20th August 2024</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/dirty/Employees_Dirty.csv" download><DownloadIcon /> Download Employees_Dirty.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/dirty/Employees_Dirty.csv`} download><DownloadIcon /> Download Employees_Dirty.csv</a>
           </div>
 
           <div className="data-card">
@@ -158,7 +160,7 @@ export default function DataExplorerPage() {
               <tr><td>S0002</td><td>E920</td><td>TRAINING BUNDLE</td><td>780.00</td><td>10/04/2024</td><td>North</td></tr>
               <tr><td>S0003</td><td>E500</td><td>Implementation Support</td><td>£1650.00</td><td>25/10/2023</td><td>EAST</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/dirty/Sales_Dirty.csv" download><DownloadIcon /> Download Sales_Dirty.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/dirty/Sales_Dirty.csv`} download><DownloadIcon /> Download Sales_Dirty.csv</a>
           </div>
 
           <div className="data-card">
@@ -170,7 +172,7 @@ export default function DataExplorerPage() {
               <tr><td>(blank)</td><td>(blank)</td><td>(blank)</td></tr>
               <tr><td>Department Report</td><td>(blank)</td><td>(blank)</td></tr>
             </tbody></table></div>
-            <a className="download-btn" href="/powerbi/datasets/dirty/Departments_Dirty.csv" download><DownloadIcon /> Download Departments_Dirty.csv</a>
+            <a className="download-btn" href={`${BASE}/datasets/dirty/Departments_Dirty.csv`} download><DownloadIcon /> Download Departments_Dirty.csv</a>
           </div>
         </div>
 

@@ -7,6 +7,8 @@ import ProgressCheckbox from "@/components/ProgressCheckbox";
 
 export const metadata = { title: "Session 2 | DAX, Power Query & Analysis" };
 
+const BASE = process.env.VERCEL ? "" : "/powerbi";
+
 const daxLineTotal = `LineTotal =
 RELATED(products[unitPrice]) * order-details[quantity] * (1 - order-details[discount])`;
 const daxTotalSales = `Total Sales = SUM(order-details[LineTotal])`;
@@ -97,9 +99,9 @@ export default function Session2Page() {
             Open dirty CSV files via <strong>Transform Data</strong> and run these guided clean-up blocks.
           </p>
           <div className="btn-row" style={{ marginBottom: "1rem" }}>
-            <a className="button primary" href="/powerbi/datasets/dirty/Employees_Dirty.csv" download>Employees_Dirty.csv</a>
-            <a className="button primary" href="/powerbi/datasets/dirty/Sales_Dirty.csv" download>Sales_Dirty.csv</a>
-            <a className="button primary" href="/powerbi/datasets/dirty/Departments_Dirty.csv" download>Departments_Dirty.csv</a>
+            <a className="button primary" href={`${BASE}/datasets/dirty/Employees_Dirty.csv`} download>Employees_Dirty.csv</a>
+            <a className="button primary" href={`${BASE}/datasets/dirty/Sales_Dirty.csv`} download>Sales_Dirty.csv</a>
+            <a className="button primary" href={`${BASE}/datasets/dirty/Departments_Dirty.csv`} download>Departments_Dirty.csv</a>
           </div>
           <Accordion single openFirst items={[
             { title: "Employees_Dirty.csv clean-up", children: (
