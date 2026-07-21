@@ -4,9 +4,19 @@ interface IngredientListProps {
   ingredients: Ingredient[];
   checked?: boolean[];
   onToggle?: (index: number) => void;
+  canAddToPantry?: boolean[];
+  addedToPantry?: Record<number, boolean>;
+  onAddToPantry?: (index: number) => void;
 }
 
-export default function IngredientList({ ingredients, checked, onToggle }: IngredientListProps) {
+export default function IngredientList({
+  ingredients,
+  checked,
+  onToggle,
+  canAddToPantry,
+  addedToPantry,
+  onAddToPantry,
+}: IngredientListProps) {
   return (
     <div>
       <h2 className="text-lg font-semibold">Ingredients</h2>
@@ -27,6 +37,16 @@ export default function IngredientList({ ingredients, checked, onToggle }: Ingre
             </span>{" "}
             {ing.name}
             {ing.notes && <span className="text-[#7a6a5d]"> ({ing.notes})</span>}
+            {onAddToPantry && canAddToPantry?.[i] && (
+              <button
+                type="button"
+                onClick={() => onAddToPantry(i)}
+                disabled={addedToPantry?.[i]}
+                className="btn-secondary btn-sm ml-2"
+              >
+                {addedToPantry?.[i] ? "Added" : "+ Pantry"}
+              </button>
+            )}
           </li>
         ))}
       </ul>
