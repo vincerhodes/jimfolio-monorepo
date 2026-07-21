@@ -28,7 +28,7 @@ export default function RootLayout({
             >
               crema<span className="text-terracotta">.</span>
             </Link>
-            <Nav />
+            <Nav showLogout={Boolean(process.env.CREMA_PASSWORD)} />
           </nav>
         </header>
         {children}

@@ -3,6 +3,10 @@ import { z } from "zod";
 import { recipeSchema } from "@/lib/recipe-schema";
 import { defaultModel, isAllowedModel } from "@/lib/models";
 import { buildUserPrompt, callOpenRouter } from "@/lib/openrouter";
+import { rateLimit } from "@/lib/rate-limit";
+
+const GENERATE_LIMIT = 10;
+const GENERATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
 const generateBodySchema = z
   .object({
@@ -25,6 +29,12 @@ const generateBodySchema = z
   });
 
 export async function POST(request: Request) {
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!rateLimit(`generate:${ip}`, GENERATE_LIMIT, GENERATE_WINDOW_MS)) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+  }
+
   let rawBody: unknown;
   try {
     rawBody = await request.json();

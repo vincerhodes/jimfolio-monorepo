@@ -108,6 +108,8 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
         if (data?.error === "invalid_model_output") {
           setError("The model returned something we couldn't use. Try again.");
           setRetryable(true);
+        } else if (data?.error === "rate_limited") {
+          setError("Too many requests — give it a rest and try again later.");
         } else if (data?.error === "unknown_model") {
           setError("That model isn't allowed. Pick another one.");
         } else if (data?.error === "missing_api_key") {
