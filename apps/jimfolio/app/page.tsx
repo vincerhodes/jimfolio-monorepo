@@ -53,7 +53,7 @@ export default function Home() {
         </div>
 
         {/* Wealth Inequality Project */}
-        <Link href="https://jimfolio.space/wealthinequality" target="_blank" rel="noopener noreferrer" className="block group mb-16">
+        <Link href="https://wealthinequality.jimfolio.space" target="_blank" rel="noopener noreferrer" className="block group mb-16">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -141,6 +141,50 @@ export default function Home() {
                     <span className="group-hover:hidden">Real-time analytics & interactive dashboards</span>
                     <span className="hidden group-hover:inline">Experience the full platform in action</span>
                   </p>
+                </div>
+              </div>
+              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+                <ArrowRight size={20} />
+              </div>
+            </div>
+          </motion.div>
+        </a>
+
+        {/* Crema */}
+        <a href="https://crema.jimfolio.space" className="block group mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-amber-950/30 to-slate-950"
+          >
+            <div className="absolute inset-0 flex items-center justify-center p-12">
+              <div className="text-center">
+                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-amber-200 to-orange-300 bg-clip-text text-transparent">
+                  Crema
+                </h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  AI recipe generator & coffee brew tracker
+                </p>
+                <div className="flex gap-4 justify-center text-sm text-gray-400">
+                  <span>Next.js</span>
+                  <span>•</span>
+                  <span>TypeScript</span>
+                  <span>•</span>
+                  <span>Turso</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
+              <div className="flex items-center gap-4">
+                <div className="bg-amber-500/20 px-3 py-1 rounded-full text-xs border border-amber-400/30 font-medium text-amber-300">
+                  APP
+                </div>
+                <div className="text-white">
+                  <h3 className="font-bold text-sm">Crema</h3>
+                  <p className="text-xs text-gray-300">Pantry-to-recipe ideas, beans &amp; brew logs</p>
                 </div>
               </div>
               <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
