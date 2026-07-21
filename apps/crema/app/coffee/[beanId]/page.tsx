@@ -61,18 +61,21 @@ export default async function BeanPage({
   }));
 
   return (
-    <main className="mx-auto max-w-4xl p-8">
+    <main
+      className="mx-auto max-w-4xl p-8"
+      style={{ "--accent": "#4a2c1a" } as React.CSSProperties}
+    >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">
+          <h1 className="page-title">
             {bean.name}
             {bean.archived && (
-              <span className="ml-2 rounded bg-neutral-200 px-2 py-0.5 align-middle text-xs font-medium text-neutral-600">
+              <span className="ml-2 rounded bg-neutral-200 px-2 py-0.5 align-middle font-sans text-xs font-medium text-neutral-600">
                 Archived
               </span>
             )}
           </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-sm text-[#7a6a5d]">
             {[
               bean.roaster,
               bean.origin,
@@ -81,12 +84,14 @@ export default async function BeanPage({
               .filter(Boolean)
               .join(" · ")}
           </p>
-          <p className="mt-1 text-sm text-neutral-500">
-            Roasted {formatDate(bean.roastDate)} · {ageDays} day
-            {ageDays === 1 ? "" : "s"} old
+          <p className="mt-1 flex items-center gap-2 text-sm text-[#7a6a5d]">
+            Roasted {formatDate(bean.roastDate)}
+            <span className="rounded-full bg-[#f1e9de] px-2.5 py-0.5 text-xs font-medium text-espresso">
+              {ageDays} day{ageDays === 1 ? "" : "s"} old
+            </span>
           </p>
           {bean.notes && (
-            <p className="mt-2 text-sm text-neutral-600">{bean.notes}</p>
+            <p className="mt-2 text-sm text-ink/80">{bean.notes}</p>
           )}
         </div>
         <ArchiveToggle beanId={bean.id} archived={bean.archived} />

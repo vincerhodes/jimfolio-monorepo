@@ -135,7 +135,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
 
   return (
     <form
-      className="space-y-4 rounded-lg border border-neutral-200 p-6"
+      className="card space-y-4 p-6"
       onSubmit={(e) => {
         e.preventDefault();
         if (!loading) generate();
@@ -148,6 +148,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
             name="mode"
             checked={mode === "ingredients"}
             onChange={() => setMode("ingredients")}
+            className="accent-[var(--accent)]"
           />
           Ingredients I have
         </label>
@@ -157,6 +158,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
             name="mode"
             checked={mode === "idea"}
             onChange={() => setMode("idea")}
+            className="accent-[var(--accent)]"
           />
           Recipe for…
         </label>
@@ -173,7 +175,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
             value={form.idea}
             onChange={(e) => update("idea", e.target.value)}
             placeholder="mushroom risotto"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
         </div>
       ) : (
@@ -187,13 +189,14 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
             value={form.ingredients}
             onChange={(e) => update("ingredients", e.target.value)}
             placeholder="chicken, rice, broccoli"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
-          <label className="mt-2 flex items-center gap-2 text-sm text-neutral-600">
+          <label className="mt-2 flex items-center gap-2 text-sm text-[#7a6a5d]">
             <input
               type="checkbox"
               checked={usePantry}
               onChange={(e) => setUsePantry(e.target.checked)}
+              className="accent-[var(--accent)]"
             />
             Use my pantry{pantryNames.length > 0 ? ` (${pantryNames.length} items)` : ""}
           </label>
@@ -211,7 +214,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
             value={form.cuisine}
             onChange={(e) => update("cuisine", e.target.value)}
             placeholder="Italian"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
         </div>
         <div>
@@ -225,7 +228,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
             value={form.maxTime}
             onChange={(e) => update("maxTime", e.target.value)}
             placeholder="30"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
         </div>
         <div>
@@ -239,7 +242,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
             value={form.servings}
             onChange={(e) => update("servings", e.target.value)}
             placeholder="2"
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
         </div>
       </div>
@@ -255,7 +258,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
             onChange={(e) => update("freeText", e.target.value)}
             placeholder="e.g. make it spicy, one-pot only"
             rows={2}
-            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+            className="input"
           />
         </div>
       )}
@@ -268,7 +271,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
           id="model"
           value={form.model}
           onChange={(e) => update("model", e.target.value)}
-          className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 text-sm"
+          className="input"
         >
           {MODELS.map((m) => (
             <option key={m.id} value={m.id}>
@@ -288,7 +291,7 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          className="btn-primary"
         >
           {loading ? "Generating…" : "Generate recipe"}
         </button>
@@ -296,12 +299,37 @@ export default function PromptForm({ onGenerated }: PromptFormProps) {
           <button
             type="button"
             onClick={generate}
-            className="rounded border border-neutral-300 px-4 py-2 text-sm font-medium"
+            className="btn-secondary"
           >
             Retry
           </button>
         )}
       </div>
+      {loading && (
+        <p className="flex items-center gap-2 text-sm text-[#7a6a5d]" role="status">
+          <svg
+            className="h-4 w-4 animate-spin text-terracotta"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-90"
+              fill="currentColor"
+              d="M12 2a10 10 0 0 1 10 10h-4a6 6 0 0 0-6-6V2z"
+            />
+          </svg>
+          Working on your recipe — this can take ~20s.
+        </p>
+      )}
     </form>
   );
 }

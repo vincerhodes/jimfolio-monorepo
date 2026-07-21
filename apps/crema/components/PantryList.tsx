@@ -38,17 +38,17 @@ export default function PantryList({ items }: { items: PantryItem[] }) {
   }
 
   if (items.length === 0) {
-    return <p className="text-sm text-neutral-500">No pantry items yet. Add one below.</p>;
+    return <p className="text-sm text-[#7a6a5d]">🧺 No pantry items yet — add your first item below.</p>;
   }
 
   return (
     <div className="space-y-6">
       {sortedGroups.map(([category, groupItems]) => (
         <div key={category || "uncategorised"}>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-[#7a6a5d]">
             {category || "Uncategorised"}
           </h3>
-          <ul className="mt-2 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+          <ul className="card mt-2 divide-y divide-[#eee7dd]">
             {groupItems.map((item) => (
               <li
                 key={item.id}
@@ -61,7 +61,7 @@ export default function PantryList({ items }: { items: PantryItem[] }) {
                   disabled={deletingId === item.id}
                   className="text-sm text-red-600 hover:underline disabled:opacity-50"
                 >
-                  Delete
+                  {deletingId === item.id ? "Deleting…" : "Delete"}
                 </button>
               </li>
             ))}

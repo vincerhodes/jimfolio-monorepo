@@ -14,11 +14,11 @@ export default function DialInSummary({ entries }: DialInSummaryProps) {
   if (entries.length === 0) return null;
 
   return (
-    <div className="rounded-lg border border-neutral-200 p-6">
+    <div className="card p-6">
       <h2 className="text-lg font-semibold">Dial-in</h2>
       <table className="mt-3 w-full text-sm">
         <thead>
-          <tr className="border-b border-neutral-200 text-left text-neutral-500">
+          <tr className="border-b border-[#e7e0d5] text-left text-[#7a6a5d]">
             <th className="py-2 pr-4 font-medium">Method</th>
             <th className="py-2 pr-4 font-medium">Grinder</th>
             <th className="py-2 pr-4 font-medium">Setting</th>
@@ -28,7 +28,7 @@ export default function DialInSummary({ entries }: DialInSummaryProps) {
         </thead>
         <tbody>
           {entries.map((entry) => (
-            <tr key={entry.methodLabel} className="border-b border-neutral-100">
+            <tr key={entry.methodLabel} className="border-b border-[#f0e9df]">
               <td className="py-2 pr-4">{entry.methodLabel}</td>
               <td className="py-2 pr-4">{entry.grinder ?? "—"}</td>
               <td className="py-2 pr-4">{entry.grindSetting}</td>
@@ -36,9 +36,14 @@ export default function DialInSummary({ entries }: DialInSummaryProps) {
                 {entry.ageDays} day{entry.ageDays === 1 ? "" : "s"}
               </td>
               <td className="py-2 whitespace-nowrap">
-                {entry.rating
-                  ? "★".repeat(entry.rating) + "☆".repeat(5 - entry.rating)
-                  : "—"}
+                {entry.rating ? (
+                  <>
+                    <span className="text-amber-600">{"★".repeat(entry.rating)}</span>
+                    <span className="text-[#d8cfc4]">{"☆".repeat(5 - entry.rating)}</span>
+                  </>
+                ) : (
+                  "—"
+                )}
               </td>
             </tr>
           ))}

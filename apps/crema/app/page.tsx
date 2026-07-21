@@ -11,7 +11,11 @@ export default async function Home() {
   const pantryItems = items.map((item) => item.name);
 
   return (
-    <main className="mx-auto max-w-4xl p-8">
+    <main
+      className="mx-auto max-w-4xl p-8"
+      style={{ "--accent": "#c2571f" } as React.CSSProperties}
+    >
+      <h1 className="page-title mb-6">Generator</h1>
       <Generator pantryItems={pantryItems} />
     </main>
   );

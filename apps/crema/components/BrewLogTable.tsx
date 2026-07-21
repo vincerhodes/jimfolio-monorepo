@@ -29,13 +29,13 @@ function formatGrind(brew: {
 
 export default function BrewLogTable({ brews, roastDate }: BrewLogTableProps) {
   if (brews.length === 0) {
-    return <p className="text-sm text-neutral-500">No brews logged yet.</p>;
+    return <p className="text-sm text-[#7a6a5d]">☕ No brews logged yet — log your first brew below.</p>;
   }
 
   return (
     <table className="w-full text-sm">
       <thead>
-        <tr className="border-b border-neutral-200 text-left text-neutral-500">
+        <tr className="border-b border-[#e7e0d5] text-left text-[#7a6a5d]">
           <th className="py-2 pr-4 font-medium">Date</th>
           <th className="py-2 pr-4 font-medium">Method</th>
           <th className="py-2 pr-4 font-medium">Grind</th>
@@ -48,7 +48,7 @@ export default function BrewLogTable({ brews, roastDate }: BrewLogTableProps) {
         {brews.map((brew) => {
           const ageDays = daysBetween(roastDate, brew.brewDate);
           return (
-            <tr key={brew.id} className="border-b border-neutral-100">
+            <tr key={brew.id} className="border-b border-[#f0e9df]">
               <td className="py-2 pr-4 whitespace-nowrap">{formatDate(brew.brewDate)}</td>
               <td className="py-2 pr-4">{brew.method.label}</td>
               <td className="py-2 pr-4">{formatGrind(brew)}</td>
@@ -56,9 +56,14 @@ export default function BrewLogTable({ brews, roastDate }: BrewLogTableProps) {
                 {ageDays} day{ageDays === 1 ? "" : "s"}
               </td>
               <td className="py-2 pr-4 whitespace-nowrap">
-                {brew.rating
-                  ? "★".repeat(brew.rating) + "☆".repeat(5 - brew.rating)
-                  : "—"}
+                {brew.rating ? (
+                  <>
+                    <span className="text-amber-600">{"★".repeat(brew.rating)}</span>
+                    <span className="text-[#d8cfc4]">{"☆".repeat(5 - brew.rating)}</span>
+                  </>
+                ) : (
+                  "—"
+                )}
               </td>
               <td className="py-2">{brew.notes ?? ""}</td>
             </tr>

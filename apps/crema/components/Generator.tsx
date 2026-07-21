@@ -29,7 +29,7 @@ export default function Generator({ pantryItems = [] }: { pantryItems?: string[]
             />
           </div>
           {generated.recipe.servings && (
-            <p className="text-sm text-neutral-500">Serves {generated.recipe.servings}</p>
+            <p className="text-sm text-[#7a6a5d]">Serves {generated.recipe.servings}</p>
           )}
           <RecipeView recipe={generated.recipe} pantryItems={pantryItems} />
         </div>

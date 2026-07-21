@@ -41,7 +41,7 @@ export default function ArchiveToggle({ beanId, archived }: ArchiveToggleProps) 
         type="button"
         onClick={toggle}
         disabled={loading}
-        className="rounded border border-neutral-300 px-3 py-1 text-sm font-medium disabled:opacity-50"
+        className="btn-secondary btn-sm"
       >
         {loading ? "Updating…" : archived ? "Unarchive" : "Archive"}
       </button>
