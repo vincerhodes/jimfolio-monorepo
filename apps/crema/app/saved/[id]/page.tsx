@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { recipeSchema } from "@/lib/recipe-schema";
 import RecipeView from "@/components/RecipeView";
+import EditRecipeForm from "@/components/EditRecipeForm";
+import DeleteRecipeButton from "@/components/DeleteRecipeButton";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +42,10 @@ export default async function SavedRecipePage({
         {recipe.servings ? `Serves ${recipe.servings} · ` : ""}
         Generated with {row.model}
       </p>
+      <div className="mt-4 flex items-start gap-2">
+        <EditRecipeForm id={row.id} title={recipe.title} servings={recipe.servings ?? null} />
+        <DeleteRecipeButton id={row.id} />
+      </div>
       <div className="mt-8">
         <RecipeView recipe={recipe} pantryItems={pantryItems} />
       </div>

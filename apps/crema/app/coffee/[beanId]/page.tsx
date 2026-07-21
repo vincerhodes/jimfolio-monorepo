@@ -5,6 +5,7 @@ import BrewLogTable from "@/components/BrewLogTable";
 import BrewLogForm from "@/components/BrewLogForm";
 import DialInSummary from "@/components/DialInSummary";
 import ArchiveToggle from "@/components/ArchiveToggle";
+import BeanEditButton from "@/components/BeanEditButton";
 
 export const dynamic = "force-dynamic";
 
@@ -97,13 +98,27 @@ export default async function BeanPage({
         <ArchiveToggle beanId={bean.id} archived={bean.archived} />
       </div>
 
+      <div className="mt-4">
+        <BeanEditButton
+          bean={{
+            id: bean.id,
+            name: bean.name,
+            roaster: bean.roaster,
+            origin: bean.origin,
+            variety: bean.variety,
+            roastDate: bean.roastDate.toISOString(),
+            notes: bean.notes,
+          }}
+        />
+      </div>
+
       <div className="mt-8">
         <DialInSummary entries={dialInEntries} />
       </div>
 
       <div className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">Brews</h2>
-        <BrewLogTable brews={bean.brews} roastDate={bean.roastDate} />
+        <BrewLogTable beanId={bean.id} brews={bean.brews} roastDate={bean.roastDate} grinders={grinders} />
       </div>
 
       <div className="mt-8">
