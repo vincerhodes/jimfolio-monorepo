@@ -8,8 +8,8 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
 
 export const metadata: Metadata = {
-  title: "crema",
-  description: "Coffee tracker",
+  title: "pantry",
+  description: "Recipe generator and pantry tracker",
 };
 
 export default function RootLayout({
@@ -26,9 +26,9 @@ export default function RootLayout({
               href="/"
               className="font-display text-xl font-semibold tracking-tight text-espresso"
             >
-              crema<span className="text-terracotta">.</span>
+              pantry<span className="text-terracotta">.</span>
             </Link>
-            <Nav showLogout={Boolean(process.env.CREMA_PASSWORD)} />
+            <Nav showLogout={Boolean(process.env.PANTRY_PASSWORD)} />
           </nav>
         </header>
         {children}
