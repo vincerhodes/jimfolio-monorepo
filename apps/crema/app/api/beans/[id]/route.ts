@@ -25,7 +25,7 @@ export async function GET(
     where: { id },
     include: {
       brews: {
-        include: { method: true },
+        include: { method: true, grinderRef: true },
         orderBy: { brewDate: "desc" },
       },
     },

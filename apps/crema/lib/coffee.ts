@@ -13,3 +13,16 @@ export function formatDate(date: Date | string): string {
     year: "numeric",
   });
 }
+
+// Display name for a grinder: "Timemore Sculptor 078s", falling back to
+// whichever part is set, then a placeholder.
+export function grinderDisplayName(grinder: {
+  manufacturer: string | null;
+  model: string | null;
+}): string {
+  const name = [grinder.manufacturer, grinder.model]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  return name || "Unnamed grinder";
+}

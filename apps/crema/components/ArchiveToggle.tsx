@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { API_BASE } from "@/lib/api-base";
 
 interface ArchiveToggleProps {
-  beanId: string;
+  endpoint: string; // API path accepting a PATCH { archived }, e.g. `/api/beans/<id>`
   archived: boolean;
 }
 
-export default function ArchiveToggle({ beanId, archived }: ArchiveToggleProps) {
+export default function ArchiveToggle({ endpoint, archived }: ArchiveToggleProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +18,7 @@ export default function ArchiveToggle({ beanId, archived }: ArchiveToggleProps) 
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api/beans/${beanId}`, {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ archived: !archived }),

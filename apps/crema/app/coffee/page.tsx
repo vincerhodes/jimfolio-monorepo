@@ -64,6 +64,12 @@ export default async function CoffeePage({ searchParams }: CoffeePageProps) {
         >
           Archived
         </Link>
+        <Link
+          href="/coffee/gear"
+          className="-mb-px ml-auto border-b-2 border-transparent px-1 pb-2 text-sm font-medium text-[#7a6a5d] hover:text-ink"
+        >
+          Gear
+        </Link>
       </div>
 
       <div className="mt-4">

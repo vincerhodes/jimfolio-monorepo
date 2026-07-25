@@ -19,7 +19,7 @@ export default async function BeanPage({
     where: { id: beanId },
     include: {
       brews: {
-        include: { method: true },
+        include: { method: true, grinderRef: true },
         orderBy: { brewDate: "desc" },
       },
     },
@@ -27,16 +27,6 @@ export default async function BeanPage({
   if (!bean) notFound();
 
   const ageDays = daysBetween(bean.roastDate, new Date());
-
-  const grinders = (
-    await db.brewLog.findMany({
-      where: { grinder: { not: null } },
-      distinct: ["grinder"],
-      select: { grinder: true },
-    })
-  )
-    .map((row) => row.grinder)
-    .filter((g): g is string => g !== null);
 
   // Best brew per method: highest rating, tie-break most recent brewDate.
   // Only brews with a grind setting are eligible.
@@ -107,7 +97,7 @@ export default async function BeanPage({
             <p className="mt-2 text-sm text-ink/80">{bean.notes}</p>
           )}
         </div>
-        <ArchiveToggle beanId={bean.id} archived={bean.archived} />
+        <ArchiveToggle endpoint={`/api/beans/${bean.id}`} archived={bean.archived} />
       </div>
 
       <div className="mt-4">
@@ -134,7 +124,7 @@ export default async function BeanPage({
 
       <div className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">Brews</h2>
-        <BrewLogTable beanId={bean.id} brews={bean.brews} roastDate={bean.roastDate} grinders={grinders} />
+        <BrewLogTable beanId={bean.id} brews={bean.brews} roastDate={bean.roastDate} />
       </div>
 
       <div className="mt-8">
@@ -142,7 +132,6 @@ export default async function BeanPage({
         <BrewLogForm
           beanId={bean.id}
           roastDate={bean.roastDate.toISOString()}
-          grinders={grinders}
         />
       </div>
     </main>
