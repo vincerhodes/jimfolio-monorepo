@@ -13,6 +13,9 @@ interface Brew {
   grindSetting: number | null;
   rating: number | null;
   notes: string | null;
+  doseG: number | null;
+  yieldG: number | null;
+  brewTimeSec: number | null;
   methodId: string;
   method: { label: string };
 }
@@ -42,6 +45,21 @@ function formatGrind(brew: {
   return brew.grindSize ?? "—";
 }
 
+function formatBrewParams(brew: {
+  doseG: number | null;
+  yieldG: number | null;
+  brewTimeSec: number | null;
+}): string {
+  if (brew.doseG === null && brew.yieldG === null && brew.brewTimeSec === null) {
+    return "—";
+  }
+  return [
+    brew.doseG !== null ? `${brew.doseG}g` : "—",
+    brew.yieldG !== null ? `${brew.yieldG}g` : "—",
+    brew.brewTimeSec !== null ? `${brew.brewTimeSec}s` : "—",
+  ].join(" / ");
+}
+
 function dateInputValue(date: Date): string {
   const d = new Date(date);
   const y = d.getFullYear();
@@ -55,6 +73,9 @@ interface EditState {
   methodId: string;
   grinder: string;
   grindSetting: string;
+  doseG: string;
+  yieldG: string;
+  brewTimeSec: string;
   rating: number | null;
   notes: string;
 }
@@ -65,6 +86,9 @@ function toEditState(brew: Brew): EditState {
     methodId: brew.methodId,
     grinder: brew.grinder ?? "",
     grindSetting: brew.grindSetting !== null ? String(brew.grindSetting) : "",
+    doseG: brew.doseG !== null ? String(brew.doseG) : "",
+    yieldG: brew.yieldG !== null ? String(brew.yieldG) : "",
+    brewTimeSec: brew.brewTimeSec !== null ? String(brew.brewTimeSec) : "",
     rating: brew.rating,
     notes: brew.notes ?? "",
   };
@@ -111,6 +135,9 @@ export default function BrewLogTable({ beanId, brews, roastDate, grinders }: Bre
           brewDate: edit.brewDate || undefined,
           grinder: edit.grinder.trim() || null,
           grindSetting: edit.grindSetting.trim() === "" ? null : Number(edit.grindSetting),
+          doseG: edit.doseG.trim() === "" ? null : Number(edit.doseG),
+          yieldG: edit.yieldG.trim() === "" ? null : Number(edit.yieldG),
+          brewTimeSec: edit.brewTimeSec.trim() === "" ? null : Number(edit.brewTimeSec),
           rating: edit.rating,
           notes: edit.notes.trim() || null,
         }),
@@ -166,6 +193,7 @@ export default function BrewLogTable({ beanId, brews, roastDate, grinders }: Bre
             <th className="py-2 pr-4 font-medium">Date</th>
             <th className="py-2 pr-4 font-medium">Method</th>
             <th className="py-2 pr-4 font-medium">Grind</th>
+            <th className="py-2 pr-4 font-medium">Dose / Yield / Time</th>
             <th className="py-2 pr-4 font-medium">Age</th>
             <th className="py-2 pr-4 font-medium">Rating</th>
             <th className="py-2 pr-4 font-medium">Notes</th>
@@ -177,7 +205,7 @@ export default function BrewLogTable({ beanId, brews, roastDate, grinders }: Bre
             if (editingId === brew.id && edit) {
               return (
                 <tr key={brew.id} className="border-b border-[#f0e9df]">
-                  <td colSpan={7} className="py-3">
+                  <td colSpan={8} className="py-3">
                     <form
                       className="space-y-4"
                       onSubmit={(e) => {
@@ -254,6 +282,54 @@ export default function BrewLogTable({ beanId, brews, roastDate, grinders }: Bre
                         </div>
                       </div>
 
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                        <div>
+                          <label htmlFor={`edit-dose-${brew.id}`} className="block text-sm font-medium">
+                            Dose (g)
+                          </label>
+                          <input
+                            id={`edit-dose-${brew.id}`}
+                            type="number"
+                            step="0.1"
+                            min="0"
+                            value={edit.doseG}
+                            onChange={(e) => setEdit({ ...edit, doseG: e.target.value })}
+                            placeholder="18"
+                            className="input"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor={`edit-yield-${brew.id}`} className="block text-sm font-medium">
+                            Yield (g)
+                          </label>
+                          <input
+                            id={`edit-yield-${brew.id}`}
+                            type="number"
+                            step="0.1"
+                            min="0"
+                            value={edit.yieldG}
+                            onChange={(e) => setEdit({ ...edit, yieldG: e.target.value })}
+                            placeholder="36"
+                            className="input"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor={`edit-time-${brew.id}`} className="block text-sm font-medium">
+                            Time (s)
+                          </label>
+                          <input
+                            id={`edit-time-${brew.id}`}
+                            type="number"
+                            step="1"
+                            min="0"
+                            value={edit.brewTimeSec}
+                            onChange={(e) => setEdit({ ...edit, brewTimeSec: e.target.value })}
+                            placeholder="28"
+                            className="input"
+                          />
+                        </div>
+                      </div>
+
                       <div>
                         <span className="block text-sm font-medium">Rating</span>
                         <div className="mt-1 flex gap-1">
@@ -310,6 +386,9 @@ export default function BrewLogTable({ beanId, brews, roastDate, grinders }: Bre
                 <td className="py-2 pr-4 whitespace-nowrap">{formatDate(brew.brewDate)}</td>
                 <td className="py-2 pr-4">{brew.method.label}</td>
                 <td className="py-2 pr-4">{formatGrind(brew)}</td>
+                <td className="py-2 pr-4 whitespace-nowrap">
+                  {formatBrewParams(brew)}
+                </td>
                 <td className="py-2 pr-4 whitespace-nowrap">
                   {ageDays} day{ageDays === 1 ? "" : "s"}
                 </td>

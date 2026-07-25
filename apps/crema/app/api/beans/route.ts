@@ -9,6 +9,10 @@ const createSchema = z.object({
   variety: z.string().optional(),
   roastDate: z.coerce.date(),
   notes: z.string().optional(),
+  process: z.string().optional(),
+  tastingNotes: z.string().optional(),
+  roastLevel: z.string().optional(),
+  altitude: z.string().optional(),
 });
 
 export async function GET() {
@@ -35,7 +39,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_bean" }, { status: 400 });
   }
 
-  const { name, roaster, origin, variety, roastDate, notes } = parsed.data;
+  const { name, roaster, origin, variety, roastDate, notes, process, tastingNotes, roastLevel, altitude } = parsed.data;
   const bean = await db.bean.create({
     data: {
       name,
@@ -44,6 +48,10 @@ export async function POST(request: Request) {
       variety: variety ?? null,
       roastDate,
       notes: notes ?? null,
+      process: process ?? null,
+      tastingNotes: tastingNotes ?? null,
+      roastLevel: roastLevel ?? null,
+      altitude: altitude ?? null,
     },
   });
 

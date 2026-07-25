@@ -25,11 +25,15 @@ model Bean {
   roaster   String?
   origin    String?
   variety   String?
-  roastDate DateTime
-  notes     String?
-  archived  Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  brews     BrewLog[]
+  roastDate    DateTime
+  notes        String?
+  process      String?
+  tastingNotes String?
+  roastLevel   String?
+  altitude     String?
+  archived     Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  brews        BrewLog[]
 }
 
 model BrewMethod {
@@ -57,5 +61,8 @@ model BrewLog {
   grindSetting Float?
   rating    Int?       // 1–5
   notes     String?
+  doseG      Float?
+  yieldG     Float?
+  brewTimeSec Int?
   createdAt DateTime   @default(now())
 }

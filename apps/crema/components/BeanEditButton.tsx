@@ -12,6 +12,10 @@ interface BeanEditButtonProps {
     variety: string | null;
     roastDate: string; // ISO string, serialized from the server component
     notes: string | null;
+    process: string | null;
+    tastingNotes: string | null;
+    roastLevel: string | null;
+    altitude: string | null;
   };
 }
 
