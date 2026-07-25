@@ -2,14 +2,23 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { daysBetween, formatDate } from "@/lib/coffee";
+import { daysBetween, formatDate, grinderDisplayName } from "@/lib/coffee";
 import { API_BASE } from "@/lib/api-base";
+
+interface GrinderRef {
+  id: string;
+  manufacturer: string | null;
+  model: string | null;
+  archived: boolean;
+}
 
 interface Brew {
   id: string;
   brewDate: Date;
   grindSize: string | null;
-  grinder: string | null;
+  grinder: string | null; // legacy free text — old rows only
+  grinderId: string | null;
+  grinderRef: GrinderRef | null;
   grindSetting: number | null;
   rating: number | null;
   notes: string | null;
@@ -24,7 +33,6 @@ interface BrewLogTableProps {
   beanId: string;
   brews: Brew[];
   roastDate: Date;
-  grinders: string[]; // distinct grinder names used before, for the datalist
 }
 
 interface BrewMethod {
@@ -35,12 +43,17 @@ interface BrewMethod {
 function formatGrind(brew: {
   grindSize: string | null;
   grinder: string | null;
+  grinderRef: GrinderRef | null;
   grindSetting: number | null;
 }): string {
-  if (brew.grinder && brew.grindSetting !== null) {
-    return `${brew.grinder} · ${brew.grindSetting}`;
+  // Linked grinder wins; fall back to the legacy free-text column.
+  const grinderName = brew.grinderRef
+    ? grinderDisplayName(brew.grinderRef)
+    : brew.grinder;
+  if (grinderName && brew.grindSetting !== null) {
+    return `${grinderName} · ${brew.grindSetting}`;
   }
-  if (brew.grinder) return brew.grinder;
+  if (grinderName) return grinderName;
   if (brew.grindSetting !== null) return String(brew.grindSetting);
   return brew.grindSize ?? "—";
 }
@@ -71,7 +84,7 @@ function dateInputValue(date: Date): string {
 interface EditState {
   brewDate: string;
   methodId: string;
-  grinder: string;
+  grinderId: string;
   grindSetting: string;
   doseG: string;
   yieldG: string;
@@ -84,7 +97,7 @@ function toEditState(brew: Brew): EditState {
   return {
     brewDate: dateInputValue(brew.brewDate),
     methodId: brew.methodId,
-    grinder: brew.grinder ?? "",
+    grinderId: brew.grinderId ?? "",
     grindSetting: brew.grindSetting !== null ? String(brew.grindSetting) : "",
     doseG: brew.doseG !== null ? String(brew.doseG) : "",
     yieldG: brew.yieldG !== null ? String(brew.yieldG) : "",
@@ -94,9 +107,10 @@ function toEditState(brew: Brew): EditState {
   };
 }
 
-export default function BrewLogTable({ beanId, brews, roastDate, grinders }: BrewLogTableProps) {
+export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableProps) {
   const router = useRouter();
   const [methods, setMethods] = useState<BrewMethod[]>([]);
+  const [grinders, setGrinders] = useState<GrinderRef[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [edit, setEdit] = useState<EditState | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -108,6 +122,10 @@ export default function BrewLogTable({ beanId, brews, roastDate, grinders }: Bre
       .then((res) => (res.ok ? res.json() : []))
       .then((data: BrewMethod[]) => setMethods(data))
       .catch(() => setMethods([]));
+    fetch(`${API_BASE}/api/grinders`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data: GrinderRef[]) => setGrinders(data))
+      .catch(() => setGrinders([]));
   }, []);
 
   function startEdit(brew: Brew) {
@@ -133,7 +151,7 @@ export default function BrewLogTable({ beanId, brews, roastDate, grinders }: Bre
         body: JSON.stringify({
           methodId: edit.methodId,
           brewDate: edit.brewDate || undefined,
-          grinder: edit.grinder.trim() || null,
+          grinderId: edit.grinderId || null,
           grindSetting: edit.grindSetting.trim() === "" ? null : Number(edit.grindSetting),
           doseG: edit.doseG.trim() === "" ? null : Number(edit.doseG),
           yieldG: edit.yieldG.trim() === "" ? null : Number(edit.yieldG),
@@ -249,20 +267,21 @@ export default function BrewLogTable({ beanId, brews, roastDate, grinders }: Bre
                           <label htmlFor={`edit-grinder-${brew.id}`} className="block text-sm font-medium">
                             Grinder
                           </label>
-                          <input
+                          <select
                             id={`edit-grinder-${brew.id}`}
-                            type="text"
-                            list="grinder-options"
-                            value={edit.grinder}
-                            onChange={(e) => setEdit({ ...edit, grinder: e.target.value })}
-                            placeholder="Comandante"
+                            value={edit.grinderId}
+                            onChange={(e) => setEdit({ ...edit, grinderId: e.target.value })}
                             className="input"
-                          />
-                          <datalist id="grinder-options">
-                            {grinders.map((g) => (
-                              <option key={g} value={g} />
-                            ))}
-                          </datalist>
+                          >
+                            <option value="">— none —</option>
+                            {grinders
+                              .filter((g) => !g.archived || g.id === edit.grinderId)
+                              .map((g) => (
+                                <option key={g.id} value={g.id}>
+                                  {grinderDisplayName(g)}
+                                </option>
+                              ))}
+                          </select>
                         </div>
                         <div>
                           <label htmlFor={`edit-setting-${brew.id}`} className="block text-sm font-medium">

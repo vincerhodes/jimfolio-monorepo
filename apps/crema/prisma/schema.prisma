@@ -31,6 +31,17 @@ model BrewMethod {
   brews BrewLog[]
 }
 
+model Grinder {
+  id           String    @id @default(cuid())
+  manufacturer String?
+  model        String?
+  type         String?   // FLAT_BURR | CONICAL_BURR | BLADE | OTHER (zod enum)
+  notes        String?
+  archived     Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  brews        BrewLog[]
+}
+
 model BrewLog {
   id        String     @id @default(cuid())
   beanId    String
@@ -39,7 +50,9 @@ model BrewLog {
   method    BrewMethod @relation(fields: [methodId], references: [id])
   brewDate  DateTime   @default(now())
   grindSize String?    // legacy free text: "12 clicks", "3.5" — old rows only
-  grinder   String?
+  grinder   String?    // legacy free text — old rows only; linked rows use grinderRef
+  grinderId String?
+  grinderRef Grinder?  @relation(fields: [grinderId], references: [id])
   grindSetting Float?
   rating    Int?       // 1–5
   notes     String?
