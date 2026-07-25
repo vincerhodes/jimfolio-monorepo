@@ -10,6 +10,9 @@ const createSchema = z.object({
   rating: z.number().int().min(1).max(5).optional(),
   brewDate: z.coerce.date().optional(),
   notes: z.string().optional(),
+  doseG: z.coerce.number().positive().optional(),
+  yieldG: z.coerce.number().positive().optional(),
+  brewTimeSec: z.coerce.number().int().positive().optional(),
 });
 
 export async function POST(
@@ -35,7 +38,7 @@ export async function POST(
     return NextResponse.json({ error: "bean_not_found" }, { status: 404 });
   }
 
-  const { methodId, grindSize, grinder, grindSetting, rating, brewDate, notes } = parsed.data;
+  const { methodId, grindSize, grinder, grindSetting, rating, brewDate, notes, doseG, yieldG, brewTimeSec } = parsed.data;
   const method = await db.brewMethod.findUnique({ where: { id: methodId } });
   if (!method) {
     return NextResponse.json({ error: "unknown_method" }, { status: 400 });
@@ -51,6 +54,9 @@ export async function POST(
       rating: rating ?? null,
       brewDate: brewDate ?? new Date(),
       notes: notes ?? null,
+      doseG: doseG ?? null,
+      yieldG: yieldG ?? null,
+      brewTimeSec: brewTimeSec ?? null,
     },
   });
 

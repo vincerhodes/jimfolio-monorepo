@@ -9,6 +9,9 @@ const patchSchema = z.object({
   rating: z.number().int().min(1).max(5).nullable().optional(),
   brewDate: z.coerce.date().optional(),
   notes: z.string().nullable().optional(),
+  doseG: z.coerce.number().positive().nullable().optional(),
+  yieldG: z.coerce.number().positive().nullable().optional(),
+  brewTimeSec: z.coerce.number().int().positive().nullable().optional(),
 });
 
 async function findBrew(beanId: string, brewId: string) {
@@ -38,7 +41,7 @@ export async function PATCH(
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
 
-  const { methodId, grinder, grindSetting, rating, brewDate, notes } = parsed.data;
+  const { methodId, grinder, grindSetting, rating, brewDate, notes, doseG, yieldG, brewTimeSec } = parsed.data;
   if (methodId) {
     const method = await db.brewMethod.findUnique({ where: { id: methodId } });
     if (!method) {
@@ -55,6 +58,9 @@ export async function PATCH(
       ...(rating !== undefined ? { rating } : {}),
       ...(brewDate !== undefined ? { brewDate } : {}),
       ...(notes !== undefined ? { notes: notes || null } : {}),
+      ...(doseG !== undefined ? { doseG } : {}),
+      ...(yieldG !== undefined ? { yieldG } : {}),
+      ...(brewTimeSec !== undefined ? { brewTimeSec } : {}),
     },
   });
 

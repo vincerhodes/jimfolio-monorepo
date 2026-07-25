@@ -31,6 +31,9 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
   const [brewDate, setBrewDate] = useState(todayInputValue());
   const [grinder, setGrinder] = useState("");
   const [grindSetting, setGrindSetting] = useState("");
+  const [doseG, setDoseG] = useState("");
+  const [yieldG, setYieldG] = useState("");
+  const [brewTimeSec, setBrewTimeSec] = useState("");
   const [rating, setRating] = useState<number | null>(null);
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
@@ -63,6 +66,10 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
           grinder: grinder.trim() || undefined,
           grindSetting:
             grindSetting.trim() === "" ? undefined : Number(grindSetting),
+          doseG: doseG.trim() === "" ? undefined : Number(doseG),
+          yieldG: yieldG.trim() === "" ? undefined : Number(yieldG),
+          brewTimeSec:
+            brewTimeSec.trim() === "" ? undefined : Number(brewTimeSec),
           rating: rating ?? undefined,
           notes: notes.trim() || undefined,
         }),
@@ -74,6 +81,9 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
       setBrewDate(todayInputValue());
       setGrinder("");
       setGrindSetting("");
+      setDoseG("");
+      setYieldG("");
+      setBrewTimeSec("");
       setRating(null);
       setNotes("");
       router.refresh();
@@ -161,6 +171,54 @@ export default function BrewLogForm({ beanId, roastDate, grinders }: BrewLogForm
             value={grindSetting}
             onChange={(e) => setGrindSetting(e.target.value)}
             placeholder="22"
+            className="input"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div>
+          <label htmlFor="brew-dose" className="block text-sm font-medium">
+            Dose (g)
+          </label>
+          <input
+            id="brew-dose"
+            type="number"
+            step="0.1"
+            min="0"
+            value={doseG}
+            onChange={(e) => setDoseG(e.target.value)}
+            placeholder="18"
+            className="input"
+          />
+        </div>
+        <div>
+          <label htmlFor="brew-yield" className="block text-sm font-medium">
+            Yield (g)
+          </label>
+          <input
+            id="brew-yield"
+            type="number"
+            step="0.1"
+            min="0"
+            value={yieldG}
+            onChange={(e) => setYieldG(e.target.value)}
+            placeholder="36"
+            className="input"
+          />
+        </div>
+        <div>
+          <label htmlFor="brew-time" className="block text-sm font-medium">
+            Time (s)
+          </label>
+          <input
+            id="brew-time"
+            type="number"
+            step="1"
+            min="0"
+            value={brewTimeSec}
+            onChange={(e) => setBrewTimeSec(e.target.value)}
+            placeholder="28"
             className="input"
           />
         </div>

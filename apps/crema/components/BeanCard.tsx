@@ -9,6 +9,10 @@ interface BeanCardProps {
     roastDate: Date;
     brewCount: number;
     archived?: boolean;
+    process?: string | null;
+    tastingNotes?: string | null;
+    roastLevel?: string | null;
+    altitude?: string | null;
   };
 }
 
@@ -29,6 +33,17 @@ export default function BeanCard({ bean }: BeanCardProps) {
         )}
       </div>
       {bean.roaster && <p className="mt-1 text-sm text-[#7a6a5d]">{bean.roaster}</p>}
+      {(bean.process || bean.roastLevel) && (
+        <p className="mt-1 text-sm text-[#7a6a5d]">
+          {[bean.process, bean.roastLevel].filter(Boolean).join(" · ")}
+        </p>
+      )}
+      {bean.tastingNotes && (
+        <p className="mt-1 text-sm text-[#7a6a5d]">{bean.tastingNotes}</p>
+      )}
+      {bean.altitude && (
+        <p className="mt-1 text-sm text-[#7a6a5d]">{bean.altitude}</p>
+      )}
       <p className="mt-2 text-sm text-[#7a6a5d]">
         Roasted {formatDate(bean.roastDate)}
       </p>

@@ -11,6 +11,10 @@ interface FormState {
   variety: string;
   roastDate: string;
   notes: string;
+  process: string;
+  tastingNotes: string;
+  roastLevel: string;
+  altitude: string;
 }
 
 const initialForm: FormState = {
@@ -20,6 +24,10 @@ const initialForm: FormState = {
   variety: "",
   roastDate: "",
   notes: "",
+  process: "",
+  tastingNotes: "",
+  roastLevel: "",
+  altitude: "",
 };
 
 interface EditableBean {
@@ -30,6 +38,10 @@ interface EditableBean {
   variety: string | null;
   roastDate: string; // ISO string, serialized from the server component
   notes: string | null;
+  process: string | null;
+  tastingNotes: string | null;
+  roastLevel: string | null;
+  altitude: string | null;
 }
 
 interface BeanFormProps {
@@ -48,6 +60,10 @@ export default function BeanForm({ bean, onDone }: BeanFormProps) {
           variety: bean.variety ?? "",
           roastDate: bean.roastDate.slice(0, 10),
           notes: bean.notes ?? "",
+          process: bean.process ?? "",
+          tastingNotes: bean.tastingNotes ?? "",
+          roastLevel: bean.roastLevel ?? "",
+          altitude: bean.altitude ?? "",
         }
       : initialForm
   );
@@ -74,6 +90,10 @@ export default function BeanForm({ bean, onDone }: BeanFormProps) {
             variety: form.variety.trim() || (bean ? null : undefined),
             roastDate: form.roastDate,
             notes: form.notes.trim() || (bean ? null : undefined),
+            process: form.process.trim() || (bean ? null : undefined),
+            tastingNotes: form.tastingNotes.trim() || (bean ? null : undefined),
+            roastLevel: form.roastLevel || (bean ? null : undefined),
+            altitude: form.altitude.trim() || (bean ? null : undefined),
           }),
         }
       );
@@ -166,6 +186,63 @@ export default function BeanForm({ bean, onDone }: BeanFormProps) {
             value={form.variety}
             onChange={(e) => update("variety", e.target.value)}
             placeholder="Heirloom"
+            className="input"
+          />
+        </div>
+        <div>
+          <label htmlFor="bean-process" className="block text-sm font-medium">
+            Process
+          </label>
+          <input
+            id="bean-process"
+            type="text"
+            value={form.process}
+            onChange={(e) => update("process", e.target.value)}
+            placeholder="Washed / Natural / Honey"
+            className="input"
+          />
+        </div>
+        <div>
+          <label htmlFor="bean-roast-level" className="block text-sm font-medium">
+            Roast level
+          </label>
+          <select
+            id="bean-roast-level"
+            value={form.roastLevel}
+            onChange={(e) => update("roastLevel", e.target.value)}
+            className="input"
+          >
+            <option value=""></option>
+            <option value="Light">Light</option>
+            <option value="Medium-Light">Medium-Light</option>
+            <option value="Medium">Medium</option>
+            <option value="Medium-Dark">Medium-Dark</option>
+            <option value="Dark">Dark</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="bean-altitude" className="block text-sm font-medium">
+            Altitude
+          </label>
+          <input
+            id="bean-altitude"
+            type="text"
+            value={form.altitude}
+            onChange={(e) => update("altitude", e.target.value)}
+            placeholder="1800–2100 masl"
+            className="input"
+          />
+        </div>
+        <div>
+          <label htmlFor="bean-tasting-notes" className="block text-sm font-medium">
+            Tasting notes
+          </label>
+          <input
+            id="bean-tasting-notes"
+            type="text"
+            value={form.tastingNotes}
+            onChange={(e) => update("tastingNotes", e.target.value)}
+            placeholder="blueberry, jasmine, dark chocolate"
             className="input"
           />
         </div>

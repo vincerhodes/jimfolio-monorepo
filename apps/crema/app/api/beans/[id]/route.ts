@@ -10,6 +10,10 @@ const patchSchema = z.object({
   variety: z.string().trim().nullable().optional(),
   roastDate: z.coerce.date().optional(),
   notes: z.string().trim().nullable().optional(),
+  process: z.string().trim().nullable().optional(),
+  tastingNotes: z.string().trim().nullable().optional(),
+  roastLevel: z.string().trim().nullable().optional(),
+  altitude: z.string().trim().nullable().optional(),
 });
 
 export async function GET(
@@ -50,7 +54,7 @@ export async function PATCH(
     return NextResponse.json({ error: "invalid_patch" }, { status: 400 });
   }
 
-  const { archived, name, roaster, origin, variety, roastDate, notes } = parsed.data;
+  const { archived, name, roaster, origin, variety, roastDate, notes, process, tastingNotes, roastLevel, altitude } = parsed.data;
 
   try {
     const bean = await db.bean.update({
@@ -63,6 +67,10 @@ export async function PATCH(
         ...(variety !== undefined ? { variety: variety || null } : {}),
         ...(roastDate !== undefined ? { roastDate } : {}),
         ...(notes !== undefined ? { notes: notes || null } : {}),
+        ...(process !== undefined ? { process: process || null } : {}),
+        ...(tastingNotes !== undefined ? { tastingNotes: tastingNotes || null } : {}),
+        ...(roastLevel !== undefined ? { roastLevel: roastLevel || null } : {}),
+        ...(altitude !== undefined ? { altitude: altitude || null } : {}),
       },
     });
     return NextResponse.json(bean);

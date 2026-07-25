@@ -85,6 +85,18 @@ export default async function BeanPage({
               .filter(Boolean)
               .join(" · ")}
           </p>
+          {[bean.process, bean.roastLevel, bean.altitude].some(Boolean) && (
+            <p className="mt-1 text-sm text-[#7a6a5d]">
+              {[bean.process, bean.roastLevel, bean.altitude]
+                .filter(Boolean)
+                .join(" · ")}
+            </p>
+          )}
+          {bean.tastingNotes && (
+            <p className="mt-1 text-sm text-[#7a6a5d]">
+              {bean.tastingNotes}
+            </p>
+          )}
           <p className="mt-1 flex items-center gap-2 text-sm text-[#7a6a5d]">
             Roasted {formatDate(bean.roastDate)}
             <span className="rounded-full bg-[#f1e9de] px-2.5 py-0.5 text-xs font-medium text-espresso">
@@ -108,6 +120,10 @@ export default async function BeanPage({
             variety: bean.variety,
             roastDate: bean.roastDate.toISOString(),
             notes: bean.notes,
+            process: bean.process,
+            tastingNotes: bean.tastingNotes,
+            roastLevel: bean.roastLevel,
+            altitude: bean.altitude,
           }}
         />
       </div>
