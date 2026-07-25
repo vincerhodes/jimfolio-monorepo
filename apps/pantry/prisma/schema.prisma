@@ -1,0 +1,27 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+model Recipe {
+  id          String   @id @default(cuid())
+  title       String
+  servings    Int?
+  ingredients String   // JSON: [{ name, quantity, unit, notes? }]  — metric only
+  steps       String   // JSON: [{ stepNumber, instruction }]        — self-contained
+  prompt      String   // original user request (merged structured + free text)
+  model       String   // OpenRouter model used
+  createdAt   DateTime @default(now())
+}
+
+model PantryItem {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  category  String?
+  createdAt DateTime @default(now())
+}

@@ -8,17 +8,6 @@ generator client {
   previewFeatures = ["driverAdapters"]
 }
 
-model Recipe {
-  id          String   @id @default(cuid())
-  title       String
-  servings    Int?
-  ingredients String   // JSON: [{ name, quantity, unit, notes? }]  — metric only
-  steps       String   // JSON: [{ stepNumber, instruction }]        — self-contained
-  prompt      String   // original user request (merged structured + free text)
-  model       String   // OpenRouter model used
-  createdAt   DateTime @default(now())
-}
-
 model Bean {
   id        String    @id @default(cuid())
   name      String
@@ -36,13 +25,6 @@ model BrewMethod {
   id    String    @id @default(cuid())
   label String    @unique // e.g. "Espresso — Lelit Bianca", "V60 pour-over"
   brews BrewLog[]
-}
-
-model PantryItem {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  category  String?
-  createdAt DateTime @default(now())
 }
 
 model BrewLog {
