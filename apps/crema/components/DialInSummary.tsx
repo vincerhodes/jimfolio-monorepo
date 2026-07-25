@@ -1,6 +1,7 @@
 interface DialInEntry {
   methodLabel: string;
-  grinder: string | null;
+  grinder: string;
+  equipment: string | null;
   grindSetting: number;
   ageDays: number;
   rating: number | null;
@@ -21,6 +22,7 @@ export default function DialInSummary({ entries }: DialInSummaryProps) {
           <tr className="border-b border-[#e7e0d5] text-left text-[#7a6a5d]">
             <th className="py-2 pr-4 font-medium">Method</th>
             <th className="py-2 pr-4 font-medium">Grinder</th>
+            <th className="py-2 pr-4 font-medium">Equipment</th>
             <th className="py-2 pr-4 font-medium">Setting</th>
             <th className="py-2 pr-4 font-medium">Bean age</th>
             <th className="py-2 font-medium">Rating</th>
@@ -28,9 +30,10 @@ export default function DialInSummary({ entries }: DialInSummaryProps) {
         </thead>
         <tbody>
           {entries.map((entry) => (
-            <tr key={entry.methodLabel} className="border-b border-[#f0e9df]">
+            <tr key={`${entry.methodLabel}|${entry.grinder}`} className="border-b border-[#f0e9df]">
               <td className="py-2 pr-4">{entry.methodLabel}</td>
-              <td className="py-2 pr-4">{entry.grinder ?? "—"}</td>
+              <td className="py-2 pr-4">{entry.grinder}</td>
+              <td className="py-2 pr-4">{entry.equipment ?? "—"}</td>
               <td className="py-2 pr-4">{entry.grindSetting}</td>
               <td className="py-2 pr-4 whitespace-nowrap">
                 {entry.ageDays} day{entry.ageDays === 1 ? "" : "s"}

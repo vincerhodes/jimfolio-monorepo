@@ -7,6 +7,7 @@ const patchSchema = z.object({
   grinder: z.string().max(100).nullable().optional(),
   grindSetting: z.number().min(0).max(100).nullable().optional(),
   grinderId: z.string().nullable().optional(),
+  equipmentId: z.string().nullable().optional(),
   rating: z.number().int().min(1).max(5).nullable().optional(),
   brewDate: z.coerce.date().optional(),
   notes: z.string().nullable().optional(),
@@ -42,7 +43,7 @@ export async function PATCH(
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
 
-  const { methodId, grinder, grindSetting, grinderId, rating, brewDate, notes, doseG, yieldG, brewTimeSec } = parsed.data;
+  const { methodId, grinder, grindSetting, grinderId, equipmentId, rating, brewDate, notes, doseG, yieldG, brewTimeSec } = parsed.data;
   if (methodId) {
     const method = await db.brewMethod.findUnique({ where: { id: methodId } });
     if (!method) {
@@ -55,6 +56,12 @@ export async function PATCH(
       return NextResponse.json({ error: "unknown_grinder" }, { status: 400 });
     }
   }
+  if (equipmentId) {
+    const equipmentRow = await db.equipment.findUnique({ where: { id: equipmentId } });
+    if (!equipmentRow) {
+      return NextResponse.json({ error: "unknown_equipment" }, { status: 400 });
+    }
+  }
 
   const updated = await db.brewLog.update({
     where: { id: brewId },
@@ -63,6 +70,7 @@ export async function PATCH(
       ...(grinder !== undefined ? { grinder: grinder || null } : {}),
       ...(grindSetting !== undefined ? { grindSetting } : {}),
       ...(grinderId !== undefined ? { grinderId } : {}),
+      ...(equipmentId !== undefined ? { equipmentId } : {}),
       ...(rating !== undefined ? { rating } : {}),
       ...(brewDate !== undefined ? { brewDate } : {}),
       ...(notes !== undefined ? { notes: notes || null } : {}),
