@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { daysBetween, grinderDisplayName } from "@/lib/coffee";
+import { daysBetween, grinderDisplayName, equipmentDisplayName } from "@/lib/coffee";
 import { API_BASE } from "@/lib/api-base";
 
 interface BrewMethod {
@@ -11,6 +11,13 @@ interface BrewMethod {
 }
 
 interface GrinderOption {
+  id: string;
+  manufacturer: string | null;
+  model: string | null;
+  archived: boolean;
+}
+
+interface EquipmentOption {
   id: string;
   manufacturer: string | null;
   model: string | null;
@@ -34,9 +41,11 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
   const router = useRouter();
   const [methods, setMethods] = useState<BrewMethod[]>([]);
   const [grinders, setGrinders] = useState<GrinderOption[]>([]);
+  const [equipment, setEquipment] = useState<EquipmentOption[]>([]);
   const [methodId, setMethodId] = useState("");
   const [brewDate, setBrewDate] = useState(todayInputValue());
   const [grinderId, setGrinderId] = useState("");
+  const [equipmentId, setEquipmentId] = useState("");
   const [grindSetting, setGrindSetting] = useState("");
   const [doseG, setDoseG] = useState("");
   const [yieldG, setYieldG] = useState("");
@@ -60,6 +69,12 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
         setGrinders(data.filter((g) => !g.archived))
       )
       .catch(() => setGrinders([]));
+    fetch(`${API_BASE}/api/equipment`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data: EquipmentOption[]) =>
+        setEquipment(data.filter((e) => !e.archived))
+      )
+      .catch(() => setEquipment([]));
   }, []);
 
   const agePreview = brewDate
@@ -77,6 +92,7 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
           methodId,
           brewDate: brewDate || undefined,
           grinderId: grinderId || undefined,
+          equipmentId: equipmentId || undefined,
           grindSetting:
             grindSetting.trim() === "" ? undefined : Number(grindSetting),
           doseG: doseG.trim() === "" ? undefined : Number(doseG),
@@ -93,6 +109,7 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
       }
       setBrewDate(todayInputValue());
       setGrinderId("");
+      setEquipmentId("");
       setGrindSetting("");
       setDoseG("");
       setYieldG("");
@@ -115,7 +132,7 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
         if (!loading && methodId) submit();
       }}
     >
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-5">
         <div>
           <label htmlFor="brew-method" className="block text-sm font-medium">
             Method
@@ -166,6 +183,24 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
             {grinders.map((g) => (
               <option key={g.id} value={g.id}>
                 {grinderDisplayName(g)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="brew-equipment" className="block text-sm font-medium">
+            Equipment
+          </label>
+          <select
+            id="brew-equipment"
+            value={equipmentId}
+            onChange={(e) => setEquipmentId(e.target.value)}
+            className="input"
+          >
+            <option value="">— none —</option>
+            {equipment.map((e) => (
+              <option key={e.id} value={e.id}>
+                {equipmentDisplayName(e)}
               </option>
             ))}
           </select>

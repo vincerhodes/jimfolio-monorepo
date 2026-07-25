@@ -26,3 +26,16 @@ export function grinderDisplayName(grinder: {
     .trim();
   return name || "Unnamed grinder";
 }
+
+// Display name for a piece of equipment: "Lelit Bianca V3", falling back to
+// whichever part is set, then a placeholder.
+export function equipmentDisplayName(equipment: {
+  manufacturer: string | null;
+  model: string | null;
+}): string {
+  const name = [equipment.manufacturer, equipment.model]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  return name || "Unnamed equipment";
+}

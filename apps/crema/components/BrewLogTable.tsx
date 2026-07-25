@@ -2,10 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { daysBetween, formatDate, grinderDisplayName } from "@/lib/coffee";
+import { daysBetween, formatDate, grinderDisplayName, equipmentDisplayName } from "@/lib/coffee";
 import { API_BASE } from "@/lib/api-base";
 
 interface GrinderRef {
+  id: string;
+  manufacturer: string | null;
+  model: string | null;
+  archived: boolean;
+}
+
+interface EquipmentRef {
   id: string;
   manufacturer: string | null;
   model: string | null;
@@ -19,6 +26,8 @@ interface Brew {
   grinder: string | null; // legacy free text — old rows only
   grinderId: string | null;
   grinderRef: GrinderRef | null;
+  equipmentId: string | null;
+  equipmentRef: EquipmentRef | null;
   grindSetting: number | null;
   rating: number | null;
   notes: string | null;
@@ -85,6 +94,7 @@ interface EditState {
   brewDate: string;
   methodId: string;
   grinderId: string;
+  equipmentId: string;
   grindSetting: string;
   doseG: string;
   yieldG: string;
@@ -98,6 +108,7 @@ function toEditState(brew: Brew): EditState {
     brewDate: dateInputValue(brew.brewDate),
     methodId: brew.methodId,
     grinderId: brew.grinderId ?? "",
+    equipmentId: brew.equipmentId ?? "",
     grindSetting: brew.grindSetting !== null ? String(brew.grindSetting) : "",
     doseG: brew.doseG !== null ? String(brew.doseG) : "",
     yieldG: brew.yieldG !== null ? String(brew.yieldG) : "",
@@ -111,6 +122,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
   const router = useRouter();
   const [methods, setMethods] = useState<BrewMethod[]>([]);
   const [grinders, setGrinders] = useState<GrinderRef[]>([]);
+  const [equipment, setEquipment] = useState<EquipmentRef[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [edit, setEdit] = useState<EditState | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -126,6 +138,10 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
       .then((res) => (res.ok ? res.json() : []))
       .then((data: GrinderRef[]) => setGrinders(data))
       .catch(() => setGrinders([]));
+    fetch(`${API_BASE}/api/equipment`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data: EquipmentRef[]) => setEquipment(data))
+      .catch(() => setEquipment([]));
   }, []);
 
   function startEdit(brew: Brew) {
@@ -152,6 +168,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
           methodId: edit.methodId,
           brewDate: edit.brewDate || undefined,
           grinderId: edit.grinderId || null,
+          equipmentId: edit.equipmentId || null,
           grindSetting: edit.grindSetting.trim() === "" ? null : Number(edit.grindSetting),
           doseG: edit.doseG.trim() === "" ? null : Number(edit.doseG),
           yieldG: edit.yieldG.trim() === "" ? null : Number(edit.yieldG),
@@ -211,6 +228,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
             <th className="py-2 pr-4 font-medium">Date</th>
             <th className="py-2 pr-4 font-medium">Method</th>
             <th className="py-2 pr-4 font-medium">Grind</th>
+            <th className="py-2 pr-4 font-medium">Equipment</th>
             <th className="py-2 pr-4 font-medium">Dose / Yield / Time</th>
             <th className="py-2 pr-4 font-medium">Age</th>
             <th className="py-2 pr-4 font-medium">Rating</th>
@@ -223,7 +241,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
             if (editingId === brew.id && edit) {
               return (
                 <tr key={brew.id} className="border-b border-[#f0e9df]">
-                  <td colSpan={8} className="py-3">
+                  <td colSpan={9} className="py-3">
                     <form
                       className="space-y-4"
                       onSubmit={(e) => {
@@ -231,7 +249,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
                         if (!saving && edit.methodId) saveEdit(brew.id);
                       }}
                     >
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-5">
                         <div>
                           <label htmlFor={`edit-method-${brew.id}`} className="block text-sm font-medium">
                             Method
@@ -279,6 +297,26 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
                               .map((g) => (
                                 <option key={g.id} value={g.id}>
                                   {grinderDisplayName(g)}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label htmlFor={`edit-equipment-${brew.id}`} className="block text-sm font-medium">
+                            Equipment
+                          </label>
+                          <select
+                            id={`edit-equipment-${brew.id}`}
+                            value={edit.equipmentId}
+                            onChange={(e) => setEdit({ ...edit, equipmentId: e.target.value })}
+                            className="input"
+                          >
+                            <option value="">— none —</option>
+                            {equipment
+                              .filter((e) => !e.archived || e.id === edit.equipmentId)
+                              .map((e) => (
+                                <option key={e.id} value={e.id}>
+                                  {equipmentDisplayName(e)}
                                 </option>
                               ))}
                           </select>
@@ -405,6 +443,9 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
                 <td className="py-2 pr-4 whitespace-nowrap">{formatDate(brew.brewDate)}</td>
                 <td className="py-2 pr-4">{brew.method.label}</td>
                 <td className="py-2 pr-4">{formatGrind(brew)}</td>
+                <td className="py-2 pr-4">
+                  {brew.equipmentRef ? equipmentDisplayName(brew.equipmentRef) : "—"}
+                </td>
                 <td className="py-2 pr-4 whitespace-nowrap">
                   {formatBrewParams(brew)}
                 </td>

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-import { daysBetween, formatDate } from "@/lib/coffee";
+import { daysBetween, formatDate, grinderDisplayName, equipmentDisplayName } from "@/lib/coffee";
 import BrewLogTable from "@/components/BrewLogTable";
 import BrewLogForm from "@/components/BrewLogForm";
 import DialInSummary from "@/components/DialInSummary";
@@ -19,7 +19,7 @@ export default async function BeanPage({
     where: { id: beanId },
     include: {
       brews: {
-        include: { method: true, grinderRef: true },
+        include: { method: true, grinderRef: true, equipmentRef: true },
         orderBy: { brewDate: "desc" },
       },
     },
@@ -28,24 +28,27 @@ export default async function BeanPage({
 
   const ageDays = daysBetween(bean.roastDate, new Date());
 
-  // Best brew per method: highest rating, tie-break most recent brewDate.
-  // Only brews with a grind setting are eligible.
-  const bestByMethod = new Map<string, (typeof bean.brews)[number]>();
+  // Best brew per (method, grinder): highest rating, tie-break most recent
+  // brewDate. Only brews with a grind setting are eligible. Brews without a
+  // linked grinder form their own per-method "no grinder" bucket.
+  const bestByMethodGrinder = new Map<string, (typeof bean.brews)[number]>();
   for (const brew of bean.brews) {
     if (brew.grindSetting === null) continue;
-    const current = bestByMethod.get(brew.methodId);
+    const key = `${brew.methodId}:${brew.grinderId ?? "none"}`;
+    const current = bestByMethodGrinder.get(key);
     if (
       !current ||
       (brew.rating ?? 0) > (current.rating ?? 0) ||
       ((brew.rating ?? 0) === (current.rating ?? 0) &&
         brew.brewDate > current.brewDate)
     ) {
-      bestByMethod.set(brew.methodId, brew);
+      bestByMethodGrinder.set(key, brew);
     }
   }
-  const dialInEntries = [...bestByMethod.values()].map((brew) => ({
+  const dialInEntries = [...bestByMethodGrinder.values()].map((brew) => ({
     methodLabel: brew.method.label,
-    grinder: brew.grinder,
+    grinder: brew.grinderRef ? grinderDisplayName(brew.grinderRef) : "no grinder",
+    equipment: brew.equipmentRef ? equipmentDisplayName(brew.equipmentRef) : null,
     grindSetting: brew.grindSetting as number,
     ageDays: daysBetween(bean.roastDate, brew.brewDate),
     rating: brew.rating,

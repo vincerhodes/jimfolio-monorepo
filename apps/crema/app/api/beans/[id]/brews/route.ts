@@ -8,6 +8,7 @@ const createSchema = z.object({
   grinder: z.string().max(100).optional(),
   grindSetting: z.number().min(0).max(100).optional(),
   grinderId: z.string().nullable().optional(),
+  equipmentId: z.string().nullable().optional(),
   rating: z.number().int().min(1).max(5).optional(),
   brewDate: z.coerce.date().optional(),
   notes: z.string().optional(),
@@ -39,7 +40,7 @@ export async function POST(
     return NextResponse.json({ error: "bean_not_found" }, { status: 404 });
   }
 
-  const { methodId, grindSize, grinder, grindSetting, grinderId, rating, brewDate, notes, doseG, yieldG, brewTimeSec } = parsed.data;
+  const { methodId, grindSize, grinder, grindSetting, grinderId, equipmentId, rating, brewDate, notes, doseG, yieldG, brewTimeSec } = parsed.data;
   const method = await db.brewMethod.findUnique({ where: { id: methodId } });
   if (!method) {
     return NextResponse.json({ error: "unknown_method" }, { status: 400 });
@@ -48,6 +49,12 @@ export async function POST(
     const grinderRow = await db.grinder.findUnique({ where: { id: grinderId } });
     if (!grinderRow) {
       return NextResponse.json({ error: "unknown_grinder" }, { status: 400 });
+    }
+  }
+  if (equipmentId) {
+    const equipmentRow = await db.equipment.findUnique({ where: { id: equipmentId } });
+    if (!equipmentRow) {
+      return NextResponse.json({ error: "unknown_equipment" }, { status: 400 });
     }
   }
 
@@ -59,6 +66,7 @@ export async function POST(
       grinder: grinder ?? null,
       grindSetting: grindSetting ?? null,
       grinderId: grinderId ?? null,
+      equipmentId: equipmentId ?? null,
       rating: rating ?? null,
       brewDate: brewDate ?? new Date(),
       notes: notes ?? null,

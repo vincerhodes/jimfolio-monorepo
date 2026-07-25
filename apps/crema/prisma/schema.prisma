@@ -42,6 +42,17 @@ model Grinder {
   brews        BrewLog[]
 }
 
+model Equipment {
+  id           String    @id @default(cuid())
+  manufacturer String?
+  model        String?
+  kind         String?   // ESPRESSO_MACHINE | POUR_OVER | IMMERSION | MOKA_POT | OTHER (zod enum)
+  notes        String?
+  archived     Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  brews        BrewLog[]
+}
+
 model BrewLog {
   id        String     @id @default(cuid())
   beanId    String
@@ -53,6 +64,8 @@ model BrewLog {
   grinder   String?    // legacy free text — old rows only; linked rows use grinderRef
   grinderId String?
   grinderRef Grinder?  @relation(fields: [grinderId], references: [id])
+  equipmentId String?
+  equipmentRef Equipment? @relation(fields: [equipmentId], references: [id])
   grindSetting Float?
   rating    Int?       // 1–5
   notes     String?
