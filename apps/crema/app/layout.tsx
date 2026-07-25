@@ -9,7 +9,7 @@ const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
 
 export const metadata: Metadata = {
   title: "crema",
-  description: "Recipe generator and coffee tracker",
+  description: "Coffee tracker",
 };
 
 export default function RootLayout({

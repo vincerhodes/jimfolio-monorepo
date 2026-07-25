@@ -4,12 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { API_BASE } from "@/lib/api-base";
 
-const SECTIONS = [
-  { href: "/", label: "Generator", accent: "#c2571f" },
-  { href: "/saved", label: "Saved", accent: "#5f7a52" },
-  { href: "/pantry", label: "Pantry", accent: "#75742c" },
-  { href: "/coffee", label: "Coffee", accent: "#4a2c1a" },
-];
+const SECTIONS = [{ href: "/coffee", label: "Coffee", accent: "#4a2c1a" }];
 
 export default function Nav({ showLogout = false }: { showLogout?: boolean }) {
   // usePathname may include the basePath (/crema locally); strip it.
