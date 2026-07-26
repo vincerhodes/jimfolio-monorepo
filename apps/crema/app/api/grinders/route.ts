@@ -9,6 +9,7 @@ const createSchema = z.object({
   model: z.string().trim().nullable().optional(),
   type: grinderType.nullable().optional(),
   notes: z.string().trim().nullable().optional(),
+  catalogSlug: z.string().trim().nullable().optional(),
 });
 
 export async function GET() {
@@ -37,13 +38,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_grinder" }, { status: 400 });
   }
 
-  const { manufacturer, model, type, notes } = parsed.data;
+  const { manufacturer, model, type, notes, catalogSlug } = parsed.data;
   const grinder = await db.grinder.create({
     data: {
       manufacturer: manufacturer || null,
       model: model || null,
       type: type ?? null,
       notes: notes || null,
+      catalogSlug: catalogSlug || null,
     },
   });
 

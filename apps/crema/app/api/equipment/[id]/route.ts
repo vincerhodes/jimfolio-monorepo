@@ -16,6 +16,7 @@ const patchSchema = z.object({
   model: z.string().trim().nullable().optional(),
   kind: equipmentKind.nullable().optional(),
   notes: z.string().trim().nullable().optional(),
+  catalogSlug: z.string().trim().nullable().optional(),
 });
 
 export async function PATCH(
@@ -36,7 +37,8 @@ export async function PATCH(
     return NextResponse.json({ error: "invalid_patch" }, { status: 400 });
   }
 
-  const { archived, manufacturer, model, kind, notes } = parsed.data;
+  const { archived, manufacturer, model, kind, notes, catalogSlug } =
+    parsed.data;
 
   try {
     const equipment = await db.equipment.update({
@@ -49,6 +51,9 @@ export async function PATCH(
         ...(model !== undefined ? { model: model || null } : {}),
         ...(kind !== undefined ? { kind } : {}),
         ...(notes !== undefined ? { notes: notes || null } : {}),
+        ...(catalogSlug !== undefined
+          ? { catalogSlug: catalogSlug || null }
+          : {}),
       },
     });
     return NextResponse.json(equipment);

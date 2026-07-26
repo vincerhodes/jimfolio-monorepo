@@ -10,6 +10,7 @@ const patchSchema = z.object({
   model: z.string().trim().nullable().optional(),
   type: grinderType.nullable().optional(),
   notes: z.string().trim().nullable().optional(),
+  catalogSlug: z.string().trim().nullable().optional(),
 });
 
 export async function PATCH(
@@ -30,7 +31,8 @@ export async function PATCH(
     return NextResponse.json({ error: "invalid_patch" }, { status: 400 });
   }
 
-  const { archived, manufacturer, model, type, notes } = parsed.data;
+  const { archived, manufacturer, model, type, notes, catalogSlug } =
+    parsed.data;
 
   try {
     const grinder = await db.grinder.update({
@@ -43,6 +45,9 @@ export async function PATCH(
         ...(model !== undefined ? { model: model || null } : {}),
         ...(type !== undefined ? { type } : {}),
         ...(notes !== undefined ? { notes: notes || null } : {}),
+        ...(catalogSlug !== undefined
+          ? { catalogSlug: catalogSlug || null }
+          : {}),
       },
     });
     return NextResponse.json(grinder);
