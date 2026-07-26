@@ -4,15 +4,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #fafaf9;
+  --foreground: #1c1917;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
@@ -20,6 +18,7 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 @layer utilities {
@@ -28,10 +27,18 @@ body {
   }
 
   .glass-panel {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+    @apply bg-white/70 backdrop-blur-lg border border-stone-200;
+  }
+
+  .dark .glass-panel {
+    @apply bg-white/5 border-white/10;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-stone-900 via-stone-600 to-stone-400;
+  }
+
+  .dark .text-gradient {
+    @apply from-white via-gray-200 to-gray-400;
   }
 }
