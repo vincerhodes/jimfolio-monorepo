@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { grinderDisplayName, equipmentDisplayName } from "@/lib/coffee";
+import {
+  getCatalogGrinders,
+  getCatalogEspressoMachines,
+  getCatalogBrewers,
+} from "@/lib/catalog";
 import GrinderForm from "@/components/GrinderForm";
 import EquipmentForm from "@/components/EquipmentForm";
 import ArchiveToggle from "@/components/ArchiveToggle";
@@ -23,14 +28,21 @@ const KIND_LABELS: Record<string, string> = {
 };
 
 export default async function GearPage() {
-  const grinders = await db.grinder.findMany({
-    orderBy: [{ archived: "asc" }, { createdAt: "asc" }],
-    include: { _count: { select: { brews: true } } },
-  });
-  const equipment = await db.equipment.findMany({
-    orderBy: [{ archived: "asc" }, { createdAt: "asc" }],
-    include: { _count: { select: { brews: true } } },
-  });
+  const [grinders, equipment, catalogGrinders, catalogMachines, catalogBrewers] =
+    await Promise.all([
+      db.grinder.findMany({
+        orderBy: [{ archived: "asc" }, { createdAt: "asc" }],
+        include: { _count: { select: { brews: true } } },
+      }),
+      db.equipment.findMany({
+        orderBy: [{ archived: "asc" }, { createdAt: "asc" }],
+        include: { _count: { select: { brews: true } } },
+      }),
+      getCatalogGrinders(),
+      getCatalogEspressoMachines(),
+      getCatalogBrewers(),
+    ]);
+  const catalogEquipment = [...catalogMachines, ...catalogBrewers];
 
   return (
     <main
@@ -83,7 +95,9 @@ export default async function GearPage() {
                   model: grinder.model,
                   type: grinder.type,
                   notes: grinder.notes,
+                  catalogSlug: grinder.catalogSlug,
                 }}
+                catalog={catalogGrinders}
               />
             </div>
           </div>
@@ -97,7 +111,7 @@ export default async function GearPage() {
 
       <div className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">Add grinder</h2>
-        <GrinderForm />
+        <GrinderForm catalog={catalogGrinders} />
       </div>
 
       <h2 className="mt-12 text-lg font-semibold">Equipment</h2>
@@ -139,7 +153,9 @@ export default async function GearPage() {
                   model: item.model,
                   kind: item.kind,
                   notes: item.notes,
+                  catalogSlug: item.catalogSlug,
                 }}
+                catalog={catalogEquipment}
               />
             </div>
           </div>
@@ -153,7 +169,7 @@ export default async function GearPage() {
 
       <div className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">Add equipment</h2>
-        <EquipmentForm />
+        <EquipmentForm catalog={catalogEquipment} />
       </div>
     </main>
   );

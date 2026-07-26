@@ -31,15 +31,25 @@ interface EditableGrinder {
   model: string | null;
   type: string | null;
   notes: string | null;
+  catalogSlug: string | null;
+}
+
+interface CatalogGrinderOption {
+  slug: string;
+  brand: string;
+  model: string;
+  type: string;
 }
 
 interface GrinderFormProps {
   grinder?: EditableGrinder; // when set, renders an Edit button that expands into the edit form
+  catalog?: CatalogGrinderOption[]; // when non-empty, renders a "from catalog" picker
 }
 
-export default function GrinderForm({ grinder }: GrinderFormProps) {
+export default function GrinderForm({ grinder, catalog }: GrinderFormProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [catalogSlug, setCatalogSlug] = useState(grinder?.catalogSlug ?? "");
   const [form, setForm] = useState<FormState>(
     grinder
       ? {
@@ -55,6 +65,19 @@ export default function GrinderForm({ grinder }: GrinderFormProps) {
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
+  }
+
+  function selectCatalogEntry(slug: string) {
+    setCatalogSlug(slug);
+    const entry = catalog?.find((e) => e.slug === slug);
+    if (entry) {
+      setForm((f) => ({
+        ...f,
+        manufacturer: entry.brand,
+        model: entry.model,
+        type: entry.type,
+      }));
+    }
   }
 
   async function submit() {
@@ -73,6 +96,7 @@ export default function GrinderForm({ grinder }: GrinderFormProps) {
             model: form.model.trim() || (grinder ? null : undefined),
             type: form.type || (grinder ? null : undefined),
             notes: form.notes.trim() || (grinder ? null : undefined),
+            catalogSlug: catalogSlug || (grinder ? null : undefined),
           }),
         }
       );
@@ -84,6 +108,7 @@ export default function GrinderForm({ grinder }: GrinderFormProps) {
         setOpen(false);
       } else {
         setForm(initialForm);
+        setCatalogSlug("");
       }
       router.refresh();
     } catch {
@@ -115,6 +140,27 @@ export default function GrinderForm({ grinder }: GrinderFormProps) {
         if (!loading) submit();
       }}
     >
+      {catalog && catalog.length > 0 && (
+        <div>
+          <label htmlFor={`${formId}-catalog`} className="block text-sm font-medium">
+            From catalog (optional)
+          </label>
+          <select
+            id={`${formId}-catalog`}
+            value={catalogSlug}
+            onChange={(e) => selectCatalogEntry(e.target.value)}
+            className="input"
+          >
+            <option value=""></option>
+            {catalog.map((entry) => (
+              <option key={entry.slug} value={entry.slug}>
+                {[entry.brand, entry.model].filter(Boolean).join(" ")}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div>
           <label htmlFor={`${formId}-manufacturer`} className="block text-sm font-medium">

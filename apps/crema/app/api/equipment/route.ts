@@ -15,6 +15,7 @@ const createSchema = z.object({
   model: z.string().trim().nullable().optional(),
   kind: equipmentKind.nullable().optional(),
   notes: z.string().trim().nullable().optional(),
+  catalogSlug: z.string().trim().nullable().optional(),
 });
 
 export async function GET() {
@@ -43,13 +44,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_equipment" }, { status: 400 });
   }
 
-  const { manufacturer, model, kind, notes } = parsed.data;
+  const { manufacturer, model, kind, notes, catalogSlug } = parsed.data;
   const equipment = await db.equipment.create({
     data: {
       manufacturer: manufacturer || null,
       model: model || null,
       kind: kind ?? null,
       notes: notes || null,
+      catalogSlug: catalogSlug || null,
     },
   });
 

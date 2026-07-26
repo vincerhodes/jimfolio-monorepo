@@ -37,6 +37,7 @@ model Grinder {
   model        String?
   type         String?   // FLAT_BURR | CONICAL_BURR | BLADE | OTHER (zod enum)
   notes        String?
+  catalogSlug  String?
   archived     Boolean   @default(false)
   createdAt    DateTime  @default(now())
   brews        BrewLog[]
@@ -48,6 +49,7 @@ model Equipment {
   model        String?
   kind         String?   // ESPRESSO_MACHINE | POUR_OVER | IMMERSION | MOKA_POT | OTHER (zod enum)
   notes        String?
+  catalogSlug  String?
   archived     Boolean   @default(false)
   createdAt    DateTime  @default(now())
   brews        BrewLog[]
