@@ -4,6 +4,7 @@ import { daysBetween, formatDate, grinderDisplayName, equipmentDisplayName } fro
 import BrewLogTable from "@/components/BrewLogTable";
 import BrewLogForm from "@/components/BrewLogForm";
 import DialInSummary from "@/components/DialInSummary";
+import BrewHistoryChart from "@/components/BrewHistoryChart";
 import ArchiveToggle from "@/components/ArchiveToggle";
 import BeanEditButton from "@/components/BeanEditButton";
 
@@ -123,6 +124,16 @@ export default async function BeanPage({
 
       <div className="mt-8">
         <DialInSummary entries={dialInEntries} />
+      </div>
+
+      <div className="mt-8">
+        <BrewHistoryChart
+          brews={bean.brews.map((brew) => ({
+            brewDate: brew.brewDate,
+            rating: brew.rating,
+            grindSetting: brew.grindSetting,
+          }))}
+        />
       </div>
 
       <div className="mt-8">
