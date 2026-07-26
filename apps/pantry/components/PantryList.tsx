@@ -59,7 +59,7 @@ export default function PantryList({ items }: { items: PantryItem[] }) {
                   type="button"
                   onClick={() => remove(item.id)}
                   disabled={deletingId === item.id}
-                  className="text-sm text-red-600 hover:underline disabled:opacity-50"
+                  className="px-2 py-2 text-sm text-red-600 hover:underline disabled:opacity-50"
                 >
                   {deletingId === item.id ? "Deleting…" : "Delete"}
                 </button>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { Fraunces, Inter } from "next/font/google";
 import Nav from "@/components/Nav";
@@ -10,6 +10,11 @@ const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
 export const metadata: Metadata = {
   title: "pantry",
   description: "Recipe generator and pantry tracker",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

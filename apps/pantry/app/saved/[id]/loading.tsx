@@ -2,7 +2,7 @@ import Skeleton from "@/components/Skeleton";
 
 export default function Loading() {
   return (
-    <main className="mx-auto max-w-4xl p-8">
+    <main className="mx-auto max-w-4xl p-4 sm:p-8">
       <Skeleton className="h-9 w-2/3 max-w-md" />
       <Skeleton className="mt-2 h-4 w-48" />
       <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">

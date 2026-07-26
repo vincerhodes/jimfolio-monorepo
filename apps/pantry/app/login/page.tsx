@@ -12,7 +12,7 @@ export default async function LoginPage({
   const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
 
   return (
-    <main className="mx-auto max-w-md p-8">
+    <main className="mx-auto max-w-md p-4 sm:p-8">
       <h1 className="page-title">pantry is private</h1>
       <p className="mt-1 text-sm text-[#7a6a5d]">
         Enter the password to continue.

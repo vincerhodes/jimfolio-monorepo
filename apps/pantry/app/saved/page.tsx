@@ -11,7 +11,7 @@ export default async function SavedPage() {
 
   return (
     <main
-      className="mx-auto max-w-4xl p-8"
+      className="mx-auto max-w-4xl p-4 sm:p-8"
       style={{ "--accent": "#5f7a52" } as React.CSSProperties}
     >
       <h1 className="page-title">Saved recipes</h1>

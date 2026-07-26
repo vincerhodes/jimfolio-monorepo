@@ -40,7 +40,7 @@ export default function StepGuide({ steps, currentStepIndex, onStepChange }: Ste
                 type="button"
                 onClick={() => jumpTo(i)}
                 aria-label={`Go to step ${i + 1}`}
-                className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
                   i === currentStepIndex
                     ? "bg-[var(--accent,#33261d)] text-white"
                     : "bg-[#efe9e1] text-[#7a6a5d] hover:bg-[#e5dcd1]"

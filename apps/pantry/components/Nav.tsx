@@ -32,7 +32,7 @@ export default function Nav({ showLogout = false }: { showLogout?: boolean }) {
             key={href}
             href={href}
             aria-current={active ? "page" : undefined}
-            className={`-mb-[17px] self-stretch border-b-2 pb-3 pt-1 text-sm font-medium ${
+            className={`-mb-[17px] self-stretch border-b-2 pb-3 pt-2 text-sm font-medium ${
               active ? "" : "border-transparent text-[#7a6a5d] hover:text-ink"
             }`}
             style={active ? { borderColor: accent, color: accent } : undefined}
