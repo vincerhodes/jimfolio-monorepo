@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <main
-      className="mx-auto max-w-4xl p-8"
+      className="mx-auto max-w-4xl p-4 sm:p-8"
       style={{ "--accent": "#c2571f" } as React.CSSProperties}
     >
       <h1 className="page-title mb-6">Generator</h1>

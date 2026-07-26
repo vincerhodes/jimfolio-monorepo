@@ -1,549 +1,235 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, ExternalLink, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowUpRight, Github, Mail } from 'lucide-react';
 import Link from 'next/link';
+import { APPS, type AppEntry } from './apps';
+import ThemeToggle from './components/ThemeToggle';
+
+function AppCard({ app }: { app: AppEntry }) {
+  return (
+    <a
+      href={app.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block group h-full"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="h-full rounded-2xl border border-stone-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 flex flex-col gap-4 hover:border-stone-400 dark:hover:border-white/30 hover:-translate-y-1 transition-all duration-300"
+      >
+        <div className="flex items-center justify-between">
+          <span
+            className={`px-3 py-1 rounded-full text-xs border font-medium ${app.chip}`}
+          >
+            {app.tag}
+          </span>
+          <span className="p-2 rounded-full bg-stone-900 text-white dark:bg-white dark:text-black group-hover:scale-110 transition-transform duration-300">
+            <ArrowUpRight size={16} />
+          </span>
+        </div>
+        <h3
+          className={`text-2xl font-bold bg-gradient-to-r ${app.gradient} bg-clip-text text-transparent`}
+        >
+          {app.name}
+        </h3>
+        <p className="text-stone-500 dark:text-stone-400 text-sm leading-relaxed flex-1">
+          {app.tagline}
+        </p>
+        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-stone-400 dark:text-stone-500">
+          {app.tech.map((t) => (
+            <span key={t}>{t}</span>
+          ))}
+        </div>
+      </motion.div>
+    </a>
+  );
+}
+
+function FeaturedCard({ app }: { app: AppEntry }) {
+  return (
+    <a
+      href={app.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block group"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="relative w-full aspect-video rounded-2xl overflow-hidden border border-stone-200 dark:border-white/10 group-hover:border-stone-400 dark:group-hover:border-white/30 transition-all duration-500"
+      >
+        {app.image && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={app.image}
+            alt={`${app.name} preview`}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
+        <div className="absolute top-0 left-0 right-0 bg-white/85 dark:bg-[#1a1a1a]/90 backdrop-blur px-6 py-4 flex items-center justify-between z-10">
+          <div className="flex items-center gap-4">
+            <span
+              className={`px-3 py-1 rounded-full text-xs border font-medium ${app.chip}`}
+            >
+              {app.tag}
+            </span>
+            <div>
+              <h3 className="font-bold text-sm text-stone-900 dark:text-white">
+                {app.name}
+              </h3>
+              <p className="text-xs text-stone-500 dark:text-stone-300">
+                {app.tagline}
+              </p>
+            </div>
+          </div>
+          <span className="p-3 bg-stone-900 text-white dark:bg-white dark:text-black rounded-full group-hover:scale-110 transition-transform duration-300">
+            <ArrowUpRight size={20} />
+          </span>
+        </div>
+      </motion.div>
+    </a>
+  );
+}
 
 export default function Home() {
-  return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-bold tracking-tighter"
-        >
-          JIMFOLIO
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex gap-6 text-sm font-medium"
-        >
-          <Link href="#work" className="hover:text-gray-400 transition-colors">WORK</Link>
-          <Link href="#about" className="hover:text-gray-400 transition-colors">ABOUT</Link>
-          <Link href="#contact" className="hover:text-gray-400 transition-colors">CONTACT</Link>
-        </motion.div>
-      </nav>
+  const featured = APPS.filter((a) => a.featured);
+  const rest = APPS.filter((a) => !a.featured);
 
-      {/* Hero Section */}
-      <section className="h-screen flex flex-col justify-center px-6 max-w-7xl mx-auto">
+  return (
+    <main className="min-h-screen text-stone-900 dark:text-stone-100 selection:bg-stone-300 dark:selection:bg-white/20">
+      {/* Header */}
+      <header className="sticky top-0 w-full z-50 px-6 py-4 flex justify-between items-center border-b border-stone-200 dark:border-white/10 bg-[#fafaf9]/80 dark:bg-[#0a0a0a]/80 backdrop-blur">
+        <Link href="/" className="text-xl font-bold tracking-tighter">
+          JIMFOLIO
+        </Link>
+        <nav className="flex items-center gap-4 md:gap-6 text-sm font-medium">
+          <Link
+            href="#work"
+            className="hidden sm:inline hover:text-stone-500 dark:hover:text-stone-400 transition-colors"
+          >
+            WORK
+          </Link>
+          <Link
+            href="#about"
+            className="hidden sm:inline hover:text-stone-500 dark:hover:text-stone-400 transition-colors"
+          >
+            ABOUT
+          </Link>
+          <Link
+            href="#contact"
+            className="hidden sm:inline hover:text-stone-500 dark:hover:text-stone-400 transition-colors"
+          >
+            CONTACT
+          </Link>
+          <ThemeToggle />
+        </nav>
+      </header>
+
+      {/* Hero */}
+      <section className="px-6 pt-20 pb-16 md:pt-28 md:pb-20 max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
         >
-          <h1 className="text-[12vw] md:text-[10vw] lg:text-[8vw] xl:text-[7vw] 2xl:text-[6vw] leading-[0.9] font-bold tracking-tighter mb-8 max-w-[90vw]">
-            DIGITAL <br />
-            <span className="text-gray-500">CRAFTSMAN</span>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tighter leading-[0.95] mb-6">
+            Apps, experiments
+            <br />
+            <span className="text-stone-400 dark:text-stone-500">
+              & data stories.
+            </span>
           </h1>
-          <p className="text-xl md:text-2xl max-w-2xl text-gray-400 leading-relaxed">
-            Building premium digital experiences with a focus on performance,
-            aesthetics, and user-centric design.
+          <p className="text-lg md:text-xl max-w-2xl text-stone-500 dark:text-stone-400 leading-relaxed">
+            Jimmy Rhodes — full-stack developer. This is the hub for{' '}
+            {APPS.length} live projects on jimfolio.space.
           </p>
         </motion.div>
       </section>
 
-      {/* Featured Project: Sweet Reach */}
-      <section id="work" className="py-32 px-6 max-w-7xl mx-auto">
-        <div className="mb-16 flex items-end justify-between">
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight">SELECTED WORK</h2>
-          <span className="text-gray-500 hidden md:block">01 / 07</span>
+      {/* Work grid */}
+      <section id="work" className="pb-24 px-6 max-w-7xl mx-auto">
+        <div className="mb-10 flex items-end justify-between">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            SELECTED WORK
+          </h2>
+          <span className="text-stone-400 dark:text-stone-500 hidden md:block">
+            {APPS.length} LIVE
+          </span>
         </div>
 
-        {/* Wealth Inequality Project */}
-        <Link href="https://wealthinequality.jimfolio.space" target="_blank" rel="noopener noreferrer" className="block group mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-red-950/20 to-gray-950"
-          >
-            {/* Content Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-                  The Wealth Divide
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  Interactive data story on UK wealth inequality
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>Next.js</span>
-                  <span>•</span>
-                  <span>D3.js</span>
-                  <span>•</span>
-                  <span>Framer Motion</span>
-                </div>
-              </div>
-            </div>
+        <div className="space-y-6 mb-6">
+          {featured.map((app) => (
+            <FeaturedCard key={app.slug} app={app} />
+          ))}
+        </div>
 
-            {/* Top Banner Overlay */}
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-red-500/20 px-3 py-1 rounded-full text-xs border border-red-400/30 font-medium text-red-300">
-                  DATA STORYTELLING
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">
-                    UK Wealth Inequality
-                  </h3>
-                  <p className="text-xs text-gray-300">
-                    Scrollytelling experience with interactive visualizations
-                  </p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ExternalLink size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </Link>
-
-        {/* Sweet Reach */}
-        <a href="https://sweet-reach.jimfolio.space" className="block group">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500"
-          >
-            {/* Front Image */}
-            <img 
-              src="/assets/Sweet-Reach_card_front.jpg" 
-              alt="Sweet Reach Dashboard" 
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-            />
-            
-            {/* Back Image */}
-            <img 
-              src="/assets/Sweet-Reach_card_back.png" 
-              alt="Sweet Reach Features" 
-              className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-            />
-
-            {/* Top Banner Overlay - Always Visible */}
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-white/20 px-3 py-1 rounded-full text-xs border border-white/20 font-medium group-hover:bg-emerald-500/20 group-hover:border-emerald-400/30 group-hover:text-emerald-300 transition-all duration-500">
-                  <span className="group-hover:hidden">FEATURED DEMO</span>
-                  <span className="hidden group-hover:inline">LIVE DEMO</span>
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm transition-all duration-500">
-                    <span className="group-hover:hidden">Sweet Reach Insight Platform</span>
-                    <span className="hidden group-hover:inline">Click to Explore</span>
-                  </h3>
-                  <p className="text-xs text-gray-300 transition-all duration-500">
-                    <span className="group-hover:hidden">Real-time analytics & interactive dashboards</span>
-                    <span className="hidden group-hover:inline">Experience the full platform in action</span>
-                  </p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
-        {/* Crema */}
-        <a href="https://crema.jimfolio.space" className="block group mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-amber-950/30 to-slate-950"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-amber-200 to-orange-300 bg-clip-text text-transparent">
-                  Crema
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  AI recipe generator & coffee brew tracker
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>Next.js</span>
-                  <span>•</span>
-                  <span>TypeScript</span>
-                  <span>•</span>
-                  <span>Turso</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-amber-500/20 px-3 py-1 rounded-full text-xs border border-amber-400/30 font-medium text-amber-300">
-                  APP
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">Crema</h3>
-                  <p className="text-xs text-gray-300">Pantry-to-recipe ideas, beans &amp; brew logs</p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
-        {/* Connexia */}
-        <a href="https://connexia.jimfolio.space" className="block group mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-emerald-950/25 to-slate-950"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                  Connexia
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  Service delivery visibility & workflow orchestration
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>Next.js</span>
-                  <span>•</span>
-                  <span>TypeScript</span>
-                  <span>•</span>
-                  <span>Dashboards</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-emerald-500/20 px-3 py-1 rounded-full text-xs border border-emerald-400/30 font-medium text-emerald-300">
-                  SHOWCASE
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">Connexia Control Tower</h3>
-                  <p className="text-xs text-gray-300">Transparency for service delivery leadership</p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
-        {/* China Holidays */}
-        <a href="https://chinahols.jimfolio.space" className="block group mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-red-950/30 via-rose-950/20 to-slate-950"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-red-500 to-rose-400 bg-clip-text text-transparent">
-                  中国假期
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  Interactive holiday itinerary presentation
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>HTML</span>
-                  <span>•</span>
-                  <span>CSS</span>
-                  <span>•</span>
-                  <span>JavaScript</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-red-500/20 px-3 py-1 rounded-full text-xs border border-red-400/30 font-medium text-red-300">
-                  PRESENTATION
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">China Holiday Planner</h3>
-                  <p className="text-xs text-gray-300">Northern & Southern route itineraries</p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
-        {/* WeSplit */}
-        <a href="https://wesplit.jimfolio.space/" className="block group mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-teal-950/30 via-cyan-950/20 to-slate-950"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-cyan-300 bg-clip-text text-transparent">
-                  WeSplit
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  Holiday expense splitting with shared login and smart settlements
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>Next.js</span>
-                  <span>•</span>
-                  <span>Prisma</span>
-                  <span>•</span>
-                  <span>SQLite</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-teal-500/20 px-3 py-1 rounded-full text-xs border border-teal-400/30 font-medium text-teal-300">
-                  UTILITIES
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">WeSplit</h3>
-                  <p className="text-xs text-gray-300">Shared trip expenses for the China holiday</p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
-        {/* Standash */}
-        <a href="https://standash.jimfolio.space/" className="block group mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-purple-950/40 via-fuchsia-950/25 to-slate-950"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-fuchsia-400 to-pink-400 bg-clip-text text-transparent">
-                  Standash
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  Browser-based rhythm platformer — cube, ship &amp; ball modes
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>HTML5 Canvas</span>
-                  <span>•</span>
-                  <span>Vanilla JS</span>
-                  <span>•</span>
-                  <span>Mobile-first</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-fuchsia-500/20 px-3 py-1 rounded-full text-xs border border-fuchsia-400/30 font-medium text-fuchsia-300">
-                  GAME
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">Standash</h3>
-                  <p className="text-xs text-gray-300">Geometry Dash-inspired — best in landscape on mobile</p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
-        {/* JADE Chinese */}
-        <a href="/jade-chinese/" className="block group mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-emerald-950/30 via-green-950/20 to-slate-950"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-green-300 bg-clip-text text-transparent">
-                  玉 JADE Chinese
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  Interactive Mandarin learning with flashcards, quizzes &amp; vocabulary
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>Next.js</span>
-                  <span>•</span>
-                  <span>React</span>
-                  <span>•</span>
-                  <span>Tailwind CSS</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-emerald-500/20 px-3 py-1 rounded-full text-xs border border-emerald-400/30 font-medium text-emerald-300">
-                  LEARNING TOOL
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">JADE Chinese</h3>
-                  <p className="text-xs text-gray-300">HSK 1–3 Mandarin learning companion</p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
-        {/* JADE Chinese */}
-        <a href="https://jade-chinese.jimfolio.space/" className="block group mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-emerald-950/30 via-green-950/20 to-slate-950"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-green-300 bg-clip-text text-transparent">
-                  玉 JADE Chinese
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  Interactive Mandarin learning with flashcards, quizzes &amp; vocabulary
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>Next.js</span>
-                  <span>•</span>
-                  <span>React</span>
-                  <span>•</span>
-                  <span>Tailwind CSS</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-emerald-500/20 px-3 py-1 rounded-full text-xs border border-emerald-400/30 font-medium text-emerald-300">
-                  LEARNING TOOL
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">JADE Chinese</h3>
-                  <p className="text-xs text-gray-300">HSK 1–3 Mandarin learning companion</p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
-        {/* PowerBI */}
-        <a href="https://powerbi.jimfolio.space/course/" className="block group mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500 bg-gradient-to-br from-yellow-950/30 via-amber-950/20 to-slate-950"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="text-center">
-                <h3 className="text-6xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-amber-400 bg-clip-text text-transparent">
-                  Power BI
-                </h3>
-                <p className="text-xl text-gray-300 mb-6">
-                  Business analytics & data visualization dashboard
-                </p>
-                <div className="flex gap-4 justify-center text-sm text-gray-400">
-                  <span>HTML</span>
-                  <span>•</span>
-                  <span>CSS</span>
-                  <span>•</span>
-                  <span>JavaScript</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 h-[15%] bg-[#1a1a1a]/90 px-6 py-4 flex items-center justify-between z-10 transition-all duration-500">
-              <div className="flex items-center gap-4">
-                <div className="bg-yellow-500/20 px-3 py-1 rounded-full text-xs border border-yellow-400/30 font-medium text-yellow-300">
-                  ANALYTICS
-                </div>
-                <div className="text-white">
-                  <h3 className="font-bold text-sm">Power BI Dashboard</h3>
-                  <p className="text-xs text-gray-300">Interactive data visualization & analytics</p>
-                </div>
-              </div>
-              <div className="p-3 bg-white text-black rounded-full group-hover:scale-110 transition-transform duration-300">
-                <ArrowRight size={20} />
-              </div>
-            </div>
-          </motion.div>
-        </a>
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {rest.map((app) => (
+            <AppCard key={app.slug} app={app} />
+          ))}
+        </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-32 px-6 max-w-7xl mx-auto border-t border-white/10">
-        <div className="grid md:grid-cols-2 gap-16">
-          <h2 className="text-4xl font-bold">ABOUT ME</h2>
-          <div className="space-y-8 text-lg text-gray-400 leading-relaxed">
+      {/* About */}
+      <section
+        id="about"
+        className="py-24 px-6 max-w-7xl mx-auto border-t border-stone-200 dark:border-white/10"
+      >
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16">
+          <h2 className="text-3xl md:text-4xl font-bold">ABOUT ME</h2>
+          <div className="space-y-6 text-base md:text-lg text-stone-500 dark:text-stone-400 leading-relaxed">
             <p>
-              I'm a full-stack developer passionate about bridging the gap between
-              design and engineering. I believe that the best digital products are
-              born at the intersection of form and function.
+              I&apos;m a full-stack developer passionate about bridging the gap
+              between design and engineering. The best digital products are born
+              at the intersection of form and function.
             </p>
             <p>
-              With expertise in Next.js, React, and modern web technologies,
-              I create scalable applications that don't compromise on visual appeal.
+              With Next.js, React and modern web tooling, I build applications
+              that don&apos;t compromise on visual appeal — every card above is
+              live and clickable.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-32 px-6 max-w-7xl mx-auto border-t border-white/10">
+      {/* Contact */}
+      <section
+        id="contact"
+        className="py-24 px-6 max-w-7xl mx-auto border-t border-stone-200 dark:border-white/10"
+      >
         <div className="flex flex-col items-center text-center">
-          <h2 className="text-5xl md:text-8xl font-bold tracking-tighter mb-12">
-            LET'S TALK
+          <h2 className="text-4xl md:text-7xl font-bold tracking-tighter mb-10">
+            LET&apos;S TALK
           </h2>
-          <div className="flex gap-8">
-            <a href="#" className="p-4 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all duration-300">
+          <div className="flex gap-6">
+            <a
+              href="mailto:vincerhodes@gmail.com"
+              aria-label="Email"
+              className="p-4 rounded-full border border-stone-300 dark:border-white/10 hover:bg-stone-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+            >
               <Mail size={24} />
             </a>
-            <a href="#" className="p-4 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all duration-300">
+            <a
+              href="https://github.com/vincerhodes"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="p-4 rounded-full border border-stone-300 dark:border-white/10 hover:bg-stone-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+            >
               <Github size={24} />
-            </a>
-            <a href="#" className="p-4 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all duration-300">
-              <Linkedin size={24} />
             </a>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-white/10 text-center text-gray-600 text-sm">
+      <footer className="py-8 px-6 border-t border-stone-200 dark:border-white/10 text-center text-stone-400 dark:text-stone-600 text-sm">
         © {new Date().getFullYear()} JIMFOLIO. All rights reserved.
       </footer>
     </main>

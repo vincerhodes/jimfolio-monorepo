@@ -109,7 +109,7 @@ export default function CallToAction() {
           </div>
 
           <div className="mt-16 text-center text-gray-500 text-sm">
-            <p>Created by <a href="https://jimfolio.space" className="text-data-blue hover:underline">Jimmy</a></p>
+            <p><a href="https://jimfolio.space" className="text-data-blue hover:underline">← jimfolio.space</a></p>
             <p className="mt-2">Data sources: World Inequality Database, ONS, Bank of England, OECD</p>
           </div>
         </motion.div>

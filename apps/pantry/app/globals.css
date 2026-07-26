@@ -15,7 +15,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
     @apply btn text-white;
@@ -28,10 +28,10 @@
     @apply btn border border-[#d9d1c6] bg-white text-ink hover:bg-[#f3eee7];
   }
   .btn-sm {
-    @apply px-3 py-1;
+    @apply px-3 py-2 text-sm;
   }
   .input {
-    @apply mt-1 w-full rounded-lg border border-[#d9d1c6] bg-white px-3 py-2 text-sm focus:border-espresso focus:outline-none focus:ring-2 focus:ring-espresso/20;
+    @apply mt-1 w-full rounded-lg border border-[#d9d1c6] bg-white px-3 py-2 text-base focus:border-espresso focus:outline-none focus:ring-2 focus:ring-espresso/20 sm:text-sm;
   }
   .card {
     @apply rounded-xl border border-[#e7e0d5] bg-white shadow-[0_1px_3px_rgba(51,38,29,0.07)];

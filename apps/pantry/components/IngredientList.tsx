@@ -23,20 +23,22 @@ export default function IngredientList({
       <ul className="mt-3 space-y-2">
         {ingredients.map((ing, i) => (
           <li key={i} className="text-sm">
-            {onToggle && (
-              <input
-                type="checkbox"
-                checked={checked?.[i] ?? false}
-                onChange={() => onToggle(i)}
-                className="mr-2 align-middle accent-[var(--accent)]"
-                aria-label={`Have ${ing.name}`}
-              />
-            )}
-            <span className="font-medium">
-              {ing.quantity} {ing.unit}
-            </span>{" "}
-            {ing.name}
-            {ing.notes && <span className="text-[#7a6a5d]"> ({ing.notes})</span>}
+            <label>
+              {onToggle && (
+                <input
+                  type="checkbox"
+                  checked={checked?.[i] ?? false}
+                  onChange={() => onToggle(i)}
+                  className="mr-2 align-middle accent-[var(--accent)]"
+                  aria-label={`Have ${ing.name}`}
+                />
+              )}
+              <span className="font-medium">
+                {ing.quantity} {ing.unit}
+              </span>{" "}
+              {ing.name}
+              {ing.notes && <span className="text-[#7a6a5d]"> ({ing.notes})</span>}
+            </label>
             {onAddToPantry && canAddToPantry?.[i] && (
               <button
                 type="button"

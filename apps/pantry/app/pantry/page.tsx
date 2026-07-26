@@ -11,7 +11,7 @@ export default async function PantryPage() {
 
   return (
     <main
-      className="mx-auto max-w-4xl p-8"
+      className="mx-auto max-w-4xl p-4 sm:p-8"
       style={{ "--accent": "#75742c" } as React.CSSProperties}
     >
       <h1 className="page-title">Pantry</h1>

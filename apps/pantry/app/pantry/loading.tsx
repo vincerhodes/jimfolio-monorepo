@@ -2,7 +2,7 @@ import Skeleton from "@/components/Skeleton";
 
 export default function Loading() {
   return (
-    <main className="mx-auto max-w-4xl p-8">
+    <main className="mx-auto max-w-4xl p-4 sm:p-8">
       <Skeleton className="h-9 w-32" />
       <div className="card mt-6 divide-y divide-[#eee7dd]">
         {Array.from({ length: 4 }).map((_, i) => (

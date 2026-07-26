@@ -22,6 +22,12 @@ export default function RootLayout({
       <body>
         <header className="border-b border-[#e7e0d5]">
           <nav className="mx-auto flex max-w-4xl items-baseline gap-6 p-4">
+            <a
+              href="https://jimfolio.space"
+              className="self-center text-sm text-[#7a6a5d] hover:text-ink hover:underline"
+            >
+              ← jimfolio.space
+            </a>
             <Link
               href="/"
               className="font-display text-xl font-semibold tracking-tight text-espresso"

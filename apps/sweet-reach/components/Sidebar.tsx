@@ -109,7 +109,7 @@ export default function Sidebar() {
         </Link>
         <a href="https://jimfolio.space" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs font-medium mb-4 hover:underline transition-colors" style={{ color: 'var(--text-secondary)' }}>
           <ArrowRight size={14} />
-          Back to Jimfolio Space
+          jimfolio.space
         </a>
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold transition-colors" style={{ 

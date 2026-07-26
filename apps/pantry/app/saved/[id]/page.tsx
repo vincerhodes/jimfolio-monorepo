@@ -34,7 +34,7 @@ export default async function SavedRecipePage({
 
   return (
     <main
-      className="mx-auto max-w-4xl p-8"
+      className="mx-auto max-w-4xl p-4 sm:p-8"
       style={{ "--accent": "#5f7a52" } as React.CSSProperties}
     >
       <h1 className="page-title">{recipe.title}</h1>
@@ -42,7 +42,7 @@ export default async function SavedRecipePage({
         {recipe.servings ? `Serves ${recipe.servings} · ` : ""}
         Generated with {row.model}
       </p>
-      <div className="mt-4 flex items-start gap-2">
+      <div className="mt-4 flex flex-wrap items-start gap-2">
         <EditRecipeForm id={row.id} title={recipe.title} servings={recipe.servings ?? null} />
         <DeleteRecipeButton id={row.id} />
       </div>

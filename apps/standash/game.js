@@ -283,7 +283,7 @@ function onDown(cx, cy) {
   // ← jimfolio button (menu, dead, complete)
   if (backBtn && cx >= backBtn.x && cx <= backBtn.x + backBtn.w
                && cy >= backBtn.y && cy <= backBtn.y + backBtn.h) {
-    window.location.href = '/';
+    window.location.href = 'https://jimfolio.space';
     return;
   }
 
@@ -827,7 +827,7 @@ function drawOverlay(title, sub, prompt) {
   ctx.fillStyle = 'rgba(199,125,255,0.45)';
   ctx.font      = `${TILE * 0.4}px monospace`;
   ctx.textAlign = 'center';
-  ctx.fillText('← jimfolio', LW * 0.5, bkY + bkH * 0.66);
+  ctx.fillText('← jimfolio.space', LW * 0.5, bkY + bkH * 0.66);
 }
 
 function roundRect(x, y, w, h, r) {
@@ -858,7 +858,7 @@ function drawBackBtn() {
   ctx.fillStyle   = C.lpurp;
   ctx.font        = `${TILE * 0.42}px monospace`;
   ctx.textAlign   = 'left';
-  ctx.fillText('← jimfolio', bkX + TILE * 0.28, bkY + bkH * 0.66);
+  ctx.fillText('← jimfolio.space', bkX + TILE * 0.28, bkY + bkH * 0.66);
 }
 
 function drawMenu() {

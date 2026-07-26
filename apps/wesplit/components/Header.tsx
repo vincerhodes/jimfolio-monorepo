@@ -6,7 +6,15 @@ export default function Header({ user }: { user: string }) {
   return (
     <header className="bg-white border-b border-slate-100 sticky top-0 z-30">
       <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-teal-600">WeSplit</h1>
+        <div className="flex items-baseline gap-2">
+          <h1 className="text-xl font-bold text-teal-600">WeSplit</h1>
+          <a
+            href="https://jimfolio.space"
+            className="text-xs text-slate-400 hover:text-teal-600 transition-colors"
+          >
+            ← jimfolio.space
+          </a>
+        </div>
         <div className="flex items-center gap-3">
           <span className="text-sm font-medium text-slate-700">{capitalize(user)}</span>
           <form action={logoutAction}>
