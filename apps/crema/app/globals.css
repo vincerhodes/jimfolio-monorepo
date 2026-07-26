@@ -28,7 +28,7 @@
     @apply btn border border-[#d9d1c6] bg-white text-ink hover:bg-[#f3eee7];
   }
   .btn-sm {
-    @apply px-3 py-1;
+    @apply px-3 py-2;
   }
   .input {
     @apply mt-1 w-full rounded-lg border border-[#d9d1c6] bg-white px-3 py-2 text-sm focus:border-espresso focus:outline-none focus:ring-2 focus:ring-espresso/20;
@@ -37,7 +37,7 @@
     @apply rounded-xl border border-[#e7e0d5] bg-white shadow-[0_1px_3px_rgba(51,38,29,0.07)];
   }
   .page-title {
-    @apply font-display text-3xl font-semibold tracking-tight;
+    @apply font-display text-2xl font-semibold tracking-tight sm:text-3xl;
     color: var(--accent, #33261d);
   }
 }

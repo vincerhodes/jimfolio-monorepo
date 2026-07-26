@@ -34,7 +34,7 @@ export default async function GearPage() {
 
   return (
     <main
-      className="mx-auto max-w-4xl p-8"
+      className="mx-auto max-w-4xl p-4 sm:p-8"
       style={{ "--accent": "#4a2c1a" } as React.CSSProperties}
     >
       <h1 className="page-title">Gear</h1>
@@ -48,8 +48,8 @@ export default async function GearPage() {
       <div className="mt-6 space-y-4">
         {grinders.map(({ _count, ...grinder }) => (
           <div key={grinder.id} className="card p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div>
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="min-w-0">
                 <h2 className="text-lg font-semibold">
                   {grinderDisplayName(grinder)}
                   {grinder.archived && (
@@ -104,8 +104,8 @@ export default async function GearPage() {
       <div className="mt-6 space-y-4">
         {equipment.map(({ _count, ...item }) => (
           <div key={item.id} className="card p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div>
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="min-w-0">
                 <h2 className="text-lg font-semibold">
                   {equipmentDisplayName(item)}
                   {item.archived && (

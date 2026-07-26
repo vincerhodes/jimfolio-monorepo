@@ -36,7 +36,7 @@ export default async function CoffeePage({ searchParams }: CoffeePageProps) {
 
   return (
     <main
-      className="mx-auto max-w-4xl p-8"
+      className="mx-auto max-w-4xl p-4 sm:p-8"
       style={{ "--accent": "#4a2c1a" } as React.CSSProperties}
     >
       <h1 className="page-title">Coffee</h1>
@@ -45,7 +45,7 @@ export default async function CoffeePage({ searchParams }: CoffeePageProps) {
         <Link
           href={`/coffee${q ? `?q=${encodeURIComponent(q)}` : ""}`}
           aria-current={!archived ? "page" : undefined}
-          className={`-mb-px border-b-2 px-1 pb-2 text-sm font-medium ${
+          className={`-mb-px border-b-2 px-2 pb-2 text-sm font-medium ${
             !archived
               ? "border-espresso text-espresso"
               : "border-transparent text-[#7a6a5d] hover:text-ink"
@@ -56,7 +56,7 @@ export default async function CoffeePage({ searchParams }: CoffeePageProps) {
         <Link
           href={`/coffee?view=archived${qSuffix}`}
           aria-current={archived ? "page" : undefined}
-          className={`-mb-px border-b-2 px-1 pb-2 text-sm font-medium ${
+          className={`-mb-px border-b-2 px-2 pb-2 text-sm font-medium ${
             archived
               ? "border-espresso text-espresso"
               : "border-transparent text-[#7a6a5d] hover:text-ink"
@@ -66,7 +66,7 @@ export default async function CoffeePage({ searchParams }: CoffeePageProps) {
         </Link>
         <Link
           href="/coffee/gear"
-          className="-mb-px ml-auto border-b-2 border-transparent px-1 pb-2 text-sm font-medium text-[#7a6a5d] hover:text-ink"
+          className="-mb-px ml-auto border-b-2 border-transparent px-2 pb-2 text-sm font-medium text-[#7a6a5d] hover:text-ink"
         >
           Gear
         </Link>

@@ -279,7 +279,7 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
               key={star}
               type="button"
               onClick={() => setRating((r) => (r === star ? null : star))}
-              className={`text-2xl ${
+              className={`p-1 text-2xl ${
                 rating !== null && star <= rating
                   ? "text-amber-500"
                   : "text-[#d8cfc4]"
