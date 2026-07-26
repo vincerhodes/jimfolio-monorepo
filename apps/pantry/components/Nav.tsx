@@ -41,11 +41,17 @@ export default function Nav({ showLogout = false }: { showLogout?: boolean }) {
           </Link>
         );
       })}
+      <a
+        href="https://jimfolio.space"
+        className="ml-auto self-center text-sm text-[#7a6a5d] hover:text-ink hover:underline"
+      >
+        ← jimfolio.space
+      </a>
       {showLogout && (
         <button
           type="button"
           onClick={logout}
-          className="ml-auto self-center text-sm text-[#7a6a5d] hover:text-ink hover:underline"
+          className="self-center text-sm text-[#7a6a5d] hover:text-ink hover:underline"
         >
           Log out
         </button>

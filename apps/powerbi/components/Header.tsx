@@ -47,6 +47,7 @@ export default function Header({
               {link.label}
             </Link>
           ))}
+          <a href="https://jimfolio.space">← jimfolio.space</a>
         </nav>
       </div>
     </header>

@@ -17,10 +17,16 @@ export default function Header({ learnedCount }: Props) {
             <p className="text-jade-200 text-xs">Learn Mandarin the smart way</p>
           </div>
         </div>
-        <div className="flex gap-4 text-sm text-jade-100">
+        <div className="flex items-center gap-4 text-sm text-jade-100">
           <span>
             Learned: <strong className="text-gold-400">{learnedCount}</strong>
           </span>
+          <a
+            href="https://jimfolio.space"
+            className="hover:text-gold-400 transition-colors"
+          >
+            ← jimfolio.space
+          </a>
         </div>
       </div>
     </header>
