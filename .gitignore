@@ -39,3 +39,6 @@ coverage/
 
 # Planning folder (contains large audio files)
 planning/
+
+# Vercel CLI project links (per-app, local only)
+.vercel/
