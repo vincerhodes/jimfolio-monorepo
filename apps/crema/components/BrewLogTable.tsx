@@ -222,17 +222,18 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
           {error}
         </p>
       )}
-      <table className="w-full text-sm">
+      <div className="overflow-x-auto">
+      <table className="w-full min-w-[560px] text-sm">
         <thead>
           <tr className="border-b border-[#e7e0d5] text-left text-[#7a6a5d]">
             <th className="py-2 pr-4 font-medium">Date</th>
             <th className="py-2 pr-4 font-medium">Method</th>
             <th className="py-2 pr-4 font-medium">Grind</th>
-            <th className="py-2 pr-4 font-medium">Equipment</th>
+            <th className="hidden py-2 pr-4 font-medium md:table-cell">Equipment</th>
             <th className="py-2 pr-4 font-medium">Dose / Yield / Time</th>
             <th className="py-2 pr-4 font-medium">Age</th>
             <th className="py-2 pr-4 font-medium">Rating</th>
-            <th className="py-2 pr-4 font-medium">Notes</th>
+            <th className="hidden py-2 pr-4 font-medium md:table-cell">Notes</th>
             <th className="py-2 font-medium"></th>
           </tr>
         </thead>
@@ -397,7 +398,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
                               onClick={() =>
                                 setEdit({ ...edit, rating: edit.rating === star ? null : star })
                               }
-                              className={`text-2xl ${
+                              className={`p-1 text-2xl ${
                                 edit.rating !== null && star <= edit.rating
                                   ? "text-amber-500"
                                   : "text-[#d8cfc4]"
@@ -443,7 +444,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
                 <td className="py-2 pr-4 whitespace-nowrap">{formatDate(brew.brewDate)}</td>
                 <td className="py-2 pr-4">{brew.method.label}</td>
                 <td className="py-2 pr-4">{formatGrind(brew)}</td>
-                <td className="py-2 pr-4">
+                <td className="hidden py-2 pr-4 md:table-cell">
                   {brew.equipmentRef ? equipmentDisplayName(brew.equipmentRef) : "—"}
                 </td>
                 <td className="py-2 pr-4 whitespace-nowrap">
@@ -462,13 +463,13 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
                     "—"
                   )}
                 </td>
-                <td className="py-2 pr-4">{brew.notes ?? ""}</td>
+                <td className="hidden py-2 pr-4 md:table-cell">{brew.notes ?? ""}</td>
                 <td className="py-2 text-right whitespace-nowrap">
                   <button
                     type="button"
                     onClick={() => startEdit(brew)}
                     disabled={editingId !== null}
-                    className="text-sm text-[#7a6a5d] hover:underline disabled:opacity-50"
+                    className="-my-1 px-2 py-1 text-sm text-[#7a6a5d] hover:underline disabled:opacity-50"
                   >
                     Edit
                   </button>
@@ -476,7 +477,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
                     type="button"
                     onClick={() => remove(brew.id)}
                     disabled={deletingId === brew.id}
-                    className="ml-3 text-sm text-red-600 hover:underline disabled:opacity-50"
+                    className="-my-1 ml-1 px-2 py-1 text-sm text-red-600 hover:underline disabled:opacity-50"
                   >
                     {deletingId === brew.id ? "Deleting…" : "Delete"}
                   </button>
@@ -486,6 +487,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
           })}
         </tbody>
       </table>
+      </div>
     </>
   );
 }

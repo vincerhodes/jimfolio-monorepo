@@ -17,7 +17,8 @@ export default function DialInSummary({ entries }: DialInSummaryProps) {
   return (
     <div className="card p-6">
       <h2 className="text-lg font-semibold">Dial-in</h2>
-      <table className="mt-3 w-full text-sm">
+      <div className="mt-3 overflow-x-auto">
+        <table className="w-full min-w-[560px] text-sm">
         <thead>
           <tr className="border-b border-[#e7e0d5] text-left text-[#7a6a5d]">
             <th className="py-2 pr-4 font-medium">Method</th>
@@ -51,7 +52,8 @@ export default function DialInSummary({ entries }: DialInSummaryProps) {
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }
