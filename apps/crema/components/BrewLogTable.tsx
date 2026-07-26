@@ -328,7 +328,7 @@ export default function BrewLogTable({ beanId, brews, roastDate }: BrewLogTableP
                           <input
                             id={`edit-setting-${brew.id}`}
                             type="number"
-                            step="0.5"
+                            step="0.1"
                             min="0"
                             max="100"
                             value={edit.grindSetting}

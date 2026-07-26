@@ -212,7 +212,7 @@ export default function BrewLogForm({ beanId, roastDate }: BrewLogFormProps) {
           <input
             id="brew-grind-setting"
             type="number"
-            step="0.5"
+            step="0.1"
             min="0"
             max="100"
             value={grindSetting}
