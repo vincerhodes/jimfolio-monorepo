@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AUTH_COOKIE, BASE_PATH, expectedToken } from "@/lib/auth";
+import { BASE_PATH, SESSION_COOKIE } from "@/lib/auth-constants";
 
-export async function middleware(request: NextRequest) {
-  const expected = await expectedToken();
-  if (!expected) return NextResponse.next(); // gate disabled (local dev)
-
+// Edge-safe gate: checks only for the *presence* of a session cookie.
+// Full session validation happens in getSessionUser() inside pages/routes.
+export function middleware(request: NextRequest) {
   // nextUrl.pathname may or may not include the basePath depending on the
   // Next version — normalise by stripping it when present.
   let path = request.nextUrl.pathname;
@@ -12,18 +11,18 @@ export async function middleware(request: NextRequest) {
     path = path.slice(BASE_PATH.length) || "/";
   }
 
-  // Next internals and the login/logout endpoints stay public.
+  // Next internals, static assets, and the auth pages/endpoints stay public.
   if (
     path.startsWith("/_next") ||
     path === "/favicon.ico" ||
     path === "/login" ||
-    path === "/api/login" ||
-    path === "/api/logout"
+    path === "/signup" ||
+    path.startsWith("/api/auth/")
   ) {
     return NextResponse.next();
   }
 
-  if (request.cookies.get(AUTH_COOKIE)?.value === expected) {
+  if (request.cookies.get(SESSION_COOKIE)?.value) {
     return NextResponse.next();
   }
 

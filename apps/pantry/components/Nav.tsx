@@ -10,13 +10,13 @@ const SECTIONS = [
   { href: "/pantry", label: "Pantry", accent: "#75742c" },
 ];
 
-export default function Nav({ showLogout = false }: { showLogout?: boolean }) {
+export default function Nav({ userName = null }: { userName?: string | null }) {
   // usePathname may include the basePath (/pantry locally); strip it.
   const pathname = usePathname().replace(/^\/pantry(?=\/|$)/, "") || "/";
 
   async function logout() {
     try {
-      await fetch(`${API_BASE}/api/logout`, { method: "POST" });
+      await fetch(`${API_BASE}/api/auth/logout`, { method: "POST" });
     } finally {
       window.location.href = `${API_BASE}/login`;
     }
@@ -47,7 +47,10 @@ export default function Nav({ showLogout = false }: { showLogout?: boolean }) {
       >
         ← jimfolio.space
       </a>
-      {showLogout && (
+      {userName && (
+        <span className="self-center text-sm text-[#7a6a5d]">{userName}</span>
+      )}
+      {userName && (
         <button
           type="button"
           onClick={logout}

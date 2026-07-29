@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { Fraunces, Inter } from "next/font/google";
+import { getSessionUser } from "@/lib/auth";
 import Nav from "@/components/Nav";
 import "./globals.css";
 
@@ -17,11 +18,12 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getSessionUser();
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
       <body>
@@ -33,7 +35,7 @@ export default function RootLayout({
             >
               pantry<span className="text-terracotta">.</span>
             </Link>
-            <Nav showLogout={Boolean(process.env.PANTRY_PASSWORD)} />
+            <Nav userName={user?.name ?? null} />
           </nav>
         </header>
         {children}

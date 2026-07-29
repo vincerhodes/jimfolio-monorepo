@@ -8,6 +8,25 @@ generator client {
   previewFeatures = ["driverAdapters"]
 }
 
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime     @default(now())
+  sessions     Session[]
+  recipes      Recipe[]
+  pantryItems  PantryItem[]
+}
+
+model Session {
+  id        String   @id // random 32-byte hex token
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
 model Recipe {
   id          String   @id @default(cuid())
   title       String
@@ -16,12 +35,19 @@ model Recipe {
   steps       String   // JSON: [{ stepNumber, instruction }]        — self-contained
   prompt      String   // original user request (merged structured + free text)
   model       String   // OpenRouter model used
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isPublic    Boolean  @default(false)
   createdAt   DateTime @default(now())
 }
 
 model PantryItem {
   id        String   @id @default(cuid())
-  name      String   @unique
+  name      String
   category  String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+
+  @@unique([userId, name])
 }

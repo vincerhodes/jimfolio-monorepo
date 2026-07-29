@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
+import { getSessionUser } from "@/lib/auth";
 import { recipeSchema } from "@/lib/recipe-schema";
 import { isAllowedModel } from "@/lib/models";
 
@@ -11,6 +12,11 @@ const saveSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const user = await getSessionUser();
+  if (!user) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -35,6 +41,7 @@ export async function POST(request: Request) {
       steps: JSON.stringify(recipe.steps),
       prompt,
       model,
+      userId: user.id,
     },
   });
 
@@ -42,7 +49,12 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  const user = await getSessionUser();
+  if (!user) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
   const recipes = await db.recipe.findMany({
+    where: { userId: user.id },
     select: { id: true, title: true, createdAt: true },
     orderBy: { createdAt: "desc" },
   });
