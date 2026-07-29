@@ -4,6 +4,7 @@ import { useState } from "react";
 import { API_BASE } from "@/lib/api-base";
 
 export default function LoginForm({ next }: { next: string }) {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -12,13 +13,17 @@ export default function LoginForm({ next }: { next: string }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api/login`, {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ email, password }),
       });
       if (!res.ok) {
-        setError(res.status === 401 ? "Wrong password." : "Couldn't log in. Try again.");
+        setError(
+          res.status === 401
+            ? "Wrong email or password."
+            : "Couldn't log in. Try again."
+        );
         return;
       }
       // Full navigation so middleware re-runs with the new cookie.
@@ -35,9 +40,25 @@ export default function LoginForm({ next }: { next: string }) {
       className="card space-y-4 p-6"
       onSubmit={(e) => {
         e.preventDefault();
-        if (!loading && password) submit();
+        if (!loading && email && password) submit();
       }}
     >
+      <div>
+        <label htmlFor="login-email" className="block text-sm font-medium">
+          Email
+        </label>
+        <input
+          id="login-email"
+          type="email"
+          required
+          autoFocus
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="input"
+        />
+      </div>
+
       <div>
         <label htmlFor="login-password" className="block text-sm font-medium">
           Password
@@ -46,7 +67,7 @@ export default function LoginForm({ next }: { next: string }) {
           id="login-password"
           type="password"
           required
-          autoFocus
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="input"
@@ -59,7 +80,7 @@ export default function LoginForm({ next }: { next: string }) {
         </p>
       )}
 
-      <button type="submit" disabled={loading || !password} className="btn-primary">
+      <button type="submit" disabled={loading || !email || !password} className="btn-primary">
         {loading ? "Checking…" : "Log in"}
       </button>
     </form>

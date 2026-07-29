@@ -1,13 +1,26 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { BASE_PATH, getSessionUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function SavedPage() {
-  const recipes = await db.recipe.findMany({
-    select: { id: true, title: true, createdAt: true },
-    orderBy: { createdAt: "desc" },
-  });
+  const user = await getSessionUser();
+  if (!user) redirect(`${BASE_PATH}/login`);
+
+  const [recipes, shared] = await Promise.all([
+    db.recipe.findMany({
+      where: { userId: user.id },
+      select: { id: true, title: true, createdAt: true },
+      orderBy: { createdAt: "desc" },
+    }),
+    db.recipe.findMany({
+      where: { isPublic: true, userId: { not: user.id } },
+      select: { id: true, title: true, createdAt: true, user: { select: { name: true } } },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
 
   return (
     <main
@@ -32,6 +45,24 @@ export default async function SavedPage() {
             </li>
           ))}
         </ul>
+      )}
+
+      {shared.length > 0 && (
+        <>
+          <h2 className="mt-10 text-lg font-semibold">Shared by others</h2>
+          <ul className="card mt-4 divide-y divide-[#eee7dd]">
+            {shared.map((r) => (
+              <li key={r.id} className="px-4 py-3">
+                <Link href={`/saved/${r.id}`} className="font-medium hover:underline">
+                  {r.title}
+                </Link>
+                <span className="ml-3 text-sm text-[#7a6a5d]">
+                  by {r.user.name} · {r.createdAt.toLocaleDateString()}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </main>
   );

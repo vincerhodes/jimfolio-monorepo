@@ -1,3 +1,4 @@
+import Link from "next/link";
 import LoginForm from "@/components/LoginForm";
 
 export const dynamic = "force-dynamic";
@@ -13,13 +14,19 @@ export default async function LoginPage({
 
   return (
     <main className="mx-auto max-w-md p-4 sm:p-8">
-      <h1 className="page-title">pantry is private</h1>
+      <h1 className="page-title">Log in</h1>
       <p className="mt-1 text-sm text-[#7a6a5d]">
-        Enter the password to continue.
+        Sign in to your pantry account.
       </p>
       <div className="mt-6">
         <LoginForm next={safeNext} />
       </div>
+      <p className="mt-4 text-sm text-[#7a6a5d]">
+        No account?{" "}
+        <Link href="/signup" className="text-terracotta hover:underline">
+          Sign up
+        </Link>
+      </p>
     </main>
   );
 }

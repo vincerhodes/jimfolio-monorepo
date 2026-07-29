@@ -1,11 +1,17 @@
+import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { BASE_PATH, getSessionUser } from "@/lib/auth";
 import PantryForm from "@/components/PantryForm";
 import PantryList from "@/components/PantryList";
 
 export const dynamic = "force-dynamic";
 
 export default async function PantryPage() {
+  const user = await getSessionUser();
+  if (!user) redirect(`${BASE_PATH}/login`);
+
   const items = await db.pantryItem.findMany({
+    where: { userId: user.id },
     orderBy: { name: "asc" },
   });
 

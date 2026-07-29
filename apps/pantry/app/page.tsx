@@ -1,10 +1,16 @@
+import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { BASE_PATH, getSessionUser } from "@/lib/auth";
 import Generator from "@/components/Generator";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
+  const user = await getSessionUser();
+  if (!user) redirect(`${BASE_PATH}/login`);
+
   const items = await db.pantryItem.findMany({
+    where: { userId: user.id },
     orderBy: { name: "asc" },
     select: { name: true },
   });

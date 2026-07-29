@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { getSessionUser } from "@/lib/auth";
 import { recipeSchema } from "@/lib/recipe-schema";
 import { defaultModel, isAllowedModel } from "@/lib/models";
 import { buildUserPrompt, callOpenRouter } from "@/lib/openrouter";
@@ -29,6 +30,10 @@ const generateBodySchema = z
   });
 
 export async function POST(request: Request) {
+  if (!(await getSessionUser())) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   if (!rateLimit(`generate:${ip}`, GENERATE_LIMIT, GENERATE_WINDOW_MS)) {
