@@ -8,6 +8,7 @@ const SECTIONS = [
   { href: "/", label: "Generator", accent: "#c2571f" },
   { href: "/saved", label: "Saved", accent: "#5f7a52" },
   { href: "/pantry", label: "Pantry", accent: "#75742c" },
+  { href: "/account", label: "Account", accent: "#7a6a5d" },
 ];
 
 export default function Nav({ userName = null }: { userName?: string | null }) {
