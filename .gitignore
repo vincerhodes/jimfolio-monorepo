@@ -9,6 +9,9 @@ dist/
 build/
 out/
 
+# Generated Prisma clients (per-app, apps/*/generated/)
+generated/
+
 # Environment files
 .env
 .env*.local

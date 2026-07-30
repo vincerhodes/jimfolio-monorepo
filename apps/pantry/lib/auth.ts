@@ -6,7 +6,7 @@ import { promisify } from "node:util";
 import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import { BASE_PATH, SESSION_COOKIE, cookieOptions } from "@/lib/auth-constants";
-import type { User } from "@prisma/client";
+import type { User } from "../generated/prisma";
 
 const scrypt = promisify(scryptCb);
 
