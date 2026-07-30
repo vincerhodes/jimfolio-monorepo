@@ -23,7 +23,7 @@ export default async function SettingsPage() {
   return (
     <main className="mx-auto max-w-2xl pb-12">
       <div className="px-6 pb-6 pt-4">
-        <h1 className="text-2xl font-extrabold text-ink">Settings ⚙️</h1>
+        <h1 className="text-2xl font-extrabold text-ink">Settings</h1>
       </div>
 
       <SettingsClient

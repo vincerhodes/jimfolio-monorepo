@@ -7,6 +7,7 @@ import ProgressRing from "@/components/ProgressRing";
 import StreakBadge from "@/components/StreakBadge";
 import WeekChart from "@/components/WeekChart";
 import HomeClient from "@/components/HomeClient";
+import Icon from "@/components/Icon";
 
 export const dynamic = "force-dynamic";
 
@@ -45,8 +46,9 @@ export default async function HomePage() {
     <main className="mx-auto max-w-2xl pb-12">
       <div className="px-6 pt-4">
         <p className="text-sm text-gray-400">{getGreeting()}</p>
-        <h1 className="mb-6 text-2xl font-extrabold text-ink">
-          {user.displayName || user.name || "Friend"} 🌱
+        <h1 className="mb-6 flex items-center gap-2 text-2xl font-extrabold text-ink">
+          {user.displayName || user.name || "Friend"}
+          <Icon name="sprout" className="h-6 w-6 text-primary" />
         </h1>
       </div>
 
@@ -68,7 +70,7 @@ export default async function HomePage() {
           </p>
         ) : (
           <p className="text-[15px] font-bold text-primarydark">
-            Goal reached! 🎉
+            Goal reached!
           </p>
         )}
       </div>

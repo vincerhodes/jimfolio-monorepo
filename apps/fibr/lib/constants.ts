@@ -6,10 +6,10 @@ export const FIBER_NUTRIENT_NUMBER = "291";
 export const USDA_API_BASE = "https://api.nal.usda.gov/fdc/v1";
 
 export const STREAK_MESSAGES = {
-  start: "Let's get growing! 🌱",
-  short: "Nice streak! Keep it up! 🌿",
-  medium: "You're on fire! 🌳",
-  long: "Incredible consistency! 🌲✨",
+  start: "Let's get growing!",
+  short: "Nice streak! Keep it up!",
+  medium: "You're on fire!",
+  long: "Incredible consistency!",
 } as const;
 
 export function getStreakMessage(days: number): string {

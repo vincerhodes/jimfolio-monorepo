@@ -5,11 +5,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { API_BASE } from "@/lib/api-base";
+import Icon, { type IconName } from "@/components/Icon";
 
-function StatItem({ label, value, emoji }: { label: string; value: string; emoji: string }) {
+function StatItem({ label, value, icon, iconClass }: { label: string; value: string; icon: IconName; iconClass: string }) {
   return (
     <div className="text-center">
-      <div className="text-2xl">{emoji}</div>
+      <Icon name={icon} className={`mx-auto h-6 w-6 ${iconClass}`} />
       <div className="mt-1 text-xl font-extrabold text-ink">{value}</div>
       <div className="text-xs text-gray-400">{label}</div>
     </div>
@@ -125,7 +126,7 @@ export default function SettingsClient({
                 <div className="text-xl font-bold text-ink">{displayName}</div>
                 <div className="mt-0.5 text-xs text-gray-400">Tap to change</div>
               </div>
-              <span className="text-2xl">✏️</span>
+              <Icon name="pencil" className="h-5 w-5 text-gray-400" />
             </button>
           )}
         </div>
@@ -164,7 +165,7 @@ export default function SettingsClient({
                 <div className="text-2xl font-extrabold text-primary">{goalFiberG}g</div>
                 <div className="mt-0.5 text-xs text-gray-400">Tap to change</div>
               </div>
-              <span className="text-2xl">✏️</span>
+              <Icon name="pencil" className="h-5 w-5 text-gray-400" />
             </button>
           )}
         </div>
@@ -175,9 +176,9 @@ export default function SettingsClient({
         <div className="mb-2 text-xs font-bold uppercase text-gray-400">Your Stats</div>
         <div className="rounded-2xl bg-gray-50 p-4">
           <div className="flex justify-around">
-            <StatItem label="Streak" value={`${streakDays}`} emoji="🔥" />
-            <StatItem label="Entries" value={`${totalEntries}`} emoji="📝" />
-            <StatItem label="Total fiber" value={`${totalFiber.toFixed(0)}g`} emoji="🌿" />
+            <StatItem label="Streak" value={`${streakDays}`} icon="flame" iconClass="text-amber-500" />
+            <StatItem label="Entries" value={`${totalEntries}`} icon="list" iconClass="text-primary" />
+            <StatItem label="Total fiber" value={`${totalFiber.toFixed(0)}g`} icon="leaf" iconClass="text-primary" />
           </div>
         </div>
       </div>

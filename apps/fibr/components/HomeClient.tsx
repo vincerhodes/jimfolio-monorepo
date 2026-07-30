@@ -9,6 +9,7 @@ import { API_BASE } from "@/lib/api-base";
 import { calculateFiber, formatFiber } from "@/lib/fiber";
 import type { EntryDto, Suggestion } from "@/lib/types";
 import DeleteEntryButton from "@/components/DeleteEntryButton";
+import Icon from "@/components/Icon";
 
 export default function HomeClient({
   todayEntries,
@@ -95,7 +96,7 @@ export default function HomeClient({
 
       {celebrating && (
         <div className="fixed left-1/2 top-4 z-40 w-[calc(100%-3rem)] max-w-xl -translate-x-1/2 animate-pulse rounded-xl bg-primarydark p-4 text-center text-base font-extrabold text-white shadow-lg">
-          🎉 Daily goal reached! Keep it up!
+          Daily goal reached! Keep it up!
         </div>
       )}
 
@@ -125,7 +126,7 @@ export default function HomeClient({
       {suggestions.length > 0 && (
         <div className="mb-6">
           <h2 className="mb-3 px-6 text-base font-bold text-ink">
-            Next sprouts to try 🌿
+            Next sprouts to try
           </h2>
           <div className="flex gap-3 overflow-x-auto px-6 pb-1">
             {suggestions.map((s) => (
@@ -134,7 +135,7 @@ export default function HomeClient({
                 className="w-44 shrink-0 rounded-2xl bg-mint p-4 shadow-sm"
               >
                 <div className="mb-1 text-base font-bold text-emerald-900">
-                  {s.emoji} {s.name}
+                  {s.name}
                 </div>
                 <div className="mb-1 text-xs font-semibold text-emerald-700">
                   {s.fiberPer100g}g fiber / 100g
@@ -156,7 +157,7 @@ export default function HomeClient({
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="text-base font-bold text-emerald-900">
-                    {logSuggestion.emoji} {logSuggestion.name}
+                    {logSuggestion.name}
                   </div>
                   <div className="mt-0.5 text-[13px] text-emerald-700">
                     {logSuggestion.fiberPer100g}g fiber per 100g
@@ -229,7 +230,7 @@ export default function HomeClient({
 
       {todayEntries.length === 0 && (
         <div className="px-6 pt-4 text-center">
-          <div className="mb-2 text-5xl">🥦</div>
+          <Icon name="leaf" className="mx-auto mb-3 h-12 w-12 text-emerald-200" />
           <p className="whitespace-pre-line text-base text-gray-400">
             {"No entries yet today.\nSearch a food to get started!"}
           </p>
