@@ -25,6 +25,7 @@ export const APPS: AppEntry[] = [
     tech: ["Next.js", "TypeScript", "Turso"],
     gradient: "from-green-500 to-emerald-400",
     chip: "bg-green-500/10 text-green-700 border-green-500/20 dark:text-green-300",
+    image: "/assets/Fibr_card_front.jpg",
     featured: true,
   },
   {
