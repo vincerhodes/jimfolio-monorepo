@@ -1,0 +1,54 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  name         String
+  passwordHash String
+  displayName  String       @default("")
+  goalFiberG   Int          @default(25)
+  createdAt    DateTime     @default(now())
+  sessions     Session[]
+  entries      FiberEntry[]
+  customFoods  CustomFood[]
+}
+
+model Session {
+  id        String   @id // random 32-byte hex token
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model FiberEntry {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  foodName     String
+  fiberPer100g Float
+  grams        Float
+  fiberG       Float // computed at write: fiberPer100g * grams / 100
+  createdAt    DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model CustomFood {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  fiberPer100g Float
+  createdAt    DateTime @default(now())
+
+  @@unique([userId, name])
+}
