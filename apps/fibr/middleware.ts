@@ -15,6 +15,7 @@ export function middleware(request: NextRequest) {
   if (
     path.startsWith("/_next") ||
     path === "/favicon.ico" ||
+    path === "/icon.svg" ||
     path === "/login" ||
     path === "/signup" ||
     path.startsWith("/api/auth/")
