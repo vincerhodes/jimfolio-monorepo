@@ -23,6 +23,7 @@
     "start:wesplit:3110": "cd apps/wesplit && npm run start -- -p 3110",
     "live:3100": "npm run build && npm run start:3100",
     "lint": "turbo run lint",
+    "postinstall": "npm run postinstall --workspaces --if-present",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
