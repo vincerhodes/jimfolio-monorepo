@@ -17,6 +17,17 @@ export interface AppEntry {
 /** Single source of truth for apps linked from the homepage. Only verified-live apps. */
 export const APPS: AppEntry[] = [
   {
+    name: "Fibr",
+    slug: "fibr",
+    url: "https://fibr.jimfolio.space",
+    tag: "FEATURED APP",
+    tagline: "Daily fiber tracker — goals, streaks & USDA food search",
+    tech: ["Next.js", "TypeScript", "Turso"],
+    gradient: "from-green-500 to-emerald-400",
+    chip: "bg-green-500/10 text-green-700 border-green-500/20 dark:text-green-300",
+    featured: true,
+  },
+  {
     name: "Sweet Reach",
     slug: "sweet-reach",
     url: "https://sweet-reach.jimfolio.space",
@@ -26,7 +37,6 @@ export const APPS: AppEntry[] = [
     gradient: "from-emerald-500 to-teal-500",
     chip: "bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-300",
     image: "/assets/Sweet-Reach_card_front.jpg",
-    featured: true,
   },
   {
     name: "The Wealth Divide",
