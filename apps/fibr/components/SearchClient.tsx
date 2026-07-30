@@ -241,26 +241,28 @@ export default function SearchClient({
           className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-base focus:border-primary focus:outline-none"
         />
 
-        {/* USDA toggle */}
-        <button
-          type="button"
-          onClick={() => {
-            setUsdaMode(!usdaMode);
-            setSelectedFood(null);
-          }}
-          className="mt-2 flex items-center gap-2"
-        >
-          <span
-            className={`flex h-5 w-9 items-center rounded-full px-0.5 transition-colors ${
-              usdaMode ? "bg-primary justify-end" : "bg-gray-300 justify-start"
-            }`}
+        {/* USDA toggle — only when the server has a key configured */}
+        {hasUsdaKey && (
+          <button
+            type="button"
+            onClick={() => {
+              setUsdaMode(!usdaMode);
+              setSelectedFood(null);
+            }}
+            className="mt-2 flex items-center gap-2"
           >
-            <span className="h-4 w-4 rounded-full bg-white" />
-          </span>
-          <span className="text-[13px] font-semibold text-gray-500">
-            USDA live search {!hasUsdaKey ? "(no key)" : ""}
-          </span>
-        </button>
+            <span
+              className={`flex h-5 w-9 items-center rounded-full px-0.5 transition-colors ${
+                usdaMode ? "bg-primary justify-end" : "bg-gray-300 justify-start"
+              }`}
+            >
+              <span className="h-4 w-4 rounded-full bg-white" />
+            </span>
+            <span className="text-[13px] font-semibold text-gray-500">
+              USDA live search
+            </span>
+          </button>
+        )}
       </div>
 
       {/* Category pills — only in built-in mode */}

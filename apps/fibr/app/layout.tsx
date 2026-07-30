@@ -24,10 +24,10 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <header className="border-b border-gray-100">
-          <nav className="mx-auto flex max-w-4xl items-baseline gap-6 p-4">
+          <nav className="mx-auto flex max-w-4xl items-baseline gap-3 overflow-x-auto whitespace-nowrap p-4 sm:gap-6 sm:overflow-x-visible">
             <Link
               href="/"
-              className="text-xl font-extrabold tracking-tight text-ink"
+              className="shrink-0 text-xl font-extrabold tracking-tight text-ink"
             >
               fibr<span className="text-primary">.</span> 🌾
             </Link>
