@@ -9,6 +9,8 @@ import { API_BASE } from "@/lib/api-base";
 import { HIGH_FIBER_FOODS } from "@/lib/constants";
 import { calculateFiber, formatFiber } from "@/lib/fiber";
 import type { FoodSearchItem } from "@/lib/types";
+import Icon from "@/components/Icon";
+import FiberLoading from "@/components/FiberLoading";
 
 const CATEGORIES = ["Seeds & Nuts", "Legumes", "Grains", "Fruits", "Vegetables", "Other"];
 
@@ -124,14 +126,12 @@ export default function SearchClient({
   function handleSelectFood(food: {
     name: string;
     fiberPer100g: number;
-    emoji?: string;
     typicalServingG?: number;
   }) {
     setSelectedFood({
       id: `builtin-${food.name}`,
       name: food.name,
       fiberPer100g: food.fiberPer100g,
-      emoji: food.emoji,
       typicalServingG: food.typicalServingG,
     });
     setGrams(String(food.typicalServingG ?? 100));
@@ -230,7 +230,7 @@ export default function SearchClient({
 
       {/* Header + search */}
       <div className="px-6 pb-2 pt-4">
-        <h1 className="mb-3 text-2xl font-extrabold text-ink">Search foods 🔍</h1>
+        <h1 className="mb-3 text-2xl font-extrabold text-ink">Search foods</h1>
         <input
           placeholder={usdaMode ? "Search USDA database..." : "Filter foods..."}
           value={query}
@@ -241,26 +241,28 @@ export default function SearchClient({
           className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-base focus:border-primary focus:outline-none"
         />
 
-        {/* USDA toggle */}
-        <button
-          type="button"
-          onClick={() => {
-            setUsdaMode(!usdaMode);
-            setSelectedFood(null);
-          }}
-          className="mt-2 flex items-center gap-2"
-        >
-          <span
-            className={`flex h-5 w-9 items-center rounded-full px-0.5 transition-colors ${
-              usdaMode ? "bg-primary justify-end" : "bg-gray-300 justify-start"
-            }`}
+        {/* USDA toggle — only when the server has a key configured */}
+        {hasUsdaKey && (
+          <button
+            type="button"
+            onClick={() => {
+              setUsdaMode(!usdaMode);
+              setSelectedFood(null);
+            }}
+            className="mt-2 flex items-center gap-2"
           >
-            <span className="h-4 w-4 rounded-full bg-white" />
-          </span>
-          <span className="text-[13px] font-semibold text-gray-500">
-            USDA live search {!hasUsdaKey ? "(no key)" : ""}
-          </span>
-        </button>
+            <span
+              className={`flex h-5 w-9 items-center rounded-full px-0.5 transition-colors ${
+                usdaMode ? "bg-primary justify-end" : "bg-gray-300 justify-start"
+              }`}
+            >
+              <span className="h-4 w-4 rounded-full bg-white" />
+            </span>
+            <span className="text-[13px] font-semibold text-gray-500">
+              USDA live search
+            </span>
+          </button>
+        )}
       </div>
 
       {/* Category pills — only in built-in mode */}
@@ -296,7 +298,6 @@ export default function SearchClient({
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="text-base font-bold text-emerald-900">
-                {selectedFood.emoji ? `${selectedFood.emoji} ` : ""}
                 {selectedFood.name}
               </div>
               <div className="mt-0.5 text-[13px] text-emerald-700">
@@ -347,23 +348,19 @@ export default function SearchClient({
       {/* USDA results */}
       {usdaMode ? (
         <div>
-          {usdaLoading && (
-            <div className="pt-8 text-center">
-              <div className="text-gray-400">Searching USDA...</div>
-            </div>
-          )}
+          {usdaLoading && <FiberLoading />}
           {!usdaLoading && usdaError !== "" && (
             <div className="pt-8 text-center text-red-500">{usdaError}</div>
           )}
           {!usdaLoading && usdaError === "" && query.trim() !== "" && usdaResults.length === 0 && (
             <div className="pt-8 text-center">
-              <div className="mb-2 text-4xl">🔭</div>
+              <Icon name="wheat" className="mx-auto mb-3 h-10 w-10 text-emerald-200" />
               <div className="text-gray-400">No USDA results found.</div>
             </div>
           )}
           {!usdaLoading && usdaError === "" && query.trim() === "" && (
             <div className="pt-10 text-center">
-              <div className="mb-2 text-4xl">🌾</div>
+              <Icon name="wheat" className="mx-auto mb-3 h-10 w-10 text-emerald-200" />
               <div className="whitespace-pre-line text-gray-400">
                 {"Type to search the USDA\nFoodData Central database"}
               </div>
@@ -405,13 +402,13 @@ export default function SearchClient({
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => handleSelectFood({ name: item.name, fiberPer100g: item.fiberPer100g, emoji: "✏️", typicalServingG: 100 })}
+                  onClick={() => handleSelectFood({ name: item.name, fiberPer100g: item.fiberPer100g, typicalServingG: 100 })}
                   className={`flex w-full items-center justify-between border-b border-gray-100 px-6 py-3 text-left hover:bg-mintlight ${
                     selectedFood?.id === `builtin-${item.name}` ? "bg-mint" : "bg-white"
                   }`}
                 >
                   <div className="flex flex-1 items-center gap-2.5">
-                    <span className="text-xl">✏️</span>
+                    <Icon name="pencil" className="h-4 w-4 shrink-0 text-gray-300" />
                     <div className="flex-1">
                       <div className="text-[15px] font-semibold text-ink">{item.name}</div>
                       <div className="text-xs text-gray-400">custom food</div>
@@ -440,12 +437,9 @@ export default function SearchClient({
                     selectedFood?.id === `builtin-${item.name}` ? "bg-mint" : "bg-white"
                   }`}
                 >
-                  <div className="flex flex-1 items-center gap-2.5">
-                    <span className="text-xl">{item.emoji}</span>
-                    <div className="flex-1">
-                      <div className="text-[15px] font-semibold text-ink">{item.name}</div>
-                      <div className="text-xs text-gray-400">~{item.typicalServingG}g serving</div>
-                    </div>
+                  <div className="flex-1">
+                    <div className="text-[15px] font-semibold text-ink">{item.name}</div>
+                    <div className="text-xs text-gray-400">~{item.typicalServingG}g serving</div>
                   </div>
                   <div className="text-right">
                     <div className="text-[15px] font-bold text-primary">{item.fiberPer100g}g</div>
@@ -458,7 +452,7 @@ export default function SearchClient({
 
           {filteredFoods.length === 0 && filteredCustomFoods.length === 0 && (
             <div className="pt-10 text-center">
-              <div className="mb-2 text-4xl">🥬</div>
+              <Icon name="leaf" className="mx-auto mb-3 h-10 w-10 text-emerald-200" />
               <div className="text-gray-400">No matching foods found.</div>
             </div>
           )}

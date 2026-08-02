@@ -32,37 +32,40 @@ export default function Nav({ userName = null }: { userName?: string | null }) {
 
   return (
     <>
-      {SECTIONS.map(({ href, label, accent }) => {
-        const active =
-          href === "/" ? pathname === "/" : pathname.startsWith(href);
-        return (
-          <Link
-            key={href}
-            href={href}
-            aria-current={active ? "page" : undefined}
-            className={`-mb-[17px] self-stretch border-b-2 pb-3 pt-2 text-sm font-medium ${
-              active ? "" : "border-transparent text-gray-500 hover:text-ink"
-            }`}
-            style={active ? { borderColor: accent, color: accent } : undefined}
-          >
-            {label}
-          </Link>
-        );
-      })}
+      {userName &&
+        SECTIONS.map(({ href, label, accent }) => {
+          const active =
+            href === "/" ? pathname === "/" : pathname.startsWith(href);
+          return (
+            <Link
+              key={href}
+              href={href}
+              aria-current={active ? "page" : undefined}
+              className={`-mb-[17px] shrink-0 self-stretch border-b-2 pb-3 pt-2 text-sm font-medium ${
+                active ? "" : "border-transparent text-gray-500 hover:text-ink"
+              }`}
+              style={active ? { borderColor: accent, color: accent } : undefined}
+            >
+              {label}
+            </Link>
+          );
+        })}
       <a
         href="https://jimfolio.space"
-        className="ml-auto self-center text-sm text-gray-500 hover:text-ink hover:underline"
+        className="ml-auto hidden shrink-0 self-center text-sm text-gray-500 hover:text-ink hover:underline sm:inline"
       >
         ← jimfolio.space
       </a>
       {userName && (
-        <span className="self-center text-sm text-gray-500">{userName}</span>
+        <span className="hidden shrink-0 self-center text-sm text-gray-500 sm:inline">
+          {userName}
+        </span>
       )}
       {userName && (
         <button
           type="button"
           onClick={logout}
-          className="self-center text-sm text-gray-500 hover:text-ink hover:underline"
+          className="shrink-0 self-center text-sm text-gray-500 hover:text-ink hover:underline"
         >
           Log out
         </button>

@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { BASE_PATH, getSessionUser } from "@/lib/auth";
 import { getLocalDateString } from "@/lib/fiber";
 import DeleteEntryButton from "@/components/DeleteEntryButton";
+import Icon from "@/components/Icon";
 
 export const dynamic = "force-dynamic";
 
@@ -45,12 +46,12 @@ export default async function HistoryPage() {
   return (
     <main className="mx-auto max-w-2xl pb-12">
       <div className="px-6 pb-2 pt-4">
-        <h1 className="text-2xl font-extrabold text-ink">History 📋</h1>
+        <h1 className="text-2xl font-extrabold text-ink">History</h1>
       </div>
 
       {entries.length === 0 ? (
         <div className="pt-24 text-center">
-          <div className="mb-2 text-5xl">🌿</div>
+          <Icon name="leaf" className="mx-auto mb-3 h-12 w-12 text-emerald-200" />
           <p className="whitespace-pre-line text-gray-400">
             {"No entries yet.\nStart logging to build your history!"}
           </p>
