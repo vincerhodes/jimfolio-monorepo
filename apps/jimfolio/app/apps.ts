@@ -129,4 +129,14 @@ export const APPS: AppEntry[] = [
     gradient: "from-yellow-500 to-amber-400",
     chip: "bg-yellow-500/10 text-yellow-700 border-yellow-500/20 dark:text-yellow-300",
   },
+  {
+    name: "Kickoff Logo Lab",
+    slug: "kickoff-logos",
+    url: "https://kickoff-logos.jimfolio.space",
+    tag: "TOOL",
+    tagline: "KickoffHQ logo recolor playground — flags & kits",
+    tech: ["Next.js", "TypeScript", "SVG"],
+    gradient: "from-amber-400 to-yellow-500",
+    chip: "bg-amber-500/10 text-amber-700 border-amber-500/20 dark:text-amber-300",
+  },
 ];
