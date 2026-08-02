@@ -47,21 +47,38 @@ function stripeBackground(colors: string[]) {
   return `linear-gradient(to right, ${stops})`;
 }
 
+// Inject a hard-stop stripe gradient into the SVG and point every
+// fill="currentColor" (the former gold main colour) at it. Single-colour
+// selections produce two identical stops, i.e. a solid fill.
+function buildSvg(svg: string, colors: string[], gid: string) {
+  const n = colors.length;
+  const stops = colors
+    .flatMap((c, i) => [
+      `<stop offset="${((i / n) * 100).toFixed(2)}%" stop-color="${c}"/>`,
+      `<stop offset="${(((i + 1) / n) * 100).toFixed(2)}%" stop-color="${c}"/>`,
+    ])
+    .join("");
+  const defs = `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="0%">${stops}</linearGradient></defs>`;
+  return svg
+    .replace(/<svg([^>]*)>/, `<svg$1>${defs}`)
+    .replaceAll('fill="currentColor"', `fill="url(#${gid})"`);
+}
+
 export default function Home() {
-  const [color, setColor] = useState("#F5A302");
+  const [colors, setColors] = useState<string[]>(["#F5A302"]);
   const [hexInput, setHexInput] = useState("#F5A302");
   const [selected, setSelected] = useState("preset:gold");
 
-  function apply(nextColor: string, id: string) {
-    setColor(nextColor);
-    setHexInput(nextColor);
+  function apply(nextColors: string[], id: string) {
+    setColors(nextColors);
+    setHexInput(nextColors[0]);
     setSelected(id);
   }
 
   function applyCustom(nextColor: string) {
     setHexInput(nextColor);
     if (HEX_RE.test(nextColor)) {
-      setColor(nextColor);
+      setColors([nextColor]);
       setSelected("custom");
     }
   }
@@ -87,7 +104,7 @@ export default function Home() {
             Kickoff Logo Lab
           </h1>
           <p className="mt-1 text-sm text-neutral-500">
-            Current colour: <span className="font-mono text-neutral-300">{color}</span>
+            Current colours: <span className="font-mono text-neutral-300">{colors.join(" → ")}</span>
           </p>
         </div>
         <button
@@ -104,8 +121,8 @@ export default function Home() {
           <div className="mt-2 flex items-center gap-3">
             <input
               type="color"
-              value={HEX_RE.test(color) ? color : "#F5A302"}
-              onChange={(e) => apply(e.target.value, "custom")}
+              value={HEX_RE.test(colors[0]) ? colors[0] : "#F5A302"}
+              onChange={(e) => apply([e.target.value], "custom")}
               className="h-9 w-14 cursor-pointer rounded border border-neutral-800 bg-neutral-900"
             />
             <input
@@ -122,7 +139,7 @@ export default function Home() {
                 <button
                   key={p.id}
                   title={p.name}
-                  onClick={() => apply(p.color, `preset:${p.id}`)}
+                  onClick={() => apply([p.color], `preset:${p.id}`)}
                   style={{ backgroundColor: p.color }}
                   className={`h-8 w-8 rounded-full border border-neutral-700 ${
                     selected === `preset:${p.id}`
@@ -141,7 +158,7 @@ export default function Home() {
             {FLAGS.map((f) => (
               <button
                 key={f.id}
-                onClick={() => apply(f.color, `flag:${f.id}`)}
+                onClick={() => apply(f.stripes, `flag:${f.id}`)}
                 className={`flex items-center gap-2 rounded-lg border border-neutral-800 bg-neutral-900 px-2.5 py-1.5 text-xs text-neutral-300 hover:border-neutral-600 ${
                   selected === `flag:${f.id}` ? "ring-2 ring-white" : ""
                 }`}
@@ -162,7 +179,7 @@ export default function Home() {
             {KITS.map((k) => (
               <button
                 key={k.id}
-                onClick={() => apply(k.color, `kit:${k.id}`)}
+                onClick={() => apply([k.color, k.secondary], `kit:${k.id}`)}
                 className={`flex items-center gap-2 rounded-lg border border-neutral-800 bg-neutral-900 px-2.5 py-1.5 text-xs text-neutral-300 hover:border-neutral-600 ${
                   selected === `kit:${k.id}` ? "ring-2 ring-white" : ""
                 }`}
@@ -179,7 +196,7 @@ export default function Home() {
       </section>
 
       <section className="mt-8 space-y-6">
-        {logos.map((l) => (
+        {logos.map((l, i) => (
           <div
             key={l.name}
             className="rounded-xl border border-neutral-800 bg-neutral-950 p-6"
@@ -187,8 +204,8 @@ export default function Home() {
             <h2 className="mb-4 text-sm font-medium text-neutral-400">{l.name}</h2>
             <div
               className="logo mx-auto max-w-full"
-              style={{ color, width: l.width }}
-              dangerouslySetInnerHTML={{ __html: l.svg }}
+              style={{ width: l.width }}
+              dangerouslySetInnerHTML={{ __html: buildSvg(l.svg, colors, `kg-grad-${i}`) }}
             />
           </div>
         ))}
