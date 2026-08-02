@@ -50,6 +50,8 @@ function stripeBackground(colors: string[]) {
 // Inject a hard-stop stripe gradient into the SVG and point every
 // fill="currentColor" (the former gold main colour) at it. Single-colour
 // selections produce two identical stops, i.e. a solid fill.
+// gradientUnits=userSpaceOnUse spanning the viewBox: stripes flow across
+// the whole logo instead of repeating inside every letter/path.
 function buildSvg(svg: string, colors: string[], gid: string) {
   const n = colors.length;
   const stops = colors
@@ -58,7 +60,9 @@ function buildSvg(svg: string, colors: string[], gid: string) {
       `<stop offset="${(((i + 1) / n) * 100).toFixed(2)}%" stop-color="${c}"/>`,
     ])
     .join("");
-  const defs = `<defs><linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="0%">${stops}</linearGradient></defs>`;
+  const vb = svg.match(/viewBox="[\d.\-]+ [\d.\-]+ ([\d.]+) ([\d.]+)"/);
+  const w = vb ? parseFloat(vb[1]) : 100;
+  const defs = `<defs><linearGradient id="${gid}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="${w}" y2="0">${stops}</linearGradient></defs>`;
   return svg
     .replace(/<svg([^>]*)>/, `<svg$1>${defs}`)
     .replaceAll('fill="currentColor"', `fill="url(#${gid})"`);
