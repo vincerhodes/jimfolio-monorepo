@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { faviconSvg, logoSvg, logoWideSvg } from "@/lib/svgs";
+import { faviconSvg, logoSvg, logoWideSvg, logoHqSvg, logoWideHqSvg } from "@/lib/svgs";
 
 const PRESETS = [
   { id: "gold", name: "Gold", color: "#F5A302" },
@@ -75,6 +75,8 @@ export default function Home() {
     { name: "Favicon", svg: faviconSvg, width: 200 },
     { name: "Logo", svg: logoSvg, width: 450 },
     { name: "Logo wide", svg: logoWideSvg, width: 600 },
+    { name: "Logo HQ", svg: logoHqSvg, width: 450 },
+    { name: "Logo wide HQ", svg: logoWideHqSvg, width: 700 },
   ];
 
   return (

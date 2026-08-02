@@ -13,6 +13,8 @@ const files = [
   ["faviconSvg", "kickoff-favicon-gold.svg"],
   ["logoSvg", "kickoff-logo-gold.svg"],
   ["logoWideSvg", "kickoff-logo-wide-gold.svg"],
+  ["logoHqSvg", "kickoff-logo-gold-big-hq.svg"],
+  ["logoWideHqSvg", "kickoff-logo-wide-gold-big-hq.svg"],
 ];
 
 function prepare(svg) {
