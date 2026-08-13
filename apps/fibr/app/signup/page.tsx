@@ -1,8 +1,6 @@
 import Link from "next/link";
 import SignupForm from "@/components/SignupForm";
 
-export const dynamic = "force-dynamic";
-
 export default function SignupPage() {
   return (
     <main className="mx-auto max-w-md p-4 sm:p-8">
