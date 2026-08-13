@@ -38,7 +38,9 @@ export async function middleware(request: NextRequest) {
   return NextResponse.redirect(loginUrl);
 }
 
-// Match everything (including basePath-prefixed paths); exemptions above.
+// Match everything except Next internals and static assets; exemptions above.
 export const config = {
-  matcher: ["/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|map|txt|xml)$).*)",
+  ],
 };
