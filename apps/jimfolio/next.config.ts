@@ -30,7 +30,6 @@ const nextConfig: NextConfig = {
         const connexiaPort = process.env.CONNEXIA_PORT ?? (useAltPortfolioPorts ? "3103" : "3005");
         const sweetReachPort = process.env.SWEET_REACH_PORT ?? (useAltPortfolioPorts ? "3101" : "3001");
         const veriflowPort = process.env.VERIFLOW_PORT ?? (useAltPortfolioPorts ? "3102" : "3003");
-        const wealthInequalityPort = process.env.WEALTHINEQUALITY_PORT ?? (useAltPortfolioPorts ? "3104" : "3002");
         const wesplitPort = process.env.WESPLIT_PORT ?? "3110";
 
         return [
@@ -45,10 +44,6 @@ const nextConfig: NextConfig = {
             {
                 source: '/veriflow/:path*',
                 destination: `http://localhost:${veriflowPort}/veriflow/:path*`
-            },
-            {
-                source: '/wealthinequality/:path*',
-                destination: `http://localhost:${wealthInequalityPort}/wealthinequality/:path*`
             },
             {
                 source: '/wesplit/:path*',
