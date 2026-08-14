@@ -40,16 +40,6 @@ export const APPS: AppEntry[] = [
     image: "/assets/Sweet-Reach_card_front.jpg",
   },
   {
-    name: "The Wealth Divide",
-    slug: "wealthinequality",
-    url: "https://wealthinequality.jimfolio.space",
-    tag: "DATA STORYTELLING",
-    tagline: "Scrollytelling experience on UK wealth inequality",
-    tech: ["Next.js", "D3.js", "Framer Motion"],
-    gradient: "from-red-500 to-orange-500",
-    chip: "bg-red-500/10 text-red-700 border-red-500/20 dark:text-red-300",
-  },
-  {
     name: "Crema",
     slug: "crema",
     url: "https://crema.jimfolio.space",
