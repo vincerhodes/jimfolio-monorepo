@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#ef0107">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>JACOB SHOOTER — Arsenal vs Everyone</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game" width="960" height="600"></canvas>
+
+  <div id="hud"></div>
+
+  <div id="wavebanner" class="hidden"></div>
+
+  <div id="bossbar" class="hidden">
+    <div class="label">ERLING HAALAND</div>
+    <div class="track"><div class="fill" id="bossfill"></div></div>
+  </div>
+
+  <div id="specialbar" class="hidden">
+    <div class="sname"></div>
+    <div class="sdesc"></div>
+    <div class="strack"><div class="sfill"></div></div>
+    <div class="skey"></div>
+  </div>
+
+  <div id="shootoutbar" class="hidden">
+    <div class="shint">SPACE / tap — shoot • A/D / tap third — save • SKIP — next level</div>
+    <button id="skipbtn" type="button">SKIP ▸</button>
+  </div>
+
+  <div id="boostbar" class="hidden">
+    <div class="shint">SHOOTOUT WON — PICK A BOOST!</div>
+    <div class="boosts">
+      <button data-boost="spd" type="button">💨 +20% SPEED</button>
+      <button data-boost="dmg" type="button">💥 +1 DAMAGE</button>
+      <button data-boost="rof" type="button">🔥 +25% FIRE RATE</button>
+      <button data-boost="maxHp" type="button">❤ +1 MAX HEART</button>
+    </div>
+  </div>
+
+  <!-- touch controls (shown on touch devices only) -->
+  <div id="joy" class="hidden"><div id="joyknob"></div></div>
+  <button id="specialbtn" class="hidden" type="button">★</button>
+  <div id="rotatehint">🔄 Rotate your phone for the full pitch</div>
+
+  <!-- player picker -->
+  <div id="picker" class="overlay">
+    <h1>JACOB SHOOTER</h1>
+    <p class="sub">Pick your Arsenal 2026 gunner. Rival squads are coming in waves — Haaland waits at the end.</p>
+    <div id="diffrow">
+      <button data-diff="academy" type="button">ACADEMY<span>Chill mode</span></button>
+      <button data-diff="firstteam" class="sel" type="button">FIRST TEAM<span>Standard</span></button>
+      <button data-diff="invincibles" type="button">INVINCIBLES<span>Proper hard</span></button>
+    </div>
+    <div id="levelrow"></div>
+    <div id="cards"></div>
+    <p id="bestline" class="hint"></p>
+    <p class="hint kb">WASD / arrows — move • SPACE — shoot (auto-aim) • Mouse — manual aim • E — special • M — mute</p>
+    <p class="hint touch">Left thumb — move • Right thumb — shoot (auto-aim) • ★ button — special</p>
+  </div>
+
+  <!-- end screen -->
+  <div id="endscreen" class="overlay hidden"></div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+html,body{margin:0;padding:0;background:#0a0a12;min-height:100%;display:flex;
+  align-items:center;justify-content:center;font-family:'Segoe UI',Arial,sans-serif;color:#fff;}
+#wrap{position:relative;}
+#game{background:#0f7a2f;border:4px solid #fff;border-radius:6px;display:block;cursor:none;}
+.hidden{display:none!important;}
+
+#hud{position:absolute;top:8px;left:12px;font-size:15px;font-weight:bold;
+  text-shadow:1px 1px 2px #000;pointer-events:none;white-space:nowrap;}
+
+#wavebanner{position:absolute;top:38%;left:0;right:0;text-align:center;
+  font-size:44px;font-weight:900;letter-spacing:3px;text-shadow:2px 2px 6px #000;
+  pointer-events:none;animation:banner 2s ease forwards;}
+@keyframes banner{0%{opacity:0;transform:scale(.7)}15%{opacity:1;transform:scale(1)}
+  75%{opacity:1}100%{opacity:0;transform:scale(1.05)}}
+
+#bossbar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  width:60%;pointer-events:none;text-align:center;}
+#bossbar .label{font-weight:bold;text-shadow:1px 1px 2px #000;margin-bottom:4px;letter-spacing:2px;}
+#bossbar .track{height:16px;background:#222;border:2px solid #fff;border-radius:8px;overflow:hidden;}
+#bossbar .fill{height:100%;background:linear-gradient(#f66,#c00);width:100%;transition:width .1s;}
+
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;background:rgba(4,8,16,.88);text-align:center;border-radius:6px;
+  overflow-y:auto;padding:20px;box-sizing:border-box;}
+.overlay h1{margin:0 0 6px;font-size:40px;letter-spacing:3px;color:#ef0107;
+  text-shadow:0 0 18px rgba(239,1,7,.5);}
+.overlay .sub{margin:0 0 16px;opacity:.85;max-width:640px;}
+.overlay .hint{opacity:.7;font-size:14px;margin-top:14px;}
+
+#cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:760px;}
+.card{background:#141a2a;border:2px solid #2a3350;border-radius:10px;padding:10px 8px;
+  cursor:pointer;transition:transform .12s,border-color .12s,box-shadow .12s;width:160px;}
+.card:hover{transform:translateY(-4px) scale(1.03);border-color:#ef0107;
+  box-shadow:0 6px 20px rgba(239,1,7,.35);}
+.card canvas{display:block;margin:0 auto 6px;}
+.card .name{font-weight:bold;font-size:15px;}
+.card .pos{font-size:11px;opacity:.7;margin-bottom:6px;}
+.card .blurb{font-size:10px;opacity:.75;min-height:24px;margin-bottom:6px;}
+.stat{display:flex;align-items:center;gap:6px;font-size:9px;margin:2px 0;text-align:left;}
+.stat .k{width:26px;opacity:.8;}
+.stat .bar{flex:1;height:5px;background:#222;border-radius:3px;overflow:hidden;}
+.stat .bar i{display:block;height:100%;background:#ef0107;}
+
+#specialbar{position:absolute;bottom:14px;left:14px;background:rgba(10,14,26,.85);
+  border:2px solid #2a3350;border-radius:8px;padding:8px 12px;min-width:190px;
+  pointer-events:none;text-align:left;}
+#specialbar .sname{font-weight:bold;font-size:13px;color:#4ae3ff;}
+#specialbar .sdesc{font-size:10px;opacity:.75;margin:2px 0 6px;}
+#specialbar .strack{height:8px;background:#222;border-radius:4px;overflow:hidden;}
+#specialbar .sfill{height:100%;background:#4ae3ff;width:100%;transition:width .1s linear;}
+#specialbar .skey{font-size:10px;margin-top:4px;opacity:.85;}
+#specialbar.ready{border-color:#4ae3ff;box-shadow:0 0 10px rgba(74,227,255,.4);}
+
+#shootoutbar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  text-align:center;pointer-events:none;}
+#shootoutbar .shint{font-size:12px;opacity:.8;text-shadow:1px 1px 2px #000;margin-bottom:6px;}
+#shootoutbar button{pointer-events:auto;background:#141a2a;border:2px solid #2a3350;
+  border-radius:8px;color:#fff;padding:8px 18px;font-weight:bold;font-size:13px;
+  letter-spacing:1px;cursor:pointer;}
+#shootoutbar button:active{transform:scale(.96);}
+
+#boostbar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  text-align:center;pointer-events:none;}
+#boostbar .shint{font-size:13px;font-weight:bold;color:#ffd700;
+  text-shadow:1px 1px 2px #000;margin-bottom:6px;}
+#boostbar .boosts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+#boostbar button{pointer-events:auto;background:#141a2a;border:2px solid #ffd700;
+  border-radius:8px;color:#fff;padding:10px 16px;font-weight:bold;font-size:13px;
+  letter-spacing:1px;cursor:pointer;}
+#boostbar button:active{transform:scale(.96);}
+
+/* ---- mobile / PWA ---- */
+html,body{height:100%;overflow:hidden;touch-action:none;overscroll-behavior:none;
+  user-select:none;-webkit-user-select:none;}
+body{background:#0a0a12;}
+#wrap{display:flex;align-items:center;justify-content:center;}
+
+/* touch hint swap */
+.hint.touch{display:none;}
+body.istouch .hint.touch{display:block;}
+body.istouch .hint.kb{display:none;}
+
+/* floating joystick (positioned by JS) */
+#joy{position:fixed;width:110px;height:110px;border-radius:50%;z-index:20;
+  background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.35);
+  pointer-events:none;transform:translate(-50%,-50%);}
+#joyknob{position:absolute;left:50%;top:50%;width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.35);border:2px solid rgba(255,255,255,.6);
+  transform:translate(-50%,-50%);}
+
+/* on-screen special button */
+#specialbtn{position:fixed;right:18px;bottom:78px;width:64px;height:64px;border-radius:50%;
+  z-index:20;font-size:26px;color:#fff;background:rgba(74,227,255,.25);
+  border:2px solid #4ae3ff;touch-action:none;}
+#specialbtn:active{background:rgba(74,227,255,.5);}
+#specialbtn.cd{opacity:.35;border-color:#666;}
+
+/* picker cards fit small screens */
+#cards{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+.overlay{padding:12px;}
+.overlay h1{font-size:30px;}
+
+/* difficulty selector */
+#diffrow{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;justify-content:center;}
+#diffrow button{background:#141a2a;border:2px solid #2a3350;border-radius:8px;color:#fff;
+  padding:8px 16px;font-weight:bold;font-size:13px;letter-spacing:1px;cursor:pointer;
+  display:flex;flex-direction:column;gap:2px;transition:border-color .12s,box-shadow .12s;}
+#diffrow button span{font-weight:normal;font-size:10px;opacity:.7;letter-spacing:0;}
+#diffrow button.sel{border-color:#ef0107;box-shadow:0 0 12px rgba(239,1,7,.4);}
+
+/* level selector (same look as difficulty row; locked levels dimmed) */
+#levelrow{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;justify-content:center;}
+#levelrow button{background:#141a2a;border:2px solid #2a3350;border-radius:8px;color:#fff;
+  padding:8px 16px;font-weight:bold;font-size:12px;letter-spacing:1px;cursor:pointer;
+  transition:border-color .12s,box-shadow .12s;}
+#levelrow button.sel{border-color:#ef0107;box-shadow:0 0 12px rgba(239,1,7,.4);}
+#levelrow button.locked{opacity:.4;cursor:default;}
+
+/* ---- proper mobile rendering: JS sizes the canvas, CSS just fills the screen ---- */
+#game{width:100vw;height:100dvh;border:0;border-radius:0;}
+#wrap{position:fixed;inset:0;}
+
+/* safe-area aware HUD + bigger touch UI */
+#hud{top:calc(8px + env(safe-area-inset-top));left:calc(12px + env(safe-area-inset-left));
+  font-size:15px;}
+body.istouch #hud{font-size:19px;}
+body.istouch #wavebanner{font-size:34px;}
+#bossbar{bottom:calc(14px + env(safe-area-inset-bottom));width:min(60%,420px);}
+#shootoutbar{bottom:calc(14px + env(safe-area-inset-bottom));}
+#boostbar{bottom:calc(14px + env(safe-area-inset-bottom));}
+
+/* on touch, special info goes top-right so it never sits under the joystick */
+body.istouch #specialbar{left:auto;right:calc(12px + env(safe-area-inset-right));
+  top:calc(8px + env(safe-area-inset-top));bottom:auto;min-width:150px;padding:6px 10px;}
+body.istouch #specialbar .sdesc{display:none;}
+#specialbtn{bottom:calc(24px + env(safe-area-inset-bottom));
+  right:calc(18px + env(safe-area-inset-right));width:76px;height:76px;font-size:30px;}
+
+/* rotate prompt: portrait touch devices only */
+#rotatehint{display:none;position:fixed;left:0;right:0;bottom:18%;z-index:30;
+  text-align:center;font-size:18px;font-weight:bold;text-shadow:1px 1px 3px #000;
+  pointer-events:none;animation:pulse 1.6s ease infinite;}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+@media (orientation:portrait){ body.istouch #rotatehint{display:block;} }
+
+/* picker on phones: 2-col compact cards, bigger tap targets */
+@media (pointer:coarse){
+  .overlay h1{font-size:26px;}
+  .overlay .sub{font-size:13px;margin-bottom:10px;}
+  #cards{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px;}
+  .card{padding:8px 6px;width:auto;}
+  #diffrow button{padding:10px 14px;font-size:12px;}
+  #levelrow button{padding:10px 14px;font-size:11px;}
+}
+
+/* fix: centered flex content overflowing above the scroll area was unreachable */
+.overlay{justify-content:safe center;}
+
+/* end-screen tap buttons */
+.endbtns{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;justify-content:center;}
+.endbtns button{background:#ef0107;border:2px solid #fff;border-radius:10px;color:#fff;
+  padding:14px 22px;font-weight:bold;font-size:15px;letter-spacing:1px;cursor:pointer;}
+.endbtns button:active{transform:scale(.96);}
+.endbtns button[data-act="again"]{background:#141a2a;border-color:#2a3350;}
