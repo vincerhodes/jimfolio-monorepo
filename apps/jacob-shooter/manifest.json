@@ -1,0 +1,13 @@
+{
+  "name": "Jacob Shooter — Arsenal vs Everyone",
+  "short_name": "Jacob Shooter",
+  "description": "Top-down arena shooter: Arsenal 2026 vs the world. Beat Haaland, then Mbappé.",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0a0a12",
+  "theme_color": "#ef0107",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
