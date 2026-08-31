@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   basePath: process.env.VERCEL ? "" : "/powerbi",
   async redirects() {
     return [{ source: "/", destination: "/course", permanent: false }];

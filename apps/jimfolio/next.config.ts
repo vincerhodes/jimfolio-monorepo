@@ -14,6 +14,7 @@ function inferPortFromArgv(): string | undefined {
 }
 
 const nextConfig: NextConfig = {
+    output: "standalone",
     async rewrites() {
         const enablePortfolioProxy =
             process.env.NODE_ENV === 'development' ||
