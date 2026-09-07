@@ -19,12 +19,17 @@ export const MODELS: ModelOption[] = [
   {
     id: "openai/gpt-5-mini",
     label: "GPT-5 mini",
-    costNote: "~$0.25/$2.00 — default, reliable structured output",
+    costNote: "~$0.25/$2.00 — reliable structured output",
   },
   {
     id: "qwen/qwen3.7-plus",
     label: "Qwen 3.7 Plus",
     costNote: "~$0.32/$1.28 — strong all-rounder",
+  },
+  {
+    id: "google/gemini-3.8-flash",
+    label: "Gemini 3.8 Flash",
+    costNote: "~$0.75/$3.75 — default, fast, cheap, good",
   },
   {
     id: "openai/gpt-5.4-mini",
@@ -38,7 +43,7 @@ export const MODELS: ModelOption[] = [
   },
 ];
 
-export const DEFAULT_MODEL_ID = "openai/gpt-5-mini";
+export const DEFAULT_MODEL_ID = "google/gemini-3.8-flash";
 
 export function defaultModel(): string {
   return process.env.OPENROUTER_MODEL ?? DEFAULT_MODEL_ID;
