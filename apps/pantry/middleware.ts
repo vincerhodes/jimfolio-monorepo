@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { BASE_PATH, SESSION_COOKIE } from "@/lib/auth-constants";
+import { SESSION_COOKIE } from "@/lib/auth-constants";
 
 // Edge-safe gate: checks only for the *presence* of a session cookie.
 // Full session validation happens in getSessionUser() inside pages/routes.
 export function middleware(request: NextRequest) {
-  // nextUrl.pathname may or may not include the basePath depending on the
-  // Next version — normalise by stripping it when present.
-  let path = request.nextUrl.pathname;
-  if (BASE_PATH && (path === BASE_PATH || path.startsWith(`${BASE_PATH}/`))) {
-    path = path.slice(BASE_PATH.length) || "/";
-  }
+  const path = request.nextUrl.pathname;
 
   // Next internals, static assets, and the auth pages/endpoints stay public.
   if (
@@ -30,7 +25,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  // NextResponse.redirect automatically prepends the configured basePath.
   const loginUrl = request.nextUrl.clone();
   loginUrl.pathname = "/login";
   loginUrl.search = `?next=${encodeURIComponent(path)}`;

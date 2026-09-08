@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  basePath: process.env.VERCEL ? "" : "/chinahols",
   async redirects() {
     return [
       { source: "/index.html", destination: "/", permanent: true },

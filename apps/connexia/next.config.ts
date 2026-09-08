@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: process.env.VERCEL ? "" : "/connexia",
   async headers() {
     return [
       {

@@ -4,8 +4,8 @@
 // middleware and in route handlers.
 export const AUTH_COOKIE = "crema_auth";
 
-// Mirror of next.config.ts basePath.
-export const BASE_PATH = process.env.VERCEL ? "" : "/crema";
+// Apps serve at the domain root on the VPS — no basePath.
+export const BASE_PATH = "";
 
 export function gateEnabled(): boolean {
   return Boolean(process.env.CREMA_PASSWORD);

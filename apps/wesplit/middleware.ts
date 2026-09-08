@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const VALID_USERS = new Set(['mark', 'bec', 'jim', 'stan', 'prajna']);
-// Local dev serves under /wesplit (nginx-era basePath); Vercel serves at root.
-const BASE = process.env.VERCEL ? '' : '/wesplit';
 
 export function middleware(request: NextRequest) {
-  let pathname = request.nextUrl.pathname;
-  if (BASE && pathname.startsWith(BASE)) {
-    pathname = pathname.slice(BASE.length) || '/';
-  }
+  const pathname = request.nextUrl.pathname;
 
   if (
     pathname === '/login' ||
@@ -21,7 +16,7 @@ export function middleware(request: NextRequest) {
   const session = request.cookies.get('wesplit_session')?.value;
 
   if (!session || !VALID_USERS.has(session)) {
-    return NextResponse.redirect(new URL(`${BASE}/login`, request.url));
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
   return NextResponse.next();

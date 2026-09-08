@@ -2,8 +2,8 @@
 // module must not pull in node:crypto, next/headers, or Prisma.
 export const SESSION_COOKIE = "pantry_session";
 
-// Mirror of next.config.ts basePath.
-export const BASE_PATH = process.env.VERCEL ? "" : "/pantry";
+// Apps serve at the domain root on the VPS — no basePath.
+export const BASE_PATH = "";
 
 export const cookieOptions = {
   httpOnly: true,
