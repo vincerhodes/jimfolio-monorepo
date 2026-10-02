@@ -7,6 +7,7 @@ import {
   uiConcepts,
   notes,
   creditLine,
+  hugeIconsSamples,
   type IconConcept,
   type IconOption,
 } from "@/lib/icon-options";
@@ -157,6 +158,24 @@ export default function IconsPage() {
             <li key={point.slice(0, 40)}>{point}</li>
           ))}
         </ul>
+        <div className="mt-4 rounded-xl border border-neutral-800 bg-neutral-950 p-4">
+          <h3 className="text-sm font-semibold text-neutral-200">
+            Option B — HugeIcons single family
+          </h3>
+          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-4">
+            {hugeIconsSamples.map((sample) => (
+              <span key={sample.id} className="flex w-14 flex-col items-center gap-1.5">
+                <IconGlyph id={sample.id} size={24} />
+                <span className="text-center text-[10px] leading-tight text-neutral-500">
+                  {sample.label}
+                </span>
+              </span>
+            ))}
+          </div>
+          <p className="mt-3 text-xs text-neutral-500">
+            One family, one stroke weight, covers 12+ sports.
+          </p>
+        </div>
       </section>
 
       <section className="mt-10">

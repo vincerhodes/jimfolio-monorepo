@@ -103,6 +103,25 @@ const ICON_IDS = [
   "lucide:chevrons-up",
   "lucide:chevrons-down",
   "tabler:chevrons-up",
+  // Deep-sweep additions (full-catalogue sweep of weak concepts)
+  "tabler:sport-billiard",
+  "hugeicons:billiard-01",
+  "la:flag-checkered",
+  "ph:flag-checkered",
+  "hugeicons:boxing-glove",
+  "iconmind:martial-arts-outline-regular",
+  "hugeicons:cricket-bat",
+  "hugeicons:ice-hockey",
+  "ic:outline-sports-handball",
+  "carbon:cyclist",
+  "hugeicons:dart",
+  "hugeicons:football",
+  "hugeicons:basketball-01",
+  "hugeicons:american-football",
+  "hugeicons:baseball",
+  "hugeicons:volleyball",
+  "hugeicons:tennis-ball",
+  "hugeicons:golf-ball",
 ];
 
 async function fetchSvg(id, useProxy) {

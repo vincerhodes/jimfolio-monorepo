@@ -28,6 +28,24 @@ export const strategyPoints: string[] = [
   "No good checkered flag in the Lucide family — mdi:flag-checkered is the forced exception.",
   "game-icons has a literal F1 car, but it's CC BY 3.0 (attribution required) and a heavier filled 512-grid style.",
   "Licenses: Lucide/Lucide Lab ISC, Tabler MIT, MDI Apache-2.0, Iconoir MIT, Phosphor MIT, game-icons CC BY 3.0.",
+  "Deep sweep: the full 238-set / 379k-icon allsvgicons catalogue was swept for the weak concepts (handball, snooker, checkered flag, F1, MMA, boxing, darts, cycling, rugby codes). Confirmed: no ball-only handball exists anywhere; mdi:football-australian is still the only AFL-specific icon; the only literal open-wheel F1 car is game-icons:f1-car (CC BY 3.0) — arcticons:formula-1 is an abstract swoosh, rejected.",
+  "Option B — single-family alternative: HugeIcons covers nearly every sport in ONE consistent 1.5px-outline set (football, basketball, american football, baseball, volleyball, tennis, cricket, ice hockey, boxing, billiards, darts, golf). Trade-offs vs the Lucide+MDI mix: slightly thinner stroke than Lucide's 2px, one new dependency, thinner UI-icon coverage. Sample row below.",
+];
+
+/** Sample row for the Option B HugeIcons single-family block. */
+export const hugeIconsSamples: { id: string; label: string }[] = [
+  { id: "hugeicons:football", label: "Football" },
+  { id: "hugeicons:basketball-01", label: "Basketball" },
+  { id: "hugeicons:american-football", label: "Am. Football" },
+  { id: "hugeicons:baseball", label: "Baseball" },
+  { id: "hugeicons:volleyball", label: "Volleyball" },
+  { id: "hugeicons:tennis-ball", label: "Tennis" },
+  { id: "hugeicons:cricket-bat", label: "Cricket" },
+  { id: "hugeicons:ice-hockey", label: "Ice Hockey" },
+  { id: "hugeicons:boxing-glove", label: "Boxing" },
+  { id: "hugeicons:billiard-01", label: "Billiards" },
+  { id: "hugeicons:dart", label: "Darts" },
+  { id: "hugeicons:golf-ball", label: "Golf" },
 ];
 
 export const sportConcepts: IconConcept[] = [
@@ -135,6 +153,12 @@ export const sportConcepts: IconConcept[] = [
         style: "outline",
         why: "Bat disambiguates cricket from baseball at a glance.",
         recommended: true,
+      },
+      {
+        id: "hugeicons:cricket-bat",
+        set: "HugeIcons",
+        style: "outline",
+        why: "Bat + ball outline, 1.5px stroke.",
       },
       {
         id: "tabler:cricket",
@@ -273,6 +297,12 @@ export const sportConcepts: IconConcept[] = [
         why: "Solid, very legible at 16px.",
       },
       {
+        id: "hugeicons:ice-hockey",
+        set: "HugeIcons",
+        style: "outline",
+        why: "Stick + puck outline, 1.5px stroke.",
+      },
+      {
         id: "ph:hockey",
         set: "Phosphor",
         style: "outline",
@@ -325,6 +355,12 @@ export const sportConcepts: IconConcept[] = [
         why: "Solid rider+bike, chunkier but legible.",
       },
       {
+        id: "carbon:cyclist",
+        set: "Carbon",
+        style: "solid",
+        why: "IBM Carbon solid rider+bike.",
+      },
+      {
         id: "lucide:bike",
         set: "Lucide",
         style: "outline",
@@ -351,6 +387,12 @@ export const sportConcepts: IconConcept[] = [
         why: "Best outline style-match.",
       },
       {
+        id: "hugeicons:boxing-glove",
+        set: "HugeIcons",
+        style: "outline",
+        why: "Clean outline glove, 1.5px stroke.",
+      },
+      {
         id: "ph:boxing-glove-light",
         set: "Phosphor",
         style: "outline",
@@ -375,6 +417,12 @@ export const sportConcepts: IconConcept[] = [
         set: "Material Symbols",
         style: "outline",
         why: "High-kick silhouette, MS rounded style clashes slightly.",
+      },
+      {
+        id: "iconmind:martial-arts-outline-regular",
+        set: "IconMind",
+        style: "outline",
+        why: "Minimal kicking-figure outline, 2px stroke, closest to Lucide weight.",
       },
       {
         id: "mdi:karate",
@@ -423,6 +471,12 @@ export const sportConcepts: IconConcept[] = [
         recommended: true,
       },
       {
+        id: "hugeicons:dart",
+        set: "HugeIcons",
+        style: "outline",
+        why: "Single dart arrow outline.",
+      },
+      {
         id: "lucide:target",
         set: "Lucide",
         style: "outline",
@@ -459,6 +513,18 @@ export const sportConcepts: IconConcept[] = [
         set: "Remix Icon",
         style: "outline",
         why: "Only clean OUTLINE 8-ball, but Remix is a new set dependency.",
+      },
+      {
+        id: "tabler:sport-billiard",
+        set: "Tabler",
+        style: "outline",
+        why: "Outline, Lucide-family geometry — three balls; the priority-set outline option we thought didn't exist.",
+      },
+      {
+        id: "hugeicons:billiard-01",
+        set: "HugeIcons",
+        style: "outline",
+        why: "Cue + ball outline, reads 'cue sport'.",
       },
     ],
   },
@@ -517,7 +583,7 @@ export const sportConcepts: IconConcept[] = [
         id: "mdi:handball",
         set: "MDI",
         style: "solid",
-        why: "Throwing player glyph — the only compact recognisable option; NO ball-only handball icon exists in any major set.",
+        why: "Throwing player glyph — the only compact recognisable option. Confirmed across the full 379k-icon allsvgicons catalogue — no ball-only handball icon exists in ANY set.",
         recommended: true,
       },
       {
@@ -525,6 +591,12 @@ export const sportConcepts: IconConcept[] = [
         set: "Material Symbols",
         style: "outline",
         why: "Same player-throwing motif.",
+      },
+      {
+        id: "ic:outline-sports-handball",
+        set: "Material Icons (outline)",
+        style: "outline",
+        why: "Google Material outline player-throwing.",
       },
       {
         id: "tabler:play-handball",
@@ -610,6 +682,18 @@ export const uiConcepts: IconConcept[] = [
         set: "game-icons",
         style: "filled",
         why: "Wavy, 4.1KB path — mud risk at 20px, CC BY 3.0.",
+      },
+      {
+        id: "la:flag-checkered",
+        set: "Line Awesome",
+        style: "solid",
+        why: "Bold crisp checkerboard, very legible at 16px.",
+      },
+      {
+        id: "ph:flag-checkered",
+        set: "Phosphor",
+        style: "outline",
+        why: "Wavy flag with checker cutouts, Phosphor.",
       },
     ],
   },
