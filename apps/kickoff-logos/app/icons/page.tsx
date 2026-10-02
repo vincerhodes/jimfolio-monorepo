@@ -11,6 +11,7 @@ import {
   type IconConcept,
   type IconOption,
 } from "@/lib/icon-options";
+import IconsPreview from "./color-toggle";
 
 export const metadata: Metadata = {
   title: "Icon Options — Kickoff Logo Lab",
@@ -31,7 +32,7 @@ function IconGlyph({ id, size }: { id: string; size: number }) {
   }
   return (
     <span
-      className="icon-slot shrink-0 text-neutral-200"
+      className="icon-slot shrink-0"
       style={{ width: size, height: size }}
       dangerouslySetInnerHTML={{ __html: svg }}
     />
@@ -146,11 +147,14 @@ export default function IconsPage() {
             site. Nothing here is decided yet — this page exists so Nordy (and
             anyone else) can compare how each option actually renders at the
             sizes we use. Feedback wanted: picks, rejects, and anything that
-            reads wrong at 16px.
+            reads wrong at 16px. Toggle the swatches below to preview icons
+            in kickoff-hq&apos;s site palette — brand orange is the default,
+            matching --primary #F59F0A.
           </p>
         </div>
       </header>
 
+      <IconsPreview>
       <section className="mt-8">
         <h2 className="text-lg font-semibold text-neutral-100">Strategy</h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-neutral-400">
@@ -220,6 +224,7 @@ export default function IconsPage() {
       <footer className="mt-12 border-t border-neutral-800 pt-6 pb-4">
         <p className="text-xs text-neutral-500">{creditLine}</p>
       </footer>
+      </IconsPreview>
     </main>
   );
 }

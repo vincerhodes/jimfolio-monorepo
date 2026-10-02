@@ -12,6 +12,10 @@ body {
   height: auto;
 }
 
+.icon-slot {
+  color: var(--icon-color, #f59f0a);
+}
+
 .icon-slot svg {
   width: 100%;
   height: 100%;
