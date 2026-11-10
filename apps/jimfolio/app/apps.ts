@@ -29,6 +29,16 @@ export const APPS: AppEntry[] = [
     featured: true,
   },
   {
+    name: "Predictr",
+    slug: "predictr",
+    url: "https://predictr.jimfolio.space",
+    tag: "INTELLIGENCE",
+    tagline: "Polymarket geopolitical horizon — Taiwan curves, global elections & world friction radar",
+    tech: ["TypeScript", "React 19", "Polymarket CLOB"],
+    gradient: "from-cyan-500 to-amber-400",
+    chip: "bg-cyan-500/10 text-cyan-700 border-cyan-500/20 dark:text-cyan-300",
+  },
+  {
     name: "Sweet Reach",
     slug: "sweet-reach",
     url: "https://sweet-reach.jimfolio.space",
