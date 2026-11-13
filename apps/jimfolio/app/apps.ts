@@ -39,17 +39,6 @@ export const APPS: AppEntry[] = [
     chip: "bg-cyan-500/10 text-cyan-700 border-cyan-500/20 dark:text-cyan-300",
   },
   {
-    name: "Sweet Reach",
-    slug: "sweet-reach",
-    url: "https://sweet-reach.jimfolio.space",
-    tag: "FEATURED DEMO",
-    tagline: "Real-time analytics & interactive dashboards",
-    tech: ["Next.js", "TypeScript", "Analytics"],
-    gradient: "from-emerald-500 to-teal-500",
-    chip: "bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-300",
-    image: "/assets/Sweet-Reach_card_front.jpg",
-  },
-  {
     name: "Crema",
     slug: "crema",
     url: "https://crema.jimfolio.space",
