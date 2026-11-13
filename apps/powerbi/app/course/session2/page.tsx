@@ -7,7 +7,7 @@ import ProgressCheckbox from "@/components/ProgressCheckbox";
 
 export const metadata = { title: "Session 2 | DAX, Power Query & Analysis" };
 
-const BASE = process.env.VERCEL ? "" : "/powerbi";
+const BASE = "";
 
 const daxLineTotal = `LineTotal =
 RELATED(products[unitPrice]) * order-details[quantity] * (1 - order-details[discount])`;

@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 
 export const metadata = { title: "Data Explorer | Power BI Course Datasets" };
 
-const BASE = process.env.VERCEL ? "" : "/powerbi";
+const BASE = "";
 
 const DownloadIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2h-1v2H3v-2H2z"/></svg>

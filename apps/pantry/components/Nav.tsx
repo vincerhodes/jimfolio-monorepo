@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { API_BASE } from "@/lib/api-base";
-import { BASE_PATH } from "@/lib/auth-constants";
 
 const SECTIONS = [
   { href: "/", label: "Generator", accent: "#c2571f" },
@@ -13,14 +12,7 @@ const SECTIONS = [
 ];
 
 export default function Nav({ userName = null }: { userName?: string | null }) {
-  // usePathname may include the basePath (/pantry locally); strip it only
-  // when a basePath is actually configured — in prod BASE_PATH is "" and
-  // /pantry is a real section path.
-  const raw = usePathname();
-  const pathname =
-    (BASE_PATH
-      ? raw.replace(new RegExp(`^${BASE_PATH}(?=/|$)`), "")
-      : raw) || "/";
+  const pathname = usePathname() || "/";
 
   async function logout() {
     try {

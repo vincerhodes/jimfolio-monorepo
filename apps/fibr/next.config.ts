@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    basePath: process.env.VERCEL ? "" : "/fibr",
+    output: "standalone",
 };
 
 export default nextConfig;

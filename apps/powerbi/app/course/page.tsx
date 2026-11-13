@@ -6,7 +6,7 @@ import ProgressCheckbox from "@/components/ProgressCheckbox";
 
 export const metadata = { title: "Power BI for Beginners | Course Overview" };
 
-const BASE = process.env.VERCEL ? "" : "/powerbi";
+const BASE = "";
 
 export default function OverviewPage() {
   return (

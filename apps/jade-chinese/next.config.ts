@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  basePath: process.env.VERCEL ? "" : "/jade-chinese",
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;

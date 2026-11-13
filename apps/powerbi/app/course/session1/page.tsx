@@ -6,7 +6,7 @@ import ProgressCheckbox from "@/components/ProgressCheckbox";
 
 export const metadata = { title: "Session 1 | Visualisations & Data Modelling" };
 
-const BASE = process.env.VERCEL ? "" : "/powerbi";
+const BASE = "";
 
 export default function Session1Page() {
   return (

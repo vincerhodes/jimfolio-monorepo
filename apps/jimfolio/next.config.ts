@@ -14,6 +14,7 @@ function inferPortFromArgv(): string | undefined {
 }
 
 const nextConfig: NextConfig = {
+    output: "standalone",
     async rewrites() {
         const enablePortfolioProxy =
             process.env.NODE_ENV === 'development' ||
@@ -28,7 +29,6 @@ const nextConfig: NextConfig = {
         const useAltPortfolioPorts = jimfolioPort === "3100";
 
         const connexiaPort = process.env.CONNEXIA_PORT ?? (useAltPortfolioPorts ? "3103" : "3005");
-        const sweetReachPort = process.env.SWEET_REACH_PORT ?? (useAltPortfolioPorts ? "3101" : "3001");
         const veriflowPort = process.env.VERIFLOW_PORT ?? (useAltPortfolioPorts ? "3102" : "3003");
         const wesplitPort = process.env.WESPLIT_PORT ?? "3110";
 
@@ -36,10 +36,6 @@ const nextConfig: NextConfig = {
             {
                 source: '/connexia/:path*',
                 destination: `http://localhost:${connexiaPort}/connexia/:path*`
-            },
-            {
-                source: '/sweet-reach/:path*',
-                destination: `http://localhost:${sweetReachPort}/sweet-reach/:path*`
             },
             {
                 source: '/veriflow/:path*',
