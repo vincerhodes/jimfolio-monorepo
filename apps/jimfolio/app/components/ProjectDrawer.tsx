@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUpRight, Lock, X } from 'lucide-react';
+import { Lock, X } from 'lucide-react';
 import type { GarageStation } from '../garage/types';
 
 interface ProjectDrawerProps {
@@ -59,15 +59,29 @@ export default function ProjectDrawer({ station, onClose }: ProjectDrawerProps) 
             </button>
 
             <div className="flex-1 overflow-y-auto p-6 pt-14 sm:p-8 sm:pt-16">
-              <span
-                className="inline-flex items-center rounded-full border px-2.5 py-1 font-mono text-[10px] tracking-[0.2em]"
-                style={{
-                  borderColor: `${station.accentHex}66`,
-                  color: station.accentHex,
-                }}
-              >
-                {station.tag}
-              </span>
+              {station.category === 'shipped' ? (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-[0.14em] text-emerald-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                    SHIPPED // OUT IN THE WILD
+                  </span>
+                  {station.domainLabel && (
+                    <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[10px] text-zinc-300">
+                      {station.domainLabel}
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <span
+                  className="inline-flex items-center rounded-full border px-2.5 py-1 font-mono text-[10px] tracking-[0.2em]"
+                  style={{
+                    borderColor: `${station.accentHex}66`,
+                    color: station.accentHex,
+                  }}
+                >
+                  {station.tag}
+                </span>
+              )}
 
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-white">
                 {station.name}
@@ -120,10 +134,15 @@ export default function ProjectDrawer({ station, onClose }: ProjectDrawerProps) 
                 href={station.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-amber-400 px-4 py-2.5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-amber-300"
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold text-zinc-950 transition-colors ${
+                  station.category === 'shipped'
+                    ? 'bg-emerald-400 hover:bg-emerald-300'
+                    : 'bg-amber-400 hover:bg-amber-300'
+                }`}
               >
-                Launch App
-                <ArrowUpRight size={15} />
+                {station.category === 'shipped'
+                  ? 'Visit Live Site ↗'
+                  : 'Launch App ↗'}
               </a>
               <button
                 type="button"

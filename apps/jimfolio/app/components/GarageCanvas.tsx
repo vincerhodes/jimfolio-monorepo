@@ -2,12 +2,20 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { GARAGE_STATIONS } from '../apps';
+import { createWorkshopAudio, type WorkshopAudio } from '../garage/audio';
 import { buildGarageRoom } from '../garage/scene/buildRoom';
 import { buildProjectStations } from '../garage/scene/buildProps';
+import { createWorkshopTextures } from '../garage/scene/materials';
 import {
   CAMERA_POSES,
   type CameraPose,
+  type EasterEggId,
   type GarageStage,
   type LightingMode,
   type ProjectedLabel,
@@ -21,6 +29,12 @@ import ProjectDrawer from './ProjectDrawer';
 const DOOR_STORAGE_KEY = 'jimsgarage-door-open';
 const DOOR_DURATION = 1100;
 const CAMERA_DURATION = 1000;
+const TOAST_DURATION = 3200;
+const EASTER_EGG_HINTS: Record<EasterEggId, string> = {
+  wrench: 'Spanner Wrench',
+  vise: 'Bench Vise',
+  clock: 'Workshop Clock',
+};
 
 type MotionKind = 'door-open' | 'door-close' | 'inspect' | 'return';
 
@@ -60,6 +74,7 @@ function motionPose(pose: CameraPose) {
 export default function GarageCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const controlsRef = useRef<GarageControls | null>(null);
+  const audioRef = useRef<WorkshopAudio | null>(null);
   const stageRef = useRef<GarageStage>('exterior');
   const lightingModeRef = useRef<LightingMode>('night');
   const benchListOpenRef = useRef(false);
@@ -69,6 +84,9 @@ export default function GarageCanvas() {
   const [hoveredStationId, setHoveredStationId] = useState<StationId | null>(null);
   const [selectedStationId, setSelectedStationId] = useState<StationId | null>(null);
   const [projectedLabels, setProjectedLabels] = useState<ProjectedLabel[]>([]);
+  const [isMuted, setIsMuted] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [hoverHint, setHoverHint] = useState<string | null>(null);
   const [webglFailed, setWebglFailed] = useState(false);
 
   const openDoor = useCallback(() => controlsRef.current?.openDoor(), []);
@@ -82,6 +100,13 @@ export default function GarageCanvas() {
     () => controlsRef.current?.dismissInspection(),
     [],
   );
+  const toggleMute = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const next = !audio.isMuted();
+    audio.setMuted(next);
+    setIsMuted(next);
+  }, []);
   const toggleBenchList = useCallback(() => {
     const next = !benchListOpenRef.current;
     benchListOpenRef.current = next;
@@ -96,18 +121,35 @@ export default function GarageCanvas() {
     const container = containerRef.current;
     if (!container) return;
 
+    const audio = createWorkshopAudio();
+    audioRef.current = audio;
+    setIsMuted(audio.isMuted());
+
     let renderer: THREE.WebGLRenderer | null = null;
     let room: RoomHandle | null = null;
     let stationScene: ReturnType<typeof buildProjectStations> | null = null;
+    let textures: ReturnType<typeof createWorkshopTextures> | null = null;
+    let pmremGenerator: THREE.PMREMGenerator | null = null;
+    let envRT: THREE.WebGLRenderTarget | null = null;
+    let composer: EffectComposer | null = null;
+    let renderPass: RenderPass | null = null;
+    let bloomPass: UnrealBloomPass | null = null;
+    let outputPass: OutputPass | null = null;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(58, 1, 0.05, 80);
     const currentTarget = new THREE.Vector3();
-    const nightBackground = new THREE.Color('#0b0d12');
-    const dayBackground = new THREE.Color('#202a30');
-    const background = nightBackground.clone();
-    scene.background = background;
-    scene.fog = new THREE.Fog(nightBackground, 13, 32);
+
+    const disposeComposer = () => {
+      composer?.dispose();
+      renderPass?.dispose();
+      bloomPass?.dispose();
+      outputPass?.dispose();
+      composer = null;
+      renderPass = null;
+      bloomPass = null;
+      outputPass = null;
+    };
 
     try {
       renderer = new THREE.WebGLRenderer({
@@ -133,14 +175,29 @@ export default function GarageCanvas() {
       );
       container.prepend(renderer.domElement);
 
-      room = buildGarageRoom(scene);
-      stationScene = buildProjectStations(GARAGE_STATIONS);
+      pmremGenerator = new THREE.PMREMGenerator(renderer);
+      const environmentScene = new RoomEnvironment();
+      envRT = pmremGenerator.fromScene(environmentScene, 0.04);
+      environmentScene.dispose();
+      scene.environment = envRT.texture;
+      scene.environmentIntensity = 0.38;
+
+      textures = createWorkshopTextures();
+      room = buildGarageRoom(scene, textures);
+      stationScene = buildProjectStations(GARAGE_STATIONS, textures);
       scene.add(stationScene.root);
     } catch {
       setWebglFailed(true);
       return () => {
+        disposeComposer();
         stationScene?.dispose();
         room?.dispose();
+        textures?.disposeAll();
+        scene.environment = null;
+        envRT?.dispose();
+        pmremGenerator?.dispose();
+        audio.dispose();
+        audioRef.current = null;
         renderer?.dispose();
         renderer?.domElement.remove();
       };
@@ -149,6 +206,7 @@ export default function GarageCanvas() {
     const activeRenderer = renderer;
     const activeRoom = room;
     const activeStations = stationScene;
+    const activeTextures = textures;
     const stationConfigs = new Map(
       GARAGE_STATIONS.map((station) => [station.id, station]),
     );
@@ -156,12 +214,32 @@ export default function GarageCanvas() {
       (handle) => handle.hitMeshes,
     );
 
+    try {
+      composer = new EffectComposer(activeRenderer);
+      renderPass = new RenderPass(scene, camera);
+      bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(
+          Math.max(container.clientWidth, 1),
+          Math.max(container.clientHeight, 1),
+        ),
+        0.36,
+        0.45,
+        0.84,
+      );
+      outputPass = new OutputPass();
+      composer.addPass(renderPass);
+      composer.addPass(bloomPass);
+      composer.addPass(outputPass);
+    } catch {
+      disposeComposer();
+    }
+
     const ambient = new THREE.AmbientLight('#b9c9e8', 0.35);
     const hemisphere = new THREE.HemisphereLight('#b9d7ff', '#30271e', 0.55);
     const sunlight = new THREE.DirectionalLight('#fff0d2', 0.35);
     sunlight.position.set(3.5, 7.5, 6);
     sunlight.castShadow = true;
-    sunlight.shadow.mapSize.set(1024, 1024);
+    sunlight.shadow.mapSize.set(2048, 2048);
     sunlight.shadow.camera.left = -8;
     sunlight.shadow.camera.right = 8;
     sunlight.shadow.camera.top = 8;
@@ -173,7 +251,7 @@ export default function GarageCanvas() {
     workLight.position.set(0, 3.45, -0.8);
     workLight.target.position.set(0, 0.6, -1.6);
     workLight.castShadow = true;
-    workLight.shadow.mapSize.set(1024, 1024);
+    workLight.shadow.mapSize.set(2048, 2048);
     workLight.shadow.bias = -0.0005;
     scene.add(ambient, hemisphere, sunlight, workLight, workLight.target);
 
@@ -181,6 +259,8 @@ export default function GarageCanvas() {
     const pointerNdc = new THREE.Vector2();
     const pointerGoal = new THREE.Vector2();
     const pointerCurrent = new THREE.Vector2();
+    const lookGoal = new THREE.Vector2();
+    const lookCurrent = new THREE.Vector2();
     const desiredPosition = new THREE.Vector3();
     const desiredTarget = new THREE.Vector3();
     const projectedAnchor = new THREE.Vector3();
@@ -188,11 +268,23 @@ export default function GarageCanvas() {
     let doorProgress = 0;
     let dayBlend = 0;
     let hoveredId: StationId | null = null;
+    let hoveredEasterEggId: EasterEggId | null = null;
+    let hoveredSwitch = false;
+    let hoveredDoor = false;
     let selectedId: StationId | null = null;
     let lastProjectedLabel: ProjectedLabel | null = null;
     let animationFrame = 0;
     let disposed = false;
     let lastFrameAt = performance.now();
+    let pointerDown = false;
+    let dragPointerId: number | null = null;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragLastX = 0;
+    let dragLastY = 0;
+    let dragDistance = 0;
+    let dragging = false;
+    let toastTimeout: number | null = null;
 
     const changeStage = (next: GarageStage) => {
       stageRef.current = next;
@@ -200,7 +292,15 @@ export default function GarageCanvas() {
     };
 
     const updateCursor = () => {
-      activeRenderer.domElement.style.cursor = hoveredId ? 'pointer' : 'default';
+      if (dragging) {
+        activeRenderer.domElement.style.cursor = 'grabbing';
+      } else if (hoveredId || hoveredEasterEggId || hoveredSwitch || hoveredDoor) {
+        activeRenderer.domElement.style.cursor = 'pointer';
+      } else if (stageRef.current === 'interior') {
+        activeRenderer.domElement.style.cursor = pointerDown ? 'grabbing' : 'grab';
+      } else {
+        activeRenderer.domElement.style.cursor = 'default';
+      }
     };
 
     const clearHover = () => {
@@ -209,10 +309,14 @@ export default function GarageCanvas() {
         hoveredId = null;
         setHoveredStationId(null);
       }
+      hoveredEasterEggId = null;
+      hoveredSwitch = false;
+      hoveredDoor = false;
       activeRoom.setDoorHovered(false);
       activeRoom.setSwitchHovered(false);
       lastProjectedLabel = null;
       setProjectedLabels([]);
+      setHoverHint(null);
       updateCursor();
     };
 
@@ -220,7 +324,10 @@ export default function GarageCanvas() {
       if (hoveredId === id) return;
       if (hoveredId) activeStations.handles.get(hoveredId)?.setHovered(false);
       hoveredId = id;
-      if (id) activeStations.handles.get(id)?.setHovered(true);
+      if (id) {
+        activeStations.handles.get(id)?.setHovered(true);
+        audio.playHover();
+      }
       setHoveredStationId(id);
       if (!id) {
         lastProjectedLabel = null;
@@ -233,6 +340,11 @@ export default function GarageCanvas() {
       if (selectedId) activeStations.handles.get(selectedId)?.setSelected(false);
       selectedId = null;
       setSelectedStationId(null);
+    };
+
+    const resetLook = () => {
+      pointerGoal.set(0, 0);
+      lookGoal.set(0, 0);
     };
 
     const beginMotion = (
@@ -258,7 +370,8 @@ export default function GarageCanvas() {
     const startDoorMotion = (open: boolean) => {
       clearHover();
       clearSelection();
-      pointerGoal.set(0, 0);
+      resetLook();
+      audio.playDoor(open);
       changeStage('opening');
       beginMotion(
         open ? 'door-open' : 'door-close',
@@ -291,6 +404,13 @@ export default function GarageCanvas() {
       const next = lightingModeRef.current === 'night' ? 'day' : 'night';
       lightingModeRef.current = next;
       setLightingMode(next);
+      audio.playLightSwitch(next === 'day');
+    };
+
+    const toggleWorkshopMute = () => {
+      const next = !audio.isMuted();
+      audio.setMuted(next);
+      setIsMuted(next);
     };
 
     const inspectStation = (id: StationId) => {
@@ -299,9 +419,11 @@ export default function GarageCanvas() {
       if (!station) return;
       clearHover();
       clearSelection();
+      resetLook();
       selectedId = id;
       activeStations.handles.get(id)?.setSelected(true);
       setSelectedStationId(id);
+      audio.playSelect();
       changeStage('inspecting');
       beginMotion('inspect', station.inspectCamera, CAMERA_DURATION);
     };
@@ -309,8 +431,17 @@ export default function GarageCanvas() {
     const stepBack = () => {
       if (stageRef.current !== 'inspecting' || motion?.kind === 'return') return;
       clearSelection();
-      pointerGoal.set(0, 0);
+      resetLook();
       beginMotion('return', CAMERA_POSES.interior, CAMERA_DURATION);
+    };
+
+    const showToast = (message: string) => {
+      if (toastTimeout !== null) window.clearTimeout(toastTimeout);
+      setToastMessage(message);
+      toastTimeout = window.setTimeout(() => {
+        setToastMessage(null);
+        toastTimeout = null;
+      }, TOAST_DURATION);
     };
 
     controlsRef.current = {
@@ -340,13 +471,19 @@ export default function GarageCanvas() {
     const resize = () => {
       const width = Math.max(container.clientWidth, 1);
       const height = Math.max(container.clientHeight, 1);
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      activeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      activeRenderer.setPixelRatio(pixelRatio);
       activeRenderer.setSize(width, height, false);
+      if (composer) {
+        composer.setPixelRatio(pixelRatio);
+        composer.setSize(width, height);
+        bloomPass?.setSize(width, height);
+      }
     };
 
-    const raycastFromEvent = (event: PointerEvent | MouseEvent) => {
+    const raycastFromEvent = (event: PointerEvent) => {
       const bounds = activeRenderer.domElement.getBoundingClientRect();
       pointerNdc.set(
         ((event.clientX - bounds.left) / bounds.width) * 2 - 1,
@@ -355,56 +492,170 @@ export default function GarageCanvas() {
       raycaster.setFromCamera(pointerNdc, camera);
     };
 
+    const onPointerDown = (event: PointerEvent) => {
+      if (stageRef.current !== 'interior' || event.button !== 0) return;
+      pointerDown = true;
+      dragPointerId = event.pointerId;
+      dragStartX = event.clientX;
+      dragStartY = event.clientY;
+      dragLastX = event.clientX;
+      dragLastY = event.clientY;
+      dragDistance = 0;
+      dragging = false;
+      pointerGoal.set(0, 0);
+      try {
+        activeRenderer.domElement.setPointerCapture(event.pointerId);
+      } catch {
+      }
+      updateCursor();
+    };
+
     const onPointerMove = (event: PointerEvent) => {
       raycastFromEvent(event);
-      pointerGoal.copy(pointerNdc);
+      if (!pointerDown) pointerGoal.copy(pointerNdc);
+
+      if (pointerDown && event.pointerId === dragPointerId) {
+        const dx = event.clientX - dragLastX;
+        const dy = event.clientY - dragLastY;
+        dragLastX = event.clientX;
+        dragLastY = event.clientY;
+        dragDistance = Math.hypot(
+          event.clientX - dragStartX,
+          event.clientY - dragStartY,
+        );
+        if (dragDistance > 6) {
+          if (!dragging) {
+            dragging = true;
+            clearHover();
+          }
+          lookGoal.x = THREE.MathUtils.clamp(
+            lookGoal.x - dx * 0.004,
+            -0.55,
+            0.55,
+          );
+          lookGoal.y = THREE.MathUtils.clamp(
+            lookGoal.y - dy * 0.003,
+            -0.18,
+            0.18,
+          );
+          updateCursor();
+          return;
+        }
+      }
+
       if (stageRef.current === 'exterior') {
         const overDoor =
           raycaster.intersectObjects(activeRoom.doorHitMeshes, false).length > 0;
+        if (overDoor && !hoveredDoor) audio.playHover();
+        hoveredDoor = overDoor;
         activeRoom.setDoorHovered(overDoor);
-        activeRenderer.domElement.style.cursor = overDoor ? 'pointer' : 'default';
+        updateCursor();
         return;
       }
       if (stageRef.current !== 'interior') return;
 
       const overSwitch =
         raycaster.intersectObjects(activeRoom.switchHitMeshes, false).length > 0;
-      activeRoom.setSwitchHovered(overSwitch);
       if (overSwitch) {
         setHoveredStation(null);
-        activeRenderer.domElement.style.cursor = 'pointer';
+        hoveredEasterEggId = null;
+        if (!hoveredSwitch) audio.playHover();
+        hoveredSwitch = true;
+        activeRoom.setSwitchHovered(true);
+        setHoverHint('Light Switch (T)');
+        updateCursor();
         return;
       }
+      hoveredSwitch = false;
+      activeRoom.setSwitchHovered(false);
+
+      const easterEggHit = raycaster.intersectObjects(
+        activeRoom.easterEggHitMeshes,
+        false,
+      )[0];
+      const easterEggId = easterEggHit?.object.userData.easterEggId as
+        | EasterEggId
+        | undefined;
+      if (easterEggId) {
+        setHoveredStation(null);
+        if (hoveredEasterEggId !== easterEggId) audio.playHover();
+        hoveredEasterEggId = easterEggId;
+        setHoverHint(EASTER_EGG_HINTS[easterEggId]);
+        updateCursor();
+        return;
+      }
+      hoveredEasterEggId = null;
+
       const stationHit = raycaster.intersectObjects(stationMeshes, false)[0];
       const id = stationHit?.object.userData.stationId as StationId | undefined;
       setHoveredStation(id ?? null);
+      setHoverHint(null);
       updateCursor();
     };
 
-    const onPointerLeave = () => {
+    const onPointerUp = (event: PointerEvent) => {
+      const wasInteriorDrag =
+        pointerDown && event.pointerId === dragPointerId;
+      const suppressSelection = wasInteriorDrag && dragDistance > 6;
+      if (wasInteriorDrag) {
+        pointerDown = false;
+        dragPointerId = null;
+        dragging = false;
+        try {
+          activeRenderer.domElement.releasePointerCapture(event.pointerId);
+        } catch {
+        }
+      }
+
+      raycastFromEvent(event);
+      if (!suppressSelection) {
+        if (stageRef.current === 'exterior') {
+          if (raycaster.intersectObjects(activeRoom.doorHitMeshes, false).length > 0) {
+            openGarage();
+          }
+        } else if (stageRef.current === 'interior') {
+          if (raycaster.intersectObjects(activeRoom.switchHitMeshes, false).length > 0) {
+            toggleGarageLighting();
+          } else {
+            const easterEggHit = raycaster.intersectObjects(
+              activeRoom.easterEggHitMeshes,
+              false,
+            )[0];
+            const easterEggId = easterEggHit?.object.userData.easterEggId as
+              | EasterEggId
+              | undefined;
+            if (easterEggId) {
+              const message = activeRoom.triggerEasterEgg(easterEggId);
+              audio.playEasterEgg(easterEggId);
+              showToast(message);
+            } else {
+              const stationHit = raycaster.intersectObjects(stationMeshes, false)[0];
+              const id = stationHit?.object.userData.stationId as
+                | StationId
+                | undefined;
+              if (id) inspectStation(id);
+            }
+          }
+        } else if (stageRef.current === 'inspecting') {
+          stepBack();
+        }
+      }
+      dragDistance = 0;
+      updateCursor();
+    };
+
+    const endPointerDrag = () => {
+      pointerDown = false;
+      dragPointerId = null;
+      dragDistance = 0;
+      dragging = false;
       pointerGoal.set(0, 0);
       clearHover();
     };
 
-    const onCanvasClick = (event: MouseEvent) => {
-      raycastFromEvent(event);
-      if (stageRef.current === 'exterior') {
-        if (raycaster.intersectObjects(activeRoom.doorHitMeshes, false).length > 0) {
-          openGarage();
-        }
-        return;
-      }
-      if (stageRef.current === 'interior') {
-        if (raycaster.intersectObjects(activeRoom.switchHitMeshes, false).length > 0) {
-          toggleGarageLighting();
-          return;
-        }
-        const stationHit = raycaster.intersectObjects(stationMeshes, false)[0];
-        const id = stationHit?.object.userData.stationId as StationId | undefined;
-        if (id) inspectStation(id);
-        return;
-      }
-      if (stageRef.current === 'inspecting') stepBack();
+    const onPointerLeave = () => {
+      pointerGoal.set(0, 0);
+      if (!pointerDown) clearHover();
     };
 
     const onWheel = (event: WheelEvent) => {
@@ -435,6 +686,10 @@ export default function GarageCanvas() {
         return;
       }
 
+      if (event.key.toLowerCase() === 'm') {
+        if (!event.repeat) toggleWorkshopMute();
+        return;
+      }
       if (event.key.toLowerCase() === 'l') {
         if (!event.repeat) {
           const next = !benchListOpenRef.current;
@@ -499,12 +754,27 @@ export default function GarageCanvas() {
           }
         }
       } else if (stageRef.current === 'interior') {
-        const damping = 1 - Math.exp(-5 * dt);
+        const damping = 1 - Math.exp(-7 * dt);
         pointerCurrent.lerp(pointerGoal, damping);
+        lookCurrent.lerp(lookGoal, damping);
+        const yaw = THREE.MathUtils.clamp(
+          lookCurrent.x + pointerCurrent.x * 0.045,
+          -0.55,
+          0.55,
+        );
+        const pitch = THREE.MathUtils.clamp(
+          lookCurrent.y + pointerCurrent.y * 0.025,
+          -0.18,
+          0.18,
+        );
         desiredPosition.fromArray(CAMERA_POSES.interior.position);
-        desiredTarget.fromArray(CAMERA_POSES.interior.target);
-        desiredTarget.x += pointerCurrent.x * 0.65;
-        desiredTarget.y += pointerCurrent.y * 0.22;
+        desiredPosition.x += pointerCurrent.x * 0.035;
+        desiredPosition.y += pointerCurrent.y * 0.02;
+        desiredTarget.set(
+          desiredPosition.x + Math.sin(yaw) * 6.35,
+          CAMERA_POSES.interior.target[1] + Math.sin(pitch) * 4.5,
+          desiredPosition.z - Math.cos(yaw) * 6.35,
+        );
         camera.position.lerp(desiredPosition, damping);
         currentTarget.lerp(desiredTarget, damping);
       }
@@ -514,16 +784,22 @@ export default function GarageCanvas() {
       const targetBlend = lightingModeRef.current === 'day' ? 1 : 0;
       dayBlend = THREE.MathUtils.lerp(dayBlend, targetBlend, blendDamping);
       activeRoom.setLightingMode(lightingModeRef.current, dayBlend);
-      ambient.intensity = THREE.MathUtils.lerp(0.35, 0.8, dayBlend);
-      hemisphere.intensity = THREE.MathUtils.lerp(0.55, 1.25, dayBlend);
-      sunlight.intensity = THREE.MathUtils.lerp(0.35, 2.1, dayBlend);
-      workLight.intensity = THREE.MathUtils.lerp(42, 15, dayBlend);
-      background.lerpColors(nightBackground, dayBackground, dayBlend);
-      if (scene.fog instanceof THREE.Fog) scene.fog.color.copy(background);
+      scene.environmentIntensity = THREE.MathUtils.lerp(0.38, 0.95, dayBlend);
+      if (bloomPass) {
+        bloomPass.strength = THREE.MathUtils.lerp(0.36, 0.18, dayBlend);
+      }
+      ambient.intensity = THREE.MathUtils.lerp(0.12, 0.45, dayBlend);
+      hemisphere.intensity = THREE.MathUtils.lerp(0.2, 0.75, dayBlend);
+      sunlight.intensity = THREE.MathUtils.lerp(0.15, 1.4, dayBlend);
+      workLight.intensity = THREE.MathUtils.lerp(18, 6, dayBlend);
 
       activeRoom.update(elapsed, dt);
       activeStations.handles.forEach((handle) => handle.update(elapsed, dt));
-      activeRenderer.render(scene, camera);
+      if (composer) {
+        composer.render();
+      } else {
+        activeRenderer.render(scene, camera);
+      }
 
       if (hoveredId && stageRef.current === 'interior') {
         const station = stationConfigs.get(hoveredId);
@@ -560,27 +836,40 @@ export default function GarageCanvas() {
     };
 
     resize();
+    updateCursor();
     window.addEventListener('resize', resize);
     window.addEventListener('keydown', onKeyDown);
+    activeRenderer.domElement.addEventListener('pointerdown', onPointerDown);
     activeRenderer.domElement.addEventListener('pointermove', onPointerMove);
+    activeRenderer.domElement.addEventListener('pointerup', onPointerUp);
+    activeRenderer.domElement.addEventListener('pointercancel', endPointerDrag);
     activeRenderer.domElement.addEventListener('pointerleave', onPointerLeave);
-    activeRenderer.domElement.addEventListener('click', onCanvasClick);
     activeRenderer.domElement.addEventListener('wheel', onWheel, { passive: false });
     animationFrame = window.requestAnimationFrame(animate);
 
     return () => {
       disposed = true;
       window.cancelAnimationFrame(animationFrame);
+      if (toastTimeout !== null) window.clearTimeout(toastTimeout);
       window.removeEventListener('resize', resize);
       window.removeEventListener('keydown', onKeyDown);
+      activeRenderer.domElement.removeEventListener('pointerdown', onPointerDown);
       activeRenderer.domElement.removeEventListener('pointermove', onPointerMove);
+      activeRenderer.domElement.removeEventListener('pointerup', onPointerUp);
+      activeRenderer.domElement.removeEventListener('pointercancel', endPointerDrag);
       activeRenderer.domElement.removeEventListener('pointerleave', onPointerLeave);
-      activeRenderer.domElement.removeEventListener('click', onCanvasClick);
       activeRenderer.domElement.removeEventListener('wheel', onWheel);
       controlsRef.current = null;
+      audioRef.current = null;
+      audio.dispose();
       activeStations.dispose();
       activeRoom.dispose();
+      activeTextures.disposeAll();
       scene.remove(activeStations.root);
+      scene.environment = null;
+      envRT?.dispose();
+      pmremGenerator?.dispose();
+      disposeComposer();
       sunlight.shadow.dispose();
       workLight.shadow.dispose();
       activeRenderer.dispose();
@@ -610,6 +899,10 @@ export default function GarageCanvas() {
         onToggleLighting={toggleLighting}
         onToggleBenchList={toggleBenchList}
         onSelectStation={selectStation}
+        isMuted={isMuted}
+        onToggleMute={toggleMute}
+        toastMessage={toastMessage}
+        hoverHint={hoverHint}
       />
       <ProjectDrawer station={selectedStation} onClose={dismissInspection} />
       <BenchListView

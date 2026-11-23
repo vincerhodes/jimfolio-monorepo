@@ -14,40 +14,40 @@ export function createLightingRig(scene: THREE.Scene): LightingRig {
 
   const previousBackground = scene.background;
   const previousFog = scene.fog;
-  const background = new THREE.Color("#0b0d12");
-  const fog = new THREE.Fog("#0b0d12", 8, 22);
+  const background = new THREE.Color("#080a10");
+  const fog = new THREE.Fog("#080a10", 7, 21);
   scene.background = background;
   scene.fog = fog;
 
-  const nightBackground = new THREE.Color("#0b0d12");
-  const dayBackground = new THREE.Color("#dbeafe");
-  const nightSky = new THREE.Color("#1f2b44");
-  const daySky = new THREE.Color("#e2ecf7");
-  const nightGround = new THREE.Color("#11151d");
-  const dayGround = new THREE.Color("#a7b7c8");
-  const nightSun = new THREE.Color("#7891b8");
-  const daySun = new THREE.Color("#fff3dc");
+  const nightBackground = new THREE.Color("#080a10");
+  const dayBackground = new THREE.Color("#cfe7ff");
+  const nightFog = new THREE.Color("#080a10");
+  const dayFog = new THREE.Color("#dbeafe");
+  const nightSky = new THREE.Color("#28364f");
+  const daySky = new THREE.Color("#f8fbff");
+  const nightGround = new THREE.Color("#090b12");
+  const dayGround = new THREE.Color("#94a3b8");
 
-  const hemisphere = new THREE.HemisphereLight("#1f2b44", "#11151d", 0.75);
+  const hemisphere = new THREE.HemisphereLight(nightSky, nightGround, 0.26);
   group.add(hemisphere);
 
-  const ambient = new THREE.AmbientLight("#1f2b44", 0.42);
+  const ambient = new THREE.AmbientLight("#33415b", 0.055);
   group.add(ambient);
 
-  const overhead = new THREE.SpotLight("#ffb463", 72, 13, 0.79, 0.72, 2);
-  overhead.position.set(0, 3.72, -0.8);
-  overhead.target.position.set(0, 0.15, -1.35);
+  const overhead = new THREE.SpotLight("#ffad57", 28, 14, 0.82, 0.66, 2);
+  overhead.position.set(0, 3.62, -0.8);
+  overhead.target.position.set(0, 0.1, -1.3);
   overhead.castShadow = true;
-  overhead.shadow.mapSize.set(1024, 1024);
-  overhead.shadow.camera.near = 0.25;
-  overhead.shadow.camera.far = 14;
-  overhead.shadow.bias = -0.00035;
-  overhead.shadow.normalBias = 0.025;
+  overhead.shadow.mapSize.set(2048, 2048);
+  overhead.shadow.camera.near = 0.2;
+  overhead.shadow.camera.far = 15;
+  overhead.shadow.bias = -0.0004;
+  overhead.shadow.normalBias = 0.02;
   group.add(overhead, overhead.target);
 
-  const sunlight = new THREE.DirectionalLight("#fff3dc", 0.025);
-  sunlight.position.set(2.8, 7.5, 8.5);
-  sunlight.target.position.set(-1.2, 0, -2.2);
+  const sunlight = new THREE.DirectionalLight("#fff8e8", 0);
+  sunlight.position.set(4.5, 6.5, 11);
+  sunlight.target.position.set(0, 0.5, -2.5);
   sunlight.castShadow = true;
   sunlight.shadow.mapSize.set(2048, 2048);
   sunlight.shadow.camera.left = -7;
@@ -55,38 +55,30 @@ export function createLightingRig(scene: THREE.Scene): LightingRig {
   sunlight.shadow.camera.top = 7;
   sunlight.shadow.camera.bottom = -7;
   sunlight.shadow.camera.near = 0.5;
-  sunlight.shadow.camera.far = 24;
+  sunlight.shadow.camera.far = 26;
   sunlight.shadow.bias = -0.00025;
   sunlight.shadow.normalBias = 0.018;
   group.add(sunlight, sunlight.target);
 
-  const leftRim = new THREE.PointLight("#6ea8c9", 4.5, 5.5, 2);
-  leftRim.position.set(-4.4, 1.65, -2.6);
-  const rightRim = new THREE.PointLight("#ff9e55", 5.5, 5.5, 2);
-  rightRim.position.set(4.35, 1.55, -2.25);
-  const backRim = new THREE.PointLight("#4f79a6", 3.2, 4.5, 2);
-  backRim.position.set(0, 2.2, -4.55);
-  group.add(leftRim, rightRim, backRim);
+  const fluorescentFill = new THREE.DirectionalLight("#f0f7ff", 0);
+  fluorescentFill.position.set(-1.5, 4.1, -0.6);
+  fluorescentFill.target.position.set(0, 0, -1.8);
+  group.add(fluorescentFill, fluorescentFill.target);
 
-  const bulbGeometry = new THREE.SphereGeometry(0.075, 16, 12);
-  const bulbMaterial = new THREE.MeshStandardMaterial({
-    color: "#ffe0ae",
-    emissive: "#ff9d45",
-    emissiveIntensity: 5,
-    roughness: 0.25,
-  });
-  const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
-  bulb.position.set(0, 3.49, -0.8);
-  group.add(bulb);
-
-  const filament = new THREE.PointLight("#ffad5c", 2.8, 2.2, 2);
-  filament.position.copy(bulb.position);
-  group.add(filament);
+  const neonBounce = new THREE.PointLight("#ff923f", 4.8, 5.2, 2);
+  neonBounce.position.set(0, 3.12, -4.35);
+  const leftBenchFill = new THREE.PointLight("#7fb7ff", 4.2, 5.4, 2);
+  leftBenchFill.position.set(-4.25, 1.85, -1.85);
+  const rightBenchFill = new THREE.PointLight("#ffc07a", 4.8, 5.4, 2);
+  rightBenchFill.position.set(4.2, 1.75, -2.05);
+  const galleryFill = new THREE.SpotLight("#ffd7a3", 8.5, 5.5, 0.88, 0.75, 2);
+  galleryFill.position.set(4.98, 3.38, -1.8);
+  galleryFill.target.position.set(5.32, 2.35, -1.8);
+  group.add(neonBounce, leftBenchFill, rightBenchFill, galleryFill, galleryFill.target);
 
   let blend = 0;
-  let overheadBase = 72;
-  let bulbBase = 5;
-  let filamentBase = 2.8;
+  let overheadBase = 28;
+  let neonBase = 4.8;
 
   const setBlend = (dayBlend: number) => {
     const t = THREE.MathUtils.clamp(dayBlend, 0, 1);
@@ -94,36 +86,33 @@ export function createLightingRig(scene: THREE.Scene): LightingRig {
     blend = smooth;
 
     background.copy(nightBackground).lerp(dayBackground, smooth);
-    fog.color.copy(background);
-    fog.near = THREE.MathUtils.lerp(8, 13, smooth);
-    fog.far = THREE.MathUtils.lerp(22, 34, smooth);
+    fog.color.copy(nightFog).lerp(dayFog, smooth);
+    fog.near = THREE.MathUtils.lerp(7, 15, smooth);
+    fog.far = THREE.MathUtils.lerp(21, 42, smooth);
 
     hemisphere.color.copy(nightSky).lerp(daySky, smooth);
     hemisphere.groundColor.copy(nightGround).lerp(dayGround, smooth);
-    hemisphere.intensity = THREE.MathUtils.lerp(0.75, 2.6, smooth);
+    hemisphere.intensity = THREE.MathUtils.lerp(0.26, 2, smooth);
     ambient.color.copy(nightSky).lerp(daySky, smooth);
-    ambient.intensity = THREE.MathUtils.lerp(0.42, 0.85, smooth);
+    ambient.intensity = THREE.MathUtils.lerp(0.055, 0.18, smooth);
 
-    overheadBase = THREE.MathUtils.lerp(72, 8, smooth);
+    overheadBase = THREE.MathUtils.lerp(28, 0.45, smooth);
     overhead.intensity = overheadBase;
-    sunlight.color.copy(nightSun).lerp(daySun, smooth);
-    sunlight.intensity = THREE.MathUtils.lerp(0.025, 4.2, smooth);
+    sunlight.intensity = THREE.MathUtils.lerp(0, 3.5, smooth);
+    fluorescentFill.intensity = THREE.MathUtils.lerp(0, 1.6, smooth);
 
-    leftRim.intensity = THREE.MathUtils.lerp(4.5, 2.8, smooth);
-    rightRim.intensity = THREE.MathUtils.lerp(5.5, 3.2, smooth);
-    backRim.intensity = THREE.MathUtils.lerp(3.2, 2, smooth);
-    bulbBase = THREE.MathUtils.lerp(5, 0.65, smooth);
-    bulbMaterial.emissiveIntensity = bulbBase;
-    filamentBase = THREE.MathUtils.lerp(2.8, 0.15, smooth);
-    filament.intensity = filamentBase;
+    neonBase = THREE.MathUtils.lerp(4.8, 0.35, smooth);
+    neonBounce.intensity = neonBase;
+    leftBenchFill.intensity = THREE.MathUtils.lerp(4.2, 0.5, smooth);
+    rightBenchFill.intensity = THREE.MathUtils.lerp(4.8, 0.55, smooth);
+    galleryFill.intensity = THREE.MathUtils.lerp(8.5, 0.8, smooth);
   };
 
   const update = (elapsed: number) => {
     const nightAmount = 1 - blend;
-    const flicker = 1 + nightAmount * (Math.sin(elapsed * 7.3) * 0.008 + Math.sin(elapsed * 17.1) * 0.004);
+    const flicker = 1 + nightAmount * (Math.sin(elapsed * 7.3) * 0.006 + Math.sin(elapsed * 17.1) * 0.003);
     overhead.intensity = overheadBase * flicker;
-    bulbMaterial.emissiveIntensity = bulbBase * flicker;
-    filament.intensity = filamentBase * flicker;
+    neonBounce.intensity = neonBase * (1 + nightAmount * Math.sin(elapsed * 2.1) * 0.008);
   };
 
   const dispose = () => {
@@ -132,8 +121,6 @@ export function createLightingRig(scene: THREE.Scene): LightingRig {
     if (scene.fog === fog) scene.fog = previousFog;
     overhead.shadow.dispose();
     sunlight.shadow.dispose();
-    bulbGeometry.dispose();
-    bulbMaterial.dispose();
     group.clear();
   };
 

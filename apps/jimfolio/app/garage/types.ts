@@ -1,8 +1,13 @@
 import type * as THREE from "three";
 
-export type StationId = "predictr" | "crema" | "pantry" | "preppr" | "book-adventure";
+export type StationId =
+  | "predictr" | "plannr" | "crema" | "pantry" | "chinahols"
+  | "preppr" | "book-adventure" | "rocketsfc"
+  | "browzr" | "kickoff-hq" | "rovr" | "preparingforai" | "rightcourtsc";
+export type StationCategory = "experiment" | "shipped";
 export type GarageStage = "exterior" | "opening" | "interior" | "inspecting";
 export type LightingMode = "night" | "day";
+export type EasterEggId = "wrench" | "vise" | "clock";
 export type Vec3Tuple = [number, number, number];
 
 export interface CameraPose {
@@ -12,9 +17,11 @@ export interface CameraPose {
 
 export interface GarageStation {
   id: StationId;
+  category: StationCategory;
   name: string;
   slug: string;
   url: string;
+  domainLabel?: string;
   tag: string;
   tagline: string;
   description: string;
@@ -50,6 +57,8 @@ export interface RoomHandle {
   group: THREE.Group;
   doorHitMeshes: THREE.Object3D[];
   switchHitMeshes: THREE.Object3D[];
+  easterEggHitMeshes: THREE.Object3D[];
+  triggerEasterEgg: (id: EasterEggId) => string;
   setDoorProgress: (t: number) => void;
   setSwitchHovered: (hovered: boolean) => void;
   setDoorHovered: (hovered: boolean) => void;
