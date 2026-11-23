@@ -8,7 +8,7 @@
 ## Deployment (Hetzner `apps-1` VPS + Caddy + Docker Compose)
 All apps are self-hosted on `apps-1` (`jimmy@49.12.71.240:/home/jimmy/apps`) behind Caddy (`/home/jimmy/apps/Caddyfile`) and `/home/jimmy/apps/docker-compose.yml`.
 
-### Next.js Standalone Apps (`jimfolio`, `chinahols`, `powerbi`, `wesplit`, `crema`, `pantry`, `fibr`)
+### Next.js Standalone Apps (`jimfolio` -> `jimsgarage.dev`, `chinahols`, `wesplit`, `crema`, `pantry`)
 1. Build locally:
    ```bash
    npm --workspace=@jimfolio/<app> run build
@@ -28,5 +28,5 @@ All apps are self-hosted on `apps-1` (`jimmy@49.12.71.240:/home/jimmy/apps`) beh
    ssh jimmy@49.12.71.240 "cd /home/jimmy/apps && docker compose restart <app>"
    ```
 
-### Static Sites (`standash`, `jacob-shooter`)
+### Static Sites (`standash`)
 Sync static output directly into `/home/jimmy/apps/sites/<app>/` on `apps-1` (served by Caddy `file_server`).

@@ -9,10 +9,10 @@ export default function Header({ user }: { user: string }) {
         <div className="flex items-baseline gap-2">
           <h1 className="text-xl font-bold text-teal-600">WeSplit</h1>
           <a
-            href="https://jimfolio.space"
+            href="https://jimsgarage.dev"
             className="text-xs text-slate-400 hover:text-teal-600 transition-colors"
           >
-            ← jimfolio.space
+            ← jimsgarage.dev
           </a>
         </div>
         <div className="flex items-center gap-3">

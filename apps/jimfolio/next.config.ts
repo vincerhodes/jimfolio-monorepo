@@ -1,46 +1,19 @@
 import type { NextConfig } from "next";
 
-function inferPortFromArgv(): string | undefined {
-    let port: string | undefined;
-
-    for (let i = 0; i < process.argv.length - 1; i += 1) {
-        const arg = process.argv[i];
-        if (arg === "-p" || arg === "--port") {
-            port = process.argv[i + 1];
-        }
-    }
-
-    return port;
-}
-
 const nextConfig: NextConfig = {
     output: "standalone",
     async rewrites() {
         const enablePortfolioProxy =
             process.env.NODE_ENV === 'development' ||
-            process.env.CONNEXIA_PROXY === '1' ||
             process.env.PORTFOLIO_PROXY === '1';
 
         if (!enablePortfolioProxy) {
             return [];
         }
 
-        const jimfolioPort = process.env.PORT ?? inferPortFromArgv();
-        const useAltPortfolioPorts = jimfolioPort === "3100";
-
-        const connexiaPort = process.env.CONNEXIA_PORT ?? (useAltPortfolioPorts ? "3103" : "3005");
-        const veriflowPort = process.env.VERIFLOW_PORT ?? (useAltPortfolioPorts ? "3102" : "3003");
         const wesplitPort = process.env.WESPLIT_PORT ?? "3110";
 
         return [
-            {
-                source: '/connexia/:path*',
-                destination: `http://localhost:${connexiaPort}/connexia/:path*`
-            },
-            {
-                source: '/veriflow/:path*',
-                destination: `http://localhost:${veriflowPort}/veriflow/:path*`
-            },
             {
                 source: '/wesplit/:path*',
                 destination: `http://localhost:${wesplitPort}/wesplit/:path*`

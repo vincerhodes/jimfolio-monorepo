@@ -23,10 +23,10 @@ export default function RootLayout({
         <header className="border-b border-[#e7e0d5]">
           <nav className="mx-auto flex max-w-4xl items-baseline gap-6 p-4">
             <a
-              href="https://jimfolio.space"
+              href="https://jimsgarage.dev"
               className="self-center text-sm text-[#7a6a5d] hover:text-ink hover:underline"
             >
-              ← jimfolio.space
+              ← jimsgarage.dev
             </a>
             <Link
               href="/"

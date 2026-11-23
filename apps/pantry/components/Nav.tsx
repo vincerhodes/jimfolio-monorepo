@@ -42,10 +42,10 @@ export default function Nav({ userName = null }: { userName?: string | null }) {
         );
       })}
       <a
-        href="https://jimfolio.space"
+        href="https://jimsgarage.dev"
         className="ml-auto self-center text-sm text-[#7a6a5d] hover:text-ink hover:underline"
       >
-        ← jimfolio.space
+        ← jimsgarage.dev
       </a>
       {userName && (
         <span className="self-center text-sm text-[#7a6a5d]">{userName}</span>

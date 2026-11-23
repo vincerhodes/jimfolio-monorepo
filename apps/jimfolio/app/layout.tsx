@@ -1,14 +1,20 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
+
+const title = "Jim's Garage — Experiments, Tools & Side Builds";
+const description =
+  'An interactive 3D workshop showcasing live experiments, utilities, and apps built by Jimmy Rhodes on jimsgarage.dev.';
 
 export const metadata: Metadata = {
-  title: "Jimfolio — Jimmy Rhodes",
-  description:
-    "Apps, experiments and data stories by Jimmy Rhodes. A hub for every live project on jimfolio.space.",
+  title,
+  description,
+  metadataBase: new URL('https://jimsgarage.dev'),
+  openGraph: {
+    title,
+    description,
+    url: 'https://jimsgarage.dev',
+  },
 };
-
-// No-FOUC theme init: default light, apply saved dark choice before first paint.
-const themeInit = `try{if(localStorage.getItem('jimfolio-theme')==='dark'){document.documentElement.classList.add('dark')}}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -16,11 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
-      </head>
-      <body className="antialiased">{children}</body>
+    <html lang="en">
+      <body className="bg-[#0b0d12] text-stone-100 antialiased">{children}</body>
     </html>
   );
 }

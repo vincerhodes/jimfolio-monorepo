@@ -44,3 +44,6 @@ coverage/
 
 # Planning folder (contains large audio files)
 planning/
+
+# Local Herdr orchestration scratch
+.herdr/
