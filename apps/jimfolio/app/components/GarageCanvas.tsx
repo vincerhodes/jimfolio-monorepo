@@ -17,10 +17,12 @@ import {
   type CameraPose,
   type EasterEggId,
   type GarageStage,
+  type GarageStation,
   type LightingMode,
   type ProjectedLabel,
   type RoomHandle,
   type StationId,
+  type ViewPreset,
 } from '../garage/types';
 import BenchListView from './BenchListView';
 import GarageHUD from './GarageHUD';
@@ -56,6 +58,7 @@ interface GarageControls {
   toggleLighting: () => void;
   selectStation: (id: StationId) => void;
   dismissInspection: () => void;
+  panToView: (preset: ViewPreset) => void;
 }
 
 function easeInOutCubic(value: number) {
@@ -71,6 +74,40 @@ function motionPose(pose: CameraPose) {
   };
 }
 
+function getAdaptiveFov(aspect: number) {
+  return THREE.MathUtils.clamp(62 + (1.15 - aspect) * 18, 62, 74);
+}
+
+function getExteriorPose(aspect: number, fov: number): CameraPose {
+  const tanHalfH = aspect * Math.tan(THREE.MathUtils.degToRad(fov / 2));
+  const dz = Math.max(7.4, 4.75 / tanHalfH);
+  return {
+    position: [0, aspect < 0.85 ? 2.15 : 2.05, 4.0 + dz],
+    target: [0, aspect < 0.85 ? 1.55 : 1.72, 4.0],
+  };
+}
+
+function getInspectPose(
+  station: GarageStation,
+  aspect: number,
+  isMobileWidth: boolean,
+): CameraPose {
+  if (!isMobileWidth && aspect >= 0.85) return station.inspectCamera;
+
+  const target = new THREE.Vector3().fromArray(station.inspectCamera.target);
+  const position = new THREE.Vector3()
+    .fromArray(station.inspectCamera.position)
+    .sub(target)
+    .multiplyScalar(1.38)
+    .add(target);
+  target.y -= 0.48;
+  position.y += 0.08;
+  return {
+    position: [position.x, position.y, position.z],
+    target: [target.x, target.y, target.z],
+  };
+}
+
 export default function GarageCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const controlsRef = useRef<GarageControls | null>(null);
@@ -78,12 +115,15 @@ export default function GarageCanvas() {
   const stageRef = useRef<GarageStage>('exterior');
   const lightingModeRef = useRef<LightingMode>('night');
   const benchListOpenRef = useRef(false);
+  const isTouchDeviceRef = useRef(false);
   const [stage, setStage] = useState<GarageStage>('exterior');
   const [lightingMode, setLightingMode] = useState<LightingMode>('night');
   const [isBenchListOpen, setIsBenchListOpen] = useState(false);
   const [hoveredStationId, setHoveredStationId] = useState<StationId | null>(null);
   const [selectedStationId, setSelectedStationId] = useState<StationId | null>(null);
   const [projectedLabels, setProjectedLabels] = useState<ProjectedLabel[]>([]);
+  const [activeViewPreset, setActiveViewPreset] = useState<ViewPreset>('center');
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [hoverHint, setHoverHint] = useState<string | null>(null);
@@ -98,6 +138,10 @@ export default function GarageCanvas() {
   );
   const dismissInspection = useCallback(
     () => controlsRef.current?.dismissInspection(),
+    [],
+  );
+  const panToView = useCallback(
+    (preset: ViewPreset) => controlsRef.current?.panToView(preset),
     [],
   );
   const toggleMute = useCallback(() => {
@@ -118,12 +162,29 @@ export default function GarageCanvas() {
   }, []);
 
   useEffect(() => {
+    const coarsePointer = window.matchMedia('(pointer: coarse)');
+    const updateTouchDevice = () => {
+      const next =
+        coarsePointer.matches ||
+        (navigator.maxTouchPoints > 0 && window.innerWidth < 1024);
+      isTouchDeviceRef.current = next;
+      setIsTouchDevice(next);
+    };
+    updateTouchDevice();
+    coarsePointer.addEventListener('change', updateTouchDevice);
+    window.addEventListener('resize', updateTouchDevice);
+    return () => {
+      coarsePointer.removeEventListener('change', updateTouchDevice);
+      window.removeEventListener('resize', updateTouchDevice);
+    };
+  }, []);
+
+  useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const audio = createWorkshopAudio();
     audioRef.current = audio;
-    setIsMuted(audio.isMuted());
 
     let renderer: THREE.WebGLRenderer | null = null;
     let room: RoomHandle | null = null;
@@ -137,7 +198,7 @@ export default function GarageCanvas() {
     let outputPass: OutputPass | null = null;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(58, 1, 0.05, 80);
+    const camera = new THREE.PerspectiveCamera(62, 1, 0.05, 80);
     const currentTarget = new THREE.Vector3();
 
     const disposeComposer = () => {
@@ -187,7 +248,7 @@ export default function GarageCanvas() {
       stationScene = buildProjectStations(GARAGE_STATIONS, textures);
       scene.add(stationScene.root);
     } catch {
-      setWebglFailed(true);
+      queueMicrotask(() => setWebglFailed(true));
       return () => {
         disposeComposer();
         stationScene?.dispose();
@@ -273,6 +334,9 @@ export default function GarageCanvas() {
     let hoveredDoor = false;
     let selectedId: StationId | null = null;
     let lastProjectedLabel: ProjectedLabel | null = null;
+    let lastTouchProjectedLabels: ProjectedLabel[] | null = null;
+    let lastTouchProjectionAt = -Infinity;
+    let currentViewPreset: ViewPreset = 'center';
     let animationFrame = 0;
     let disposed = false;
     let lastFrameAt = performance.now();
@@ -315,6 +379,7 @@ export default function GarageCanvas() {
       activeRoom.setDoorHovered(false);
       activeRoom.setSwitchHovered(false);
       lastProjectedLabel = null;
+      lastTouchProjectedLabels = null;
       setProjectedLabels([]);
       setHoverHint(null);
       updateCursor();
@@ -329,7 +394,7 @@ export default function GarageCanvas() {
         audio.playHover();
       }
       setHoveredStationId(id);
-      if (!id) {
+      if (!id && !isTouchDeviceRef.current) {
         lastProjectedLabel = null;
         setProjectedLabels([]);
       }
@@ -345,6 +410,25 @@ export default function GarageCanvas() {
     const resetLook = () => {
       pointerGoal.set(0, 0);
       lookGoal.set(0, 0);
+    };
+
+    const panToViewPreset = (preset: ViewPreset) => {
+      if (preset === 'left') {
+        lookGoal.set(-0.92, 0);
+      } else if (preset === 'right') {
+        lookGoal.set(0.92, 0.04);
+      } else {
+        lookGoal.set(0, 0);
+      }
+    };
+
+    const updateActiveViewPreset = () => {
+      const next =
+        lookGoal.x < -0.45 ? 'left' : lookGoal.x > 0.45 ? 'right' : 'center';
+      if (next !== currentViewPreset) {
+        currentViewPreset = next;
+        setActiveViewPreset(next);
+      }
     };
 
     const beginMotion = (
@@ -375,7 +459,9 @@ export default function GarageCanvas() {
       changeStage('opening');
       beginMotion(
         open ? 'door-open' : 'door-close',
-        open ? CAMERA_POSES.interior : CAMERA_POSES.exterior,
+        open
+          ? CAMERA_POSES.interior
+          : getExteriorPose(camera.aspect, camera.fov),
         DOOR_DURATION,
         open ? 1 : 0,
       );
@@ -425,7 +511,11 @@ export default function GarageCanvas() {
       setSelectedStationId(id);
       audio.playSelect();
       changeStage('inspecting');
-      beginMotion('inspect', station.inspectCamera, CAMERA_DURATION);
+      beginMotion(
+        'inspect',
+        getInspectPose(station, camera.aspect, window.innerWidth < 768),
+        CAMERA_DURATION,
+      );
     };
 
     const stepBack = () => {
@@ -450,6 +540,7 @@ export default function GarageCanvas() {
       toggleLighting: toggleGarageLighting,
       selectStation: inspectStation,
       dismissInspection: stepBack,
+      panToView: panToViewPreset,
     };
 
     let restoreInterior = false;
@@ -458,9 +549,11 @@ export default function GarageCanvas() {
     } catch {
       restoreInterior = false;
     }
+    const initialAspect =
+      Math.max(container.clientWidth, 1) / Math.max(container.clientHeight, 1);
     const initialPose = restoreInterior
       ? CAMERA_POSES.interior
-      : CAMERA_POSES.exterior;
+      : getExteriorPose(initialAspect, getAdaptiveFov(initialAspect));
     camera.position.fromArray(initialPose.position);
     currentTarget.fromArray(initialPose.target);
     camera.lookAt(currentTarget);
@@ -473,7 +566,22 @@ export default function GarageCanvas() {
       const height = Math.max(container.clientHeight, 1);
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       camera.aspect = width / height;
+      camera.fov = getAdaptiveFov(camera.aspect);
       camera.updateProjectionMatrix();
+      const yawLimit = camera.aspect < 0.9 ? 1.08 : 0.55;
+      lookGoal.x = THREE.MathUtils.clamp(lookGoal.x, -yawLimit, yawLimit);
+      if (
+        (stageRef.current === 'exterior' || stageRef.current === 'interior') &&
+        motion === null
+      ) {
+        const pose =
+          stageRef.current === 'exterior'
+            ? getExteriorPose(camera.aspect, camera.fov)
+            : CAMERA_POSES.interior;
+        camera.position.fromArray(pose.position);
+        currentTarget.fromArray(pose.target);
+        camera.lookAt(currentTarget);
+      }
       activeRenderer.setPixelRatio(pixelRatio);
       activeRenderer.setSize(width, height, false);
       if (composer) {
@@ -528,10 +636,12 @@ export default function GarageCanvas() {
             dragging = true;
             clearHover();
           }
+          const yawLimit = camera.aspect < 0.9 ? 1.08 : 0.55;
+          const dragSensitivity = isTouchDeviceRef.current ? 0.0055 : 0.004;
           lookGoal.x = THREE.MathUtils.clamp(
-            lookGoal.x - dx * 0.004,
-            -0.55,
-            0.55,
+            lookGoal.x - dx * dragSensitivity,
+            -yawLimit,
+            yawLimit,
           );
           lookGoal.y = THREE.MathUtils.clamp(
             lookGoal.y - dy * 0.003,
@@ -757,11 +867,21 @@ export default function GarageCanvas() {
         const damping = 1 - Math.exp(-7 * dt);
         pointerCurrent.lerp(pointerGoal, damping);
         lookCurrent.lerp(lookGoal, damping);
-        const yaw = THREE.MathUtils.clamp(
-          lookCurrent.x + pointerCurrent.x * 0.045,
-          -0.55,
-          0.55,
-        );
+        const yawLimit = camera.aspect < 0.9 ? 1.08 : 0.55;
+        const baseYaw =
+          camera.aspect >= 0.9
+            ? Math.atan2(
+                CAMERA_POSES.interior.target[0] - CAMERA_POSES.interior.position[0],
+                CAMERA_POSES.interior.position[2] - CAMERA_POSES.interior.target[2],
+              )
+            : 0;
+        const yaw =
+          baseYaw +
+          THREE.MathUtils.clamp(
+            lookCurrent.x + pointerCurrent.x * 0.045,
+            -yawLimit,
+            yawLimit,
+          );
         const pitch = THREE.MathUtils.clamp(
           lookCurrent.y + pointerCurrent.y * 0.025,
           -0.18,
@@ -778,6 +898,7 @@ export default function GarageCanvas() {
         camera.position.lerp(desiredPosition, damping);
         currentTarget.lerp(desiredTarget, damping);
       }
+      updateActiveViewPreset();
       camera.lookAt(currentTarget);
 
       const blendDamping = 1 - Math.exp(-5.5 * dt);
@@ -801,33 +922,94 @@ export default function GarageCanvas() {
         activeRenderer.render(scene, camera);
       }
 
-      if (hoveredId && stageRef.current === 'interior') {
-        const station = stationConfigs.get(hoveredId);
-        const handle = activeStations.handles.get(hoveredId);
-        if (station && handle) {
-          handle.group.getWorldPosition(projectedAnchor);
-          projectedAnchor.project(camera);
-          const label: ProjectedLabel = {
-            id: station.id,
-            name: station.name,
-            tag: station.tag,
-            x: (projectedAnchor.x * 0.5 + 0.5) * container.clientWidth,
-            y: (-projectedAnchor.y * 0.5 + 0.5) * container.clientHeight,
-            visible:
-              projectedAnchor.z >= -1 &&
-              projectedAnchor.z <= 1 &&
-              Math.abs(projectedAnchor.x) <= 1 &&
-              Math.abs(projectedAnchor.y) <= 1,
-          };
-          if (
-            !lastProjectedLabel ||
-            lastProjectedLabel.id !== label.id ||
-            lastProjectedLabel.visible !== label.visible ||
-            Math.abs(lastProjectedLabel.x - label.x) > 0.25 ||
-            Math.abs(lastProjectedLabel.y - label.y) > 0.25
-          ) {
-            lastProjectedLabel = label;
-            setProjectedLabels([label]);
+      if (isTouchDeviceRef.current && stageRef.current === 'interior') {
+        lastProjectedLabel = null;
+        if (now - lastTouchProjectionAt >= 1000 / 15) {
+          lastTouchProjectionAt = now;
+          const labels: ProjectedLabel[] = [];
+          GARAGE_STATIONS.forEach((station) => {
+            const handle = activeStations.handles.get(station.id);
+            if (!handle) return;
+            handle.group.getWorldPosition(projectedAnchor);
+            projectedAnchor.project(camera);
+            labels.push({
+              id: station.id,
+              name: station.name,
+              tag: station.tag,
+              category: station.category,
+              x: (projectedAnchor.x * 0.5 + 0.5) * container.clientWidth,
+              y: (-projectedAnchor.y * 0.5 + 0.5) * container.clientHeight,
+              visible:
+                projectedAnchor.z >= -1 &&
+                projectedAnchor.z <= 1 &&
+                Math.abs(projectedAnchor.x) <= 1 &&
+                Math.abs(projectedAnchor.y) <= 1,
+            });
+          });
+          const previousLabels = lastTouchProjectedLabels;
+          const visibilityChanged =
+            !previousLabels ||
+            previousLabels.length !== labels.length ||
+            labels.some((label, index) => {
+              const previous = previousLabels[index];
+              return (
+                !previous ||
+                previous.id !== label.id ||
+                previous.visible !== label.visible
+              );
+            });
+          const visibleLabelMoved = labels.some((label) => {
+            if (!label.visible) return false;
+            const previous = previousLabels?.find((item) => item.id === label.id);
+            return (
+              previous?.visible &&
+              (Math.abs(previous.x - label.x) > 2 ||
+                Math.abs(previous.y - label.y) > 2)
+            );
+          });
+          if (visibilityChanged || visibleLabelMoved) {
+            lastTouchProjectedLabels = labels;
+            setProjectedLabels(labels);
+          }
+        }
+      } else {
+        if (lastTouchProjectedLabels) {
+          lastTouchProjectedLabels = null;
+          setProjectedLabels([]);
+        }
+        if (
+          !isTouchDeviceRef.current &&
+          hoveredId &&
+          stageRef.current === 'interior'
+        ) {
+          const station = stationConfigs.get(hoveredId);
+          const handle = activeStations.handles.get(hoveredId);
+          if (station && handle) {
+            handle.group.getWorldPosition(projectedAnchor);
+            projectedAnchor.project(camera);
+            const label: ProjectedLabel = {
+              id: station.id,
+              name: station.name,
+              tag: station.tag,
+              category: station.category,
+              x: (projectedAnchor.x * 0.5 + 0.5) * container.clientWidth,
+              y: (-projectedAnchor.y * 0.5 + 0.5) * container.clientHeight,
+              visible:
+                projectedAnchor.z >= -1 &&
+                projectedAnchor.z <= 1 &&
+                Math.abs(projectedAnchor.x) <= 1 &&
+                Math.abs(projectedAnchor.y) <= 1,
+            };
+            if (
+              !lastProjectedLabel ||
+              lastProjectedLabel.id !== label.id ||
+              lastProjectedLabel.visible !== label.visible ||
+              Math.abs(lastProjectedLabel.x - label.x) > 0.25 ||
+              Math.abs(lastProjectedLabel.y - label.y) > 0.25
+            ) {
+              lastProjectedLabel = label;
+              setProjectedLabels([label]);
+            }
           }
         }
       }
@@ -882,7 +1064,14 @@ export default function GarageCanvas() {
     : null;
 
   if (webglFailed) {
-    return <BenchListView stations={GARAGE_STATIONS} isOpen isWebGLFallback />;
+    return (
+      <BenchListView
+        stations={GARAGE_STATIONS}
+        isOpen
+        isWebGLFallback
+        isTouchDevice={isTouchDevice}
+      />
+    );
   }
 
   return (
@@ -903,12 +1092,20 @@ export default function GarageCanvas() {
         onToggleMute={toggleMute}
         toastMessage={toastMessage}
         hoverHint={hoverHint}
+        isTouchDevice={isTouchDevice}
+        activeViewPreset={activeViewPreset}
+        onPanView={panToView}
       />
-      <ProjectDrawer station={selectedStation} onClose={dismissInspection} />
+      <ProjectDrawer
+        station={selectedStation}
+        onClose={dismissInspection}
+        isTouchDevice={isTouchDevice}
+      />
       <BenchListView
         stations={GARAGE_STATIONS}
         isOpen={isBenchListOpen}
         onClose={closeBenchList}
+        isTouchDevice={isTouchDevice}
       />
     </div>
   );

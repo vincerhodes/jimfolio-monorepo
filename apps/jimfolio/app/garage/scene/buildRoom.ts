@@ -164,7 +164,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   const cream = trackMaterial(new THREE.MeshStandardMaterial({ color: "#ded7c4", roughness: 0.52, metalness: 0.08 }));
 
   box([11, 0.12, 9], [0, -0.06, -0.5], concrete);
-  box([12, 0.14, 6], [0, -0.1, 7], drivewayMaterial);
+  box([22, 0.14, 22], [0, -0.1, 15], drivewayMaterial);
   box([11, 2.9, 0.18], [0, 2.75, -5.09], plaster);
   box([0.18, 2.9, 9], [-5.59, 2.75, -0.5], plaster);
   box([0.18, 2.9, 9], [5.59, 2.75, -0.5], plaster);

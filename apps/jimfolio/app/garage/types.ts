@@ -7,6 +7,7 @@ export type StationId =
 export type StationCategory = "experiment" | "shipped";
 export type GarageStage = "exterior" | "opening" | "interior" | "inspecting";
 export type LightingMode = "night" | "day";
+export type ViewPreset = "left" | "center" | "right";
 export type EasterEggId = "wrench" | "vise" | "clock";
 export type Vec3Tuple = [number, number, number];
 
@@ -39,6 +40,7 @@ export interface ProjectedLabel {
   id: StationId;
   name: string;
   tag: string;
+  category?: StationCategory;
   x: number;
   y: number;
   visible: boolean;
@@ -69,5 +71,5 @@ export interface RoomHandle {
 
 export const CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = {
   exterior: { position: [0, 2.05, 11.4], target: [0, 1.72, 4.0] },
-  interior: { position: [0, 2.38, 3.85], target: [0, 1.28, -2.5] },
+  interior: { position: [-0.25, 2.24, 4.45], target: [0.55, 1.42, -2.5] },
 };

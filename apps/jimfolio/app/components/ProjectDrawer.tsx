@@ -8,9 +8,14 @@ import type { GarageStation } from '../garage/types';
 interface ProjectDrawerProps {
   station: GarageStation | null;
   onClose: () => void;
+  isTouchDevice?: boolean;
 }
 
-export default function ProjectDrawer({ station, onClose }: ProjectDrawerProps) {
+export default function ProjectDrawer({
+  station,
+  onClose,
+  isTouchDevice = false,
+}: ProjectDrawerProps) {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -149,7 +154,7 @@ export default function ProjectDrawer({ station, onClose }: ProjectDrawerProps) 
                 onClick={onClose}
                 className="rounded-full border border-white/15 px-4 py-2.5 text-sm text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
               >
-                Step Back (Esc)
+                {isTouchDevice ? 'Step Back' : 'Step Back (Esc)'}
               </button>
             </div>
           </motion.aside>

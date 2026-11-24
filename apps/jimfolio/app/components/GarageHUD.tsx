@@ -1,21 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   DoorClosed,
   DoorOpen,
   Grid,
+  Info,
   Moon,
   Sun,
   Volume2,
   VolumeX,
+  X,
 } from 'lucide-react';
 import type {
   GarageStage,
   LightingMode,
   ProjectedLabel,
   StationId,
+  ViewPreset,
 } from '../garage/types';
 
 interface GarageHUDProps {
@@ -34,6 +37,9 @@ interface GarageHUDProps {
   onToggleMute?: () => void;
   toastMessage?: string | null;
   hoverHint?: string | null;
+  isTouchDevice?: boolean;
+  activeViewPreset?: ViewPreset;
+  onPanView?: (preset: ViewPreset) => void;
 }
 
 const QUICK_DOCK: {
@@ -58,6 +64,12 @@ const QUICK_DOCK: {
     { id: 'rightcourtsc', name: 'Right Court SC' },
   ],
 };
+
+const VIEW_PRESETS: { preset: ViewPreset; label: string }[] = [
+  { preset: 'left', label: 'Left Bench' },
+  { preset: 'center', label: 'Center' },
+  { preset: 'right', label: 'Shipped Wall' },
+];
 
 const pillBase =
   'pointer-events-auto flex items-center gap-2 rounded-full border border-white/10 bg-zinc-950/70 px-3.5 py-2 text-xs font-medium text-zinc-200 backdrop-blur-md transition-colors hover:bg-zinc-900/90 hover:text-white';
@@ -86,10 +98,36 @@ export default function GarageHUD({
   onToggleMute,
   toastMessage,
   hoverHint,
+  isTouchDevice,
+  activeViewPreset,
+  onPanView,
 }: GarageHUDProps) {
   const [dockCategory, setDockCategory] = useState<'experiment' | 'shipped'>(
     'experiment',
   );
+  const [touchDetected, setTouchDetected] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+
+  useEffect(() => {
+    if (isTouchDevice !== undefined) return;
+    const mq = window.matchMedia('(pointer: coarse)');
+    const update = () => setTouchDetected(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, [isTouchDevice]);
+
+  useEffect(() => {
+    if (!aboutOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setAboutOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [aboutOpen]);
+
+  const isTouch = isTouchDevice ?? touchDetected;
+
   const hoveredLabel =
     stage === 'interior' && hoveredStationId
       ? projectedLabels.find(
@@ -118,6 +156,22 @@ export default function GarageHUD({
         <nav className="pointer-events-auto ml-auto flex items-center gap-2">
           <button
             type="button"
+            onClick={() => setAboutOpen((open) => !open)}
+            aria-pressed={aboutOpen}
+            aria-label="About Jim"
+            className={`${pillBase} ${
+              aboutOpen ? 'border-amber-400/50 text-amber-200' : ''
+            }`}
+          >
+            <Info
+              size={14}
+              className={aboutOpen ? 'text-amber-300' : 'text-zinc-400'}
+            />
+            <span className="hidden sm:inline">About</span>
+          </button>
+
+          <button
+            type="button"
             onClick={onToggleMute}
             className={pillBase}
             aria-label={isMuted ? 'Unmute workshop audio' : 'Mute workshop audio'}
@@ -130,7 +184,7 @@ export default function GarageHUD({
               <Volume2 size={14} className="text-emerald-300" />
             )}
             <span className="hidden sm:inline">{isMuted ? 'Muted' : 'Sound'}</span>
-            <KeyHint>M</KeyHint>
+            {!isTouch && <KeyHint>M</KeyHint>}
           </button>
 
           <button
@@ -145,7 +199,7 @@ export default function GarageHUD({
               <Moon size={14} className="text-sky-300" />
             )}
             <span className="hidden sm:inline">Light Switch</span>
-            <KeyHint>T</KeyHint>
+            {!isTouch && <KeyHint>T</KeyHint>}
           </button>
 
           <button
@@ -175,7 +229,7 @@ export default function GarageHUD({
           >
             <Grid size={14} />
             <span className="hidden sm:inline">Bench List</span>
-            <KeyHint>L</KeyHint>
+            {!isTouch && <KeyHint>L</KeyHint>}
           </button>
         </nav>
       </header>
@@ -198,14 +252,95 @@ export default function GarageHUD({
         )}
       </AnimatePresence>
 
+      {aboutOpen && (
+        <button
+          type="button"
+          aria-label="Dismiss about popover"
+          onClick={() => setAboutOpen(false)}
+          className="pointer-events-auto fixed inset-0 z-30 cursor-default bg-transparent"
+        />
+      )}
+
+      <AnimatePresence>
+        {aboutOpen && (
+          <motion.div
+            key="about-popover"
+            role="dialog"
+            aria-label="About Jimmy Rhodes"
+            className="pointer-events-auto absolute right-4 top-[4.5rem] z-40 w-[calc(100vw-2rem)] max-w-72 rounded-2xl border border-white/10 bg-zinc-950/90 p-4 shadow-xl shadow-black/40 backdrop-blur-xl sm:right-5"
+            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ duration: 0.18 }}
+          >
+            <button
+              type="button"
+              onClick={() => setAboutOpen(false)}
+              aria-label="Close about popover"
+              className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <X size={13} />
+            </button>
+            <h2 className="text-sm font-semibold text-white">Jimmy Rhodes</h2>
+            <p className="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+              Builder &amp; tinkerer · jimsgarage.dev
+            </p>
+            <p className="mt-2.5 text-xs leading-relaxed text-zinc-300">
+              Home to shipped products like Browzr and KickoffHQ alongside live
+              side builds and AI experiments.
+            </p>
+            <ul className="mt-3 space-y-1.5 text-xs">
+              <li>
+                <a
+                  href="mailto:jim@jimsgarage.dev"
+                  className="text-zinc-300 underline-offset-4 transition-colors hover:text-amber-200 hover:underline"
+                >
+                  jim@jimsgarage.dev
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/vincerhodes"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-zinc-300 underline-offset-4 transition-colors hover:text-amber-200 hover:underline"
+                >
+                  github.com/vincerhodes
+                </a>
+              </li>
+            </ul>
+            <button
+              type="button"
+              onClick={() => {
+                onToggleBenchList();
+                setAboutOpen(false);
+              }}
+              className="mt-4 flex w-full items-center justify-center rounded-full bg-amber-400 px-4 py-2 text-xs font-semibold text-zinc-950 transition-colors hover:bg-amber-300"
+            >
+              Open Bench List
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {stage === 'exterior' && (
         <div className="absolute bottom-8 left-1/2 flex w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-col items-center gap-2.5">
-          <p className="text-xs tracking-wide text-zinc-400">
-            Click garage door or press{' '}
-            <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
-              Enter
-            </kbd>{' '}
-            to roll open
+          <p className="max-w-[calc(100vw-2rem)] rounded-full border border-white/10 bg-zinc-950/75 px-4 py-1.5 text-center text-[11px] font-medium text-zinc-200 backdrop-blur-md">
+            Jimmy Rhodes — builder of Browzr, KickoffHQ &amp; 11 live
+            experiments. Step inside.
+          </p>
+          <p className="rounded-full bg-zinc-950/75 px-3 py-1 text-center text-xs tracking-wide text-zinc-200 backdrop-blur-md">
+            {isTouch ? (
+              'Tap the garage door to roll open'
+            ) : (
+              <>
+                Click garage door or press{' '}
+                <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
+                  Enter
+                </kbd>{' '}
+                to roll open
+              </>
+            )}
           </p>
           <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-white/10 bg-zinc-950/75 p-1.5 pl-4 backdrop-blur-md">
             <button
@@ -243,6 +378,34 @@ export default function GarageHUD({
               </motion.div>
             )}
           </AnimatePresence>
+
+          {onPanView && (
+            <div
+              role="tablist"
+              aria-label="Quick pan views"
+              className="pointer-events-auto flex rounded-full border border-white/10 bg-zinc-950/75 p-1 shadow-lg shadow-black/20 backdrop-blur-md md:hidden"
+            >
+              {VIEW_PRESETS.map(({ preset, label }) => {
+                const active = (activeViewPreset ?? 'center') === preset;
+                return (
+                  <button
+                    key={preset}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => onPanView(preset)}
+                    className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${
+                      active
+                        ? 'bg-amber-400/90 text-zinc-950'
+                        : 'text-zinc-400 hover:text-zinc-100'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           <div className="pointer-events-auto flex max-w-full flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-zinc-950/75 p-1.5 shadow-xl shadow-black/20 backdrop-blur-md">
             <div
@@ -304,12 +467,47 @@ export default function GarageHUD({
             </div>
           </div>
           <p className="rounded-full border border-white/10 bg-zinc-950/75 px-3.5 py-1 text-center text-[10px] tracking-wide text-zinc-200 backdrop-blur-md">
-            Click any prop, plaque, or wall switch · Drag to look around
+            {isTouch
+              ? 'Tap any prop or plaque · Swipe to look around'
+              : 'Click any prop, plaque, or wall switch · Drag to look around'}
           </p>
         </div>
       )}
 
-      {hoveredLabel && (
+      {isTouch && stage === 'interior' && typeof window !== 'undefined' &&
+        projectedLabels
+          .filter(
+            (label) =>
+              label.visible &&
+              label.y > 90 &&
+              label.y < window.innerHeight - 175 &&
+              label.x > 44 &&
+              label.x < window.innerWidth - 44,
+          )
+          .map((label) => (
+            <button
+              key={label.id}
+              type="button"
+              onClick={() => onSelectStation(label.id)}
+              className="pointer-events-auto absolute flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-zinc-950/80 px-2.5 py-1 text-[10px] font-medium text-white shadow-md backdrop-blur-md"
+              style={{
+                left: label.x,
+                top: label.y,
+                transform: 'translate(-50%, -130%)',
+              }}
+            >
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${
+                  label.category === 'shipped'
+                    ? 'bg-emerald-400'
+                    : 'bg-amber-400'
+                }`}
+              />
+              {label.name}
+            </button>
+          ))}
+
+      {!isTouch && hoveredLabel && (
         <div
           className="absolute"
           style={{
