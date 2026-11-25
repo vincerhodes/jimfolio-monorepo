@@ -992,7 +992,7 @@ export function buildMattsFarm(
 
   const headlightMaterial = standard("#ffe2a0", {
     emissive: "#ffb64c",
-    emissiveIntensity: 1.8,
+    emissiveIntensity: 0.9,
     metalness: 0.08,
     roughness: 0.2,
   });
@@ -1116,7 +1116,7 @@ export function buildMattsFarm(
     shape.closePath();
     return shape;
   };
-  const windowGlow = standard("#ffc66d", { emissive: "#ff9d35", emissiveIntensity: 2.2, roughness: 0.25 });
+  const windowGlow = standard("#ffc66d", { emissive: "#ff9d35", emissiveIntensity: 0.95, roughness: 0.25 });
   addMesh(barn, new THREE.ShapeGeometry(archShape(1.08, 1.04)), darkOak, [12.8, 3.78, 3.705]);
   addMesh(barn, new THREE.ShapeGeometry(archShape(0.82, 0.82)), windowGlow, [12.8, 3.77, 3.718]);
   box(barn, [0.045, 0.76, 0.035], [12.8, 3.73, 3.742], darkOak);
@@ -1153,10 +1153,10 @@ export function buildMattsFarm(
       const angle = bar / 4 * TAU;
       rodBetween(lantern, [Math.sin(angle) * 0.1, -0.18, 0.27 + Math.cos(angle) * 0.1], [Math.sin(angle) * 0.08, 0.11, 0.27 + Math.cos(angle) * 0.08], 0.009, brass, 6);
     }
-    const light = new THREE.PointLight("#ffb65d", exterior ? 2.4 : 2.0, exterior ? 4.5 : 5.5, 2);
+    const light = new THREE.PointLight("#ffb65d", exterior ? 1.3 : 1.15, exterior ? 4.5 : 5.5, 2);
     light.position.set(0, -0.03, 0.38);
     lantern.add(light);
-    warmLights.push({ light, night: exterior ? 2.4 : 2.0, day: exterior ? 0.45 : 0.65 });
+    warmLights.push({ light, night: exterior ? 1.3 : 1.15, day: exterior ? 0.45 : 0.65 });
     if (!exterior) interiorLights.push(light);
     return lantern;
   };
@@ -1242,7 +1242,7 @@ export function buildMattsFarm(
   addLantern(barn, [16.15, 2.62, -1.15], false);
   const bulbMaterial = standard("#ffd28a", {
     emissive: "#ffae42",
-    emissiveIntensity: 2.5,
+    emissiveIntensity: 0.92,
     roughness: 0.18,
   });
   const festoonLights: THREE.PointLight[] = [];
@@ -1261,10 +1261,10 @@ export function buildMattsFarm(
       const glass = sphere(barn, 0.055, [x, y - 0.14, z], bulbMaterial, [0.82, 1.25, 0.82]);
       glass.castShadow = false;
     }
-    const light = new THREE.PointLight("#ffbd68", 0.75, 5.2, 2);
+    const light = new THREE.PointLight("#ffbd68", 0.4, 5.2, 2);
     light.position.set(12.8, 2.65, z);
     barn.add(light);
-    warmLights.push({ light, night: 0.75, day: 0.2 });
+    warmLights.push({ light, night: 0.4, day: 0.2 });
     festoonLights.push(light);
     interiorLights.push(light);
   }
@@ -1429,11 +1429,11 @@ export function buildMattsFarm(
     if (station.id === "matt-preparingforai") {
       registerStation(station, [2.75, 1.65, 1.45], [0, 0.64, 0], 1.12, (root) => {
         buildStudioBench(root, 2.65, 1.18);
-        const onAirMaterial = standard("#b81419", { emissive: "#ff241c", emissiveIntensity: 1.8, roughness: 0.3 });
+        const onAirMaterial = standard("#b81419", { emissive: "#ff241c", emissiveIntensity: 0.95, roughness: 0.3 });
         const vuMaterials = [
-          standard("#52d273", { emissive: "#32d667", emissiveIntensity: 1.2 }),
-          standard("#e4bb3f", { emissive: "#f2ae2e", emissiveIntensity: 1.1 }),
-          standard("#e3583e", { emissive: "#ff392b", emissiveIntensity: 1.1 }),
+          standard("#52d273", { emissive: "#32d667", emissiveIntensity: 0.62 }),
+          standard("#e4bb3f", { emissive: "#f2ae2e", emissiveIntensity: 0.62 }),
+          standard("#e3583e", { emissive: "#ff392b", emissiveIntensity: 0.62 }),
         ];
         box(root, [0.94, 0.26, 0.13], [0, 0.76, -0.4], black);
         box(root, [0.85, 0.18, 0.025], [0, 0.76, -0.324], onAirMaterial);
@@ -1506,7 +1506,7 @@ export function buildMattsFarm(
         return {
           accentMaterials: [oak, darkOak],
           update: (elapsed) => {
-            onAirMaterial.emissiveIntensity = 1.55 + Math.sin(elapsed * 2.4) * 0.25;
+            onAirMaterial.emissiveIntensity = 0.85 + Math.sin(elapsed * 2.4) * 0.15;
             vuBars.forEach((bar, index) => {
               const channel = Math.floor(index / 6);
               const segment = index % 6;
@@ -1826,9 +1826,9 @@ export function buildMattsFarm(
       light.intensity = THREE.MathUtils.lerp(night, dayIntensity, day);
     });
     daylight.intensity = THREE.MathUtils.lerp(0.3, 2.1, day);
-    windowGlow.emissiveIntensity = THREE.MathUtils.lerp(2.2, 0.75, day);
-    bulbMaterial.emissiveIntensity = THREE.MathUtils.lerp(2.5, 0.85, day);
-    headlightMaterial.emissiveIntensity = Math.max(headlightMaterial.emissiveIntensity, THREE.MathUtils.lerp(1.8, 0.7, day));
+    windowGlow.emissiveIntensity = THREE.MathUtils.lerp(0.95, 0.3, day);
+    bulbMaterial.emissiveIntensity = THREE.MathUtils.lerp(0.92, 0.3, day);
+    headlightMaterial.emissiveIntensity = Math.max(headlightMaterial.emissiveIntensity, THREE.MathUtils.lerp(0.9, 0.7, day));
   };
 
   setLightingMode("night", 1);
@@ -1909,7 +1909,7 @@ export function buildMattsFarm(
         tractorBody.position.y = (Math.sin(age * 45) * 0.018 + Math.abs(Math.sin(age * 13)) * 0.022) * envelope;
         tractorBody.rotation.z = Math.sin(age * 38) * 0.008 * envelope;
         const flash = smoothPulse(age, 0.18, 0.13) + smoothPulse(age, 0.58, 0.13);
-        headlightMaterial.emissiveIntensity = 1.8 + flash * 6;
+        headlightMaterial.emissiveIntensity = 0.9 + flash * 2.0;
         exhaustPuffs.forEach(({ mesh, phase }) => {
           const life = (age * 0.72 + phase) % 1;
           const puffMaterial = mesh.material;
@@ -1920,7 +1920,7 @@ export function buildMattsFarm(
       } else {
         tractorBody.position.y = 0;
         tractorBody.rotation.z = 0;
-        headlightMaterial.emissiveIntensity = 1.8;
+        headlightMaterial.emissiveIntensity = 0.9;
         exhaustPuffs.forEach(({ mesh }) => { mesh.material.opacity = 0; });
       }
       if (bellAnimation > 0) {

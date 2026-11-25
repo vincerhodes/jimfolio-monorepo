@@ -199,7 +199,7 @@ export function buildSamsBeach(
     });
   }
 
-  function glowingMaterial(color: THREE.ColorRepresentation, day = 0.22, night = 1.6) {
+  function glowingMaterial(color: THREE.ColorRepresentation, day = 0.15, night = 0.82) {
     const material = new THREE.MeshStandardMaterial({
       color,
       roughness: 0.5,
@@ -566,9 +566,9 @@ export function buildSamsBeach(
     if (object instanceof THREE.Mesh) interiorEasterEggHitMeshes.push(object);
   });
 
-  addPointLight("#ffb454", 2.2, 7, [-15.1, 2.1, -0.8]);
-  addPointLight("#ff9a54", 2.0, 7, [-12.4, 1.95, -0.4]);
-  addPointLight("#ffc76a", 1.4, 4.5, [CENTER_X, 2.0, 3.0]);
+  addPointLight("#ffb454", 1.2, 7, [-15.1, 2.1, -0.8]);
+  addPointLight("#ff9a54", 1.1, 7, [-12.4, 1.95, -0.4]);
+  addPointLight("#ffc76a", 0.78, 4.5, [CENTER_X, 2.0, 3.0]);
 
   function createPalm(
     x: number,
@@ -942,7 +942,7 @@ export function buildSamsBeach(
       map: screenTexture,
       emissiveMap: screenTexture,
       emissive: new THREE.Color("#ffffff"),
-      emissiveIntensity: 0.75,
+      emissiveIntensity: 0.48,
       roughness: 0.35,
     });
     const display = addMesh(screen, new THREE.PlaneGeometry(1.055, 0.615), screenMaterial, [0, 0.39, 0.051]);
@@ -955,7 +955,13 @@ export function buildSamsBeach(
     phone.rotation.z = -0.06;
     stationGroup.add(phone);
     box(phone, [0.29, 0.53, 0.035], [0, 0.27, 0], blackMaterial);
-    const phoneScreen = addMesh(phone, new THREE.PlaneGeometry(0.25, 0.45), accentMaterial, [0, 0.28, 0.02]);
+    const phoneScreenMaterial = new THREE.MeshStandardMaterial({
+      color: "#1e4b4f",
+      emissive: "#2dd4bf",
+      emissiveIntensity: 0.28,
+      roughness: 0.45,
+    });
+    const phoneScreen = addMesh(phone, new THREE.PlaneGeometry(0.25, 0.45), phoneScreenMaterial, [0, 0.28, 0.02]);
     phoneScreen.castShadow = false;
     box(phone, [0.38, 0.035, 0.3], [0, 0.015, -0.03], silverMaterial);
 
@@ -1211,6 +1217,11 @@ export function buildSamsBeach(
     piping.rotation.x = Math.PI / 2;
   });
 
+  const mattePaperMaterial = new THREE.MeshStandardMaterial({
+    color: "#d6cebe",
+    roughness: 0.85,
+    metalness: 0,
+  });
   const farkleTray = new THREE.Group();
   farkleTray.position.set(-0.36, tableSurfaceY, -0.1);
   gamesTable.add(farkleTray);
@@ -1233,7 +1244,7 @@ export function buildSamsBeach(
   };
   const diceMaterials = [3, 4, 5, 2, 1, 6].map((pipCount) => {
     const texture = makeCanvasTexture(128, 128, (context, canvas) => {
-      context.fillStyle = "#fff7df";
+      context.fillStyle = "#dcd5c5";
       context.fillRect(0, 0, canvas.width, canvas.height);
       context.strokeStyle = "#d8c9aa";
       context.lineWidth = 5;
@@ -1245,7 +1256,7 @@ export function buildSamsBeach(
         context.fill();
       });
     });
-    return new THREE.MeshStandardMaterial({ map: texture, roughness: 0.42 });
+    return new THREE.MeshStandardMaterial({ map: texture, roughness: 0.85, metalness: 0 });
   });
   const dicePlacements: Array<[number, number, number, number, number, number]> = [
     [-0.49, 0.608, -0.15, 0.05, 0.35, -0.06],
@@ -1264,9 +1275,9 @@ export function buildSamsBeach(
   scorePad.position.set(-0.43, tableSurfaceY + 0.012, 0.27);
   scorePad.rotation.y = -0.13;
   gamesTable.add(scorePad);
-  box(scorePad, [0.25, 0.012, 0.16], [0, 0, 0], creamMaterial);
+  box(scorePad, [0.25, 0.012, 0.16], [0, 0, 0], mattePaperMaterial);
   const scoreTexture = makeCanvasTexture(400, 256, (context, canvas) => {
-    context.fillStyle = "#fff8df";
+    context.fillStyle = "#dcd5c5";
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.fillStyle = "#174d46";
     context.font = "700 39px sans-serif";
@@ -1300,7 +1311,7 @@ export function buildSamsBeach(
   const scoreFace = addMesh(
     scorePad,
     new THREE.PlaneGeometry(0.238, 0.148),
-    new THREE.MeshStandardMaterial({ map: scoreTexture, roughness: 0.88 }),
+    new THREE.MeshStandardMaterial({ map: scoreTexture, roughness: 0.85, metalness: 0 }),
     [0, 0.007, 0],
   );
   scoreFace.rotation.x = -Math.PI / 2;
@@ -1317,7 +1328,7 @@ export function buildSamsBeach(
   function playingCardMaterial(rank: string, suit: string): THREE.MeshStandardMaterial {
     const texture = makeCanvasTexture(256, 368, (context, canvas) => {
       const suitColor = suit === "♥" || suit === "♦" ? "#c73c42" : "#172b34";
-      context.fillStyle = "#fffdf3";
+      context.fillStyle = "#dcd5c5";
       context.fillRect(0, 0, canvas.width, canvas.height);
       context.strokeStyle = "#d8cfba";
       context.lineWidth = 5;
@@ -1339,12 +1350,12 @@ export function buildSamsBeach(
       context.font = "142px serif";
       context.fillText(suit, canvas.width / 2, canvas.height * 0.64);
     });
-    return new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7 });
+    return new THREE.MeshStandardMaterial({ map: texture, roughness: 0.85, metalness: 0 });
   }
 
   function playingCard(rank: string, suit: string): THREE.Group {
     const card = new THREE.Group();
-    box(card, [0.11, 0.006, 0.16], [0, 0, 0], creamMaterial);
+    box(card, [0.11, 0.006, 0.16], [0, 0, 0], mattePaperMaterial);
     const face = addMesh(card, new THREE.PlaneGeometry(0.104, 0.152), playingCardMaterial(rank, suit), [0, 0.0035, 0]);
     face.rotation.x = -Math.PI / 2;
     face.castShadow = false;
@@ -1352,7 +1363,7 @@ export function buildSamsBeach(
   }
 
   const cardBackTexture = makeCanvasTexture(256, 368, (context, canvas) => {
-    context.fillStyle = "#fff5dc";
+    context.fillStyle = "#d6cebe";
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.fillStyle = "#b83342";
     context.fillRect(15, 15, canvas.width - 30, canvas.height - 30);
@@ -1376,11 +1387,11 @@ export function buildSamsBeach(
   drawDeck.position.set(0.49, tableSurfaceY + 0.023, -0.21);
   drawDeck.rotation.y = 0.08;
   gamesTable.add(drawDeck);
-  box(drawDeck, [0.11, 0.045, 0.16], [0, 0, 0], creamMaterial);
+  box(drawDeck, [0.11, 0.045, 0.16], [0, 0, 0], mattePaperMaterial);
   const deckBack = addMesh(
     drawDeck,
     new THREE.PlaneGeometry(0.104, 0.152),
-    new THREE.MeshStandardMaterial({ map: cardBackTexture, roughness: 0.72 }),
+    new THREE.MeshStandardMaterial({ map: cardBackTexture, roughness: 0.85, metalness: 0 }),
     [0, 0.023, 0],
   );
   deckBack.rotation.x = -Math.PI / 2;
@@ -1404,7 +1415,7 @@ export function buildSamsBeach(
   gamesTable.add(ginSlip);
   box(ginSlip, [0.24, 0.009, 0.11], [0, 0, 0], tealMaterial);
   const ginSlipTexture = makeCanvasTexture(420, 190, (context, canvas) => {
-    context.fillStyle = "#f8e9c8";
+    context.fillStyle = "#d6cebe";
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.strokeStyle = "#c8554f";
     context.lineWidth = 8;
@@ -1417,7 +1428,7 @@ export function buildSamsBeach(
   const ginSlipFace = addMesh(
     ginSlip,
     new THREE.PlaneGeometry(0.226, 0.096),
-    new THREE.MeshStandardMaterial({ map: ginSlipTexture, roughness: 0.85 }),
+    new THREE.MeshStandardMaterial({ map: ginSlipTexture, roughness: 0.85, metalness: 0 }),
     [0, 0.005, 0],
   );
   ginSlipFace.rotation.x = -Math.PI / 2;
@@ -1522,10 +1533,10 @@ export function buildSamsBeach(
   box(tackleBox, [0.42, 0.015, 0.24], [0, 0.185, 0], blackMaterial);
   box(tackleBox, [0.44, 0.025, 0.26], [0, 0.205, 0], bambooLightMaterial);
   for (const x of [-0.215, 0.215]) {
-    box(tackleBox, [0.018, 0.055, 0.26], [x, 0.225, 0], creamMaterial);
+    box(tackleBox, [0.018, 0.055, 0.26], [x, 0.225, 0], mattePaperMaterial);
   }
   for (const z of [-0.125, 0.125]) {
-    box(tackleBox, [0.44, 0.055, 0.018], [0, 0.225, z], creamMaterial);
+    box(tackleBox, [0.44, 0.055, 0.018], [0, 0.225, z], mattePaperMaterial);
   }
   const tackleLid = new THREE.Group();
   tackleLid.position.set(0, 0.245, -0.15);
@@ -1660,7 +1671,7 @@ export function buildSamsBeach(
       lanternPulse = Math.max(0, lanternPulse - dt * 0.32);
       entranceLantern.group.rotation.z = Math.sin(elapsed * 1.05) * 0.055
         + Math.sin(elapsed * 7.5) * lanternPulse * 0.14;
-      entranceLantern.body.material.emissiveIntensity = 1.25 + nightAmount * 0.55
+      entranceLantern.body.material.emissiveIntensity = 0.58 + nightAmount * 0.38
         + (Math.sin(elapsed * 2.2) * 0.5 + 0.5) * 0.25 + lanternPulse * 1.5;
       surfboardPulse = Math.max(0, surfboardPulse - dt * 0.5);
       surfboard.rotation.z = -0.1 + Math.sin(elapsed * 8.2) * surfboardPulse * 0.19;

@@ -512,7 +512,7 @@ function createFestoon(
     const bulb = sphere(parent, 0.092, [point.x, point.y - 0.13, point.z], bulbMaterial, "Large warm glowing festoon bulb", 16);
     bulb.scale.y = 1.08;
     if (index % 4 === 1) {
-      const light = new THREE.PointLight("#ffd39a", 7.5, 4.6, 2);
+      const light = new THREE.PointLight("#ffd39a", 2.0, 4.6, 2);
       light.position.set(point.x, point.y - 0.2, point.z);
       light.name = "Festoon pool of warm light";
       parent.add(light);
@@ -533,9 +533,9 @@ export function buildNordysBar(
   const ownedTextures = new Set<THREE.Texture>();
   const activeLights: THREE.PointLight[] = [];
   const whiteSteel = new THREE.MeshStandardMaterial({
-    color: "#f1f5f9",
-    metalness: 0.55,
-    roughness: 0.32,
+    color: "#d8dfe5",
+    metalness: 0.15,
+    roughness: 0.58,
   });
   const charcoal = new THREE.MeshStandardMaterial({
     color: "#24292c",
@@ -572,7 +572,7 @@ export function buildNordysBar(
   const kitchenGlow = new THREE.MeshStandardMaterial({
     color: "#e6f6f9",
     emissive: "#c8eef7",
-    emissiveIntensity: 0.9,
+    emissiveIntensity: 0.48,
     roughness: 0.35,
   });
   const darkWood = new THREE.MeshStandardMaterial({ color: "#211b18", roughness: 0.84 });
@@ -649,7 +649,7 @@ export function buildNordysBar(
   }
   for (const x of [-29.65, -26.35]) {
     box(group, [1.75, 0.055, 0.48], [x, 2.77, -0.45], kitchenGlow, "Cool-white kitchen light panel");
-    const light = new THREE.PointLight("#e4f8ff", 4.2, 5.5, 2);
+    const light = new THREE.PointLight("#e4f8ff", 2.2, 5.5, 2);
     light.position.set(x, 2.5, -0.2);
     light.name = "Bright interior kitchen light";
     group.add(light);
@@ -674,8 +674,7 @@ export function buildNordysBar(
   const roofSign = addTextPlane(group, brand, [3.65, 0.72], [CENTER_X, 3.49, 0.725], {
     emissive: new THREE.Color("#effaff"),
     emissiveMap: brand,
-    emissiveIntensity: 1.9,
-    toneMapped: false,
+    emissiveIntensity: 0.9,
   });
   roofSign.name = "Glowing white kiwi and lowercase nordys rooftop sign";
 
@@ -747,7 +746,7 @@ export function buildNordysBar(
     transmission: 0.16,
     roughness: 0.18,
   });
-  const beerFoamMaterial = new THREE.MeshStandardMaterial({ color: "#fff9e9", roughness: 0.88 });
+  const beerFoamMaterial = new THREE.MeshStandardMaterial({ color: "#eae0cc", roughness: 0.95 });
   const greenBottleMaterial = new THREE.MeshPhysicalMaterial({
     color: "#315c36",
     transparent: true,
@@ -945,7 +944,7 @@ export function buildNordysBar(
   const lanternMaterial = new THREE.MeshStandardMaterial({
     color: "#dc2626",
     emissive: "#ef4444",
-    emissiveIntensity: 1.25,
+    emissiveIntensity: 0.65,
     roughness: 0.5,
   });
   const lanternPositions: Point[] = [[-0.7, 2.15, 0.25], [0.65, 2.25, 0.15], [0.2, 2.45, -0.7]];
@@ -955,7 +954,7 @@ export function buildNordysBar(
     lantern.scale.y = 1.25;
     cylinder(tree, 0.075, 0.035, [position[0], position[1] + 0.15, position[2]], blackMetal, "Lantern cap", 0.075, 10);
   });
-  const treeLight = new THREE.PointLight("#ffb46b", 10, 5.5, 2);
+  const treeLight = new THREE.PointLight("#ffb46b", 3.0, 5.5, 2);
   treeLight.position.set(0, 2.35, 0.2);
   treeLight.name = "Warm tree and lantern light";
   tree.add(treeLight);
@@ -964,9 +963,8 @@ export function buildNordysBar(
   const bulbMaterial = new THREE.MeshStandardMaterial({
     color: "#fff1c7",
     emissive: "#ffca78",
-    emissiveIntensity: 2.0,
+    emissiveIntensity: 0.9,
     roughness: 0.25,
-    toneMapped: false,
   });
   const polePositions: Array<[number, number]> = [[-33.0, 0.5], [-22.5, 6.9], [-33.0, 6.9], [-22.5, 0.5]];
   for (const [x, z] of polePositions) {
@@ -975,7 +973,7 @@ export function buildNordysBar(
   }
   createFestoon(group, [-33.0, 4.2, 0.5], [-22.5, 4.15, 6.9], 0.48, 18, blackMetal, bulbMaterial, blackMetal, activeLights);
   createFestoon(group, [-33.0, 4.05, 6.9], [-22.5, 4.3, 0.5], 0.43, 18, blackMetal, bulbMaterial, blackMetal, activeLights);
-  const patioLight = new THREE.PointLight("#ffd2a1", 14, 8.5, 2);
+  const patioLight = new THREE.PointLight("#ffd2a1", 4.2, 8.5, 2);
   patioLight.position.set(-27.7, 3.25, 4.2);
   patioLight.name = "Warm courtyard ambient light";
   group.add(patioLight);
@@ -1030,8 +1028,7 @@ export function buildNordysBar(
     box(menu, [0.46, 0.64, 0.055], [0, 0.32, 0], blackMetal, "Tabletop menu frame");
     addTextPlane(menu, menuTexture(ownedTextures), [0.41, 0.57], [0, 0.33, 0.032], {
       emissive: "#a855f7",
-      emissiveIntensity: 1.25,
-      toneMapped: false,
+      emissiveIntensity: 0.55,
     });
     const hit = makeHitBox(stationGroup, [3.35, 0.85, 1.0], [0.15, 0.35, 0], "Nordy burgers station hit area");
     const ring = stationRing(stationGroup, burgerStation.accentHex, 1.38);
@@ -1084,7 +1081,7 @@ export function buildNordysBar(
       roughness: 0.18,
       transmission: 0.12,
     });
-    const foamMaterial = new THREE.MeshStandardMaterial({ color: "#fff8e8", roughness: 0.9 });
+    const foamMaterial = new THREE.MeshStandardMaterial({ color: "#eae0cc", roughness: 0.95 });
     cylinder(stationGroup, 0.105, 0.43, [0.31, 0.245, -0.12], glassMaterial, "Tall frosty pint glass", 0.13, 24);
     cylinder(stationGroup, 0.092, 0.34, [0.31, 0.205, -0.12], beerMaterial, "Cold amber beer", 0.112, 24);
     cylinder(stationGroup, 0.114, 0.075, [0.31, 0.435, -0.12], foamMaterial, "White pint foam", 0.118, 24);
@@ -1107,12 +1104,11 @@ export function buildNordysBar(
     const flameMaterial = new THREE.MeshStandardMaterial({
       color: "#fff7c2",
       emissive: "#ff9f43",
-      emissiveIntensity: 2.4,
-      toneMapped: false,
+      emissiveIntensity: 1.05,
     });
     candleFlame = sphere(stationGroup, 0.035, [0.28, 0.205, 0.27], flameMaterial, "Glowing candle flame", 12);
     candleFlame.scale.set(0.7, 1.45, 0.7);
-    candleLight = new THREE.PointLight("#ffb45e", 2.5, 2.2, 2);
+    candleLight = new THREE.PointLight("#ffb45e", 0.95, 2.2, 2);
     candleLight.position.set(0.28, 0.27, 0.27);
     stationGroup.add(candleLight);
     activeLights.push(candleLight);
@@ -1153,7 +1149,7 @@ export function buildNordysBar(
     const powerLedMaterial = new THREE.MeshStandardMaterial({
       color: "#86efac",
       emissive: "#22c55e",
-      emissiveIntensity: 1.4,
+      emissiveIntensity: 0.8,
       roughness: 0.35,
     });
     sphere(stationGroup, 0.011, [0.61, -0.357, 0.044], powerLedMaterial, "Tiny green TV power LED", 8);
@@ -1273,7 +1269,7 @@ export function buildNordysBar(
       color: "#000000",
       emissiveMap: tvTexture,
       emissive: "#ffffff",
-      emissiveIntensity: 0.72,
+      emissiveIntensity: 0.58,
       roughness: 0.3,
       metalness: 0.05,
     });
@@ -1289,7 +1285,7 @@ export function buildNordysBar(
       tvTexture.needsUpdate = true;
     };
 
-    const bounceLight = new THREE.PointLight("#fbbf24", 2.2, 3.2, 2);
+    const bounceLight = new THREE.PointLight("#fbbf24", 0.9, 3.2, 2);
     bounceLight.position.set(0, -0.34, 0.38);
     stationGroup.add(bounceLight);
     activeLights.push(bounceLight);
@@ -1346,8 +1342,8 @@ export function buildNordysBar(
     setLightingMode: (mode: LightingMode, blend: number) => {
       const amount = THREE.MathUtils.clamp(blend, 0, 1);
       nightAmount = mode === "night" ? amount : 1 - amount;
-      roofSign.material.emissiveIntensity = 0.45 + nightAmount * 1.45;
-      bulbMaterial.emissiveIntensity = 0.3 + nightAmount * 1.7;
+      roofSign.material.emissiveIntensity = 0.25 + nightAmount * 0.72;
+      bulbMaterial.emissiveIntensity = 0.2 + nightAmount * 0.72;
       activeLights.forEach((light) => {
         light.visible = lightsActive;
       });
@@ -1379,7 +1375,7 @@ export function buildNordysBar(
       if (candleFlame && candleLight) {
         const flicker = 1 + Math.sin(elapsed * 13.7) * 0.09 + Math.sin(elapsed * 21.3) * 0.05;
         candleFlame.scale.set(0.7 / flicker, 1.45 * flicker, 0.7 / flicker);
-        candleLight.intensity = (0.35 + nightAmount * 2.15) * flicker;
+        candleLight.intensity = (0.2 + nightAmount * 0.75) * flicker;
       }
       activeLights.forEach((light) => {
         if (light === candleLight) return;

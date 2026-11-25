@@ -301,7 +301,7 @@ export default function GarageCanvas() {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.08;
+      renderer.toneMappingExposure = 0.88;
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.domElement.style.position = 'absolute';
@@ -321,7 +321,7 @@ export default function GarageCanvas() {
       envRT = pmremGenerator.fromScene(environmentScene, 0.04);
       environmentScene.dispose();
       scene.environment = envRT.texture;
-      scene.environmentIntensity = 0.38;
+      scene.environmentIntensity = 0.18;
 
       textures = createWorkshopTextures();
       world = buildVillageWorld(scene, textures);
@@ -411,9 +411,9 @@ export default function GarageCanvas() {
           Math.max(container.clientWidth, 1),
           Math.max(container.clientHeight, 1),
         ),
-        0.36,
-        0.45,
-        0.84,
+        0.14,
+        0.24,
+        1.25,
       );
       outputPass = new OutputPass();
       composer.addPass(renderPass);
@@ -1458,14 +1458,14 @@ export default function GarageCanvas() {
       activeSamBeach.setLightingMode(lightingModeRef.current, dayBlend);
       activeNordyBar.setLightingMode(lightingModeRef.current, dayBlend);
       stationLifecycle.setLightingMode?.(lightingModeRef.current, dayBlend);
-      scene.environmentIntensity = THREE.MathUtils.lerp(0.38, 0.95, dayBlend);
+      scene.environmentIntensity = THREE.MathUtils.lerp(0.18, 0.46, dayBlend);
       if (bloomPass) {
-        bloomPass.strength = THREE.MathUtils.lerp(0.36, 0.18, dayBlend);
+        bloomPass.strength = THREE.MathUtils.lerp(0.14, 0.05, dayBlend);
       }
-      ambient.intensity = THREE.MathUtils.lerp(0.12, 0.45, dayBlend);
-      hemisphere.intensity = THREE.MathUtils.lerp(0.2, 0.75, dayBlend);
-      sunlight.intensity = THREE.MathUtils.lerp(0.15, 1.4, dayBlend);
-      workLight.intensity = THREE.MathUtils.lerp(18, 6, dayBlend);
+      ambient.intensity = THREE.MathUtils.lerp(0.10, 0.36, dayBlend);
+      hemisphere.intensity = THREE.MathUtils.lerp(0.18, 0.58, dayBlend);
+      sunlight.intensity = THREE.MathUtils.lerp(0.10, 0.98, dayBlend);
+      workLight.intensity = THREE.MathUtils.lerp(9.5, 3.2, dayBlend);
 
       activeWorld.update(elapsed, dt);
       activeRoom.update(elapsed, dt);

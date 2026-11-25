@@ -292,7 +292,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   const rockerGlow = trackMaterial(new THREE.MeshStandardMaterial({
     color: "#ff6952",
     emissive: "#ff2818",
-    emissiveIntensity: 2.8,
+    emissiveIntensity: 1.0,
     roughness: 0.35,
   }));
   box([0.075, 0.065, 0.025], [0.28, 0, 0.09], rockerGlow, powerStrip);
@@ -330,7 +330,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   const galleryLampGlow = trackMaterial(new THREE.MeshStandardMaterial({
     color: "#ffe0a3",
     emissive: "#ffc46b",
-    emissiveIntensity: 1.8,
+    emissiveIntensity: 0.85,
     roughness: 0.25,
   }));
   const galleryLightBar = cylinder(0.035, 0.035, 3.5, [5.16, 3.38, -1.8], brass);
@@ -367,7 +367,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
     emissiveMap: signTexture,
     color: "#ffd39a",
     emissive: "#ff9b45",
-    emissiveIntensity: 2.4,
+    emissiveIntensity: 1.1,
     transparent: true,
     depthWrite: false,
     roughness: 0.2,
@@ -377,7 +377,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   const neonDiffuserMaterial = trackMaterial(new THREE.MeshStandardMaterial({
     color: "#ffd18c",
     emissive: "#ff9b45",
-    emissiveIntensity: 2.4,
+    emissiveIntensity: 1.1,
     roughness: 0.24,
   }));
   const diffuser = cylinder(0.018, 0.018, 3.45, [0, 3.055, -4.81], neonDiffuserMaterial);
@@ -501,11 +501,11 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   const pendantGlow = trackMaterial(new THREE.MeshStandardMaterial({
     color: "#ffe0ae",
     emissive: "#ff9d45",
-    emissiveIntensity: 4.5,
+    emissiveIntensity: 1.25,
     roughness: 0.2,
   }));
   addMesh(new THREE.SphereGeometry(0.09, 18, 12), pendantGlow, [0, 3.43, -0.8]);
-  const pendantBulbLight = new THREE.PointLight("#ffad57", 2.8, 2.6, 2);
+  const pendantBulbLight = new THREE.PointLight("#ffad57", 1.45, 2.6, 2);
   pendantBulbLight.position.set(0, 3.4, -0.8);
   group.add(pendantBulbLight);
 
@@ -614,13 +614,13 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   const porchGlow = trackMaterial(new THREE.MeshStandardMaterial({
     color: "#ffe2a8",
     emissive: "#ffad52",
-    emissiveIntensity: 3.5,
+    emissiveIntensity: 1.05,
     roughness: 0.24,
   }));
   box([0.3, 0.42, 0.14], [-4.88, 2.65, 4.46], porchMetal);
   addMesh(new THREE.SphereGeometry(0.1, 14, 10), porchGlow, [-4.88, 2.65, 4.56]);
   for (const x of [-4.99, -4.77]) box([0.018, 0.36, 0.018], [x, 2.65, 4.65], porchMetal);
-  const porchLight = new THREE.PointLight("#ffb463", 8, 5, 2);
+  const porchLight = new THREE.PointLight("#ffb463", 3.0, 5, 2);
   porchLight.position.set(-4.88, 2.65, 4.72);
   group.add(porchLight);
 
@@ -660,7 +660,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   const keypadLedMaterial = trackMaterial(new THREE.MeshStandardMaterial({
     color: "#8fffc9",
     emissive: "#36ff9b",
-    emissiveIntensity: 4,
+    emissiveIntensity: 1.1,
   }));
   addMesh(new THREE.SphereGeometry(0.018, 8, 6), keypadLedMaterial, [0, 0.16, 0.065], keypadGroup);
 
@@ -689,7 +689,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   const switchLedMaterial = trackMaterial(new THREE.MeshStandardMaterial({
     color: "#ffbf69",
     emissive: "#ff9f43",
-    emissiveIntensity: 3.2,
+    emissiveIntensity: 1.1,
   }));
   addMesh(new THREE.SphereGeometry(0.016, 10, 8), switchLedMaterial, [0.038, 0.125, 0], switchGroup);
   const lightsCanvas = makeCanvas(256, 90);
@@ -807,14 +807,14 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
     switchLedMaterial.color.copy(nightLed).lerp(dayLed, lightingBlend);
     switchLedMaterial.emissive.copy(nightLed).lerp(dayLed, lightingBlend);
     dustMaterial.opacity = THREE.MathUtils.lerp(0.42, 0.15, lightingBlend);
-    pendantGlow.emissiveIntensity = THREE.MathUtils.lerp(4.5, 0.3, lightingBlend);
-    pendantBulbLight.intensity = THREE.MathUtils.lerp(2.8, 0.08, lightingBlend);
-    fluorescentGlow.emissiveIntensity = THREE.MathUtils.lerp(0.04, 2.2, lightingBlend);
-    neonMaterial.emissiveIntensity = THREE.MathUtils.lerp(2.4, 0.45, lightingBlend);
-    neonDiffuserMaterial.emissiveIntensity = THREE.MathUtils.lerp(2.4, 0.4, lightingBlend);
-    galleryLampGlow.emissiveIntensity = THREE.MathUtils.lerp(1.8, 0.35, lightingBlend);
-    porchGlow.emissiveIntensity = THREE.MathUtils.lerp(3.5, 0.15, lightingBlend);
-    porchLight.intensity = 8 * nightAmount;
+    pendantGlow.emissiveIntensity = THREE.MathUtils.lerp(1.25, 0.2, lightingBlend);
+    pendantBulbLight.intensity = THREE.MathUtils.lerp(1.45, 0.08, lightingBlend);
+    fluorescentGlow.emissiveIntensity = THREE.MathUtils.lerp(0.04, 1.0, lightingBlend);
+    neonMaterial.emissiveIntensity = THREE.MathUtils.lerp(1.1, 0.3, lightingBlend);
+    neonDiffuserMaterial.emissiveIntensity = THREE.MathUtils.lerp(1.1, 0.3, lightingBlend);
+    galleryLampGlow.emissiveIntensity = THREE.MathUtils.lerp(0.85, 0.22, lightingBlend);
+    porchGlow.emissiveIntensity = THREE.MathUtils.lerp(1.05, 0.12, lightingBlend);
+    porchLight.intensity = 3.0 * nightAmount;
     exteriorFloodlight.intensity = 120 * nightAmount;
   };
 
@@ -853,9 +853,9 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
     hourHand.rotation.x = -(hours / 12) * Math.PI * 2 - clockSpin * 0.35;
 
     const pulse = (Math.sin(elapsed * 3.2) + 1) * 0.5;
-    keypadLedMaterial.emissiveIntensity = 2.8 + pulse * 2.2 + (doorHovered ? 1.5 : 0);
-    switchLedMaterial.emissiveIntensity = 2.5 + pulse * 1.2 + (switchHovered ? 2 : 0);
-    porchLight.intensity = 8 * (1 - lightingBlend) * (1 + Math.sin(elapsed * 5.7) * 0.012);
+    keypadLedMaterial.emissiveIntensity = 1.1 + pulse * 0.45;
+    switchLedMaterial.emissiveIntensity = 1.1 + pulse * 0.45;
+    porchLight.intensity = 3.0 * (1 - lightingBlend) * (1 + Math.sin(elapsed * 5.7) * 0.012);
   };
 
   const dispose = () => {

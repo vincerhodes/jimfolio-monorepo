@@ -415,9 +415,9 @@ export function buildVillageWorld(scene: THREE.Scene, textures?: WorkshopTexture
     worldBounds,
     setLightingMode: (mode, blend) => {
       const amount = THREE.MathUtils.clamp(mode === "night" ? blend : 1 - blend, 0, 1);
-      bulbMaterial.emissiveIntensity = amount * 3.2;
+      bulbMaterial.emissiveIntensity = amount * 1.05;
       bulbMaterial.color.setHex(amount > 0.01 ? 0xffd38a : 0x8c826b);
-      lampLights.forEach((light) => { light.intensity = amount * 16; });
+      lampLights.forEach((light) => { light.intensity = amount * 2.2; });
     },
     update: (elapsed) => {
       oceans.forEach(({ mesh, base }, oceanIndex) => {
