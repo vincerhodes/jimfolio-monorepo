@@ -40,6 +40,7 @@
     "app"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "app/garage/scene/_archive"
   ]
 }

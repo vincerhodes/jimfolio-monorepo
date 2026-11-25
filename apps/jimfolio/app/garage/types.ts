@@ -5,12 +5,12 @@ export type StationId =
   | "predictr" | "plannr" | "crema" | "pantry" | "chinahols"
   | "preppr" | "book-adventure" | "rocketsfc"
   | "browzr" | "kickoff-hq" | "rovr" | "preparingforai" | "rightcourtsc"
-  | "matt-preparingforai";
-export type StationCategory = "experiment" | "shipped" | "shed";
+  | "matt-preparingforai" | "matt-descartwright" | "matt-germanya" | "matt-digitaldetox";
+export type StationCategory = "experiment" | "shipped" | "farm";
 export type GarageStage = "exterior" | "opening" | "interior" | "inspecting";
 export type LightingMode = "night" | "day";
 export type ViewPreset = "left" | "center" | "right";
-export type EasterEggId = "wrench" | "vise" | "clock" | "bucket" | "flowerpot" | "tbd-box";
+export type EasterEggId = "wrench" | "vise" | "clock" | "tractor" | "bell" | "chicken";
 export type Vec3Tuple = [number, number, number];
 
 export interface CameraPose {
@@ -33,6 +33,7 @@ export interface GarageStation {
   chipClass: string;
   badgeNote?: string;
   privateAuth?: boolean;
+  status404?: boolean;
   propLabel: string;
   anchorPosition: Vec3Tuple;
   inspectCamera: CameraPose;
@@ -71,11 +72,12 @@ export interface RoomHandle {
   dispose: () => void;
 }
 
-export interface ShedHandle {
+export interface FarmHandle {
   group: THREE.Group;
   doorHitMeshes: THREE.Object3D[];
-  easterEggHitMeshes: THREE.Object3D[];
-  stationHandle: StationHandle;
+  exteriorEasterEggHitMeshes: THREE.Object3D[];
+  interiorEasterEggHitMeshes: THREE.Object3D[];
+  handles: Map<StationId, StationHandle>;
   triggerEasterEgg: (id: EasterEggId) => string;
   setDoorProgress: (t: number) => void;
   setDoorHovered: (hovered: boolean) => void;
@@ -89,7 +91,7 @@ export const CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = {
   interior: { position: [-0.25, 2.24, 4.45], target: [0.55, 1.42, -2.5] },
 };
 
-export const SHED_CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = {
-  exterior: { position: [12.6, 1.95, 10.6], target: [12.6, 1.55, 3.4] },
-  interior: { position: [12.6, 1.95, 2.55], target: [12.6, 1.25, -2.0] },
+export const FARM_CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = {
+  exterior: { position: [12.4, 2.35, 12.2], target: [12.4, 1.75, 3.6] },
+  interior: { position: [12.8, 2.25, 3.25], target: [12.8, 1.38, -2.2] },
 };

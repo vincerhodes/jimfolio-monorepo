@@ -4,7 +4,7 @@ export interface WorkshopAudio {
   isMuted: () => boolean;
   setMuted: (muted: boolean) => void;
   playDoor: (opening: boolean) => void;
-  playShedDoor: (opening: boolean) => void;
+  playBarnDoor: (opening: boolean) => void;
   playLightSwitch: (toDay: boolean) => void;
   playHover: () => void;
   playSelect: () => void;
@@ -183,73 +183,75 @@ export function createWorkshopAudio(): WorkshopAudio {
     }
   };
 
-  const playShedDoor = (opening: boolean): void => {
+  const playBarnDoor = (opening: boolean): void => {
     try {
       const audio = ensureAudio();
       if (!audio) return;
       const { context: audioContext, master: output } = audio;
       const start = audioContext.currentTime + 0.008;
       const buffer = getNoiseBuffer(audioContext);
-      const duration = 1.05;
+      const duration = 1.25;
       const source = audioContext.createBufferSource();
       const filter = audioContext.createBiquadFilter();
       const gain = audioContext.createGain();
       source.buffer = buffer;
       source.loop = true;
-      filter.type = "bandpass";
-      filter.Q.value = 2.4;
-      filter.frequency.setValueAtTime(opening ? 320 : 480, start);
-      filter.frequency.exponentialRampToValueAtTime(opening ? 640 : 240, start + duration);
+      filter.type = "lowpass";
+      filter.Q.value = 1.4;
+      filter.frequency.setValueAtTime(opening ? 210 : 320, start);
+      filter.frequency.exponentialRampToValueAtTime(opening ? 430 : 170, start + duration);
       gain.gain.setValueAtTime(0.0001, start);
-      gain.gain.linearRampToValueAtTime(0.055, start + 0.09);
-      gain.gain.linearRampToValueAtTime(0.03, start + 0.8);
+      gain.gain.linearRampToValueAtTime(0.075, start + 0.11);
+      gain.gain.linearRampToValueAtTime(0.04, start + 0.95);
       gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
       source.connect(filter);
       filter.connect(gain);
       gain.connect(output);
       source.start(start);
       source.stop(start + duration + 0.02);
-      const creakSteps = 7;
+      const creakSteps = 8;
       for (let index = 0; index < creakSteps; index += 1) {
-        const step = start + index * 0.13;
-        const base = opening ? 140 + index * 26 : 330 - index * 28;
+        const step = start + index * 0.14;
+        const base = opening ? 92 + index * 17 : 218 - index * 19;
         tone(
           audioContext,
           output,
           base,
           step,
-          0.16,
-          0.024 - index * 0.001,
+          0.19,
+          0.028 - index * 0.001,
           "sawtooth",
-          base * (opening ? 1.35 : 0.72),
+          base * (opening ? 1.28 : 0.74),
         );
         tone(
           audioContext,
           output,
-          base * 2.7,
-          step + 0.01,
-          0.11,
-          0.009,
+          base * 2.4,
+          step + 0.012,
+          0.13,
+          0.01,
           "triangle",
-          base * (opening ? 3.1 : 2.1),
+          base * (opening ? 2.9 : 1.9),
         );
       }
       tone(
         audioContext,
         output,
-        opening ? 58 : 74,
+        opening ? 44 : 56,
         start,
-        0.95,
-        0.014,
+        1.1,
+        0.02,
         "sine",
-        opening ? 82 : 46,
+        opening ? 62 : 38,
       );
-      const latch = start + 0.92;
-      noiseBurst(audioContext, output, buffer, latch, 0.05, 0.06, "bandpass", 2400, 2.2);
-      noiseBurst(audioContext, output, buffer, latch + 0.07, 0.09, 0.05, "bandpass", 1150, 1.6);
-      tone(audioContext, output, 1850, latch, 0.06, 0.02, "square", 1200);
-      tone(audioContext, output, 210, latch + 0.06, 0.14, 0.04, "triangle", 95);
-      tone(audioContext, output, 760, latch + 0.08, 0.16, 0.014, "sine", 480);
+      for (let leaf = 0; leaf < 2; leaf += 1) {
+        const latch = start + 1.06 + leaf * 0.16;
+        noiseBurst(audioContext, output, buffer, latch, 0.05, 0.07, "bandpass", 1900, 2.0);
+        noiseBurst(audioContext, output, buffer, latch + 0.06, 0.1, 0.055, "bandpass", 900, 1.5);
+        tone(audioContext, output, 1500, latch, 0.06, 0.022, "square", 980);
+        tone(audioContext, output, 150, latch + 0.05, 0.16, 0.05, "triangle", 68);
+        tone(audioContext, output, 620, latch + 0.07, 0.18, 0.016, "sine", 390);
+      }
     } catch {
       return;
     }
@@ -376,29 +378,40 @@ export function createWorkshopAudio(): WorkshopAudio {
         tone(audioContext, output, 240, start + 0.44, 0.13, 0.022, "triangle", 125);
         return;
       }
-      if (id === "bucket") {
-        tone(audioContext, output, 1150, start, 0.05, 0.03, "sine", 420);
-        tone(audioContext, output, 620, start + 0.045, 0.09, 0.032, "sine", 240);
-        tone(audioContext, output, 380, start + 0.05, 0.5, 0.036, "sine", 372);
-        tone(audioContext, output, 1120, start + 0.055, 0.4, 0.02, "sine", 1104);
-        tone(audioContext, output, 2350, start + 0.06, 0.22, 0.009, "sine", 2320);
-        noiseBurst(audioContext, output, buffer, start, 0.03, 0.03, "highpass", 2100, 0.9);
+      if (id === "tractor") {
+        for (let index = 0; index < 7; index += 1) {
+          const chug = start + index * 0.16;
+          const chugBase = 52 + index * 4;
+          tone(audioContext, output, chugBase, chug, 0.14, 0.05, "sawtooth", chugBase * 0.82);
+          noiseBurst(audioContext, output, buffer, chug, 0.07, 0.028, "lowpass", 260 + index * 30, 0.9);
+        }
+        tone(audioContext, output, 58, start, 1.15, 0.03, "sawtooth", 118);
+        tone(audioContext, output, 29, start, 1.15, 0.024, "sine", 59);
+        const horn = start + 1.2;
+        tone(audioContext, output, 392, horn, 0.22, 0.05, "sawtooth", 388);
+        tone(audioContext, output, 784, horn, 0.2, 0.02, "sine", 776);
+        tone(audioContext, output, 523.25, horn + 0.24, 0.42, 0.055, "sawtooth", 516);
+        tone(audioContext, output, 1046.5, horn + 0.24, 0.36, 0.02, "sine", 1032);
+        noiseBurst(audioContext, output, buffer, horn, 0.03, 0.02, "bandpass", 1400, 1.2);
         return;
       }
-      if (id === "flowerpot") {
-        noiseBurst(audioContext, output, buffer, start, 0.028, 0.04, "bandpass", 1400, 2.0);
-        tone(audioContext, output, 520, start, 0.14, 0.04, "triangle", 460);
-        tone(audioContext, output, 990, start + 0.004, 0.09, 0.018, "sine", 940);
-        noiseBurst(audioContext, output, buffer, start + 0.09, 0.022, 0.026, "bandpass", 1650, 2.0);
-        tone(audioContext, output, 585, start + 0.09, 0.12, 0.03, "triangle", 520);
+      if (id === "bell") {
+        noiseBurst(audioContext, output, buffer, start, 0.02, 0.04, "highpass", 2600, 0.9);
+        tone(audioContext, output, 220, start, 1.6, 0.03, "sine", 218);
+        tone(audioContext, output, 587, start, 1.4, 0.05, "sine", 583);
+        tone(audioContext, output, 880, start + 0.004, 1.1, 0.034, "sine", 874);
+        tone(audioContext, output, 1244, start + 0.006, 0.8, 0.02, "sine", 1236);
+        tone(audioContext, output, 1760, start + 0.008, 0.5, 0.011, "sine", 1748);
+        tone(audioContext, output, 296, start + 0.32, 1.2, 0.014, "sine", 294);
         return;
       }
-      if (id === "tbd-box") {
-        tone(audioContext, output, 96, start, 0.16, 0.05, "sine", 58);
-        noiseBurst(audioContext, output, buffer, start, 0.06, 0.045, "lowpass", 320, 0.8);
-        noiseBurst(audioContext, output, buffer, start + 0.05, 0.14, 0.028, "bandpass", 2400, 0.6);
-        noiseBurst(audioContext, output, buffer, start + 0.19, 0.11, 0.02, "bandpass", 3100, 0.6);
-        tone(audioContext, output, 74, start + 0.2, 0.1, 0.02, "sine", 52);
+      if (id === "chicken") {
+        noiseBurst(audioContext, output, buffer, start, 0.03, 0.028, "bandpass", 1900, 1.4);
+        tone(audioContext, output, 740, start, 0.09, 0.045, "triangle", 420);
+        tone(audioContext, output, 1480, start + 0.006, 0.06, 0.014, "sine", 860);
+        noiseBurst(audioContext, output, buffer, start + 0.14, 0.025, 0.024, "bandpass", 2200, 1.4);
+        tone(audioContext, output, 880, start + 0.14, 0.12, 0.05, "triangle", 460);
+        tone(audioContext, output, 1760, start + 0.15, 0.08, 0.015, "sine", 920);
         return;
       }
       noiseBurst(audioContext, output, buffer, start, 0.032, 0.033, "bandpass", 980, 1.5);
@@ -424,7 +437,7 @@ export function createWorkshopAudio(): WorkshopAudio {
       }
     },
     playDoor,
-    playShedDoor,
+    playBarnDoor,
     playLightSwitch,
     playHover,
     playSelect,

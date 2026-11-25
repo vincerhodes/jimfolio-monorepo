@@ -14,16 +14,18 @@ interface BenchListViewProps {
 
 function StationCard({ station }: { station: GarageStation }) {
   const isShipped = station.category === 'shipped';
-  const isShed = station.category === 'shed';
+  const isFarm = station.category === 'farm';
 
   return (
     <article className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-white/20 hover:bg-white/[0.06]">
       <div className="flex items-start justify-between gap-2">
-        {isShipped ? (
+        {isShipped || isFarm ? (
           station.domainLabel && (
             <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 font-mono text-[9px] tracking-wide text-emerald-300">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                {isShipped && (
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                )}
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
               </span>
               {station.domainLabel}
@@ -40,12 +42,19 @@ function StationCard({ station }: { station: GarageStation }) {
             {station.tag}
           </span>
         )}
-        {station.privateAuth && (
-          <span className="flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 text-[9px] font-medium text-amber-300">
-            <Lock size={10} />
-            Private
-          </span>
-        )}
+        <div className="flex items-center gap-1.5">
+          {station.status404 && (
+            <span className="rounded-full border border-rose-400/35 bg-rose-400/10 px-2 py-0.5 font-mono text-[9px] font-semibold text-rose-300">
+              404
+            </span>
+          )}
+          {station.privateAuth && (
+            <span className="flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 text-[9px] font-medium text-amber-300">
+              <Lock size={10} />
+              Private
+            </span>
+          )}
+        </div>
       </div>
       <h3 className="mt-3 text-lg font-semibold text-white">{station.name}</h3>
       <p className="mt-0.5 text-xs font-medium" style={{ color: station.accentHex }}>
@@ -66,19 +75,37 @@ function StationCard({ station }: { station: GarageStation }) {
           ))}
         </div>
       )}
-      <a
-        href={station.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`mt-4 flex items-center justify-center gap-1.5 rounded-full border py-2 text-xs font-semibold transition-colors ${
-          isShipped
-            ? 'border-emerald-400/25 text-emerald-200 hover:border-emerald-400/60 hover:bg-emerald-400/10'
-            : 'border-white/15 text-zinc-100 hover:border-amber-400/60 hover:bg-amber-400/10 hover:text-amber-200'
-        }`}
-      >
-        {isShed ? 'Listen to Podcast' : isShipped ? 'Visit Live Site' : 'Launch App'}
-        <ArrowUpRight size={13} />
-      </a>
+      {station.status404 ? (
+        <button
+          type="button"
+          disabled
+          className="mt-4 cursor-not-allowed rounded-full border border-rose-400/20 bg-rose-400/5 py-2 text-xs font-semibold text-rose-300/60"
+        >
+          404 — URL Pending
+        </button>
+      ) : (
+        <a
+          href={station.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`mt-4 flex items-center justify-center gap-1.5 rounded-full border py-2 text-xs font-semibold transition-colors ${
+            isShipped || isFarm
+              ? 'border-emerald-400/25 text-emerald-200 hover:border-emerald-400/60 hover:bg-emerald-400/10'
+              : 'border-white/15 text-zinc-100 hover:border-amber-400/60 hover:bg-amber-400/10 hover:text-amber-200'
+          }`}
+        >
+          {station.id === 'matt-preparingforai'
+            ? 'Listen to Podcast'
+            : station.id === 'matt-descartwright'
+              ? 'Visit Gallery'
+              : isFarm
+                ? 'Visit Site'
+                : isShipped
+                  ? 'Visit Live Site'
+                  : 'Launch App'}
+          <ArrowUpRight size={13} />
+        </a>
+      )}
     </article>
   );
 }
@@ -134,7 +161,7 @@ export default function BenchListView({
   const experimentStations = filtered.filter(
     (station) => station.category === 'experiment',
   );
-  const shedStations = filtered.filter((station) => station.category === 'shed');
+  const farmStations = filtered.filter((station) => station.category === 'farm');
   const shellClass = isWebGLFallback
     ? 'min-h-screen bg-zinc-950 text-zinc-100'
     : 'fixed inset-0 z-50 overflow-y-auto bg-zinc-950/95 backdrop-blur-xl text-zinc-100';
@@ -249,34 +276,24 @@ export default function BenchListView({
             </section>
           )}
 
-          {shedStations.length > 0 && (
+          {farmStations.length > 0 && (
             <section
-              aria-labelledby="matt-shed-heading"
-              className="rounded-3xl border border-orange-300/15 bg-orange-300/[0.025] p-4 sm:p-5"
+              aria-labelledby="matt-farm-heading"
+              className="rounded-3xl border border-emerald-300/15 bg-emerald-300/[0.025] p-4 sm:p-5"
             >
               <div className="mb-4 flex flex-wrap items-center gap-2.5">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.55)]" />
+                <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.55)]" />
                 <h2
-                  id="matt-shed-heading"
-                  className="font-mono text-[11px] font-semibold tracking-[0.14em] text-orange-300"
+                  id="matt-farm-heading"
+                  className="font-mono text-[11px] font-semibold tracking-[0.14em] text-amber-200"
                 >
-                  NEXT DOOR // MATT&apos;S POTTING SHED (1 / 5 FINISHED)
+                  NEXT DOOR // MATT&apos;S FARM ({farmStations.length})
                 </h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {shedStations.map((station) => (
+                {farmStations.map((station) => (
                   <StationCard key={station.id} station={station} />
                 ))}
-                <article className="flex min-h-44 items-center rounded-2xl border border-dashed border-white/10 bg-transparent p-5 text-center">
-                  <p className="w-full text-xs font-medium leading-relaxed text-zinc-600">
-                    Coming Soon (2024) — Dusty box on Matt&apos;s shelf
-                  </p>
-                </article>
-                <article className="flex min-h-44 items-center rounded-2xl border border-dashed border-white/10 bg-transparent p-5 text-center">
-                  <p className="w-full text-xs font-medium leading-relaxed text-zinc-600">
-                    Matt&apos;s Big App (TBD) — Domain bought, zero commits
-                  </p>
-                </article>
               </div>
             </section>
           )}

@@ -13,6 +13,7 @@ import {
   VolumeX,
   X,
 } from 'lucide-react';
+import { FARM_STATIONS } from '../apps';
 import type {
   BuildingId,
   GarageStage,
@@ -154,22 +155,19 @@ export default function GarageHUD({
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
               </span>
             ) : (
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-30" />
-                <span className="relative inline-flex h-2 w-2 animate-pulse rounded-full bg-amber-400" />
-              </span>
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.65)]" />
             )}
             <span className="whitespace-nowrap text-[13px] font-semibold tracking-[0.18em] text-white">
-              {isJim ? "JIM'S GARAGE" : "MATT'S SHED"}
+              {isJim ? "JIM'S GARAGE" : "MATT'S FARM"}
             </span>
             <span
               className={`rounded px-1.5 py-0.5 font-mono text-[10px] leading-none ${
                 isJim
                   ? 'bg-white/10 text-zinc-300'
-                  : 'bg-amber-400/15 text-amber-300'
+                  : 'bg-emerald-400/15 text-amber-200'
               }`}
             >
-              {isJim ? '.dev' : '.wip'}
+              {isJim ? '.dev' : '.farm'}
             </span>
           </div>
 
@@ -197,11 +195,11 @@ export default function GarageHUD({
                 onClick={() => onSwitchBuilding('matt')}
                 className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[10px] font-semibold transition-colors sm:px-3 sm:text-xs ${
                   activeBuilding === 'matt'
-                    ? 'bg-orange-400/20 text-orange-200 shadow-sm'
-                    : 'text-zinc-500 hover:text-orange-200'
+                    ? 'bg-emerald-400/20 text-amber-100 shadow-sm'
+                    : 'text-zinc-500 hover:text-emerald-200'
                 }`}
               >
-                Matt&apos;s Shed
+                Matt&apos;s Farm
               </button>
             </div>
           )}
@@ -260,7 +258,7 @@ export default function GarageHUD({
             type="button"
             onClick={doorIsOpen ? onCloseDoor : onOpenDoor}
             className={pillBase}
-            aria-label={`${doorIsOpen ? 'Close' : 'Open'} ${isJim ? 'garage' : 'shed'} door`}
+            aria-label={`${doorIsOpen ? 'Close' : 'Open'} ${isJim ? 'garage' : 'barn'} door`}
           >
             {doorIsOpen ? (
               <DoorClosed size={14} className="text-zinc-400" />
@@ -268,7 +266,13 @@ export default function GarageHUD({
               <DoorOpen size={14} className="text-amber-300" />
             )}
             <span className="hidden sm:inline">
-              {doorIsOpen ? 'Close Door' : isJim ? 'Open Door' : 'Open Shed'}
+              {doorIsOpen
+                ? isJim
+                  ? 'Close Door'
+                  : 'Close Barn'
+                : isJim
+                  ? 'Open Door'
+                  : 'Open Barn'}
             </span>
           </button>
 
@@ -386,25 +390,27 @@ export default function GarageHUD({
                 experiments. Step inside.
               </>
             ) : (
-              "Matt's Potting Shed — one finished podcast, four shelves of immaculate potential."
+              "Matt's Farm — upgraded from the potting shed. Click the tractor or swing open the barn doors."
             )}
           </p>
           <p className="rounded-full bg-zinc-950/75 px-3 py-1 text-center text-xs tracking-wide text-zinc-200 backdrop-blur-md">
             {isJim ? (
               isTouch ? (
-                "Tap door to open · Swipe → for Matt's Shed"
+                "Tap door to open · Swipe → for Matt's Farm"
               ) : (
                 <>
                   Click door or press{' '}
                   <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
                     Enter
                   </kbd>{' '}
-                  · Scroll or → for Matt&apos;s Shed next door
+                  · Scroll or → for Matt&apos;s Farm next door
                 </>
               )
+            ) : isTouch ? (
+              'Tap the barn doors to open'
             ) : (
               <>
-                Warning: door sticks · Click shed door or press{' '}
+                Click the barn doors or press{' '}
                 <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
                   Enter
                 </kbd>
@@ -434,15 +440,15 @@ export default function GarageHUD({
                 <button
                   type="button"
                   onClick={onOpenDoor}
-                  className="rounded-full bg-orange-500 px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:bg-orange-400"
+                  className="rounded-full bg-emerald-400 px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:bg-amber-300"
                 >
-                  Push Open Shed
+                  Open Barn Doors
                 </button>
                 <button
                   type="button"
                   onClick={() => onSwitchBuilding?.('jim')}
                   disabled={!onSwitchBuilding}
-                  className="px-2 text-xs font-medium text-orange-200 underline-offset-4 transition-colors hover:text-orange-100 hover:underline disabled:cursor-default disabled:opacity-50"
+                  className="px-2 text-xs font-medium text-amber-200 underline-offset-4 transition-colors hover:text-emerald-100 hover:underline disabled:cursor-default disabled:opacity-50"
                 >
                   ← Back to Jim&apos;s Garage
                 </button>
@@ -559,28 +565,49 @@ export default function GarageHUD({
               </div>
             </div>
           ) : (
-            <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-orange-300/20 bg-zinc-950/80 p-1.5 shadow-xl shadow-black/20 backdrop-blur-md">
-              <button
-                type="button"
-                onClick={() => onSelectStation('matt-preparingforai')}
-                aria-pressed={selectedStationId === 'matt-preparingforai'}
-                className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
-                  selectedStationId === 'matt-preparingforai' ||
-                  hoveredStationId === 'matt-preparingforai'
-                    ? 'bg-orange-400 text-zinc-950'
-                    : 'bg-orange-400/15 text-orange-200 hover:bg-orange-400/25'
-                }`}
-              >
-                Preparing for AI
-              </button>
-              <span className="whitespace-nowrap rounded-full border border-dashed border-white/10 px-3 py-1.5 text-[10px] text-zinc-500">
-                + 4 empty WIP shelves
-              </span>
+            <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-emerald-300/20 bg-zinc-950/80 p-1.5 shadow-xl shadow-black/20 backdrop-blur-md">
+              {FARM_STATIONS.map((station) => {
+                const active =
+                  station.id === selectedStationId ||
+                  station.id === hoveredStationId;
+                const name =
+                  station.id === 'matt-descartwright'
+                    ? 'Des Cartwright'
+                    : station.id === 'matt-digitaldetox'
+                      ? 'Digital Detox'
+                      : station.name;
+                return (
+                  <button
+                    key={station.id}
+                    type="button"
+                    onClick={() => onSelectStation(station.id)}
+                    aria-pressed={station.id === selectedStationId}
+                    className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
+                      active
+                        ? 'bg-emerald-400 text-zinc-950'
+                        : 'bg-emerald-400/10 text-emerald-200 hover:bg-amber-400/20 hover:text-amber-100'
+                    }`}
+                  >
+                    {name}
+                    {station.status404 && (
+                      <span
+                        className={`rounded px-1 py-0.5 font-mono text-[8px] leading-none ${
+                          active
+                            ? 'bg-zinc-950/15 text-zinc-800'
+                            : 'bg-rose-400/10 text-rose-300'
+                        }`}
+                      >
+                        404
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
               <button
                 type="button"
                 onClick={() => onSwitchBuilding?.('jim')}
                 disabled={!onSwitchBuilding}
-                className="whitespace-nowrap rounded-full px-3 py-1.5 text-[11px] font-medium text-orange-200 transition-colors hover:bg-orange-400/10 hover:text-orange-100 disabled:cursor-default disabled:opacity-50"
+                className="whitespace-nowrap rounded-full px-3 py-1.5 text-[11px] font-medium text-amber-200 transition-colors hover:bg-emerald-400/10 hover:text-emerald-100 disabled:cursor-default disabled:opacity-50"
               >
                 ← Back to Jim&apos;s Garage
               </button>
@@ -592,8 +619,8 @@ export default function GarageHUD({
                 ? 'Tap any prop or plaque · Swipe to look around'
                 : 'Click any prop, plaque, or wall switch · Drag to look around'
               : isTouch
-                ? 'Tap the podcast bench · Four shelves still gathering dust'
-                : 'Click the podcast bench · Mind the empty shelves'}
+                ? 'Tap any station, the barn bell, or the chicken · Swipe to look around'
+                : 'Click any station, the barn bell, or the chicken · Drag to look around'}
           </p>
         </div>
       )}
