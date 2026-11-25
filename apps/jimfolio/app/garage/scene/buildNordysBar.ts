@@ -915,7 +915,7 @@ export function buildNordysBar(
   createBottle(group, [-26.96, 1.065, 0.17], amberBottleMaterial, -0.2).name = "Second chilled bottle lined up behind the pass";
 
   const tree = new THREE.Group();
-  tree.position.set(-23.6, 0, 1.4);
+  tree.position.set(-22.5, 0, 1.85);
   tree.name = "Leafy courtyard shade tree with red lanterns";
   group.add(tree);
   const trunkMaterial = new THREE.MeshStandardMaterial({ color: "#5a3b26", roughness: 0.95 });
