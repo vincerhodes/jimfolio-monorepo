@@ -246,9 +246,9 @@ export function buildVillageWorld(scene: THREE.Scene, textures?: WorkshopTexture
   group.add(dashes);
 
   [-28, -14, 0, 12.8].forEach((x) => {
-    const apron = addMesh(group, new THREE.BoxGeometry(x === 12.8 ? 5.8 : 4.2, 0.1, 5.6), shoulderMaterial, [x, -0.005, 7.55]);
+    const apron = addMesh(group, new THREE.BoxGeometry(x === 12.8 ? 5.8 : 4.2, 0.08, 3.1), shoulderMaterial, [x, -0.028, 6.15]);
     apron.castShadow = false;
-    const apronSurface = addMesh(group, new THREE.BoxGeometry(x === 12.8 ? 5.4 : 3.8, 0.08, 5.4), roadMaterial, [x, 0.035, 7.55]);
+    const apronSurface = addMesh(group, new THREE.BoxGeometry(x === 12.8 ? 5.4 : 3.8, 0.08, 3.15), roadMaterial, [x, 0.001, 6.175]);
     apronSurface.castShadow = false;
   });
 
