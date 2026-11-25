@@ -14,6 +14,7 @@ interface BenchListViewProps {
 
 function StationCard({ station }: { station: GarageStation }) {
   const isShipped = station.category === 'shipped';
+  const isShed = station.category === 'shed';
 
   return (
     <article className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-white/20 hover:bg-white/[0.06]">
@@ -75,7 +76,7 @@ function StationCard({ station }: { station: GarageStation }) {
             : 'border-white/15 text-zinc-100 hover:border-amber-400/60 hover:bg-amber-400/10 hover:text-amber-200'
         }`}
       >
-        {isShipped ? 'Visit Live Site' : 'Launch App'}
+        {isShed ? 'Listen to Podcast' : isShipped ? 'Visit Live Site' : 'Launch App'}
         <ArrowUpRight size={13} />
       </a>
     </article>
@@ -133,6 +134,7 @@ export default function BenchListView({
   const experimentStations = filtered.filter(
     (station) => station.category === 'experiment',
   );
+  const shedStations = filtered.filter((station) => station.category === 'shed');
   const shellClass = isWebGLFallback
     ? 'min-h-screen bg-zinc-950 text-zinc-100'
     : 'fixed inset-0 z-50 overflow-y-auto bg-zinc-950/95 backdrop-blur-xl text-zinc-100';
@@ -218,11 +220,8 @@ export default function BenchListView({
                   id="shipped-products-heading"
                   className="font-mono text-[11px] font-semibold tracking-[0.18em] text-emerald-300"
                 >
-                  SHIPPED // OUT IN THE WILD
+                  SHIPPED // OUT IN THE WILD ({shippedStations.length})
                 </h2>
-                <span className="font-mono text-[10px] text-zinc-600">
-                  {shippedStations.length}
-                </span>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {shippedStations.map((station) => (
@@ -239,16 +238,45 @@ export default function BenchListView({
                   id="garage-experiments-heading"
                   className="font-mono text-[11px] font-semibold tracking-[0.18em] text-amber-300"
                 >
-                  ON THE BENCH // GARAGE EXPERIMENTS
+                  ON THE BENCH // GARAGE EXPERIMENTS ({experimentStations.length})
                 </h2>
-                <span className="font-mono text-[10px] text-zinc-600">
-                  {experimentStations.length}
-                </span>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {experimentStations.map((station) => (
                   <StationCard key={station.id} station={station} />
                 ))}
+              </div>
+            </section>
+          )}
+
+          {shedStations.length > 0 && (
+            <section
+              aria-labelledby="matt-shed-heading"
+              className="rounded-3xl border border-orange-300/15 bg-orange-300/[0.025] p-4 sm:p-5"
+            >
+              <div className="mb-4 flex flex-wrap items-center gap-2.5">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.55)]" />
+                <h2
+                  id="matt-shed-heading"
+                  className="font-mono text-[11px] font-semibold tracking-[0.14em] text-orange-300"
+                >
+                  NEXT DOOR // MATT&apos;S POTTING SHED (1 / 5 FINISHED)
+                </h2>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {shedStations.map((station) => (
+                  <StationCard key={station.id} station={station} />
+                ))}
+                <article className="flex min-h-44 items-center rounded-2xl border border-dashed border-white/10 bg-transparent p-5 text-center">
+                  <p className="w-full text-xs font-medium leading-relaxed text-zinc-600">
+                    Coming Soon (2024) — Dusty box on Matt&apos;s shelf
+                  </p>
+                </article>
+                <article className="flex min-h-44 items-center rounded-2xl border border-dashed border-white/10 bg-transparent p-5 text-center">
+                  <p className="w-full text-xs font-medium leading-relaxed text-zinc-600">
+                    Matt&apos;s Big App (TBD) — Domain bought, zero commits
+                  </p>
+                </article>
               </div>
             </section>
           )}

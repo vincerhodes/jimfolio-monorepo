@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react';
 import type {
+  BuildingId,
   GarageStage,
   LightingMode,
   ProjectedLabel,
@@ -40,6 +41,8 @@ interface GarageHUDProps {
   isTouchDevice?: boolean;
   activeViewPreset?: ViewPreset;
   onPanView?: (preset: ViewPreset) => void;
+  activeBuilding?: BuildingId;
+  onSwitchBuilding?: (building: BuildingId) => void;
 }
 
 const QUICK_DOCK: {
@@ -101,6 +104,8 @@ export default function GarageHUD({
   isTouchDevice,
   activeViewPreset,
   onPanView,
+  activeBuilding = 'jim',
+  onSwitchBuilding,
 }: GarageHUDProps) {
   const [dockCategory, setDockCategory] = useState<'experiment' | 'shipped'>(
     'experiment',
@@ -127,6 +132,7 @@ export default function GarageHUD({
   }, [aboutOpen]);
 
   const isTouch = isTouchDevice ?? touchDetected;
+  const isJim = activeBuilding === 'jim';
 
   const hoveredLabel =
     stage === 'interior' && hoveredStationId
@@ -140,17 +146,65 @@ export default function GarageHUD({
   return (
     <div className="pointer-events-none fixed inset-0 z-30 select-none">
       <header className="absolute inset-x-0 top-0 flex flex-wrap items-start justify-between gap-3 p-4 sm:p-5">
-        <div className={pillBase}>
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-          </span>
-          <span className="text-[13px] font-semibold tracking-[0.18em] text-white">
-            JIM&apos;S GARAGE
-          </span>
-          <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[10px] leading-none text-zinc-300">
-            .dev
-          </span>
+        <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
+          <div className={`${pillBase} shrink-0`}>
+            {isJim ? (
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+            ) : (
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-30" />
+                <span className="relative inline-flex h-2 w-2 animate-pulse rounded-full bg-amber-400" />
+              </span>
+            )}
+            <span className="whitespace-nowrap text-[13px] font-semibold tracking-[0.18em] text-white">
+              {isJim ? "JIM'S GARAGE" : "MATT'S SHED"}
+            </span>
+            <span
+              className={`rounded px-1.5 py-0.5 font-mono text-[10px] leading-none ${
+                isJim
+                  ? 'bg-white/10 text-zinc-300'
+                  : 'bg-amber-400/15 text-amber-300'
+              }`}
+            >
+              {isJim ? '.dev' : '.wip'}
+            </span>
+          </div>
+
+          {onSwitchBuilding && (
+            <div
+              role="group"
+              aria-label="Switch building"
+              className="pointer-events-auto flex rounded-full border border-white/10 bg-zinc-950/75 p-1 shadow-lg shadow-black/20 backdrop-blur-md"
+            >
+              <button
+                type="button"
+                aria-pressed={activeBuilding === 'jim'}
+                onClick={() => onSwitchBuilding('jim')}
+                className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[10px] font-semibold transition-colors sm:px-3 sm:text-xs ${
+                  activeBuilding === 'jim'
+                    ? 'bg-white/15 text-white shadow-sm'
+                    : 'text-zinc-500 hover:text-zinc-200'
+                }`}
+              >
+                Jim&apos;s Garage
+              </button>
+              <button
+                type="button"
+                aria-pressed={activeBuilding === 'matt'}
+                onClick={() => onSwitchBuilding('matt')}
+                className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[10px] font-semibold transition-colors sm:px-3 sm:text-xs ${
+                  activeBuilding === 'matt'
+                    ? 'bg-orange-400/20 text-orange-200 shadow-sm'
+                    : 'text-zinc-500 hover:text-orange-200'
+                }`}
+              >
+                Matt&apos;s Shed
+              </button>
+            </div>
+          )}
         </div>
 
         <nav className="pointer-events-auto ml-auto flex items-center gap-2">
@@ -206,7 +260,7 @@ export default function GarageHUD({
             type="button"
             onClick={doorIsOpen ? onCloseDoor : onOpenDoor}
             className={pillBase}
-            aria-label={doorIsOpen ? 'Close garage door' : 'Open garage door'}
+            aria-label={`${doorIsOpen ? 'Close' : 'Open'} ${isJim ? 'garage' : 'shed'} door`}
           >
             {doorIsOpen ? (
               <DoorClosed size={14} className="text-zinc-400" />
@@ -214,7 +268,7 @@ export default function GarageHUD({
               <DoorOpen size={14} className="text-amber-300" />
             )}
             <span className="hidden sm:inline">
-              {doorIsOpen ? 'Close Door' : 'Open Door'}
+              {doorIsOpen ? 'Close Door' : isJim ? 'Open Door' : 'Open Shed'}
             </span>
           </button>
 
@@ -326,37 +380,74 @@ export default function GarageHUD({
       {stage === 'exterior' && (
         <div className="absolute bottom-8 left-1/2 flex w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-col items-center gap-2.5">
           <p className="max-w-[calc(100vw-2rem)] rounded-full border border-white/10 bg-zinc-950/75 px-4 py-1.5 text-center text-[11px] font-medium text-zinc-200 backdrop-blur-md">
-            Jimmy Rhodes — builder of Browzr, KickoffHQ &amp; 11 live
-            experiments. Step inside.
+            {isJim ? (
+              <>
+                Jimmy Rhodes — builder of Browzr, KickoffHQ &amp; 11 live
+                experiments. Step inside.
+              </>
+            ) : (
+              "Matt's Potting Shed — one finished podcast, four shelves of immaculate potential."
+            )}
           </p>
           <p className="rounded-full bg-zinc-950/75 px-3 py-1 text-center text-xs tracking-wide text-zinc-200 backdrop-blur-md">
-            {isTouch ? (
-              'Tap the garage door to roll open'
+            {isJim ? (
+              isTouch ? (
+                "Tap door to open · Swipe → for Matt's Shed"
+              ) : (
+                <>
+                  Click door or press{' '}
+                  <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
+                    Enter
+                  </kbd>{' '}
+                  · Scroll or → for Matt&apos;s Shed next door
+                </>
+              )
             ) : (
               <>
-                Click garage door or press{' '}
+                Warning: door sticks · Click shed door or press{' '}
                 <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
                   Enter
-                </kbd>{' '}
-                to roll open
+                </kbd>
               </>
             )}
           </p>
-          <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-white/10 bg-zinc-950/75 p-1.5 pl-4 backdrop-blur-md">
-            <button
-              type="button"
-              onClick={onOpenDoor}
-              className="rounded-full bg-amber-400 px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:bg-amber-300"
-            >
-              Open Garage
-            </button>
-            <button
-              type="button"
-              onClick={onToggleBenchList}
-              className="pr-2 text-xs text-zinc-400 underline-offset-4 transition-colors hover:text-zinc-200 hover:underline"
-            >
-              Skip to Bench List
-            </button>
+          <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/10 bg-zinc-950/75 p-1.5 backdrop-blur-md sm:rounded-full sm:gap-3 sm:pl-4">
+            {isJim ? (
+              <>
+                <button
+                  type="button"
+                  onClick={onOpenDoor}
+                  className="rounded-full bg-amber-400 px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:bg-amber-300"
+                >
+                  Open Garage
+                </button>
+                <button
+                  type="button"
+                  onClick={onToggleBenchList}
+                  className="px-2 text-xs text-zinc-400 underline-offset-4 transition-colors hover:text-zinc-200 hover:underline"
+                >
+                  Skip to Bench List
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={onOpenDoor}
+                  className="rounded-full bg-orange-500 px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:bg-orange-400"
+                >
+                  Push Open Shed
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onSwitchBuilding?.('jim')}
+                  disabled={!onSwitchBuilding}
+                  className="px-2 text-xs font-medium text-orange-200 underline-offset-4 transition-colors hover:text-orange-100 hover:underline disabled:cursor-default disabled:opacity-50"
+                >
+                  ← Back to Jim&apos;s Garage
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -379,7 +470,7 @@ export default function GarageHUD({
             )}
           </AnimatePresence>
 
-          {onPanView && (
+          {isJim && onPanView && (
             <div
               role="tablist"
               aria-label="Quick pan views"
@@ -407,69 +498,102 @@ export default function GarageHUD({
             </div>
           )}
 
-          <div className="pointer-events-auto flex max-w-full flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-zinc-950/75 p-1.5 shadow-xl shadow-black/20 backdrop-blur-md">
-            <div
-              role="tablist"
-              aria-label="Quick dock categories"
-              className="flex rounded-full border border-white/10 bg-black/20 p-0.5"
-            >
-              <button
-                type="button"
-                role="tab"
-                aria-selected={dockCategory === 'experiment'}
-                onClick={() => setDockCategory('experiment')}
-                className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${
-                  dockCategory === 'experiment'
-                    ? 'bg-amber-400/90 text-zinc-950'
-                    : 'text-zinc-400 hover:text-zinc-100'
-                }`}
+          {isJim ? (
+            <div className="pointer-events-auto flex max-w-full flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-zinc-950/75 p-1.5 shadow-xl shadow-black/20 backdrop-blur-md">
+              <div
+                role="tablist"
+                aria-label="Quick dock categories"
+                className="flex rounded-full border border-white/10 bg-black/20 p-0.5"
               >
-                On the Bench (8)
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={dockCategory === 'shipped'}
-                onClick={() => setDockCategory('shipped')}
-                className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${
-                  dockCategory === 'shipped'
-                    ? 'bg-emerald-400/90 text-zinc-950'
-                    : 'text-zinc-400 hover:text-zinc-100'
-                }`}
-              >
-                Shipped Wall (5)
-              </button>
-            </div>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={dockCategory === 'experiment'}
+                  onClick={() => setDockCategory('experiment')}
+                  className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${
+                    dockCategory === 'experiment'
+                      ? 'bg-amber-400/90 text-zinc-950'
+                      : 'text-zinc-400 hover:text-zinc-100'
+                  }`}
+                >
+                  On the Bench (8)
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={dockCategory === 'shipped'}
+                  onClick={() => setDockCategory('shipped')}
+                  className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${
+                    dockCategory === 'shipped'
+                      ? 'bg-emerald-400/90 text-zinc-950'
+                      : 'text-zinc-400 hover:text-zinc-100'
+                  }`}
+                >
+                  Shipped Wall (5)
+                </button>
+              </div>
 
-            <div className="flex max-w-full items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {QUICK_DOCK[dockCategory].map((station) => {
-                const active =
-                  station.id === selectedStationId ||
-                  station.id === hoveredStationId;
-                return (
-                  <button
-                    key={station.id}
-                    type="button"
-                    onClick={() => onSelectStation(station.id)}
-                    aria-pressed={station.id === selectedStationId}
-                    className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors ${
-                      active
-                        ? dockCategory === 'shipped'
-                          ? 'bg-emerald-400/90 text-zinc-950'
-                          : 'bg-amber-400/90 text-zinc-950'
-                        : 'text-zinc-300 hover:bg-white/10 hover:text-white'
-                    }`}
-                  >
-                    {station.name}
-                  </button>
-                );
-              })}
+              <div className="flex max-w-full items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {QUICK_DOCK[dockCategory].map((station) => {
+                  const active =
+                    station.id === selectedStationId ||
+                    station.id === hoveredStationId;
+                  return (
+                    <button
+                      key={station.id}
+                      type="button"
+                      onClick={() => onSelectStation(station.id)}
+                      aria-pressed={station.id === selectedStationId}
+                      className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors ${
+                        active
+                          ? dockCategory === 'shipped'
+                            ? 'bg-emerald-400/90 text-zinc-950'
+                            : 'bg-amber-400/90 text-zinc-950'
+                          : 'text-zinc-300 hover:bg-white/10 hover:text-white'
+                      }`}
+                    >
+                      {station.name}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-orange-300/20 bg-zinc-950/80 p-1.5 shadow-xl shadow-black/20 backdrop-blur-md">
+              <button
+                type="button"
+                onClick={() => onSelectStation('matt-preparingforai')}
+                aria-pressed={selectedStationId === 'matt-preparingforai'}
+                className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
+                  selectedStationId === 'matt-preparingforai' ||
+                  hoveredStationId === 'matt-preparingforai'
+                    ? 'bg-orange-400 text-zinc-950'
+                    : 'bg-orange-400/15 text-orange-200 hover:bg-orange-400/25'
+                }`}
+              >
+                Preparing for AI
+              </button>
+              <span className="whitespace-nowrap rounded-full border border-dashed border-white/10 px-3 py-1.5 text-[10px] text-zinc-500">
+                + 4 empty WIP shelves
+              </span>
+              <button
+                type="button"
+                onClick={() => onSwitchBuilding?.('jim')}
+                disabled={!onSwitchBuilding}
+                className="whitespace-nowrap rounded-full px-3 py-1.5 text-[11px] font-medium text-orange-200 transition-colors hover:bg-orange-400/10 hover:text-orange-100 disabled:cursor-default disabled:opacity-50"
+              >
+                ← Back to Jim&apos;s Garage
+              </button>
+            </div>
+          )}
           <p className="rounded-full border border-white/10 bg-zinc-950/75 px-3.5 py-1 text-center text-[10px] tracking-wide text-zinc-200 backdrop-blur-md">
-            {isTouch
-              ? 'Tap any prop or plaque · Swipe to look around'
-              : 'Click any prop, plaque, or wall switch · Drag to look around'}
+            {isJim
+              ? isTouch
+                ? 'Tap any prop or plaque · Swipe to look around'
+                : 'Click any prop, plaque, or wall switch · Drag to look around'
+              : isTouch
+                ? 'Tap the podcast bench · Four shelves still gathering dust'
+                : 'Click the podcast bench · Mind the empty shelves'}
           </p>
         </div>
       )}

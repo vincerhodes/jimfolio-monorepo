@@ -2,6 +2,28 @@ import type { GarageStation } from "./garage/types";
 
 export type { GarageStation, StationCategory } from "./garage/types";
 
+export const MATT_PODCAST_STATION: GarageStation = {
+  id: "matt-preparingforai",
+  category: "shed",
+  name: "Preparing for AI",
+  slug: "matt-preparingforai",
+  url: "https://preparingforai.net",
+  domainLabel: "preparingforai.net",
+  tag: "JOINT PODCAST",
+  tagline: "Matt Cartwright & Jimmy Rhodes explore the human & social impacts of AI",
+  description: "The one actually finished project sitting in Matt's knackered potting shed — our joint podcast unpacking AI's impact on politics, work, religion, and society. (All other shelves currently reserved for Matt's 2024–2026 TBD ideas.)",
+  tech: ["Podcast", "Joint Custody", "Next.js"],
+  accentHex: "#fb923c",
+  chipClass: "bg-orange-500/10 text-orange-700 border-orange-500/20 dark:text-orange-300",
+  badgeNote: "Only finished project in Matt's shed (joint custody with Jim)",
+  propLabel: "PODCAST BENCH",
+  anchorPosition: [12.6, 0.94, -1.75],
+  inspectCamera: {
+    position: [12.2, 1.58, 0.25],
+    target: [12.85, 1.25, -1.75],
+  },
+};
+
 export const GARAGE_STATIONS: GarageStation[] = [
   {
     id: "predictr",
@@ -257,6 +279,7 @@ export const GARAGE_STATIONS: GarageStation[] = [
       target: [5.32, 2.32, -2.65],
     },
   },
+  MATT_PODCAST_STATION,
 ];
 
 export const EXPERIMENT_STATIONS: GarageStation[] = GARAGE_STATIONS.filter(
@@ -266,3 +289,5 @@ export const EXPERIMENT_STATIONS: GarageStation[] = GARAGE_STATIONS.filter(
 export const SHIPPED_STATIONS: GarageStation[] = GARAGE_STATIONS.filter(
   (station) => station.category === "shipped",
 );
+
+export const SHED_STATIONS: GarageStation[] = [MATT_PODCAST_STATION];

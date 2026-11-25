@@ -7,12 +7,14 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { GARAGE_STATIONS } from '../apps';
+import { GARAGE_STATIONS, MATT_PODCAST_STATION } from '../apps';
 import { createWorkshopAudio, type WorkshopAudio } from '../garage/audio';
+import { buildMattsShed } from '../garage/scene/buildMattsShed';
 import { buildGarageRoom } from '../garage/scene/buildRoom';
 import { buildProjectStations } from '../garage/scene/buildProps';
 import { createWorkshopTextures } from '../garage/scene/materials';
 import {
+  type BuildingId,
   CAMERA_POSES,
   type CameraPose,
   type EasterEggId,
@@ -21,6 +23,8 @@ import {
   type LightingMode,
   type ProjectedLabel,
   type RoomHandle,
+  SHED_CAMERA_POSES,
+  type ShedHandle,
   type StationId,
   type ViewPreset,
 } from '../garage/types';
@@ -31,14 +35,26 @@ import ProjectDrawer from './ProjectDrawer';
 const DOOR_STORAGE_KEY = 'jimsgarage-door-open';
 const DOOR_DURATION = 1100;
 const CAMERA_DURATION = 1000;
+const BUILDING_SWITCH_DURATION = 1050;
 const TOAST_DURATION = 3200;
+const JIM_STATIONS = GARAGE_STATIONS.filter(
+  (station) => station.category !== 'shed',
+);
 const EASTER_EGG_HINTS: Record<EasterEggId, string> = {
   wrench: 'Spanner Wrench',
   vise: 'Bench Vise',
   clock: 'Workshop Clock',
+  bucket: 'Leaky Roof Bucket',
+  flowerpot: 'Load-Bearing Flowerpot',
+  'tbd-box': 'Coming Soon (2024) Box',
 };
 
-type MotionKind = 'door-open' | 'door-close' | 'inspect' | 'return';
+type MotionKind =
+  | 'door-open'
+  | 'door-close'
+  | 'inspect'
+  | 'return'
+  | 'building-switch';
 
 interface CameraMotion {
   kind: MotionKind;
@@ -59,6 +75,7 @@ interface GarageControls {
   selectStation: (id: StationId) => void;
   dismissInspection: () => void;
   panToView: (preset: ViewPreset) => void;
+  switchBuilding: (target: BuildingId) => void;
 }
 
 function easeInOutCubic(value: number) {
@@ -113,10 +130,12 @@ export default function GarageCanvas() {
   const controlsRef = useRef<GarageControls | null>(null);
   const audioRef = useRef<WorkshopAudio | null>(null);
   const stageRef = useRef<GarageStage>('exterior');
+  const activeBuildingRef = useRef<BuildingId>('jim');
   const lightingModeRef = useRef<LightingMode>('night');
   const benchListOpenRef = useRef(false);
   const isTouchDeviceRef = useRef(false);
   const [stage, setStage] = useState<GarageStage>('exterior');
+  const [activeBuilding, setActiveBuilding] = useState<BuildingId>('jim');
   const [lightingMode, setLightingMode] = useState<LightingMode>('night');
   const [isBenchListOpen, setIsBenchListOpen] = useState(false);
   const [hoveredStationId, setHoveredStationId] = useState<StationId | null>(null);
@@ -142,6 +161,10 @@ export default function GarageCanvas() {
   );
   const panToView = useCallback(
     (preset: ViewPreset) => controlsRef.current?.panToView(preset),
+    [],
+  );
+  const switchBuilding = useCallback(
+    (target: BuildingId) => controlsRef.current?.switchBuilding(target),
     [],
   );
   const toggleMute = useCallback(() => {
@@ -188,6 +211,7 @@ export default function GarageCanvas() {
 
     let renderer: THREE.WebGLRenderer | null = null;
     let room: RoomHandle | null = null;
+    let shed: ShedHandle | null = null;
     let stationScene: ReturnType<typeof buildProjectStations> | null = null;
     let textures: ReturnType<typeof createWorkshopTextures> | null = null;
     let pmremGenerator: THREE.PMREMGenerator | null = null;
@@ -232,7 +256,7 @@ export default function GarageCanvas() {
       renderer.domElement.style.touchAction = 'none';
       renderer.domElement.setAttribute(
         'aria-label',
-        "Interactive 3D Jim's Garage workshop",
+        "Interactive 3D Jim's Garage and Matt's Potting Shed",
       );
       container.prepend(renderer.domElement);
 
@@ -245,14 +269,16 @@ export default function GarageCanvas() {
 
       textures = createWorkshopTextures();
       room = buildGarageRoom(scene, textures);
-      stationScene = buildProjectStations(GARAGE_STATIONS, textures);
+      stationScene = buildProjectStations(JIM_STATIONS, textures);
       scene.add(stationScene.root);
+      shed = buildMattsShed(scene, MATT_PODCAST_STATION, textures);
     } catch {
       queueMicrotask(() => setWebglFailed(true));
       return () => {
         disposeComposer();
         stationScene?.dispose();
         room?.dispose();
+        shed?.dispose();
         textures?.disposeAll();
         scene.environment = null;
         envRT?.dispose();
@@ -266,13 +292,18 @@ export default function GarageCanvas() {
 
     const activeRenderer = renderer;
     const activeRoom = room;
+    const activeShed = shed;
     const activeStations = stationScene;
     const activeTextures = textures;
     const stationConfigs = new Map(
       GARAGE_STATIONS.map((station) => [station.id, station]),
     );
-    const stationMeshes = Array.from(activeStations.handles.values()).flatMap(
+    const jimStationMeshes = Array.from(activeStations.handles.values()).flatMap(
       (handle) => handle.hitMeshes,
+    );
+    activeStations.handles.set(
+      activeShed.stationHandle.id,
+      activeShed.stationHandle,
     );
 
     try {
@@ -327,6 +358,7 @@ export default function GarageCanvas() {
     const projectedAnchor = new THREE.Vector3();
     let motion: CameraMotion | null = null;
     let doorProgress = 0;
+    let shedDoorProgress = 0;
     let dayBlend = 0;
     let hoveredId: StationId | null = null;
     let hoveredEasterEggId: EasterEggId | null = null;
@@ -348,6 +380,9 @@ export default function GarageCanvas() {
     let dragLastY = 0;
     let dragDistance = 0;
     let dragging = false;
+    let exteriorSwipePointerId: number | null = null;
+    let exteriorSwipeStartX = 0;
+    let exteriorSwipeStartY = 0;
     let toastTimeout: number | null = null;
 
     const changeStage = (next: GarageStage) => {
@@ -378,6 +413,7 @@ export default function GarageCanvas() {
       hoveredDoor = false;
       activeRoom.setDoorHovered(false);
       activeRoom.setSwitchHovered(false);
+      activeShed.setDoorHovered(false);
       lastProjectedLabel = null;
       lastTouchProjectedLabels = null;
       setProjectedLabels([]);
@@ -435,9 +471,13 @@ export default function GarageCanvas() {
       kind: MotionKind,
       pose: CameraPose,
       duration: number,
-      toDoor = doorProgress,
+      toDoor = activeBuildingRef.current === 'matt'
+        ? shedDoorProgress
+        : doorProgress,
     ) => {
       const destination = motionPose(pose);
+      const fromDoor =
+        activeBuildingRef.current === 'matt' ? shedDoorProgress : doorProgress;
       motion = {
         kind,
         startedAt: performance.now(),
@@ -446,22 +486,64 @@ export default function GarageCanvas() {
         fromTarget: currentTarget.clone(),
         toPosition: destination.position,
         toTarget: destination.target,
-        fromDoor: doorProgress,
+        fromDoor,
         toDoor,
       };
     };
 
-    const startDoorMotion = (open: boolean) => {
+    const switchBuilding = (target: BuildingId) => {
+      if (
+        target === activeBuildingRef.current &&
+        stageRef.current === 'exterior'
+      ) {
+        return;
+      }
       clearHover();
       clearSelection();
       resetLook();
-      audio.playDoor(open);
+      pointerCurrent.set(0, 0);
+      lookCurrent.set(0, 0);
+      doorProgress = 0;
+      shedDoorProgress = 0;
+      activeRoom.setDoorProgress(0);
+      activeShed.setDoorProgress(0);
+      activeBuildingRef.current = target;
+      setActiveBuilding(target);
+      changeStage('opening');
+      try {
+        window.sessionStorage.removeItem(DOOR_STORAGE_KEY);
+      } catch {
+      }
+      beginMotion(
+        'building-switch',
+        target === 'matt'
+          ? SHED_CAMERA_POSES.exterior
+          : getExteriorPose(camera.aspect, camera.fov),
+        BUILDING_SWITCH_DURATION,
+        0,
+      );
+    };
+
+    const startDoorMotion = (open: boolean) => {
+      const isMatt = activeBuildingRef.current === 'matt';
+      clearHover();
+      clearSelection();
+      resetLook();
+      if (isMatt) {
+        audio.playShedDoor(open);
+      } else {
+        audio.playDoor(open);
+      }
       changeStage('opening');
       beginMotion(
         open ? 'door-open' : 'door-close',
         open
-          ? CAMERA_POSES.interior
-          : getExteriorPose(camera.aspect, camera.fov),
+          ? isMatt
+            ? SHED_CAMERA_POSES.interior
+            : CAMERA_POSES.interior
+          : isMatt
+            ? SHED_CAMERA_POSES.exterior
+            : getExteriorPose(camera.aspect, camera.fov),
         DOOR_DURATION,
         open ? 1 : 0,
       );
@@ -522,7 +604,13 @@ export default function GarageCanvas() {
       if (stageRef.current !== 'inspecting' || motion?.kind === 'return') return;
       clearSelection();
       resetLook();
-      beginMotion('return', CAMERA_POSES.interior, CAMERA_DURATION);
+      beginMotion(
+        'return',
+        activeBuildingRef.current === 'matt'
+          ? SHED_CAMERA_POSES.interior
+          : CAMERA_POSES.interior,
+        CAMERA_DURATION,
+      );
     };
 
     const showToast = (message: string) => {
@@ -541,6 +629,7 @@ export default function GarageCanvas() {
       selectStation: inspectStation,
       dismissInspection: stepBack,
       panToView: panToViewPreset,
+      switchBuilding,
     };
 
     let restoreInterior = false;
@@ -559,6 +648,7 @@ export default function GarageCanvas() {
     camera.lookAt(currentTarget);
     doorProgress = restoreInterior ? 1 : 0;
     activeRoom.setDoorProgress(doorProgress);
+    activeShed.setDoorProgress(shedDoorProgress);
     changeStage(restoreInterior ? 'interior' : 'exterior');
 
     const resize = () => {
@@ -574,10 +664,15 @@ export default function GarageCanvas() {
         (stageRef.current === 'exterior' || stageRef.current === 'interior') &&
         motion === null
       ) {
+        const isMatt = activeBuildingRef.current === 'matt';
         const pose =
           stageRef.current === 'exterior'
-            ? getExteriorPose(camera.aspect, camera.fov)
-            : CAMERA_POSES.interior;
+            ? isMatt
+              ? SHED_CAMERA_POSES.exterior
+              : getExteriorPose(camera.aspect, camera.fov)
+            : isMatt
+              ? SHED_CAMERA_POSES.interior
+              : CAMERA_POSES.interior;
         camera.position.fromArray(pose.position);
         currentTarget.fromArray(pose.target);
         camera.lookAt(currentTarget);
@@ -601,7 +696,20 @@ export default function GarageCanvas() {
     };
 
     const onPointerDown = (event: PointerEvent) => {
-      if (stageRef.current !== 'interior' || event.button !== 0) return;
+      if (event.button !== 0) return;
+      if (stageRef.current === 'exterior') {
+        if (event.pointerType === 'touch' && exteriorSwipePointerId === null) {
+          exteriorSwipePointerId = event.pointerId;
+          exteriorSwipeStartX = event.clientX;
+          exteriorSwipeStartY = event.clientY;
+          try {
+            activeRenderer.domElement.setPointerCapture(event.pointerId);
+          } catch {
+          }
+        }
+        return;
+      }
+      if (stageRef.current !== 'interior') return;
       pointerDown = true;
       dragPointerId = event.pointerId;
       dragStartX = event.clientX;
@@ -653,18 +761,36 @@ export default function GarageCanvas() {
         }
       }
 
+      if (
+        event.pointerId === exteriorSwipePointerId &&
+        Math.hypot(
+          event.clientX - exteriorSwipeStartX,
+          event.clientY - exteriorSwipeStartY,
+        ) > 6
+      ) {
+        if (hoveredDoor) clearHover();
+        return;
+      }
+
       if (stageRef.current === 'exterior') {
+        const isMatt = activeBuildingRef.current === 'matt';
         const overDoor =
-          raycaster.intersectObjects(activeRoom.doorHitMeshes, false).length > 0;
+          raycaster.intersectObjects(
+            isMatt ? activeShed.doorHitMeshes : activeRoom.doorHitMeshes,
+            false,
+          ).length > 0;
         if (overDoor && !hoveredDoor) audio.playHover();
         hoveredDoor = overDoor;
-        activeRoom.setDoorHovered(overDoor);
+        activeRoom.setDoorHovered(overDoor && !isMatt);
+        activeShed.setDoorHovered(overDoor && isMatt);
         updateCursor();
         return;
       }
       if (stageRef.current !== 'interior') return;
 
+      const isMatt = activeBuildingRef.current === 'matt';
       const overSwitch =
+        !isMatt &&
         raycaster.intersectObjects(activeRoom.switchHitMeshes, false).length > 0;
       if (overSwitch) {
         setHoveredStation(null);
@@ -680,7 +806,7 @@ export default function GarageCanvas() {
       activeRoom.setSwitchHovered(false);
 
       const easterEggHit = raycaster.intersectObjects(
-        activeRoom.easterEggHitMeshes,
+        isMatt ? activeShed.easterEggHitMeshes : activeRoom.easterEggHitMeshes,
         false,
       )[0];
       const easterEggId = easterEggHit?.object.userData.easterEggId as
@@ -696,7 +822,10 @@ export default function GarageCanvas() {
       }
       hoveredEasterEggId = null;
 
-      const stationHit = raycaster.intersectObjects(stationMeshes, false)[0];
+      const stationHit = raycaster.intersectObjects(
+        isMatt ? activeShed.stationHandle.hitMeshes : jimStationMeshes,
+        false,
+      )[0];
       const id = stationHit?.object.userData.stationId as StationId | undefined;
       setHoveredStation(id ?? null);
       setHoverHint(null);
@@ -704,6 +833,29 @@ export default function GarageCanvas() {
     };
 
     const onPointerUp = (event: PointerEvent) => {
+      const wasExteriorSwipe = event.pointerId === exteriorSwipePointerId;
+      if (wasExteriorSwipe) {
+        const dx = event.clientX - exteriorSwipeStartX;
+        const dy = event.clientY - exteriorSwipeStartY;
+        exteriorSwipePointerId = null;
+        try {
+          activeRenderer.domElement.releasePointerCapture(event.pointerId);
+        } catch {
+        }
+        if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+          if (stageRef.current === 'exterior' && motion === null) {
+            if (dx < 0 && activeBuildingRef.current === 'jim') {
+              switchBuilding('matt');
+            } else if (dx > 0 && activeBuildingRef.current === 'matt') {
+              switchBuilding('jim');
+            }
+          }
+          dragDistance = 0;
+          updateCursor();
+          return;
+        }
+      }
+
       const wasInteriorDrag =
         pointerDown && event.pointerId === dragPointerId;
       const suppressSelection = wasInteriorDrag && dragDistance > 6;
@@ -719,27 +871,43 @@ export default function GarageCanvas() {
 
       raycastFromEvent(event);
       if (!suppressSelection) {
+        const isMatt = activeBuildingRef.current === 'matt';
         if (stageRef.current === 'exterior') {
-          if (raycaster.intersectObjects(activeRoom.doorHitMeshes, false).length > 0) {
+          if (
+            raycaster.intersectObjects(
+              isMatt ? activeShed.doorHitMeshes : activeRoom.doorHitMeshes,
+              false,
+            ).length > 0
+          ) {
             openGarage();
           }
         } else if (stageRef.current === 'interior') {
-          if (raycaster.intersectObjects(activeRoom.switchHitMeshes, false).length > 0) {
+          if (
+            !isMatt &&
+            raycaster.intersectObjects(activeRoom.switchHitMeshes, false).length > 0
+          ) {
             toggleGarageLighting();
           } else {
             const easterEggHit = raycaster.intersectObjects(
-              activeRoom.easterEggHitMeshes,
+              isMatt
+                ? activeShed.easterEggHitMeshes
+                : activeRoom.easterEggHitMeshes,
               false,
             )[0];
             const easterEggId = easterEggHit?.object.userData.easterEggId as
               | EasterEggId
               | undefined;
             if (easterEggId) {
-              const message = activeRoom.triggerEasterEgg(easterEggId);
+              const message = isMatt
+                ? activeShed.triggerEasterEgg(easterEggId)
+                : activeRoom.triggerEasterEgg(easterEggId);
               audio.playEasterEgg(easterEggId);
               showToast(message);
             } else {
-              const stationHit = raycaster.intersectObjects(stationMeshes, false)[0];
+              const stationHit = raycaster.intersectObjects(
+                isMatt ? activeShed.stationHandle.hitMeshes : jimStationMeshes,
+                false,
+              )[0];
               const id = stationHit?.object.userData.stationId as
                 | StationId
                 | undefined;
@@ -757,6 +925,7 @@ export default function GarageCanvas() {
     const endPointerDrag = () => {
       pointerDown = false;
       dragPointerId = null;
+      exteriorSwipePointerId = null;
       dragDistance = 0;
       dragging = false;
       pointerGoal.set(0, 0);
@@ -769,7 +938,21 @@ export default function GarageCanvas() {
     };
 
     const onWheel = (event: WheelEvent) => {
-      if (stageRef.current === 'exterior' && event.deltaY > 0) {
+      if (stageRef.current !== 'exterior' || motion !== null) return;
+      if (
+        Math.abs(event.deltaX) > Math.abs(event.deltaY) &&
+        Math.abs(event.deltaX) > 12
+      ) {
+        if (event.deltaX > 0 && activeBuildingRef.current === 'jim') {
+          event.preventDefault();
+          switchBuilding('matt');
+        } else if (event.deltaX < 0 && activeBuildingRef.current === 'matt') {
+          event.preventDefault();
+          switchBuilding('jim');
+        }
+        return;
+      }
+      if (event.deltaY > 25 && activeBuildingRef.current === 'jim') {
         event.preventDefault();
         openGarage();
       }
@@ -814,6 +997,16 @@ export default function GarageCanvas() {
       }
       if (
         stageRef.current === 'exterior' &&
+        (event.key === 'ArrowRight' || event.key === 'ArrowLeft')
+      ) {
+        event.preventDefault();
+        if (!event.repeat && motion === null) {
+          switchBuilding(event.key === 'ArrowRight' ? 'matt' : 'jim');
+        }
+        return;
+      }
+      if (
+        stageRef.current === 'exterior' &&
         (event.key === 'Enter' || event.key === ' ')
       ) {
         event.preventDefault();
@@ -837,21 +1030,29 @@ export default function GarageCanvas() {
         camera.position.lerpVectors(motion.fromPosition, motion.toPosition, eased);
         currentTarget.lerpVectors(motion.fromTarget, motion.toTarget, eased);
         if (motion.kind === 'door-open' || motion.kind === 'door-close') {
-          doorProgress = THREE.MathUtils.lerp(
+          const nextDoorProgress = THREE.MathUtils.lerp(
             motion.fromDoor,
             motion.toDoor,
             eased,
           );
-          activeRoom.setDoorProgress(doorProgress);
+          if (activeBuildingRef.current === 'matt') {
+            shedDoorProgress = nextDoorProgress;
+            activeShed.setDoorProgress(shedDoorProgress);
+          } else {
+            doorProgress = nextDoorProgress;
+            activeRoom.setDoorProgress(doorProgress);
+          }
         }
         if (progress === 1) {
           const completedMotion = motion.kind;
           motion = null;
           if (completedMotion === 'door-open') {
             changeStage('interior');
-            try {
-              window.sessionStorage.setItem(DOOR_STORAGE_KEY, '1');
-            } catch {
+            if (activeBuildingRef.current === 'jim') {
+              try {
+                window.sessionStorage.setItem(DOOR_STORAGE_KEY, '1');
+              } catch {
+              }
             }
           } else if (completedMotion === 'door-close') {
             changeStage('exterior');
@@ -861,20 +1062,27 @@ export default function GarageCanvas() {
             }
           } else if (completedMotion === 'return') {
             changeStage('interior');
+          } else if (completedMotion === 'building-switch') {
+            changeStage('exterior');
           }
         }
       } else if (stageRef.current === 'interior') {
         const damping = 1 - Math.exp(-7 * dt);
         pointerCurrent.lerp(pointerGoal, damping);
         lookCurrent.lerp(lookGoal, damping);
+        const isMatt = activeBuildingRef.current === 'matt';
+        const interiorPose = isMatt
+          ? SHED_CAMERA_POSES.interior
+          : CAMERA_POSES.interior;
+        const lookDistance = isMatt ? 4.55 : 6.35;
         const yawLimit = camera.aspect < 0.9 ? 1.08 : 0.55;
         const baseYaw =
-          camera.aspect >= 0.9
-            ? Math.atan2(
-                CAMERA_POSES.interior.target[0] - CAMERA_POSES.interior.position[0],
-                CAMERA_POSES.interior.position[2] - CAMERA_POSES.interior.target[2],
-              )
-            : 0;
+          !isMatt && camera.aspect < 0.9
+            ? 0
+            : Math.atan2(
+                interiorPose.target[0] - interiorPose.position[0],
+                interiorPose.position[2] - interiorPose.target[2],
+              );
         const yaw =
           baseYaw +
           THREE.MathUtils.clamp(
@@ -887,13 +1095,13 @@ export default function GarageCanvas() {
           -0.18,
           0.18,
         );
-        desiredPosition.fromArray(CAMERA_POSES.interior.position);
+        desiredPosition.fromArray(interiorPose.position);
         desiredPosition.x += pointerCurrent.x * 0.035;
         desiredPosition.y += pointerCurrent.y * 0.02;
         desiredTarget.set(
-          desiredPosition.x + Math.sin(yaw) * 6.35,
-          CAMERA_POSES.interior.target[1] + Math.sin(pitch) * 4.5,
-          desiredPosition.z - Math.cos(yaw) * 6.35,
+          desiredPosition.x + Math.sin(yaw) * lookDistance,
+          interiorPose.target[1] + Math.sin(pitch) * 4.5,
+          desiredPosition.z - Math.cos(yaw) * lookDistance,
         );
         camera.position.lerp(desiredPosition, damping);
         currentTarget.lerp(desiredTarget, damping);
@@ -905,6 +1113,7 @@ export default function GarageCanvas() {
       const targetBlend = lightingModeRef.current === 'day' ? 1 : 0;
       dayBlend = THREE.MathUtils.lerp(dayBlend, targetBlend, blendDamping);
       activeRoom.setLightingMode(lightingModeRef.current, dayBlend);
+      activeShed.setLightingMode(lightingModeRef.current, dayBlend);
       scene.environmentIntensity = THREE.MathUtils.lerp(0.38, 0.95, dayBlend);
       if (bloomPass) {
         bloomPass.strength = THREE.MathUtils.lerp(0.36, 0.18, dayBlend);
@@ -915,7 +1124,10 @@ export default function GarageCanvas() {
       workLight.intensity = THREE.MathUtils.lerp(18, 6, dayBlend);
 
       activeRoom.update(elapsed, dt);
-      activeStations.handles.forEach((handle) => handle.update(elapsed, dt));
+      activeShed.update(elapsed, dt);
+      activeStations.handles.forEach((handle) => {
+        if (handle.id !== activeShed.stationHandle.id) handle.update(elapsed, dt);
+      });
       if (composer) {
         composer.render();
       } else {
@@ -927,7 +1139,11 @@ export default function GarageCanvas() {
         if (now - lastTouchProjectionAt >= 1000 / 15) {
           lastTouchProjectionAt = now;
           const labels: ProjectedLabel[] = [];
-          GARAGE_STATIONS.forEach((station) => {
+          const buildingStations =
+            activeBuildingRef.current === 'matt'
+              ? [MATT_PODCAST_STATION]
+              : JIM_STATIONS;
+          buildingStations.forEach((station) => {
             const handle = activeStations.handles.get(station.id);
             if (!handle) return;
             handle.group.getWorldPosition(projectedAnchor);
@@ -1046,6 +1262,7 @@ export default function GarageCanvas() {
       audio.dispose();
       activeStations.dispose();
       activeRoom.dispose();
+      activeShed.dispose();
       activeTextures.disposeAll();
       scene.remove(activeStations.root);
       scene.environment = null;
@@ -1095,6 +1312,8 @@ export default function GarageCanvas() {
         isTouchDevice={isTouchDevice}
         activeViewPreset={activeViewPreset}
         onPanView={panToView}
+        activeBuilding={activeBuilding}
+        onSwitchBuilding={switchBuilding}
       />
       <ProjectDrawer
         station={selectedStation}

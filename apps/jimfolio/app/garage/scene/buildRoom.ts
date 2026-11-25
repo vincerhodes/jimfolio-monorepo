@@ -750,7 +750,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
   let clockSpin = 0;
   const nightLed = new THREE.Color("#ff9f43");
   const dayLed = new THREE.Color("#bdeaff");
-  const easterEggMessages: Record<EasterEggId, string> = {
+  const easterEggMessages: Partial<Record<EasterEggId, string>> = {
     wrench: "Spanner checked — 10mm socket still missing.",
     vise: "Bench vise locked down tight.",
     clock: "Workshop clock synced — always time to tinker.",
@@ -763,7 +763,7 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
       viseSpinElapsed = 0;
     }
     if (id === "clock") clockWhirl = 1;
-    return easterEggMessages[id];
+    return easterEggMessages[id] ?? "";
   };
 
   const setDoorProgress = (value: number) => {

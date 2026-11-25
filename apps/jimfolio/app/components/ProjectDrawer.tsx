@@ -64,7 +64,19 @@ export default function ProjectDrawer({
             </button>
 
             <div className="flex-1 overflow-y-auto p-6 pt-14 sm:p-8 sm:pt-16">
-              {station.category === 'shipped' ? (
+              {station.category === 'shed' ? (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-400/35 bg-orange-400/10 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-[0.12em] text-orange-300">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.7)]" />
+                    MATT&apos;S POTTING SHED · JOINT PODCAST
+                  </span>
+                  {station.domainLabel && (
+                    <span className="inline-flex rounded-full border border-orange-300/20 bg-orange-300/5 px-2.5 py-1 font-mono text-[10px] text-orange-100/80">
+                      {station.domainLabel}
+                    </span>
+                  )}
+                </div>
+              ) : station.category === 'shipped' ? (
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-[0.14em] text-emerald-300">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
@@ -100,6 +112,15 @@ export default function ProjectDrawer({
               <p className="mt-4 text-sm leading-relaxed text-zinc-300">
                 {station.description}
               </p>
+
+              {station.category === 'shed' && station.badgeNote && (
+                <div className="mt-5 flex items-start gap-2.5 rounded-xl border border-orange-300/20 bg-orange-300/[0.06] px-4 py-3 text-orange-100/75">
+                  {station.privateAuth && (
+                    <Lock size={14} className="mt-0.5 shrink-0 text-amber-300" />
+                  )}
+                  <p className="text-xs leading-relaxed">{station.badgeNote}</p>
+                </div>
+              )}
 
               {station.tech.length > 0 && (
                 <div className="mt-6">
@@ -145,9 +166,11 @@ export default function ProjectDrawer({
                     : 'bg-amber-400 hover:bg-amber-300'
                 }`}
               >
-                {station.category === 'shipped'
-                  ? 'Visit Live Site ↗'
-                  : 'Launch App ↗'}
+                {station.category === 'shed'
+                  ? 'Listen to Podcast ↗'
+                  : station.category === 'shipped'
+                    ? 'Visit Live Site ↗'
+                    : 'Launch App ↗'}
               </a>
               <button
                 type="button"
