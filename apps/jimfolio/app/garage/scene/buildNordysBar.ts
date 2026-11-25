@@ -729,6 +729,109 @@ export function buildNordysBar(
   }
   rodBetween(chalk, new THREE.Vector3(-0.4, 0.62, -0.29), new THREE.Vector3(-0.4, 0.62, 0.29), 0.013, chrome, "Chalkboard restraint chain");
 
+  const beerGlassMaterial = new THREE.MeshPhysicalMaterial({
+    color: "#eefbff",
+    transmission: 0.72,
+    transparent: true,
+    opacity: 0.34,
+    roughness: 0.08,
+    metalness: 0,
+    thickness: 0.018,
+  });
+  const lagerMaterial = new THREE.MeshPhysicalMaterial({
+    color: "#d99316",
+    emissive: "#7c4308",
+    emissiveIntensity: 0.08,
+    transparent: true,
+    opacity: 0.88,
+    transmission: 0.16,
+    roughness: 0.18,
+  });
+  const beerFoamMaterial = new THREE.MeshStandardMaterial({ color: "#fff9e9", roughness: 0.88 });
+  const greenBottleMaterial = new THREE.MeshPhysicalMaterial({
+    color: "#315c36",
+    transparent: true,
+    opacity: 0.88,
+    transmission: 0.24,
+    roughness: 0.2,
+    metalness: 0.05,
+    thickness: 0.035,
+  });
+  const amberBottleMaterial = new THREE.MeshPhysicalMaterial({
+    color: "#8a4b17",
+    transparent: true,
+    opacity: 0.88,
+    transmission: 0.22,
+    roughness: 0.22,
+    metalness: 0.04,
+    thickness: 0.035,
+  });
+  const goldFoilMaterial = new THREE.MeshStandardMaterial({ color: "#e7b84e", metalness: 0.72, roughness: 0.3 });
+  const labelCanvas = document.createElement("canvas");
+  labelCanvas.width = 256;
+  labelCanvas.height = 128;
+  const labelContext = labelCanvas.getContext("2d");
+  if (labelContext) {
+    labelContext.fillStyle = "#fff7dc";
+    labelContext.fillRect(0, 0, 256, 128);
+    labelContext.strokeStyle = "#c58b24";
+    labelContext.lineWidth = 8;
+    labelContext.strokeRect(5, 5, 246, 118);
+    labelContext.fillStyle = "#173c2b";
+    labelContext.textAlign = "center";
+    labelContext.textBaseline = "middle";
+    labelContext.font = "900 36px Arial, sans-serif";
+    labelContext.fillText("NORDY'S", 128, 45);
+    labelContext.font = "800 22px Arial, sans-serif";
+    labelContext.fillText("COLD LAGER", 128, 86);
+  }
+  const bottleLabelTexture = new THREE.CanvasTexture(labelCanvas);
+  bottleLabelTexture.colorSpace = THREE.SRGBColorSpace;
+  ownedTextures.add(bottleLabelTexture);
+  const bottleLabelMaterial = new THREE.MeshStandardMaterial({ map: bottleLabelTexture, roughness: 0.58 });
+
+  const createPint = (parent: THREE.Object3D, position: Point): THREE.Group => {
+    const pint = new THREE.Group();
+    pint.position.set(...position);
+    pint.name = "Frosted pint of golden amber lager";
+    parent.add(pint);
+    const glass = cylinder(pint, 0.074, 0.38, [0, 0.19, 0], beerGlassMaterial, "Frosted tapered pint glass", 0.105, 24);
+    glass.castShadow = false;
+    glass.receiveShadow = false;
+    cylinder(pint, 0.064, 0.31, [0, 0.16, 0], lagerMaterial, "Cold golden amber lager", 0.091, 24);
+    cylinder(pint, 0.091, 0.06, [0, 0.34, 0], beerFoamMaterial, "Foamy white pint head", 0.096, 24);
+    for (let index = 0; index < 4; index += 1) {
+      sphere(pint, 0.033, [Math.sin(index * 1.7) * 0.052, 0.369, Math.cos(index * 1.7) * 0.045], beerFoamMaterial, "Soft foam bubble", 10);
+    }
+    return pint;
+  };
+
+  const createBottle = (
+    parent: THREE.Object3D,
+    position: Point,
+    glassMaterial: THREE.Material,
+    rotationY = 0,
+  ): THREE.Group => {
+    const bottle = new THREE.Group();
+    bottle.position.set(...position);
+    bottle.rotation.y = rotationY;
+    bottle.name = "Chilled labelled glass beer bottle";
+    parent.add(bottle);
+    const body = cylinder(bottle, 0.047, 0.23, [0, 0.115, 0], glassMaterial, "Slender glass beer bottle body", 0.049, 18);
+    const shoulder = cylinder(bottle, 0.049, 0.065, [0, 0.2625, 0], glassMaterial, "Glass bottle shoulder", 0.023, 18);
+    const neck = cylinder(bottle, 0.023, 0.1, [0, 0.345, 0], glassMaterial, "Slender bottle neck", 0.022, 16);
+    body.castShadow = false;
+    shoulder.castShadow = false;
+    neck.castShadow = false;
+    const label = cylinder(bottle, 0.050, 0.09, [0, 0.12, 0], bottleLabelMaterial, "Crisp cold lager label band", 0.05, 24);
+    label.castShadow = false;
+    cylinder(bottle, 0.051, 0.007, [0, 0.073, 0], goldFoilMaterial, "Lower gold label rule", 0.051, 24);
+    cylinder(bottle, 0.051, 0.007, [0, 0.167, 0], goldFoilMaterial, "Upper gold label rule", 0.051, 24);
+    cylinder(bottle, 0.024, 0.035, [0, 0.378, 0], goldFoilMaterial, "Gold foil neck wrap", 0.024, 16);
+    cylinder(bottle, 0.026, 0.024, [0, 0.405, 0], goldFoilMaterial, "Gold bottle cap", 0.026, 16);
+    return bottle;
+  };
+
   const clusters: Array<{ center: Point; rotation: number }> = [
     { center: [-30.0, 0, 4.55], rotation: 0.12 },
     { center: [-26.2, 0, 3.65], rotation: -0.08 },
@@ -751,7 +854,65 @@ export function buildNordysBar(
     chairPositions.forEach(({ point, angle }, chairIndex) => {
       createChair(cluster, point, angle, (clusterIndex + chairIndex) % 2 === 0 ? coral : terracotta, orangeFrame);
     });
+
+    if (clusterIndex === 0) {
+      createPint(cluster, [-0.23, 0.775, -0.18]);
+      createPint(cluster, [0.19, 0.775, 0.19]);
+      createBottle(cluster, [0.23, 0.775, -0.2], amberBottleMaterial, 0.45);
+    }
+    if (clusterIndex === 1) {
+      createBottle(cluster, [-0.25, 0.775, -0.22], greenBottleMaterial, -0.35);
+      createBottle(cluster, [-0.23, 0.775, 0.2], greenBottleMaterial, 0.25);
+    }
+    if (clusterIndex === 2) {
+      const bucket = new THREE.Group();
+      bucket.position.set(0, 0.775, 0);
+      bucket.name = "Silver galvanized ice bucket with chilled beers";
+      cluster.add(bucket);
+      mesh(bucket, new THREE.CylinderGeometry(0.205, 0.16, 0.24, 24, 1, true), stainless, [0, 0.12, 0], "Open galvanized ice bucket");
+      cylinder(bucket, 0.16, 0.018, [0, 0.009, 0], stainless, "Ice bucket base", 0.16, 24);
+      for (const y of [0.035, 0.12, 0.205]) {
+        const rib = mesh(bucket, new THREE.TorusGeometry(0.17 + y * 0.14, 0.006, 6, 24), chrome, [0, y, 0], "Galvanized bucket rib");
+        rib.rotation.x = Math.PI / 2;
+      }
+      const rim = mesh(bucket, new THREE.TorusGeometry(0.205, 0.012, 8, 24), chrome, [0, 0.24, 0], "Rolled silver bucket rim");
+      rim.rotation.x = Math.PI / 2;
+      for (const x of [-0.21, 0.21]) {
+        const handle = mesh(bucket, new THREE.TorusGeometry(0.06, 0.008, 6, 18), chrome, [x, 0.15, 0], "Bucket side handle");
+        handle.rotation.y = Math.PI / 2;
+      }
+      const iceMaterial = new THREE.MeshPhysicalMaterial({
+        color: "#dff7ff",
+        transparent: true,
+        opacity: 0.68,
+        transmission: 0.38,
+        roughness: 0.16,
+      });
+      for (let index = 0; index < 10; index += 1) {
+        const ice = box(bucket, [0.065, 0.055, 0.06], [Math.sin(index * 2.2) * 0.12, 0.19 + (index % 3) * 0.018, Math.cos(index * 2.2) * 0.11], iceMaterial, "Melting ice cube");
+        ice.rotation.set(index * 0.17, index * 0.31, index * 0.13);
+        ice.castShadow = false;
+        ice.receiveShadow = false;
+      }
+      const bucketBottleA = createBottle(cluster, [-0.085, 0.85, 0.015], greenBottleMaterial, 0.4);
+      bucketBottleA.rotation.z = -0.14;
+      const bucketBottleB = createBottle(cluster, [0.075, 0.85, 0.055], amberBottleMaterial, -0.3);
+      bucketBottleB.rotation.z = 0.15;
+      const bucketBottleC = createBottle(cluster, [0.015, 0.85, -0.085], greenBottleMaterial, 0.9);
+      bucketBottleC.rotation.x = -0.13;
+      createPint(cluster, [-0.29, 0.775, 0.2]);
+      createPint(cluster, [0.29, 0.775, -0.2]);
+    }
+    if (clusterIndex === 3) {
+      createPint(cluster, [-0.22, 0.775, 0.18]);
+      createPint(cluster, [0.2, 0.775, -0.2]);
+      createBottle(cluster, [0.23, 0.775, 0.19], amberBottleMaterial, -0.5);
+    }
   });
+
+  createPint(group, [-25.22, 1.065, 0.5]).name = "Freshly poured pint waiting beside the chrome tap";
+  createBottle(group, [-27.25, 1.065, 0.17], greenBottleMaterial, 0.25).name = "First chilled bottle lined up behind the pass";
+  createBottle(group, [-26.96, 1.065, 0.17], amberBottleMaterial, -0.2).name = "Second chilled bottle lined up behind the pass";
 
   const tree = new THREE.Group();
   tree.position.set(-23.6, 0, 1.4);
@@ -960,6 +1121,185 @@ export function buildNordysBar(
     handles.set(patioStation.id, createStationHandle(patioStation, stationGroup, [hit], ring));
   }
 
+  let updateKickoffTv: ((elapsed: number) => void) | undefined;
+  const kickoffTvStation = stations.find((station) => station.id === "nordy-kickoff-tv");
+  if (kickoffTvStation) {
+    const stationGroup = new THREE.Group();
+    stationGroup.position.set(...kickoffTvStation.anchorPosition);
+    stationGroup.rotation.y = -0.24;
+    stationGroup.name = "Nordy's mounted outdoor KickoffHQ sports TV";
+    group.add(stationGroup);
+    stationGroup.updateWorldMatrix(true, false);
+
+    const mountPoint = stationGroup.worldToLocal(new THREE.Vector3(-24.68, 2.02, 0.72));
+    box(stationGroup, [0.22, 0.38, 0.045], [mountPoint.x, mountPoint.y, mountPoint.z], blackMetal, "Bolted articulated TV wall plate");
+    for (const x of [-0.065, 0.065]) {
+      for (const y of [-0.13, 0.13]) {
+        sphere(stationGroup, 0.018, [mountPoint.x + x, mountPoint.y + y, mountPoint.z + 0.032], chrome, "TV mount hex bolt", 8);
+      }
+    }
+    const elbow = new THREE.Vector3(mountPoint.x + 0.15, 0, mountPoint.z + 0.16);
+    rodBetween(stationGroup, new THREE.Vector3(mountPoint.x, 0, mountPoint.z + 0.03), elbow, 0.028, blackMetal, "Matte-black articulated mount arm");
+    rodBetween(stationGroup, elbow, new THREE.Vector3(0, 0, -0.055), 0.025, blackMetal, "Matte-black TV swing arm");
+    sphere(stationGroup, 0.052, [elbow.x, elbow.y, elbow.z], blackMetal, "Articulated mount elbow", 12);
+
+    box(stationGroup, [1.38, 0.8, 0.075], [0, 0, 0], blackMetal, "55-inch slim-bezel outdoor sports TV");
+    box(stationGroup, [1.52, 0.035, 0.28], [0, 0.445, 0.015], stainless, "Brushed slender TV weather hood");
+    box(stationGroup, [1.4, 0.045, 0.04], [0, 0.423, 0.135], blackMetal, "Weather hood drip edge");
+    box(stationGroup, [1.02, 0.075, 0.075], [0, -0.49, 0.005], blackMetal, "Wall-mounted TV soundbar");
+    for (let index = 0; index < 18; index += 1) {
+      sphere(stationGroup, 0.006, [-0.43 + index * 0.05, -0.49, 0.045], charcoal, "Soundbar grille perforation", 6);
+    }
+    const powerLedMaterial = new THREE.MeshStandardMaterial({
+      color: "#86efac",
+      emissive: "#22c55e",
+      emissiveIntensity: 1.4,
+      roughness: 0.35,
+    });
+    sphere(stationGroup, 0.011, [0.61, -0.357, 0.044], powerLedMaterial, "Tiny green TV power LED", 8);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 512;
+    canvas.height = 288;
+    const context = canvas.getContext("2d");
+    const drawTv = (elapsed: number): void => {
+      if (!context) return;
+      context.clearRect(0, 0, 512, 288);
+      context.fillStyle = "#07101b";
+      context.fillRect(0, 0, 512, 288);
+      context.fillStyle = "#111c2c";
+      context.fillRect(0, 0, 512, 38);
+
+      context.textBaseline = "middle";
+      context.textAlign = "left";
+      context.fillStyle = "#7f1d1d";
+      context.fillRect(10, 8, 70, 22);
+      context.shadowColor = "#ef4444";
+      context.shadowBlur = 10;
+      context.fillStyle = "#ef4444";
+      context.beginPath();
+      context.arc(23, 19, 5, 0, Math.PI * 2);
+      context.fill();
+      context.shadowBlur = 0;
+      context.font = "800 13px Arial, sans-serif";
+      context.fillText("LIVE", 34, 20);
+      context.fillStyle = "#facc15";
+      context.font = "900 20px Arial, sans-serif";
+      context.fillText("KICKOFF HQ", 94, 20);
+      context.fillStyle = "#cbd5e1";
+      context.font = "600 12px Arial, sans-serif";
+      context.textAlign = "right";
+      context.fillText("kickoff-hq.com", 500, 20);
+
+      const pitchX = 12;
+      const pitchY = 50;
+      const pitchWidth = 226;
+      const pitchHeight = 188;
+      context.fillStyle = "#123e2a";
+      context.fillRect(pitchX, pitchY, pitchWidth, pitchHeight);
+      context.strokeStyle = "rgba(236, 253, 245, 0.9)";
+      context.lineWidth = 2;
+      context.strokeRect(pitchX + 7, pitchY + 7, pitchWidth - 14, pitchHeight - 14);
+      context.beginPath();
+      context.moveTo(pitchX + pitchWidth / 2, pitchY + 7);
+      context.lineTo(pitchX + pitchWidth / 2, pitchY + pitchHeight - 7);
+      context.stroke();
+      context.beginPath();
+      context.arc(pitchX + pitchWidth / 2, pitchY + pitchHeight / 2, 25, 0, Math.PI * 2);
+      context.stroke();
+      context.strokeRect(pitchX + 7, pitchY + 53, 32, 82);
+      context.strokeRect(pitchX + pitchWidth - 39, pitchY + 53, 32, 82);
+
+      for (let index = 0; index < 10; index += 1) {
+        const playerX = pitchX + 28 + (index % 5) * 42 + Math.sin(elapsed * 1.35 + index * 0.9) * 7;
+        const playerY = pitchY + 43 + Math.floor(index / 5) * 96 + Math.cos(elapsed * 1.1 + index) * 8;
+        context.fillStyle = index < 5 ? "#f87171" : "#fde047";
+        context.strokeStyle = "#f8fafc";
+        context.lineWidth = 1;
+        context.beginPath();
+        context.arc(playerX, playerY, 4, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+      }
+      const ballX = pitchX + pitchWidth / 2 + Math.sin(elapsed * 0.9) * 72;
+      const ballY = pitchY + 94 + Math.cos(elapsed * 1.25) * 40 - Math.abs(Math.sin(elapsed * 3.2)) * 12;
+      context.fillStyle = "#ffffff";
+      context.beginPath();
+      context.arc(ballX, ballY, 3, 0, Math.PI * 2);
+      context.fill();
+
+      const matchSeconds = 67 * 60 + 14 + Math.floor(elapsed);
+      const matchMinutes = Math.floor(matchSeconds / 60);
+      const seconds = String(matchSeconds % 60).padStart(2, "0");
+      context.fillStyle = "rgba(2, 6, 23, 0.86)";
+      context.fillRect(pitchX + 12, pitchY + pitchHeight - 31, 70, 22);
+      context.fillStyle = "#f8fafc";
+      context.font = "800 15px monospace";
+      context.textAlign = "center";
+      context.fillText(`${matchMinutes}:${seconds}`, pitchX + 47, pitchY + pitchHeight - 20);
+
+      context.textAlign = "left";
+      context.fillStyle = "#101c2b";
+      context.fillRect(250, 50, 250, 188);
+      context.fillStyle = "#94a3b8";
+      context.font = "800 12px Arial, sans-serif";
+      context.fillText("LIVE SCORES", 264, 64);
+      const scores = ["ARS 2-1 LIV · SKY", "KC 24-17 BUF · ESPN", "BOS 108-104 LAL · TNT"];
+      scores.forEach((score, index) => {
+        const rowY = 78 + index * 51;
+        context.fillStyle = index % 2 === 0 ? "#17263a" : "#132135";
+        context.fillRect(260, rowY, 230, 41);
+        context.fillStyle = index === 0 ? "#facc15" : "#f1f5f9";
+        context.font = "800 15px Arial, sans-serif";
+        context.fillText(score, 269, rowY + 21);
+      });
+
+      context.fillStyle = "#111827";
+      context.fillRect(0, 250, 512, 38);
+      context.fillStyle = "#facc15";
+      context.fillRect(0, 250, 512, 2);
+      context.font = "800 16px Arial, sans-serif";
+      const ticker = "PREMIER LEAGUE · NFL · NBA · IPL · AFL · CLICK TO OPEN KICKOFF-HQ.COM";
+      const tickerWidth = context.measureText(ticker).width;
+      const tickerX = 12 - ((elapsed * 72) % (tickerWidth + 48));
+      context.fillText(ticker, tickerX, 270);
+      context.fillText(ticker, tickerX + tickerWidth + 48, 270);
+    };
+    drawTv(0);
+    const tvTexture = new THREE.CanvasTexture(canvas);
+    tvTexture.colorSpace = THREE.SRGBColorSpace;
+    ownedTextures.add(tvTexture);
+    const screenMaterial = new THREE.MeshStandardMaterial({
+      color: "#000000",
+      emissiveMap: tvTexture,
+      emissive: "#ffffff",
+      emissiveIntensity: 0.72,
+      roughness: 0.3,
+      metalness: 0.05,
+    });
+    const screen = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 0.72), screenMaterial);
+    screen.position.z = 0.039;
+    screen.name = "Live animated KickoffHQ broadcast screen";
+    stationGroup.add(screen);
+    let lastTvFrame = 0;
+    updateKickoffTv = (elapsed: number): void => {
+      if (elapsed - lastTvFrame < 0.25) return;
+      lastTvFrame = elapsed;
+      drawTv(elapsed);
+      tvTexture.needsUpdate = true;
+    };
+
+    const bounceLight = new THREE.PointLight("#fbbf24", 2.2, 3.2, 2);
+    bounceLight.position.set(0, -0.34, 0.38);
+    stationGroup.add(bounceLight);
+    activeLights.push(bounceLight);
+    const hit = makeHitBox(stationGroup, [1.55, 1.05, 0.45], [0, 0, 0.02], "KickoffHQ sports TV station hit area");
+    const ring = stationRing(stationGroup, kickoffTvStation.accentHex, 0.86);
+    ring.rotation.x = 0;
+    ring.position.set(0, 0, -0.045);
+    handles.set(kickoffTvStation.id, createStationHandle(kickoffTvStation, stationGroup, [hit], ring));
+  }
+
   const interiorEasterEggHitMeshes: THREE.Object3D[] = [];
   if (grillHit) interiorEasterEggHitMeshes.push(grillHit);
   interiorEasterEggHitMeshes.push(tapHit);
@@ -1019,6 +1359,7 @@ export function buildNordysBar(
       });
     },
     update: (elapsed: number, dt: number) => {
+      updateKickoffTv?.(elapsed);
       grillBoost = Math.max(0, grillBoost - dt);
       steamPuffs.forEach(({ object, phase, drift }, index) => {
         const speed = grillBoost > 0 ? 0.85 : 0.36;

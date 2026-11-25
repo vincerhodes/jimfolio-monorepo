@@ -3,7 +3,7 @@ import type { GarageStation, StationHandle, StationId } from "../types";
 import type { WorkshopTextures } from "./materials";
 
 type Vec3 = [number, number, number];
-type BenchStationId = Exclude<StationId, "browzr" | "kickoff-hq" | "rovr" | "preparingforai" | "rightcourtsc" | "matt-preparingforai" | "matt-descartwright" | "matt-germanya" | "matt-digitaldetox" | "sam-browzr" | "sam-vietnam" | "nordy-burgers" | "nordy-patio">;
+type BenchStationId = Exclude<StationId, "browzr" | "kickoff-hq" | "rovr" | "preparingforai" | "rightcourtsc" | "matt-preparingforai" | "matt-descartwright" | "matt-germanya" | "matt-digitaldetox" | "sam-browzr" | "sam-vietnam" | "nordy-burgers" | "nordy-patio" | "nordy-kickoff-tv">;
 
 type KeyMaterial = {
   material: THREE.MeshStandardMaterial;

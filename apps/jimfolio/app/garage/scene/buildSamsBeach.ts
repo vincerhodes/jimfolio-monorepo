@@ -29,7 +29,7 @@ type GlowMaterial = {
 
 const CENTER_X = -14;
 const LANTERN_MESSAGE = "Hội An lantern lit — Sam's officially living the beach-hut dream.";
-const SURFBOARD_MESSAGE = "Surf's up in Da Nang — Browzr ships best barefoot.";
+const SURFBOARD_MESSAGE = "Surf's up in Hội An — Browzr ships best barefoot.";
 
 export function buildSamsBeach(
   scene: THREE.Scene,
@@ -178,12 +178,17 @@ export function buildSamsBeach(
       context.textAlign = "center";
       context.textBaseline = "middle";
       context.fillStyle = foreground;
-      context.font = `700 ${Math.round(canvas.height * (subtitle ? 0.35 : 0.43))}px sans-serif`;
-      context.fillText(title, canvas.width / 2, canvas.height * (subtitle ? 0.4 : 0.52));
+      const padX = Math.max(40, canvas.width * 0.06);
+      const maxWidth = canvas.width - padX * 2;
+      for (let fontSize = Math.round(canvas.height * (subtitle ? 0.34 : 0.40)); fontSize >= 24; fontSize -= 2) {
+        context.font = `700 ${fontSize}px sans-serif`;
+        if (context.measureText(title).width <= maxWidth || fontSize <= 24) break;
+      }
+      context.fillText(title, canvas.width / 2, canvas.height * (subtitle ? 0.4 : 0.52), maxWidth);
       if (subtitle) {
         context.fillStyle = "#f6c866";
         context.font = `600 ${Math.round(canvas.height * 0.14)}px sans-serif`;
-        context.fillText(subtitle, canvas.width / 2, canvas.height * 0.75);
+        context.fillText(subtitle, canvas.width / 2, canvas.height * 0.75, maxWidth);
       }
     });
     return new THREE.MeshStandardMaterial({
@@ -454,7 +459,7 @@ export function buildSamsBeach(
     1200,
     300,
     "SAM'S BEACH",
-    "VIETNAM EDITION // BROWZR & BREEZE",
+    "HỘI AN, VIETNAM // BROWZR & BREEZE",
     "#174d46",
   );
   box(hut, [4.9, 0.93, 0.13], [CENTER_X, 2.85, 3.29], darkTeakMaterial);
@@ -765,11 +770,11 @@ export function buildSamsBeach(
   signpost.rotation.y = -0.15;
   group.add(signpost);
   box(signpost, [0.13, 1.75, 0.13], [0, 0.82, 0], darkTeakMaterial);
-  box(signpost, [2.55, 0.5, 0.12], [0, 1.48, 0], lightTeakMaterial);
+  box(signpost, [2.75, 0.52, 0.12], [0, 1.48, 0], lightTeakMaterial);
   const directionSign = addMesh(
     signpost,
-    new THREE.PlaneGeometry(2.43, 0.4),
-    labelMaterial(1024, 192, "SAM'S BEACH // DA NANG →", "", "#78512f", "#fff0bf"),
+    new THREE.PlaneGeometry(2.62, 0.42),
+    labelMaterial(1024, 192, "SAM'S BEACH · HỘI AN →", "", "#78512f", "#fff0bf"),
     [0, 1.48, 0.066],
   );
   directionSign.castShadow = false;
@@ -1116,7 +1121,7 @@ export function buildSamsBeach(
       context.textAlign = "center";
       context.fillStyle = "#174d46";
       context.font = "700 45px serif";
-      context.fillText("DA NANG", canvas.width / 2, 299);
+      context.fillText("HỘI AN", canvas.width / 2, 299);
       context.font = "600 24px sans-serif";
       context.fillText("// MOVING TO VIETNAM", canvas.width / 2, 351);
       context.strokeStyle = "#b78a55";
@@ -1138,6 +1143,448 @@ export function buildSamsBeach(
   for (const station of stations) {
     if (station.id === "sam-browzr") buildBrowzrStation(station);
     if (station.id === "sam-vietnam") buildVietnamStation(station);
+  }
+
+  const gamesTable = new THREE.Group();
+  gamesTable.name = "beach-games-table";
+  gamesTable.position.set(CENTER_X - 0.15, 0.25, 0.65);
+  hut.add(gamesTable);
+  const tableSurfaceY = 0.53;
+  box(gamesTable, [1.38, 0.07, 0.82], [0, 0.495, 0], teakMaterial);
+  box(gamesTable, [1.4, 0.035, 0.045], [0, 0.485, 0.405], bambooDarkMaterial);
+  box(gamesTable, [1.4, 0.035, 0.045], [0, 0.485, -0.405], bambooDarkMaterial);
+  for (const xSide of [-1, 1]) {
+    for (const zSide of [-1, 1]) {
+      cylinderBetween(
+        gamesTable,
+        new THREE.Vector3(xSide * 0.59, 0.015, zSide * 0.32),
+        new THREE.Vector3(xSide * 0.5, 0.47, zSide * 0.27),
+        0.038,
+        bambooMaterial,
+        9,
+      );
+    }
+  }
+  box(gamesTable, [1.13, 0.035, 0.59], [0, 0.15, 0], darkTeakMaterial);
+  for (let index = 0; index < 8; index += 1) {
+    box(gamesTable, [1.08, 0.025, 0.038], [0, 0.18, -0.25 + index * 0.071], bambooLightMaterial);
+  }
+  for (const x of [-0.55, 0.55]) {
+    box(gamesTable, [0.04, 0.04, 0.61], [x, 0.17, 0], bambooMaterial);
+  }
+
+  const cushionTexture = makeCanvasTexture(256, 256, (context, canvas) => {
+    context.fillStyle = "#e8d7b7";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.strokeStyle = "rgba(83,58,37,0.32)";
+    context.lineWidth = 3;
+    for (let offset = 0; offset < canvas.width; offset += 12) {
+      context.beginPath();
+      context.moveTo(offset, 0);
+      context.lineTo(offset, canvas.height);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(0, offset);
+      context.lineTo(canvas.width, offset);
+      context.stroke();
+    }
+  });
+  const cushionMaterials = ["#d97b62", "#299c91"].map((color) => new THREE.MeshStandardMaterial({
+    color,
+    map: cushionTexture,
+    roughness: 0.96,
+  }));
+  [-1, 1].forEach((side, index) => {
+    const cushion = addMesh(
+      gamesTable,
+      new THREE.CylinderGeometry(0.25, 0.27, 0.105, 20),
+      cushionMaterials[index],
+      [side * 0.96, 0.055, 0.08 - index * 0.16],
+    );
+    cushion.rotation.y = side * 0.16;
+    const piping = addMesh(
+      gamesTable,
+      new THREE.TorusGeometry(0.247, 0.012, 6, 28),
+      ropeMaterial,
+      [side * 0.96, 0.105, 0.08 - index * 0.16],
+    );
+    piping.rotation.x = Math.PI / 2;
+  });
+
+  const farkleTray = new THREE.Group();
+  farkleTray.position.set(-0.36, tableSurfaceY, -0.1);
+  gamesTable.add(farkleTray);
+  box(farkleTray, [0.42, 0.05, 0.32], [0, 0.025, 0], darkTeakMaterial);
+  box(farkleTray, [0.365, 0.007, 0.265], [0, 0.053, 0], standard("#075a43", 0.98));
+  for (const z of [-0.149, 0.149]) {
+    box(farkleTray, [0.42, 0.04, 0.022], [0, 0.065, z], darkTeakMaterial);
+  }
+  for (const x of [-0.199, 0.199]) {
+    box(farkleTray, [0.022, 0.04, 0.276], [x, 0.065, 0], darkTeakMaterial);
+  }
+
+  const pipLayouts: Record<number, Array<[number, number]>> = {
+    1: [[0.5, 0.5]],
+    2: [[0.28, 0.28], [0.72, 0.72]],
+    3: [[0.28, 0.28], [0.5, 0.5], [0.72, 0.72]],
+    4: [[0.28, 0.28], [0.72, 0.28], [0.28, 0.72], [0.72, 0.72]],
+    5: [[0.28, 0.28], [0.72, 0.28], [0.5, 0.5], [0.28, 0.72], [0.72, 0.72]],
+    6: [[0.28, 0.25], [0.28, 0.5], [0.28, 0.75], [0.72, 0.25], [0.72, 0.5], [0.72, 0.75]],
+  };
+  const diceMaterials = [3, 4, 5, 2, 1, 6].map((pipCount) => {
+    const texture = makeCanvasTexture(128, 128, (context, canvas) => {
+      context.fillStyle = "#fff7df";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.strokeStyle = "#d8c9aa";
+      context.lineWidth = 5;
+      context.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
+      context.fillStyle = "#213337";
+      pipLayouts[pipCount].forEach(([x, y]) => {
+        context.beginPath();
+        context.arc(x * canvas.width, y * canvas.height, 10, 0, Math.PI * 2);
+        context.fill();
+      });
+    });
+    return new THREE.MeshStandardMaterial({ map: texture, roughness: 0.42 });
+  });
+  const dicePlacements: Array<[number, number, number, number, number, number]> = [
+    [-0.49, 0.608, -0.15, 0.05, 0.35, -0.06],
+    [-0.35, 0.608, -0.17, -0.07, 1.1, 0.05],
+    [-0.23, 0.608, -0.1, 0.08, 2.0, 0.04],
+    [-0.45, 0.608, -0.01, -0.04, 2.7, 0.08],
+    [-0.29, 0.608, 0.01, 0.06, 0.7, -0.05],
+    [-0.1, tableSurfaceY + 0.027, 0.015, 0.04, 1.8, 0.08],
+  ];
+  dicePlacements.forEach(([x, y, z, rx, ry, rz]) => {
+    const die = addMesh(gamesTable, new THREE.BoxGeometry(0.052, 0.052, 0.052), diceMaterials, [x, y, z]);
+    die.rotation.set(rx, ry, rz);
+  });
+
+  const scorePad = new THREE.Group();
+  scorePad.position.set(-0.43, tableSurfaceY + 0.012, 0.27);
+  scorePad.rotation.y = -0.13;
+  gamesTable.add(scorePad);
+  box(scorePad, [0.25, 0.012, 0.16], [0, 0, 0], creamMaterial);
+  const scoreTexture = makeCanvasTexture(400, 256, (context, canvas) => {
+    context.fillStyle = "#fff8df";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "#174d46";
+    context.font = "700 39px sans-serif";
+    context.textAlign = "center";
+    context.fillText("FARKLE", canvas.width / 2, 46);
+    context.strokeStyle = "#79a99b";
+    context.lineWidth = 3;
+    for (const x of [24, 142, 258, 376]) {
+      context.beginPath();
+      context.moveTo(x, 67);
+      context.lineTo(x, 236);
+      context.stroke();
+    }
+    for (const y of [67, 108, 149, 190, 231]) {
+      context.beginPath();
+      context.moveTo(24, y);
+      context.lineTo(376, y);
+      context.stroke();
+    }
+    context.strokeStyle = "#375c65";
+    context.lineWidth = 4;
+    for (const [x, y] of [[61, 88], [178, 127], [295, 88], [98, 171]]) {
+      context.beginPath();
+      context.moveTo(x - 10, y - 12);
+      context.lineTo(x + 10, y + 12);
+      context.moveTo(x + 10, y - 12);
+      context.lineTo(x - 10, y + 12);
+      context.stroke();
+    }
+  });
+  const scoreFace = addMesh(
+    scorePad,
+    new THREE.PlaneGeometry(0.238, 0.148),
+    new THREE.MeshStandardMaterial({ map: scoreTexture, roughness: 0.88 }),
+    [0, 0.007, 0],
+  );
+  scoreFace.rotation.x = -Math.PI / 2;
+  scoreFace.castShadow = false;
+  cylinderBetween(
+    gamesTable,
+    new THREE.Vector3(-0.235, tableSurfaceY + 0.018, 0.2),
+    new THREE.Vector3(-0.235, tableSurfaceY + 0.018, 0.345),
+    0.009,
+    standard("#e9b936", 0.58),
+    8,
+  );
+
+  function playingCardMaterial(rank: string, suit: string): THREE.MeshStandardMaterial {
+    const texture = makeCanvasTexture(256, 368, (context, canvas) => {
+      const suitColor = suit === "♥" || suit === "♦" ? "#c73c42" : "#172b34";
+      context.fillStyle = "#fffdf3";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.strokeStyle = "#d8cfba";
+      context.lineWidth = 5;
+      context.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+      context.fillStyle = suitColor;
+      context.textAlign = "center";
+      context.font = "700 50px serif";
+      context.fillText(rank, 37, 57);
+      context.font = "42px serif";
+      context.fillText(suit, 37, 101);
+      context.save();
+      context.translate(canvas.width - 37, canvas.height - 45);
+      context.rotate(Math.PI);
+      context.font = "700 50px serif";
+      context.fillText(rank, 0, 0);
+      context.font = "42px serif";
+      context.fillText(suit, 0, 45);
+      context.restore();
+      context.font = "142px serif";
+      context.fillText(suit, canvas.width / 2, canvas.height * 0.64);
+    });
+    return new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7 });
+  }
+
+  function playingCard(rank: string, suit: string): THREE.Group {
+    const card = new THREE.Group();
+    box(card, [0.11, 0.006, 0.16], [0, 0, 0], creamMaterial);
+    const face = addMesh(card, new THREE.PlaneGeometry(0.104, 0.152), playingCardMaterial(rank, suit), [0, 0.0035, 0]);
+    face.rotation.x = -Math.PI / 2;
+    face.castShadow = false;
+    return card;
+  }
+
+  const cardBackTexture = makeCanvasTexture(256, 368, (context, canvas) => {
+    context.fillStyle = "#fff5dc";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "#b83342";
+    context.fillRect(15, 15, canvas.width - 30, canvas.height - 30);
+    context.strokeStyle = "rgba(255,235,205,0.7)";
+    context.lineWidth = 3;
+    for (let offset = -canvas.height; offset < canvas.width + canvas.height; offset += 24) {
+      context.beginPath();
+      context.moveTo(offset, 15);
+      context.lineTo(offset - canvas.height, canvas.height - 15);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(offset, 15);
+      context.lineTo(offset + canvas.height, canvas.height - 15);
+      context.stroke();
+    }
+    context.strokeStyle = "#fff0d0";
+    context.lineWidth = 8;
+    context.strokeRect(26, 26, canvas.width - 52, canvas.height - 52);
+  });
+  const drawDeck = new THREE.Group();
+  drawDeck.position.set(0.49, tableSurfaceY + 0.023, -0.21);
+  drawDeck.rotation.y = 0.08;
+  gamesTable.add(drawDeck);
+  box(drawDeck, [0.11, 0.045, 0.16], [0, 0, 0], creamMaterial);
+  const deckBack = addMesh(
+    drawDeck,
+    new THREE.PlaneGeometry(0.104, 0.152),
+    new THREE.MeshStandardMaterial({ map: cardBackTexture, roughness: 0.72 }),
+    [0, 0.023, 0],
+  );
+  deckBack.rotation.x = -Math.PI / 2;
+  deckBack.castShadow = false;
+  const discard = playingCard("K", "♥");
+  discard.position.set(0.3, tableSurfaceY + 0.008, -0.15);
+  discard.rotation.y = -0.19;
+  gamesTable.add(discard);
+
+  const ginHand = [["7", "♥"], ["8", "♥"], ["9", "♥"], ["Q", "♠"], ["Q", "♦"], ["Q", "♣"], ["A", "♠"]];
+  ginHand.forEach(([rank, suit], index) => {
+    const card = playingCard(rank, suit);
+    card.position.set(0.015 + index * 0.081, tableSurfaceY + 0.006 + index * 0.0008, 0.18 + Math.abs(index - 3) * 0.008);
+    card.rotation.y = (index - 3) * 0.13;
+    gamesTable.add(card);
+  });
+
+  const ginSlip = new THREE.Group();
+  ginSlip.position.set(0.16, tableSurfaceY + 0.009, -0.275);
+  ginSlip.rotation.y = 0.08;
+  gamesTable.add(ginSlip);
+  box(ginSlip, [0.24, 0.009, 0.11], [0, 0, 0], tealMaterial);
+  const ginSlipTexture = makeCanvasTexture(420, 190, (context, canvas) => {
+    context.fillStyle = "#f8e9c8";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.strokeStyle = "#c8554f";
+    context.lineWidth = 8;
+    context.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+    context.fillStyle = "#174d46";
+    context.textAlign = "center";
+    context.font = "700 48px sans-serif";
+    context.fillText("GIN RUMMY", canvas.width / 2, 108);
+  });
+  const ginSlipFace = addMesh(
+    ginSlip,
+    new THREE.PlaneGeometry(0.226, 0.096),
+    new THREE.MeshStandardMaterial({ map: ginSlipTexture, roughness: 0.85 }),
+    [0, 0.005, 0],
+  );
+  ginSlipFace.rotation.x = -Math.PI / 2;
+  ginSlipFace.castShadow = false;
+
+  const fishingCorner = new THREE.Group();
+  fishingCorner.name = "fishing-gear-corner";
+  fishingCorner.position.set(CENTER_X + 2.35, 0.25, 0.85);
+  hut.add(fishingCorner);
+  const fishingRod = new THREE.Group();
+  fishingRod.rotation.set(-0.08, 0, 0.22);
+  fishingCorner.add(fishingRod);
+  const rodBlankMaterial = standard("#28566b", 0.34, 0.42);
+  addMesh(fishingRod, new THREE.CylinderGeometry(0.006, 0.024, 2.35, 10), rodBlankMaterial, [0, 1.275, 0]);
+  const corkMaterial = standard("#bd9360", 0.94);
+  addMesh(fishingRod, new THREE.CylinderGeometry(0.041, 0.052, 0.43, 12), corkMaterial, [0, 0.235, 0]);
+  for (const y of [0.07, 0.15, 0.23, 0.31, 0.39]) {
+    const corkRing = addMesh(fishingRod, new THREE.TorusGeometry(0.044, 0.0035, 5, 14), bambooDarkMaterial, [0, y, 0]);
+    corkRing.rotation.x = Math.PI / 2;
+  }
+  addMesh(fishingRod, new THREE.CylinderGeometry(0.029, 0.033, 0.22, 10), blackMaterial, [0, 0.5, 0]);
+  addMesh(fishingRod, new THREE.CylinderGeometry(0.054, 0.046, 0.045, 12), blackMaterial, [0, 0.025, 0]);
+
+  const spinningReel = new THREE.Group();
+  spinningReel.position.set(0, 0.52, 0.115);
+  fishingRod.add(spinningReel);
+  const reelBody = addMesh(spinningReel, new THREE.SphereGeometry(0.064, 14, 10), blackMaterial, [0, -0.035, -0.025]);
+  reelBody.scale.set(0.9, 1.15, 0.8);
+  const spool = addMesh(spinningReel, new THREE.CylinderGeometry(0.071, 0.071, 0.085, 20), silverMaterial, [0, 0, 0.025]);
+  spool.rotation.x = Math.PI / 2;
+  const spoolCore = addMesh(spinningReel, new THREE.CylinderGeometry(0.047, 0.047, 0.092, 18), blackMaterial, [0, 0, 0.025]);
+  spoolCore.rotation.x = Math.PI / 2;
+  addMesh(spinningReel, new THREE.TorusGeometry(0.094, 0.007, 6, 28), silverMaterial, [0, 0, 0.07]);
+  cylinderBetween(
+    spinningReel,
+    new THREE.Vector3(0.058, -0.035, 0.065),
+    new THREE.Vector3(0.145, -0.105, 0.09),
+    0.01,
+    silverMaterial,
+    7,
+  );
+  addMesh(spinningReel, new THREE.SphereGeometry(0.026, 10, 8), blackMaterial, [0.15, -0.11, 0.092]);
+
+  for (let index = 0; index < 5; index += 1) {
+    const y = 0.79 + index * 0.375;
+    const radius = 0.027 - index * 0.0025;
+    addMesh(fishingRod, new THREE.TorusGeometry(radius, 0.0035, 5, 14), silverMaterial, [0, y, 0.035]);
+  }
+  const fishingLineMaterial = new THREE.MeshBasicMaterial({
+    color: "#e2f2e9",
+    transparent: true,
+    opacity: 0.76,
+  });
+  const rodLine = cylinderBetween(
+    fishingRod,
+    new THREE.Vector3(0, 0.55, 0.18),
+    new THREE.Vector3(0, 2.44, 0.04),
+    0.0018,
+    fishingLineMaterial,
+    5,
+  );
+  rodLine.castShadow = false;
+  const fishingSway = new THREE.Group();
+  fishingSway.position.set(0, 2.44, 0.04);
+  fishingRod.add(fishingSway);
+  const danglingLine = cylinderBetween(
+    fishingSway,
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, -0.56, 0),
+    0.0022,
+    fishingLineMaterial,
+    5,
+  );
+  danglingLine.castShadow = false;
+  const bobberTop = addMesh(
+    fishingSway,
+    new THREE.SphereGeometry(0.05, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2),
+    coralMaterial,
+    [0, -0.45, 0],
+  );
+  bobberTop.scale.y = 0.9;
+  const bobberBottom = addMesh(
+    fishingSway,
+    new THREE.SphereGeometry(0.05, 16, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2),
+    creamMaterial,
+    [0, -0.45, 0],
+  );
+  bobberBottom.scale.y = 0.9;
+  const spoonLure = addMesh(fishingSway, new THREE.SphereGeometry(0.038, 14, 10), silverMaterial, [0, -0.58, 0]);
+  spoonLure.scale.set(0.58, 1.45, 0.2);
+  spoonLure.rotation.z = 0.34;
+  const lureHook = addMesh(fishingSway, new THREE.TorusGeometry(0.023, 0.0035, 5, 14, Math.PI * 1.45), silverMaterial, [0, -0.63, 0]);
+  lureHook.rotation.z = -0.45;
+
+  const tackleBox = new THREE.Group();
+  tackleBox.name = "open-tackle-box";
+  tackleBox.position.set(-11.88, 0.25, 0.42);
+  tackleBox.rotation.y = -0.12;
+  hut.add(tackleBox);
+  const tackleGreenMaterial = standard("#315c48", 0.66);
+  box(tackleBox, [0.48, 0.18, 0.3], [0, 0.09, 0], tackleGreenMaterial);
+  box(tackleBox, [0.42, 0.015, 0.24], [0, 0.185, 0], blackMaterial);
+  box(tackleBox, [0.44, 0.025, 0.26], [0, 0.205, 0], bambooLightMaterial);
+  for (const x of [-0.215, 0.215]) {
+    box(tackleBox, [0.018, 0.055, 0.26], [x, 0.225, 0], creamMaterial);
+  }
+  for (const z of [-0.125, 0.125]) {
+    box(tackleBox, [0.44, 0.055, 0.018], [0, 0.225, z], creamMaterial);
+  }
+  const tackleLid = new THREE.Group();
+  tackleLid.position.set(0, 0.245, -0.15);
+  tackleLid.rotation.x = 0.34;
+  tackleBox.add(tackleLid);
+  box(tackleLid, [0.48, 0.035, 0.3], [0, 0, 0.15], tackleGreenMaterial);
+  const carryingHandle = addMesh(tackleLid, new THREE.TorusGeometry(0.105, 0.012, 6, 22, Math.PI), blackMaterial, [0, 0.026, 0.15]);
+  carryingHandle.rotation.x = -Math.PI / 2;
+  for (const x of [-0.14, 0.14]) {
+    box(tackleBox, [0.045, 0.075, 0.018], [x, 0.15, 0.158], silverMaterial);
+  }
+  const lureColors = ["#ef6f61", "#c9da45", "#20a9a2", "#f2b843"];
+  lureColors.forEach((color, index) => {
+    const x = -0.145 + (index % 2) * 0.25;
+    const z = -0.055 + Math.floor(index / 2) * 0.12;
+    const lure = addMesh(tackleBox, new THREE.SphereGeometry(0.038, 12, 8), standard(color, 0.36, 0.08), [x, 0.245, z]);
+    lure.scale.set(1.55, 0.42, 0.62);
+    lure.rotation.y = -0.45 + index * 0.38;
+    const hook = addMesh(tackleBox, new THREE.TorusGeometry(0.019, 0.003, 5, 12, Math.PI * 1.4), silverMaterial, [x + 0.055, 0.24, z]);
+    hook.rotation.x = Math.PI / 2;
+  });
+
+  const baitBucket = new THREE.Group();
+  baitBucket.name = "galvanized-bait-bucket";
+  baitBucket.position.set(-11.42, 0.25, 1.32);
+  hut.add(baitBucket);
+  addMesh(baitBucket, new THREE.CylinderGeometry(0.17, 0.135, 0.28, 24, 1, true), silverMaterial, [0, 0.14, 0]);
+  addMesh(baitBucket, new THREE.CylinderGeometry(0.135, 0.135, 0.015, 24), silverMaterial, [0, 0.008, 0]);
+  const bucketRim = addMesh(baitBucket, new THREE.TorusGeometry(0.17, 0.011, 7, 28), silverMaterial, [0, 0.28, 0]);
+  bucketRim.rotation.x = Math.PI / 2;
+  const bucketInterior = addMesh(baitBucket, new THREE.CircleGeometry(0.155, 24), blackMaterial, [0, 0.265, 0]);
+  bucketInterior.rotation.x = -Math.PI / 2;
+  const bailCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-0.17, 0.24, 0),
+    new THREE.Vector3(-0.15, 0.43, 0),
+    new THREE.Vector3(0, 0.53, 0),
+    new THREE.Vector3(0.15, 0.43, 0),
+    new THREE.Vector3(0.17, 0.24, 0),
+  ]);
+  addMesh(baitBucket, new THREE.TubeGeometry(bailCurve, 28, 0.007, 6, false), silverMaterial, [0, 0, 0]);
+  cylinderBetween(
+    baitBucket,
+    new THREE.Vector3(-0.055, 0.515, 0),
+    new THREE.Vector3(0.055, 0.515, 0),
+    0.016,
+    darkTeakMaterial,
+    9,
+  );
+
+  const lineSpool = new THREE.Group();
+  lineSpool.name = "coiled-fishing-line-spool";
+  lineSpool.position.set(-11.12, 0.25, 1.2);
+  hut.add(lineSpool);
+  addMesh(lineSpool, new THREE.CylinderGeometry(0.095, 0.095, 0.018, 20), creamMaterial, [0, 0.009, 0]);
+  addMesh(lineSpool, new THREE.CylinderGeometry(0.095, 0.095, 0.018, 20), creamMaterial, [0, 0.122, 0]);
+  addMesh(lineSpool, new THREE.CylinderGeometry(0.071, 0.071, 0.105, 20), fishingLineMaterial, [0, 0.065, 0]);
+  for (let index = 0; index < 6; index += 1) {
+    const coil = addMesh(lineSpool, new THREE.TorusGeometry(0.073, 0.0035, 5, 24), fishingLineMaterial, [0, 0.035 + index * 0.014, 0]);
+    coil.rotation.x = Math.PI / 2;
   }
 
   function setDoorProgress(t: number): void {
@@ -1218,6 +1665,9 @@ export function buildSamsBeach(
       surfboardPulse = Math.max(0, surfboardPulse - dt * 0.5);
       surfboard.rotation.z = -0.1 + Math.sin(elapsed * 8.2) * surfboardPulse * 0.19;
       surfboard.rotation.y = Math.cos(elapsed * 6.4) * surfboardPulse * 0.1;
+      fishingSway.rotation.z = Math.sin(elapsed * 1.35) * 0.06;
+      fishingSway.rotation.x = Math.cos(elapsed * 1.08) * 0.035;
+      spoonLure.rotation.y = Math.sin(elapsed * 1.7) * 0.45;
       steamWisps.forEach(({ mesh, baseY, phase }) => {
         const cycle = (elapsed * 0.22 + phase * 0.13) % 1;
         mesh.position.y = baseY + cycle * 0.19;

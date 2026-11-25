@@ -1719,7 +1719,7 @@ export function buildMattsFarm(
         interiorLights.push(globeLight);
 
         box(root, [1.25, 0.55, 0.07], [0, 0.37, -0.45], darkOak, [-0.12, 0, 0]);
-        textPanel(root, ["GERMANYA", "FINISHED BUILD · 404 URL PENDING"], 1.13, 0.43, [0, 0.38, -0.405], [-0.12, 0, 0], {
+        textPanel(root, ["GERMANYA", "germanya.vercel.app"], 1.13, 0.43, [0, 0.38, -0.405], [-0.12, 0, 0], {
           background: "#e4d6ae",
           border: "#8b5a2c",
           color: "#30291e",
@@ -1794,7 +1794,7 @@ export function buildMattsFarm(
         chalkboard.rotation.x = -0.16;
         root.add(chalkboard);
         box(chalkboard, [1.15, 0.65, 0.075], [0, 0, 0], oak);
-        textPanel(chalkboard, ["DIGITAL DETOX CLUB", "NEXT EVENT: FRI · RSVPs: 0", "404 · URL PENDING"], 1.03, 0.53, [0, 0, 0.043], [0, 0, 0], {
+        textPanel(chalkboard, ["DIGITAL DETOX CLUB", "NEXT EVENT: FRI · RSVPs: 0", "digital-detox.club"], 1.03, 0.53, [0, 0, 0.043], [0, 0, 0], {
           background: "#263b34",
           border: "#c5b183",
           color: "#f2edcf",

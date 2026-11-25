@@ -6,7 +6,7 @@ export type StationId =
   | "preppr" | "book-adventure" | "rocketsfc"
   | "browzr" | "kickoff-hq" | "rovr" | "preparingforai" | "rightcourtsc"
   | "matt-preparingforai" | "matt-descartwright" | "matt-germanya" | "matt-digitaldetox"
-  | "sam-browzr" | "sam-vietnam" | "nordy-burgers" | "nordy-patio";
+  | "sam-browzr" | "sam-vietnam" | "nordy-burgers" | "nordy-patio" | "nordy-kickoff-tv";
 export type StationCategory = "experiment" | "shipped" | "farm" | "beach" | "bar";
 export type GarageStage = "exterior" | "opening" | "interior" | "inspecting" | "driving";
 export type LightingMode = "night" | "day";
@@ -131,7 +131,7 @@ export const SAM_CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = 
 
 export const NORDY_CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = {
   exterior: { position: [-28.0, 2.35, 11.8], target: [-28.0, 1.55, 3.4] },
-  interior: { position: [-28.0, 1.95, 4.4], target: [-28.0, 1.32, 0.2] },
+  interior: { position: [-27.4, 2.02, 5.35], target: [-27.4, 1.48, 0.35] },
 };
 
 export const BUILDING_ORDER: BuildingId[] = ["nordy", "sam", "jim", "matt"];
