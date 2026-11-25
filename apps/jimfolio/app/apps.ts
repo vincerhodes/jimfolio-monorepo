@@ -90,6 +90,98 @@ export const FARM_STATIONS: GarageStation[] = [
   },
 ];
 
+export const SAM_STATIONS: GarageStation[] = [
+  {
+    id: "sam-browzr",
+    category: "beach",
+    name: "Browzr (Sam's Desk)",
+    slug: "sam-browzr",
+    url: "https://browzr.net",
+    domainLabel: "browzr.net",
+    tag: "CO-FOUNDER · LIVE",
+    tagline: "Discover the web beyond algorithms — built with Sam from the Vietnam coast",
+    description: "Sam Mitchell's beach-hut workstation running Browzr, paired with an iced Vietnamese coffee (cà phê sữa đá) and an ocean breeze.",
+    tech: ["Browzr", "Vietnam Remote", "Mobile & Web"],
+    accentHex: "#2dd4bf",
+    chipClass: "bg-teal-500/10 text-teal-700 border-teal-500/20 dark:text-teal-300",
+    propLabel: "BEACH WORKSTATION",
+    anchorPosition: [-15.2, 0.96, -1.6],
+    inspectCamera: {
+      position: [-14.6, 1.62, 0.55],
+      target: [-15.1, 1.25, -1.6],
+    },
+  },
+  {
+    id: "sam-vietnam",
+    category: "beach",
+    name: "Sam's Vietnam Escape",
+    slug: "sam-vietnam",
+    url: "",
+    isHangout: true,
+    domainLabel: "Da Nang Coast · Hangout",
+    tag: "BEACH HUT VIBES",
+    tagline: "Moving to Vietnam — Hội An lanterns, surfboards, and steaming bowls of Phở",
+    description: "Sam's trading grey British drizzle for warm sand, coconut palms, coastal scooter rides, and late-night street food. Drop by the beach hut anytime.",
+    tech: ["Vietnam", "Surf", "Cà Phê Sữa Đá"],
+    accentHex: "#fbbf24",
+    chipClass: "bg-amber-500/10 text-amber-700 border-amber-500/20 dark:text-amber-300",
+    badgeNote: "Hangout spot — pull up a hammock on Sam's beach",
+    propLabel: "LANTERN & PHỞ BAR",
+    anchorPosition: [-12.7, 0.96, -1.5],
+    inspectCamera: {
+      position: [-13.4, 1.62, 0.65],
+      target: [-12.6, 1.28, -1.5],
+    },
+  },
+];
+
+export const NORDY_STATIONS: GarageStation[] = [
+  {
+    id: "nordy-burgers",
+    category: "bar",
+    name: "Nordy's Smash Burgers",
+    slug: "nordy-burgers",
+    url: "",
+    isHangout: true,
+    domainLabel: "Container Kitchen · Open",
+    tag: "BURGER BAR",
+    tagline: "Converted shipping-container burger kitchen — double smash patties, crispy fries & cold pours",
+    description: "Built inside a matte-charcoal steel shipping container with a propped-up serving hatch and sizzling flat-top grill. Reference photo incoming from Nordy for the custom reskin!",
+    tech: ["Smash Burgers", "Container Bar", "Draft Beer"],
+    accentHex: "#f97316",
+    chipClass: "bg-orange-500/10 text-orange-700 border-orange-500/20 dark:text-orange-300",
+    badgeNote: "Hangout spot — photo reskin incoming from Nordy",
+    propLabel: "CONTAINER GRILL PASS",
+    anchorPosition: [-28.0, 1.05, 0.45],
+    inspectCamera: {
+      position: [-28.4, 1.72, 2.85],
+      target: [-27.8, 1.38, 0.45],
+    },
+  },
+  {
+    id: "nordy-patio",
+    category: "bar",
+    name: "The Beer Garden Patio",
+    slug: "nordy-patio",
+    url: "",
+    isHangout: true,
+    domainLabel: "Outdoor Seating · South",
+    tag: "PATIO HANGOUT",
+    tagline: "Festoon-lit outdoor picnic tables, cold pints & late-night banter out front of Nordy's",
+    description: "Grab a bench under the string lights out on the south patio — best spot on the lane to watch Matt's tractor and Sam's Vespa cruise past.",
+    tech: ["Outdoor Seating", "Festoon Lights", "Cold Pints"],
+    accentHex: "#eab308",
+    chipClass: "bg-yellow-500/10 text-yellow-700 border-yellow-500/20 dark:text-yellow-300",
+    badgeNote: "Hangout spot — pull up a seat outside",
+    propLabel: "SOUTH PATIO TABLE",
+    anchorPosition: [-26.2, 0.78, 3.65],
+    inspectCamera: {
+      position: [-24.5, 1.62, 5.45],
+      target: [-26.3, 1.05, 3.65],
+    },
+  },
+];
+
 export const GARAGE_STATIONS: GarageStation[] = [
   {
     id: "predictr",
@@ -346,6 +438,8 @@ export const GARAGE_STATIONS: GarageStation[] = [
     },
   },
   ...FARM_STATIONS,
+  ...SAM_STATIONS,
+  ...NORDY_STATIONS,
 ];
 
 export const EXPERIMENT_STATIONS: GarageStation[] = GARAGE_STATIONS.filter(

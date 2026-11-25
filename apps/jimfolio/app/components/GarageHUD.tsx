@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import type { PointerEvent as ReactPointerEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
+  Car,
   DoorClosed,
   DoorOpen,
   Grid,
@@ -13,13 +15,14 @@ import {
   VolumeX,
   X,
 } from 'lucide-react';
-import { FARM_STATIONS } from '../apps';
+import { FARM_STATIONS, NORDY_STATIONS, SAM_STATIONS } from '../apps';
 import type {
   BuildingId,
   GarageStage,
   LightingMode,
   ProjectedLabel,
   StationId,
+  VehicleId,
   ViewPreset,
 } from '../garage/types';
 
@@ -44,6 +47,17 @@ interface GarageHUDProps {
   onPanView?: (preset: ViewPreset) => void;
   activeBuilding?: BuildingId;
   onSwitchBuilding?: (building: BuildingId) => void;
+  activeVehicle?: VehicleId;
+  nearBuilding?: BuildingId | null;
+  driveSpeed?: number;
+  onStartDriving?: () => void;
+  onStopDriving?: (targetBuilding?: BuildingId) => void;
+  onSelectVehicle?: (vehicle: VehicleId) => void;
+  onHonkHorn?: () => void;
+  onDriveTouchInput?: (
+    control: 'forward' | 'backward' | 'left' | 'right' | 'brake',
+    pressed: boolean,
+  ) => void;
 }
 
 const QUICK_DOCK: {
@@ -73,6 +87,64 @@ const VIEW_PRESETS: { preset: ViewPreset; label: string }[] = [
   { preset: 'left', label: 'Left Bench' },
   { preset: 'center', label: 'Center' },
   { preset: 'right', label: 'Shipped Wall' },
+];
+
+const BUILDING_ORDER: BuildingId[] = ['nordy', 'sam', 'jim', 'matt'];
+
+const BUILDING_META: Record<
+  BuildingId,
+  {
+    name: string;
+    displayName: string;
+    shortName: string;
+    suffix: string;
+    dotClass: string;
+    badgeClass: string;
+    switcherActiveClass: string;
+  }
+> = {
+  nordy: {
+    name: "NORDY'S BAR",
+    displayName: "Nordy's Bar",
+    shortName: "Nordy's",
+    suffix: '.bar',
+    dotClass: 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.7)]',
+    badgeClass: 'bg-orange-400/15 text-orange-200',
+    switcherActiveClass: 'bg-orange-400/20 text-orange-100 shadow-sm',
+  },
+  sam: {
+    name: "SAM'S BEACH",
+    displayName: "Sam's Beach",
+    shortName: "Sam's",
+    suffix: '.vn',
+    dotClass: 'bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.7)]',
+    badgeClass: 'bg-teal-400/15 text-teal-200',
+    switcherActiveClass: 'bg-teal-400/20 text-teal-100 shadow-sm',
+  },
+  jim: {
+    name: "JIM'S GARAGE",
+    displayName: "Jim's Garage",
+    shortName: "Jim's",
+    suffix: '.dev',
+    dotClass: 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.65)]',
+    badgeClass: 'bg-white/10 text-zinc-300',
+    switcherActiveClass: 'bg-white/15 text-white shadow-sm',
+  },
+  matt: {
+    name: "MATT'S FARM",
+    displayName: "Matt's Farm",
+    shortName: "Matt's",
+    suffix: '.farm',
+    dotClass: 'bg-lime-400 shadow-[0_0_8px_rgba(163,230,53,0.65)]',
+    badgeClass: 'bg-emerald-400/15 text-amber-200',
+    switcherActiveClass: 'bg-emerald-400/20 text-amber-100 shadow-sm',
+  },
+};
+
+const VEHICLES: { id: VehicleId; name: string }[] = [
+  { id: 'rover', name: 'Land Rover' },
+  { id: 'vespa', name: 'Vespa' },
+  { id: 'tractor', name: 'Tractor' },
 ];
 
 const pillBase =
@@ -107,6 +179,14 @@ export default function GarageHUD({
   onPanView,
   activeBuilding = 'jim',
   onSwitchBuilding,
+  activeVehicle = 'rover',
+  nearBuilding = null,
+  driveSpeed = 0,
+  onStartDriving,
+  onStopDriving,
+  onSelectVehicle,
+  onHonkHorn,
+  onDriveTouchInput,
 }: GarageHUDProps) {
   const [dockCategory, setDockCategory] = useState<'experiment' | 'shipped'>(
     'experiment',
@@ -134,6 +214,9 @@ export default function GarageHUD({
 
   const isTouch = isTouchDevice ?? touchDetected;
   const isJim = activeBuilding === 'jim';
+  const isMatt = activeBuilding === 'matt';
+  const building = BUILDING_META[activeBuilding];
+  const isDriving = stage === 'driving';
 
   const hoveredLabel =
     stage === 'interior' && hoveredStationId
@@ -143,69 +226,130 @@ export default function GarageHUD({
       : undefined;
 
   const doorIsOpen = stage === 'interior' || stage === 'inspecting';
+  const doorNoun = isJim
+    ? 'garage'
+    : isMatt
+      ? 'barn'
+      : activeBuilding === 'sam'
+        ? 'beach hut'
+        : 'hatch';
+  const openLabel =
+    activeBuilding === 'nordy'
+      ? 'Open Hatch'
+      : activeBuilding === 'sam'
+        ? 'Open Beach Hut'
+        : isMatt
+          ? 'Open Barn Doors'
+          : 'Open Garage';
+  const exteriorCopy = isJim ? (
+    <>
+      Jimmy Rhodes — builder of Browzr, KickoffHQ &amp; 11 live experiments.
+      Step inside.
+    </>
+  ) : isMatt ? (
+    "Matt's Farm — upgraded from the potting shed. Click the tractor or swing open the barn doors."
+  ) : activeBuilding === 'sam' ? (
+    "Sam's Beach Hut — Vietnam coast vibes, Browzr HQ & warm sand."
+  ) : (
+    "Nordy's Container Burger Bar — smash burgers, cold pints & south patio seating."
+  );
+
+  const touchControlProps = (
+    control: 'forward' | 'backward' | 'left' | 'right' | 'brake',
+  ) => ({
+    onPointerDown: (event: ReactPointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.currentTarget.setPointerCapture(event.pointerId);
+      onDriveTouchInput?.(control, true);
+    },
+    onPointerUp: (event: ReactPointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      onDriveTouchInput?.(control, false);
+    },
+    onPointerCancel: (event: ReactPointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      onDriveTouchInput?.(control, false);
+    },
+  });
 
   return (
     <div className="pointer-events-none fixed inset-0 z-30 select-none">
       <header className="absolute inset-x-0 top-0 flex flex-wrap items-start justify-between gap-3 p-4 sm:p-5">
         <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
           <div className={`${pillBase} shrink-0`}>
-            {isJim ? (
+            {isJim && !isDriving ? (
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
               </span>
             ) : (
-              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.65)]" />
+              <span
+                className={`h-2 w-2 rounded-full ${
+                  isDriving
+                    ? 'bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.75)]'
+                    : building.dotClass
+                }`}
+              />
             )}
             <span className="whitespace-nowrap text-[13px] font-semibold tracking-[0.18em] text-white">
-              {isJim ? "JIM'S GARAGE" : "MATT'S FARM"}
+              {isDriving ? 'VILLAGE LOOP' : building.name}
             </span>
             <span
               className={`rounded px-1.5 py-0.5 font-mono text-[10px] leading-none ${
-                isJim
-                  ? 'bg-white/10 text-zinc-300'
-                  : 'bg-emerald-400/15 text-amber-200'
+                isDriving ? 'bg-sky-400/15 text-sky-200' : building.badgeClass
               }`}
             >
-              {isJim ? '.dev' : '.farm'}
+              {isDriving ? '.drive' : building.suffix}
             </span>
           </div>
 
           {onSwitchBuilding && (
             <div
               role="group"
-              aria-label="Switch building"
-              className="pointer-events-auto flex rounded-full border border-white/10 bg-zinc-950/75 p-1 shadow-lg shadow-black/20 backdrop-blur-md"
+              aria-label="Switch village stop"
+              className="pointer-events-auto max-w-full overflow-x-auto rounded-full border border-white/10 bg-zinc-950/75 p-1 shadow-lg shadow-black/20 backdrop-blur-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
-              <button
-                type="button"
-                aria-pressed={activeBuilding === 'jim'}
-                onClick={() => onSwitchBuilding('jim')}
-                className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[10px] font-semibold transition-colors sm:px-3 sm:text-xs ${
-                  activeBuilding === 'jim'
-                    ? 'bg-white/15 text-white shadow-sm'
-                    : 'text-zinc-500 hover:text-zinc-200'
-                }`}
-              >
-                Jim&apos;s Garage
-              </button>
-              <button
-                type="button"
-                aria-pressed={activeBuilding === 'matt'}
-                onClick={() => onSwitchBuilding('matt')}
-                className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[10px] font-semibold transition-colors sm:px-3 sm:text-xs ${
-                  activeBuilding === 'matt'
-                    ? 'bg-emerald-400/20 text-amber-100 shadow-sm'
-                    : 'text-zinc-500 hover:text-emerald-200'
-                }`}
-              >
-                Matt&apos;s Farm
-              </button>
+              <div className="flex w-max items-center">
+                {BUILDING_ORDER.map((buildingId) => {
+                  const meta = BUILDING_META[buildingId];
+                  const active = activeBuilding === buildingId;
+                  return (
+                    <button
+                      key={buildingId}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => onSwitchBuilding(buildingId)}
+                      className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[10px] font-semibold transition-colors sm:px-3 sm:text-xs ${
+                        active
+                          ? meta.switcherActiveClass
+                          : 'text-zinc-500 hover:text-zinc-200'
+                      }`}
+                    >
+                      {meta.shortName}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
+          )}
+
+          {(onStartDriving || onStopDriving) && (
+            <button
+              type="button"
+              onClick={() =>
+                isDriving ? onStopDriving?.() : onStartDriving?.()
+              }
+              aria-label={isDriving ? 'Park and exit drive mode' : 'Drive (D)'}
+              className="pointer-events-auto flex shrink-0 items-center gap-2 rounded-full border border-amber-300/40 bg-amber-400 px-3.5 py-2 text-xs font-semibold text-zinc-950 shadow-lg shadow-amber-950/20 transition-colors hover:bg-amber-300"
+            >
+              <Car size={15} />
+              {isDriving ? 'Park' : 'Drive'}
+              {!isTouch && !isDriving && <KeyHint>D</KeyHint>}
+            </button>
           )}
         </div>
 
-        <nav className="pointer-events-auto ml-auto flex items-center gap-2">
+        <nav className="pointer-events-auto ml-auto flex flex-wrap items-center justify-end gap-2">
           <button
             type="button"
             onClick={() => setAboutOpen((open) => !open)}
@@ -254,27 +398,25 @@ export default function GarageHUD({
             {!isTouch && <KeyHint>T</KeyHint>}
           </button>
 
-          <button
-            type="button"
-            onClick={doorIsOpen ? onCloseDoor : onOpenDoor}
-            className={pillBase}
-            aria-label={`${doorIsOpen ? 'Close' : 'Open'} ${isJim ? 'garage' : 'barn'} door`}
-          >
-            {doorIsOpen ? (
-              <DoorClosed size={14} className="text-zinc-400" />
-            ) : (
-              <DoorOpen size={14} className="text-amber-300" />
-            )}
-            <span className="hidden sm:inline">
-              {doorIsOpen
-                ? isJim
-                  ? 'Close Door'
-                  : 'Close Barn'
-                : isJim
-                  ? 'Open Door'
-                  : 'Open Barn'}
-            </span>
-          </button>
+          {!isDriving && (
+            <button
+              type="button"
+              onClick={doorIsOpen ? onCloseDoor : onOpenDoor}
+              className={pillBase}
+              aria-label={`${doorIsOpen ? 'Close' : 'Open'} ${doorNoun} door`}
+            >
+              {doorIsOpen ? (
+                <DoorClosed size={14} className="text-zinc-400" />
+              ) : (
+                <DoorOpen size={14} className="text-amber-300" />
+              )}
+              <span className="hidden sm:inline">
+                {doorIsOpen
+                  ? `Close ${isJim ? 'Door' : isMatt ? 'Barn' : activeBuilding === 'sam' ? 'Beach Hut' : 'Hatch'}`
+                  : openLabel}
+              </span>
+            </button>
+          )}
 
           <button
             type="button"
@@ -384,14 +526,7 @@ export default function GarageHUD({
       {stage === 'exterior' && (
         <div className="absolute bottom-8 left-1/2 flex w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-col items-center gap-2.5">
           <p className="max-w-[calc(100vw-2rem)] rounded-full border border-white/10 bg-zinc-950/75 px-4 py-1.5 text-center text-[11px] font-medium text-zinc-200 backdrop-blur-md">
-            {isJim ? (
-              <>
-                Jimmy Rhodes — builder of Browzr, KickoffHQ &amp; 11 live
-                experiments. Step inside.
-              </>
-            ) : (
-              "Matt's Farm — upgraded from the potting shed. Click the tractor or swing open the barn doors."
-            )}
+            {exteriorCopy}
           </p>
           <p className="rounded-full bg-zinc-950/75 px-3 py-1 text-center text-xs tracking-wide text-zinc-200 backdrop-blur-md">
             {isJim ? (
@@ -406,53 +541,73 @@ export default function GarageHUD({
                   · Scroll or → for Matt&apos;s Farm next door
                 </>
               )
+            ) : isMatt ? (
+              isTouch ? (
+                'Tap the barn doors to open'
+              ) : (
+                <>
+                  Click the barn doors or press{' '}
+                  <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
+                    Enter
+                  </kbd>
+                </>
+              )
             ) : isTouch ? (
-              'Tap the barn doors to open'
+              'Tap to open · Use the village switcher to explore'
             ) : (
               <>
-                Click the barn doors or press{' '}
+                Click to open or press{' '}
                 <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
                   Enter
-                </kbd>
+                </kbd>{' '}
+                · Press D to drive
               </>
             )}
           </p>
           <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-white/10 bg-zinc-950/75 p-1.5 backdrop-blur-md sm:rounded-full sm:gap-3 sm:pl-4">
-            {isJim ? (
-              <>
-                <button
-                  type="button"
-                  onClick={onOpenDoor}
-                  className="rounded-full bg-amber-400 px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:bg-amber-300"
-                >
-                  Open Garage
-                </button>
-                <button
-                  type="button"
-                  onClick={onToggleBenchList}
-                  className="px-2 text-xs text-zinc-400 underline-offset-4 transition-colors hover:text-zinc-200 hover:underline"
-                >
-                  Skip to Bench List
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  onClick={onOpenDoor}
-                  className="rounded-full bg-emerald-400 px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:bg-amber-300"
-                >
-                  Open Barn Doors
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onSwitchBuilding?.('jim')}
-                  disabled={!onSwitchBuilding}
-                  className="px-2 text-xs font-medium text-amber-200 underline-offset-4 transition-colors hover:text-emerald-100 hover:underline disabled:cursor-default disabled:opacity-50"
-                >
-                  ← Back to Jim&apos;s Garage
-                </button>
-              </>
+            <button
+              type="button"
+              onClick={onOpenDoor}
+              className={`rounded-full px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors ${
+                activeBuilding === 'sam'
+                  ? 'bg-teal-400 hover:bg-teal-300'
+                  : activeBuilding === 'nordy'
+                    ? 'bg-orange-400 hover:bg-orange-300'
+                    : isMatt
+                      ? 'bg-emerald-400 hover:bg-amber-300'
+                      : 'bg-amber-400 hover:bg-amber-300'
+              }`}
+            >
+              {openLabel}
+            </button>
+            {isJim && (
+              <button
+                type="button"
+                onClick={onToggleBenchList}
+                className="px-2 text-xs text-zinc-400 underline-offset-4 transition-colors hover:text-zinc-200 hover:underline"
+              >
+                Skip to Bench List
+              </button>
+            )}
+            {isMatt && (
+              <button
+                type="button"
+                onClick={() => onSwitchBuilding?.('jim')}
+                disabled={!onSwitchBuilding}
+                className="px-2 text-xs font-medium text-amber-200 underline-offset-4 transition-colors hover:text-emerald-100 hover:underline disabled:cursor-default disabled:opacity-50"
+              >
+                ← Back to Jim&apos;s Garage
+              </button>
+            )}
+            {onStartDriving && (
+              <button
+                type="button"
+                onClick={onStartDriving}
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-zinc-100 transition-colors hover:bg-white/10 hover:text-amber-200"
+              >
+                <Car size={13} />
+                Drive Around (D)
+              </button>
             )}
           </div>
         </div>
@@ -564,7 +719,7 @@ export default function GarageHUD({
                 })}
               </div>
             </div>
-          ) : (
+          ) : isMatt ? (
             <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-emerald-300/20 bg-zinc-950/80 p-1.5 shadow-xl shadow-black/20 backdrop-blur-md">
               {FARM_STATIONS.map((station) => {
                 const active =
@@ -612,20 +767,216 @@ export default function GarageHUD({
                 ← Back to Jim&apos;s Garage
               </button>
             </div>
+          ) : (
+            <div
+              className={`pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-2xl border bg-zinc-950/80 p-1.5 shadow-xl shadow-black/20 backdrop-blur-md ${
+                activeBuilding === 'sam'
+                  ? 'border-teal-300/20'
+                  : 'border-orange-300/20'
+              }`}
+            >
+              {(activeBuilding === 'sam' ? SAM_STATIONS : NORDY_STATIONS).map(
+                (station) => {
+                  const active =
+                    station.id === selectedStationId ||
+                    station.id === hoveredStationId;
+                  const name =
+                    station.id === 'sam-vietnam'
+                      ? 'Vietnam Escape'
+                      : station.id === 'nordy-patio'
+                        ? 'Beer Garden Patio'
+                        : station.name;
+                  return (
+                    <button
+                      key={station.id}
+                      type="button"
+                      onClick={() => onSelectStation(station.id)}
+                      aria-pressed={station.id === selectedStationId}
+                      className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${
+                        active
+                          ? activeBuilding === 'sam'
+                            ? 'bg-teal-400 text-zinc-950'
+                            : 'bg-orange-400 text-zinc-950'
+                          : activeBuilding === 'sam'
+                            ? 'bg-teal-400/10 text-teal-200 hover:bg-teal-400/20'
+                            : 'bg-orange-400/10 text-orange-200 hover:bg-orange-400/20'
+                      }`}
+                    >
+                      {name}
+                    </button>
+                  );
+                },
+              )}
+              <button
+                type="button"
+                onClick={onStartDriving}
+                disabled={!onStartDriving}
+                className="whitespace-nowrap rounded-full px-3 py-1.5 text-[11px] font-medium text-amber-200 transition-colors hover:bg-white/10 hover:text-white disabled:cursor-default disabled:opacity-50"
+              >
+                ← Drive / Switch
+              </button>
+            </div>
           )}
           <p className="rounded-full border border-white/10 bg-zinc-950/75 px-3.5 py-1 text-center text-[10px] tracking-wide text-zinc-200 backdrop-blur-md">
             {isJim
               ? isTouch
                 ? 'Tap any prop or plaque · Swipe to look around'
                 : 'Click any prop, plaque, or wall switch · Drag to look around'
-              : isTouch
-                ? 'Tap any station, the barn bell, or the chicken · Swipe to look around'
-                : 'Click any station, the barn bell, or the chicken · Drag to look around'}
+              : isMatt
+                ? isTouch
+                  ? 'Tap any station, the barn bell, or the chicken · Swipe to look around'
+                  : 'Click any station, the barn bell, or the chicken · Drag to look around'
+                : isTouch
+                  ? 'Tap a station to take a closer look · Swipe to look around'
+                  : 'Click a station to take a closer look · Drag to look around'}
           </p>
         </div>
       )}
 
-      {isTouch && stage === 'interior' && typeof window !== 'undefined' &&
+      {stage === 'driving' && (
+        <>
+          <AnimatePresence>
+            {nearBuilding && (
+              <motion.div
+                key={nearBuilding}
+                role="status"
+                className={`pointer-events-auto absolute left-1/2 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-wrap items-center justify-center gap-2 rounded-2xl border border-amber-300/40 bg-zinc-950/90 px-3 py-2 text-center shadow-xl shadow-black/30 backdrop-blur-xl sm:rounded-full ${
+                  isTouch ? 'bottom-60' : 'bottom-36'
+                }`}
+                initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.97 }}
+              >
+                <span className="whitespace-nowrap text-xs font-medium text-amber-100">
+                  Arrived at {BUILDING_META[nearBuilding].displayName}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onStopDriving?.(nearBuilding)}
+                  disabled={!onStopDriving}
+                  className="whitespace-nowrap rounded-full bg-amber-400 px-3 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:bg-amber-300 disabled:opacity-50"
+                >
+                  Park &amp; Visit (E)
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="absolute bottom-5 left-1/2 flex w-[calc(100vw-2rem)] max-w-3xl -translate-x-1/2 flex-col items-center gap-2">
+            <div className="pointer-events-auto flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-sky-300/20 bg-zinc-950/85 p-1.5 shadow-xl shadow-black/30 backdrop-blur-xl sm:rounded-full">
+              <div
+                role="group"
+                aria-label="Select vehicle"
+                className="flex rounded-full border border-white/10 bg-black/25 p-0.5"
+              >
+                {VEHICLES.map((vehicle) => (
+                  <button
+                    key={vehicle.id}
+                    type="button"
+                    aria-pressed={activeVehicle === vehicle.id}
+                    onClick={() => onSelectVehicle?.(vehicle.id)}
+                    disabled={!onSelectVehicle}
+                    className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[10px] font-semibold transition-colors sm:px-3 sm:text-[11px] ${
+                      activeVehicle === vehicle.id
+                        ? 'bg-sky-400 text-zinc-950'
+                        : 'text-zinc-400 hover:bg-white/10 hover:text-white'
+                    } disabled:cursor-default disabled:opacity-60`}
+                  >
+                    {vehicle.name}
+                  </button>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={onHonkHorn}
+                disabled={!onHonkHorn}
+                className="whitespace-nowrap rounded-full bg-amber-400 px-3 py-1.5 text-[11px] font-semibold text-zinc-950 transition-colors hover:bg-amber-300 disabled:opacity-50"
+              >
+                Horn (Space)
+              </button>
+              <output
+                aria-label="Current speed"
+                className="min-w-[4.5rem] rounded-full border border-white/10 bg-black/25 px-3 py-1.5 text-center font-mono text-[11px] font-semibold text-sky-200"
+              >
+                {Math.round(Math.abs(driveSpeed))} km/h
+              </output>
+              <button
+                type="button"
+                onClick={() => onStopDriving?.()}
+                disabled={!onStopDriving}
+                className="whitespace-nowrap rounded-full px-3 py-1.5 text-[11px] font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white disabled:opacity-50"
+              >
+                Exit Drive Mode
+              </button>
+            </div>
+            {!isTouch && (
+              <p className="rounded-full border border-white/10 bg-zinc-950/75 px-3.5 py-1 text-center text-[10px] tracking-wide text-zinc-300 backdrop-blur-md">
+                WASD / Arrows to drive · Space horn · E park at stop · Esc exit
+              </p>
+            )}
+          </div>
+
+          {isTouch && (
+            <>
+              <div className="pointer-events-auto absolute bottom-44 left-4 flex gap-2">
+                <button
+                  type="button"
+                  aria-label="Steer left"
+                  disabled={!onDriveTouchInput}
+                  {...touchControlProps('left')}
+                  className="flex h-14 w-14 touch-none items-center justify-center rounded-full border border-white/20 bg-zinc-950/65 text-xl text-white shadow-lg backdrop-blur-md active:bg-sky-400/30 disabled:opacity-40"
+                >
+                  ◀
+                </button>
+                <button
+                  type="button"
+                  aria-label="Steer right"
+                  disabled={!onDriveTouchInput}
+                  {...touchControlProps('right')}
+                  className="flex h-14 w-14 touch-none items-center justify-center rounded-full border border-white/20 bg-zinc-950/65 text-xl text-white shadow-lg backdrop-blur-md active:bg-sky-400/30 disabled:opacity-40"
+                >
+                  ▶
+                </button>
+              </div>
+              <div className="pointer-events-auto absolute bottom-44 right-4 flex items-end gap-2">
+                <button
+                  type="button"
+                  aria-label="Brake"
+                  disabled={!onDriveTouchInput}
+                  {...touchControlProps('brake')}
+                  className="flex h-12 touch-none items-center justify-center rounded-full border border-rose-300/20 bg-zinc-950/65 px-3 text-[11px] font-semibold text-rose-200 shadow-lg backdrop-blur-md active:bg-rose-400/30 disabled:opacity-40"
+                >
+                  Brake
+                </button>
+                <div className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    aria-label="Accelerate"
+                    disabled={!onDriveTouchInput}
+                    {...touchControlProps('forward')}
+                    className="flex h-14 w-16 touch-none items-center justify-center rounded-2xl border border-emerald-300/20 bg-zinc-950/65 text-xs font-semibold text-emerald-200 shadow-lg backdrop-blur-md active:bg-emerald-400/30 disabled:opacity-40"
+                  >
+                    ▲ Gas
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Reverse"
+                    disabled={!onDriveTouchInput}
+                    {...touchControlProps('backward')}
+                    className="flex h-14 w-16 touch-none items-center justify-center rounded-2xl border border-white/20 bg-zinc-950/65 text-xs font-semibold text-zinc-200 shadow-lg backdrop-blur-md active:bg-white/20 disabled:opacity-40"
+                  >
+                    ▼ Rev
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </>
+      )}
+
+      {isTouch &&
+        stage === 'interior' &&
+        typeof window !== 'undefined' &&
         projectedLabels
           .filter(
             (label) =>
@@ -651,7 +1002,11 @@ export default function GarageHUD({
                 className={`h-1.5 w-1.5 rounded-full ${
                   label.category === 'shipped'
                     ? 'bg-emerald-400'
-                    : 'bg-amber-400'
+                    : label.category === 'beach'
+                      ? 'bg-teal-400'
+                      : label.category === 'bar'
+                        ? 'bg-orange-400'
+                        : 'bg-amber-400'
                 }`}
               />
               {label.name}

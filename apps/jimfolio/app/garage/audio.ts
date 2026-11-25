@@ -1,10 +1,13 @@
-import type { EasterEggId } from "./types";
+import type { EasterEggId, VehicleId } from "./types";
 
 export interface WorkshopAudio {
   isMuted: () => boolean;
   setMuted: (muted: boolean) => void;
   playDoor: (opening: boolean) => void;
   playBarnDoor: (opening: boolean) => void;
+  playBeachHutDoor: (opening: boolean) => void;
+  playBarHatch: (opening: boolean) => void;
+  playHorn: (vehicle: VehicleId) => void;
   playLightSwitch: (toDay: boolean) => void;
   playHover: () => void;
   playSelect: () => void;
@@ -257,6 +260,123 @@ export function createWorkshopAudio(): WorkshopAudio {
     }
   };
 
+  const playBeachHutDoor = (opening: boolean): void => {
+    try {
+      const audio = ensureAudio();
+      if (!audio) return;
+      const { context: audioContext, master: output } = audio;
+      const start = audioContext.currentTime + 0.008;
+      const buffer = getNoiseBuffer(audioContext);
+      const breezeDuration = 1.1;
+      const source = audioContext.createBufferSource();
+      const filter = audioContext.createBiquadFilter();
+      const gain = audioContext.createGain();
+      source.buffer = buffer;
+      source.loop = true;
+      filter.type = "lowpass";
+      filter.Q.value = 0.7;
+      filter.frequency.setValueAtTime(opening ? 520 : 640, start);
+      filter.frequency.exponentialRampToValueAtTime(opening ? 760 : 380, start + breezeDuration);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.linearRampToValueAtTime(0.028, start + 0.18);
+      gain.gain.linearRampToValueAtTime(0.016, start + 0.8);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + breezeDuration);
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(output);
+      source.start(start);
+      source.stop(start + breezeDuration + 0.02);
+      const chimes = [1567.98, 2093.0, 1760.0, 2637.02, 1975.53];
+      const offsets = opening ? [0, 0.09, 0.2, 0.32, 0.46] : [0.36, 0.24, 0.16, 0.07, 0];
+      for (let index = 0; index < chimes.length; index += 1) {
+        const at = start + 0.04 + offsets[index];
+        tone(audioContext, output, chimes[index], at, 0.42, 0.02, "sine", chimes[index] * 0.985);
+        tone(audioContext, output, chimes[index] * 2, at + 0.006, 0.2, 0.006, "sine");
+      }
+      tone(audioContext, output, opening ? 88 : 110, start, 0.3, 0.02, "triangle", opening ? 62 : 74);
+      return;
+    } catch {
+      return;
+    }
+  };
+
+  const playBarHatch = (opening: boolean): void => {
+    try {
+      const audio = ensureAudio();
+      if (!audio) return;
+      const { context: audioContext, master: output } = audio;
+      const start = audioContext.currentTime + 0.008;
+      const buffer = getNoiseBuffer(audioContext);
+      const hissDuration = 0.85;
+      const source = audioContext.createBufferSource();
+      const filter = audioContext.createBiquadFilter();
+      const gain = audioContext.createGain();
+      source.buffer = buffer;
+      source.loop = true;
+      filter.type = "bandpass";
+      filter.Q.value = 1.2;
+      filter.frequency.setValueAtTime(opening ? 2400 : 1700, start);
+      filter.frequency.exponentialRampToValueAtTime(opening ? 1300 : 2600, start + hissDuration);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.linearRampToValueAtTime(0.05, start + 0.08);
+      gain.gain.linearRampToValueAtTime(0.03, start + 0.6);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + hissDuration);
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(output);
+      source.start(start);
+      source.stop(start + hissDuration + 0.02);
+      tone(audioContext, output, opening ? 64 : 82, start, 0.7, 0.02, "sawtooth", opening ? 92 : 52);
+      const bell = start + 0.82;
+      noiseBurst(audioContext, output, buffer, bell, 0.02, 0.045, "highpass", 2800, 0.9);
+      tone(audioContext, output, 988, bell, 0.9, 0.045, "sine", 981);
+      tone(audioContext, output, 1976, bell + 0.004, 0.6, 0.02, "sine", 1962);
+      tone(audioContext, output, 2960, bell + 0.006, 0.38, 0.009, "sine", 2938);
+      return;
+    } catch {
+      return;
+    }
+  };
+
+  const playHorn = (vehicle: VehicleId): void => {
+    try {
+      const audio = ensureAudio();
+      if (!audio) return;
+      const { context: audioContext, master: output } = audio;
+      const start = audioContext.currentTime + 0.006;
+      const buffer = getNoiseBuffer(audioContext);
+      if (vehicle === "rover") {
+        tone(audioContext, output, 311, start, 0.42, 0.06, "sawtooth", 302);
+        tone(audioContext, output, 392, start, 0.42, 0.05, "sawtooth", 382);
+        tone(audioContext, output, 155.5, start, 0.4, 0.024, "square", 150);
+        tone(audioContext, output, 622, start, 0.34, 0.014, "sine", 606);
+        noiseBurst(audioContext, output, buffer, start, 0.03, 0.02, "bandpass", 1200, 1.2);
+        return;
+      }
+      if (vehicle === "vespa") {
+        tone(audioContext, output, 1046.5, start, 0.11, 0.05, "square", 1018);
+        tone(audioContext, output, 2093, start + 0.004, 0.09, 0.016, "sine", 2036);
+        tone(audioContext, output, 1046.5, start + 0.16, 0.14, 0.055, "square", 1012);
+        tone(audioContext, output, 2093, start + 0.164, 0.11, 0.018, "sine", 2030);
+        noiseBurst(audioContext, output, buffer, start, 0.025, 0.018, "highpass", 2400, 0.9);
+        return;
+      }
+      for (let index = 0; index < 5; index += 1) {
+        const chug = start + index * 0.15;
+        const chugBase = 46 + index * 3;
+        tone(audioContext, output, chugBase, chug, 0.13, 0.05, "sawtooth", chugBase * 0.8);
+        noiseBurst(audioContext, output, buffer, chug, 0.06, 0.026, "lowpass", 240 + index * 26, 0.9);
+      }
+      tone(audioContext, output, 233, start + 0.1, 0.65, 0.05, "sawtooth", 226);
+      tone(audioContext, output, 116.5, start + 0.1, 0.62, 0.028, "square", 112);
+      tone(audioContext, output, 466, start + 0.1, 0.5, 0.016, "sine", 452);
+      noiseBurst(audioContext, output, buffer, start + 0.1, 0.04, 0.02, "bandpass", 900, 1.1);
+      return;
+    } catch {
+      return;
+    }
+  };
+
   const playLightSwitch = (toDay: boolean): void => {
     try {
       const audio = ensureAudio();
@@ -414,6 +534,57 @@ export function createWorkshopAudio(): WorkshopAudio {
         tone(audioContext, output, 1760, start + 0.15, 0.08, 0.015, "sine", 920);
         return;
       }
+      if (id === "old-shed") {
+        for (let index = 0; index < 6; index += 1) {
+          const step = start + index * 0.16;
+          const base = 118 - index * 9;
+          tone(audioContext, output, base, step, 0.22, 0.03, "sawtooth", base * 0.72);
+          tone(audioContext, output, base * 2.6, step + 0.014, 0.15, 0.011, "triangle", base * 1.8);
+        }
+        tone(audioContext, output, 52, start, 1.0, 0.022, "sine", 36);
+        noiseBurst(audioContext, output, buffer, start + 0.88, 0.09, 0.05, "bandpass", 720, 1.4);
+        tone(audioContext, output, 140, start + 0.9, 0.14, 0.04, "triangle", 66);
+        return;
+      }
+      if (id === "lantern") {
+        noiseBurst(audioContext, output, buffer, start, 0.5, 0.012, "lowpass", 620, 0.6);
+        const chimes = [1760.0, 2217.46, 1975.53, 2637.02];
+        for (let index = 0; index < chimes.length; index += 1) {
+          const at = start + index * 0.11;
+          tone(audioContext, output, chimes[index], at, 0.5, 0.022, "sine", chimes[index] * 0.98);
+          tone(audioContext, output, chimes[index] * 2, at + 0.006, 0.22, 0.006, "sine");
+        }
+        return;
+      }
+      if (id === "surfboard") {
+        noiseBurst(audioContext, output, buffer, start, 0.55, 0.045, "lowpass", 520, 0.6);
+        noiseBurst(audioContext, output, buffer, start + 0.42, 0.3, 0.03, "bandpass", 1400, 0.9);
+        tone(audioContext, output, 96, start, 0.5, 0.02, "sine", 58);
+        noiseBurst(audioContext, output, buffer, start + 0.7, 0.02, 0.028, "highpass", 2600, 1.0);
+        tone(audioContext, output, 660, start + 0.7, 0.12, 0.03, "triangle", 380);
+        return;
+      }
+      if (id === "grill") {
+        noiseBurst(audioContext, output, buffer, start, 0.9, 0.05, "highpass", 3400, 0.5);
+        noiseBurst(audioContext, output, buffer, start + 0.06, 0.5, 0.03, "bandpass", 1800, 0.8);
+        for (let index = 0; index < 5; index += 1) {
+          const pop = start + 0.12 + index * 0.14;
+          noiseBurst(audioContext, output, buffer, pop, 0.02, 0.028, "bandpass", 2200 + index * 180, 1.6);
+        }
+        tone(audioContext, output, 74, start, 0.4, 0.018, "triangle", 52);
+        return;
+      }
+      if (id === "tap") {
+        noiseBurst(audioContext, output, buffer, start, 0.85, 0.04, "bandpass", 2600, 0.7);
+        noiseBurst(audioContext, output, buffer, start + 0.08, 0.6, 0.025, "highpass", 4200, 0.5);
+        for (let index = 0; index < 4; index += 1) {
+          const fizz = start + 0.18 + index * 0.16;
+          noiseBurst(audioContext, output, buffer, fizz, 0.05, 0.02, "bandpass", 3200 + index * 240, 1.4);
+        }
+        tone(audioContext, output, 987, start + 0.86, 0.5, 0.032, "sine", 980);
+        tone(audioContext, output, 1975.5, start + 0.864, 0.32, 0.012, "sine", 1960);
+        return;
+      }
       noiseBurst(audioContext, output, buffer, start, 0.032, 0.033, "bandpass", 980, 1.5);
       tone(audioContext, output, 659.25, start, 0.32, 0.037, "sine", 650);
       tone(audioContext, output, 1318.5, start, 0.18, 0.012, "sine");
@@ -438,6 +609,9 @@ export function createWorkshopAudio(): WorkshopAudio {
     },
     playDoor,
     playBarnDoor,
+    playBeachHutDoor,
+    playBarHatch,
+    playHorn,
     playLightSwitch,
     playHover,
     playSelect,

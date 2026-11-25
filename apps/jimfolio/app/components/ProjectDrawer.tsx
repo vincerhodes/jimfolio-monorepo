@@ -88,6 +88,30 @@ export default function ProjectDrawer({
                     </span>
                   )}
                 </div>
+              ) : station.category === 'beach' ? (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-teal-400/35 bg-teal-400/10 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-[0.12em] text-teal-200">
+                    <span className="h-1.5 w-1.5 rounded-full bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.8)]" />
+                    SAM&apos;S BEACH · VIETNAM
+                  </span>
+                  {station.domainLabel && (
+                    <span className="inline-flex rounded-full border border-amber-300/25 bg-amber-300/10 px-2.5 py-1 font-mono text-[10px] text-amber-200">
+                      {station.domainLabel}
+                    </span>
+                  )}
+                </div>
+              ) : station.category === 'bar' ? (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-400/35 bg-orange-400/10 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-[0.12em] text-orange-200">
+                    <span className="h-1.5 w-1.5 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.8)]" />
+                    NORDY&apos;S CONTAINER BAR
+                  </span>
+                  {station.domainLabel && (
+                    <span className="inline-flex rounded-full border border-amber-300/25 bg-amber-300/10 px-2.5 py-1 font-mono text-[10px] text-amber-200">
+                      {station.domainLabel}
+                    </span>
+                  )}
+                </div>
               ) : (
                 <span
                   className="inline-flex items-center rounded-full border px-2.5 py-1 font-mono text-[10px] tracking-[0.2em]"
@@ -117,6 +141,15 @@ export default function ProjectDrawer({
                 <div className="mt-5 rounded-xl border border-rose-400/30 bg-gradient-to-r from-rose-400/10 to-amber-400/10 px-4 py-3">
                   <p className="text-xs font-semibold text-rose-200">
                     404 — Live URL pending from Matt
+                  </p>
+                </div>
+              ) : station.isHangout ? (
+                <div className="mt-5 rounded-xl border border-amber-300/30 bg-gradient-to-r from-amber-400/10 to-orange-400/10 px-4 py-3">
+                  <span className="inline-flex rounded-full border border-amber-300/25 bg-amber-300/10 px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-amber-200">
+                    Hangout Spot
+                  </span>
+                  <p className="mt-2 text-xs leading-relaxed text-amber-100/80">
+                    {station.badgeNote ?? 'Pull up a seat and stay a while.'}
                   </p>
                 </div>
               ) : (
@@ -173,6 +206,18 @@ export default function ProjectDrawer({
                 >
                   404 — URL Coming Soon
                 </button>
+              ) : station.isHangout ? (
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className={`flex flex-1 items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold text-zinc-950 transition-colors ${
+                    station.category === 'beach'
+                      ? 'bg-teal-400 hover:bg-teal-300'
+                      : 'bg-orange-400 hover:bg-orange-300'
+                  }`}
+                >
+                  Pull Up a Seat
+                </button>
               ) : (
                 <a
                   href={station.url}
@@ -181,18 +226,24 @@ export default function ProjectDrawer({
                   className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold text-zinc-950 transition-colors ${
                     station.category === 'shipped' || station.category === 'farm'
                       ? 'bg-emerald-400 hover:bg-emerald-300'
-                      : 'bg-amber-400 hover:bg-amber-300'
+                      : station.category === 'beach'
+                        ? 'bg-teal-400 hover:bg-teal-300'
+                        : station.category === 'bar'
+                          ? 'bg-orange-400 hover:bg-orange-300'
+                          : 'bg-amber-400 hover:bg-amber-300'
                   }`}
                 >
                   {station.id === 'matt-preparingforai'
                     ? 'Listen to Podcast ↗'
                     : station.id === 'matt-descartwright'
                       ? 'Visit Gallery ↗'
-                      : station.category === 'farm'
-                        ? 'Visit Site ↗'
-                        : station.category === 'shipped'
-                          ? 'Visit Live Site ↗'
-                          : 'Launch App ↗'}
+                      : station.id === 'sam-browzr'
+                        ? 'Visit Browzr ↗'
+                        : station.category === 'farm'
+                          ? 'Visit Site ↗'
+                          : station.category === 'shipped'
+                            ? 'Visit Live Site ↗'
+                            : 'Launch App ↗'}
                 </a>
               )}
               <button

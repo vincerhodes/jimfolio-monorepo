@@ -110,6 +110,56 @@ function StationCard({ station }: { station: GarageStation }) {
   );
 }
 
+function VillageStationCard({ station }: { station: GarageStation }) {
+  const isBeach = station.category === 'beach';
+
+  return (
+    <article
+      className={`flex flex-col rounded-xl border p-4 transition-colors ${
+        isBeach
+          ? 'border-teal-300/15 bg-teal-300/[0.035] hover:border-teal-300/35 hover:bg-teal-300/[0.06]'
+          : 'border-orange-300/15 bg-orange-300/[0.035] hover:border-orange-300/35 hover:bg-orange-300/[0.06]'
+      }`}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span
+          className={`rounded-full border px-2 py-0.5 font-mono text-[9px] tracking-[0.12em] ${
+            isBeach
+              ? 'border-teal-400/25 bg-teal-400/10 text-teal-300'
+              : 'border-orange-400/25 bg-orange-400/10 text-orange-300'
+          }`}
+        >
+          {station.domainLabel ?? station.tag}
+        </span>
+        {station.isHangout && (
+          <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-2 py-0.5 text-[9px] font-semibold text-amber-200">
+            Hangout Spot
+          </span>
+        )}
+      </div>
+      <h3 className="mt-2.5 text-base font-semibold text-white">{station.name}</h3>
+      <p className="mt-1 line-clamp-2 flex-1 text-xs leading-relaxed text-zinc-400">
+        {station.tagline}
+      </p>
+      {!station.isHangout && station.url && (
+        <a
+          href={station.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`mt-3 inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+            isBeach
+              ? 'border-teal-400/30 text-teal-200 hover:border-teal-400/60 hover:bg-teal-400/10'
+              : 'border-orange-400/30 text-orange-200 hover:border-orange-400/60 hover:bg-orange-400/10'
+          }`}
+        >
+          Visit Site
+          <ArrowUpRight size={13} />
+        </a>
+      )}
+    </article>
+  );
+}
+
 export default function BenchListView({
   stations,
   isOpen,
@@ -162,6 +212,8 @@ export default function BenchListView({
     (station) => station.category === 'experiment',
   );
   const farmStations = filtered.filter((station) => station.category === 'farm');
+  const samStations = filtered.filter((station) => station.category === 'beach');
+  const nordyStations = filtered.filter((station) => station.category === 'bar');
   const shellClass = isWebGLFallback
     ? 'min-h-screen bg-zinc-950 text-zinc-100'
     : 'fixed inset-0 z-50 overflow-y-auto bg-zinc-950/95 backdrop-blur-xl text-zinc-100';
@@ -293,6 +345,50 @@ export default function BenchListView({
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {farmStations.map((station) => (
                   <StationCard key={station.id} station={station} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {samStations.length > 0 && (
+            <section
+              aria-labelledby="sam-beach-heading"
+              className="rounded-2xl border border-teal-300/15 bg-teal-300/[0.02] p-4"
+            >
+              <div className="mb-3 flex flex-wrap items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-teal-400 shadow-[0_0_10px_rgba(45,212,191,0.6)]" />
+                <h2
+                  id="sam-beach-heading"
+                  className="font-mono text-[11px] font-semibold tracking-[0.14em] text-teal-300"
+                >
+                  WEST LANE // SAM&apos;S BEACH — VIETNAM ({samStations.length})
+                </h2>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {samStations.map((station) => (
+                  <VillageStationCard key={station.id} station={station} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {nordyStations.length > 0 && (
+            <section
+              aria-labelledby="nordy-bar-heading"
+              className="rounded-2xl border border-orange-300/15 bg-orange-300/[0.02] p-4"
+            >
+              <div className="mb-3 flex flex-wrap items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_10px_rgba(251,146,60,0.6)]" />
+                <h2
+                  id="nordy-bar-heading"
+                  className="font-mono text-[11px] font-semibold tracking-[0.14em] text-orange-300"
+                >
+                  FAR WEST // NORDY&apos;S BAR ({nordyStations.length})
+                </h2>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {nordyStations.map((station) => (
+                  <VillageStationCard key={station.id} station={station} />
                 ))}
               </div>
             </section>

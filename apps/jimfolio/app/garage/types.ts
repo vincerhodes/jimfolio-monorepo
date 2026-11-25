@@ -1,16 +1,20 @@
 import type * as THREE from "three";
 
-export type BuildingId = "jim" | "matt";
+export type BuildingId = "nordy" | "sam" | "jim" | "matt";
 export type StationId =
   | "predictr" | "plannr" | "crema" | "pantry" | "chinahols"
   | "preppr" | "book-adventure" | "rocketsfc"
   | "browzr" | "kickoff-hq" | "rovr" | "preparingforai" | "rightcourtsc"
-  | "matt-preparingforai" | "matt-descartwright" | "matt-germanya" | "matt-digitaldetox";
-export type StationCategory = "experiment" | "shipped" | "farm";
-export type GarageStage = "exterior" | "opening" | "interior" | "inspecting";
+  | "matt-preparingforai" | "matt-descartwright" | "matt-germanya" | "matt-digitaldetox"
+  | "sam-browzr" | "sam-vietnam" | "nordy-burgers" | "nordy-patio";
+export type StationCategory = "experiment" | "shipped" | "farm" | "beach" | "bar";
+export type GarageStage = "exterior" | "opening" | "interior" | "inspecting" | "driving";
 export type LightingMode = "night" | "day";
 export type ViewPreset = "left" | "center" | "right";
-export type EasterEggId = "wrench" | "vise" | "clock" | "tractor" | "bell" | "chicken";
+export type EasterEggId =
+  | "wrench" | "vise" | "clock" | "tractor" | "bell" | "chicken"
+  | "old-shed" | "lantern" | "surfboard" | "grill" | "tap";
+export type VehicleId = "rover" | "vespa" | "tractor";
 export type Vec3Tuple = [number, number, number];
 
 export interface CameraPose {
@@ -34,6 +38,7 @@ export interface GarageStation {
   badgeNote?: string;
   privateAuth?: boolean;
   status404?: boolean;
+  isHangout?: boolean;
   propLabel: string;
   anchorPosition: Vec3Tuple;
   inspectCamera: CameraPose;
@@ -82,8 +87,31 @@ export interface FarmHandle {
   setDoorProgress: (t: number) => void;
   setDoorHovered: (hovered: boolean) => void;
   setLightingMode: (mode: LightingMode, blend: number) => void;
+  setActiveLights?: (active: boolean) => void;
   update: (elapsed: number, dt: number) => void;
   dispose: () => void;
+}
+
+export interface PlotHandle {
+  group: THREE.Group;
+  doorHitMeshes: THREE.Object3D[];
+  exteriorEasterEggHitMeshes: THREE.Object3D[];
+  interiorEasterEggHitMeshes: THREE.Object3D[];
+  handles: Map<StationId, StationHandle>;
+  triggerEasterEgg: (id: EasterEggId) => string;
+  setDoorProgress: (t: number) => void;
+  setDoorHovered: (hovered: boolean) => void;
+  setLightingMode: (mode: LightingMode, blend: number) => void;
+  setActiveLights?: (active: boolean) => void;
+  update: (elapsed: number, dt: number) => void;
+  dispose: () => void;
+}
+
+export interface DriveBoundsBox {
+  minX: number;
+  maxX: number;
+  minZ: number;
+  maxZ: number;
 }
 
 export const CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = {
@@ -95,3 +123,15 @@ export const FARM_CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } =
   exterior: { position: [12.4, 2.35, 12.2], target: [12.4, 1.75, 3.6] },
   interior: { position: [12.8, 2.25, 3.25], target: [12.8, 1.38, -2.2] },
 };
+
+export const SAM_CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = {
+  exterior: { position: [-14.0, 2.25, 11.4], target: [-14.0, 1.55, 3.2] },
+  interior: { position: [-14.0, 2.05, 3.2], target: [-14.0, 1.25, -1.8] },
+};
+
+export const NORDY_CAMERA_POSES: { exterior: CameraPose; interior: CameraPose } = {
+  exterior: { position: [-28.0, 2.35, 11.8], target: [-28.0, 1.55, 3.4] },
+  interior: { position: [-28.0, 1.95, 4.4], target: [-28.0, 1.32, 0.2] },
+};
+
+export const BUILDING_ORDER: BuildingId[] = ["nordy", "sam", "jim", "matt"];

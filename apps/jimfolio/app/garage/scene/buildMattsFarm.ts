@@ -483,7 +483,7 @@ export function buildMattsFarm(
     return bale;
   };
 
-  box(group, [16.5, 0.12, 20], [13.75, -0.09, 5.2], meadow);
+  box(group, [20, 0.12, 25.7], [15.5, -0.09, 2.35], meadow);
   box(group, [12.5, 0.075, 11.4], [12.25, -0.015, 9.3], gravel);
   box(group, [1.0, 0.065, 10.8], [5.85, -0.025, 9.6], gravel);
 
@@ -542,6 +542,259 @@ export function buildMattsFarm(
   stemInstances.instanceMatrix.needsUpdate = true;
   blossomInstances.forEach((flowers) => { flowers.instanceMatrix.needsUpdate = true; });
 
+  const paddock = new THREE.Group();
+  paddock.name = "east-and-north-pastures";
+  group.add(paddock);
+  const paddockFenceLine = (start: [number, number], end: [number, number], sections: number): void => {
+    for (let index = 0; index <= sections; index += 1) {
+      const amount = index / sections;
+      const x = THREE.MathUtils.lerp(start[0], end[0], amount);
+      const z = THREE.MathUtils.lerp(start[1], end[1], amount);
+      box(paddock, [0.18, 1.18, 0.18], [x, 0.56, z], darkOak, [0, 0, (index % 2 ? -1 : 1) * 0.025]);
+      cylinder(paddock, 0, 0.15, 0.15, [x, 1.22, z], darkOak, 4, [0, Math.PI / 4, 0]);
+      if (index < sections) {
+        const nextAmount = (index + 1) / sections;
+        const nextX = THREE.MathUtils.lerp(start[0], end[0], nextAmount);
+        const nextZ = THREE.MathUtils.lerp(start[1], end[1], nextAmount);
+        for (const y of [0.43, 0.88]) {
+          beamBetween(paddock, [x, y, z], [nextX, y + 0.035, nextZ], 0.11, 0.12, oak);
+        }
+      }
+    }
+  };
+  paddockFenceLine([17, -9.5], [25, -9.5], 5);
+  paddockFenceLine([25, -9.5], [25, 6.5], 8);
+  paddockFenceLine([17, -9.5], [17, -4.8], 3);
+  paddockFenceLine([17, 4.1], [17, 6.5], 2);
+  paddockFenceLine([17, 6.5], [18.4, 6.5], 1);
+  paddockFenceLine([22.3, 6.5], [25, 6.5], 2);
+
+  for (let colorIndex = 0; colorIndex < grassMaterials.length; colorIndex += 1) {
+    const pastureGrass = addInstanced(group, new THREE.ConeGeometry(0.038, 0.32, 3), grassMaterials[colorIndex], 190);
+    for (let index = 0; index < 190; index += 1) {
+      let x = 17.15 + random() * 7.7;
+      let z = -9.35 + random() * 15.65;
+      let attempts = 0;
+      const pondDistance = (): number => ((x - 21.5) / 2.45) ** 2 + ((z + 2.5) / 1.9) ** 2;
+      while ((pondDistance() < 1 || (x > 19.45 && x < 21.75 && z > 1.5 && z < 4.1) || (x > 17.1 && x < 19.5 && z > -1.4 && z < 1.4)) && attempts < 30) {
+        x = 17.15 + random() * 7.7;
+        z = -9.35 + random() * 15.65;
+        attempts += 1;
+      }
+      dummy.position.set(x, 0.09 + random() * 0.08, z);
+      dummy.rotation.set((random() - 0.5) * 0.22, random() * TAU, (random() - 0.5) * 0.28);
+      dummy.scale.set(0.7 + random() * 0.65, 0.65 + random() * 1.25, 0.7 + random() * 0.65);
+      dummy.updateMatrix();
+      pastureGrass.setMatrixAt(index, dummy.matrix);
+    }
+    pastureGrass.instanceMatrix.needsUpdate = true;
+  }
+
+  const pond = new THREE.Group();
+  pond.name = "shimmering-duck-pond";
+  pond.position.set(21.5, 0, -2.5);
+  group.add(pond);
+  const pondBank = standard("#827a55", { roughness: 1 });
+  const bank = addMesh(pond, new THREE.CircleGeometry(1, 64), pondBank, [0, 0.006, 0], [-Math.PI / 2, 0, 0]);
+  bank.scale.set(2.38, 1.78, 1);
+  const waterMaterial = standard("#318d91", {
+    emissive: "#176d70",
+    emissiveIntensity: 0.24,
+    metalness: 0.34,
+    roughness: 0.16,
+    transparent: true,
+    opacity: 0.88,
+  });
+  const water = addMesh(pond, new THREE.CircleGeometry(1, 64), waterMaterial, [0, 0.035, 0], [-Math.PI / 2, 0, 0]);
+  water.scale.set(2.12, 1.48, 1);
+  water.castShadow = false;
+  const riverStone = standard("#9b9b88", { roughness: 0.88 });
+  for (let index = 0; index < 28; index += 1) {
+    const angle = index / 28 * TAU;
+    const radius = 0.16 + random() * 0.085;
+    const stoneMesh = sphere(
+      pond,
+      radius,
+      [Math.cos(angle) * 2.22, 0.08 + random() * 0.035, Math.sin(angle) * 1.59],
+      riverStone,
+      [1.2 + random() * 0.45, 0.55 + random() * 0.2, 0.9 + random() * 0.35],
+    );
+    stoneMesh.rotation.y = angle + random();
+  }
+  const reedMaterial = standard("#59743b", { roughness: 0.94 });
+  const cattailMaterial = standard("#614127", { roughness: 1 });
+  for (let cluster = 0; cluster < 12; cluster += 1) {
+    const angle = cluster / 12 * TAU + 0.12;
+    if (Math.sin(angle) > 0.65) continue;
+    for (let stem = 0; stem < 4; stem += 1) {
+      const x = Math.cos(angle) * (1.94 + random() * 0.15) + (random() - 0.5) * 0.13;
+      const z = Math.sin(angle) * (1.34 + random() * 0.12) + (random() - 0.5) * 0.13;
+      const height = 0.42 + random() * 0.34;
+      rodBetween(pond, [x, 0.03, z], [x + (random() - 0.5) * 0.12, height, z + (random() - 0.5) * 0.08], 0.014, reedMaterial, 6);
+      if (stem % 2 === 0) cylinder(pond, 0.026, 0.032, 0.15, [x, height, z], cattailMaterial, 8);
+    }
+  }
+  const lilyMaterial = standard("#4d883e", { roughness: 0.72, side: THREE.DoubleSide });
+  const lilyShape = new THREE.Shape();
+  lilyShape.moveTo(0, 0);
+  lilyShape.absarc(0, 0, 1, 0.24, TAU - 0.24, false);
+  lilyShape.lineTo(0, 0);
+  lilyShape.closePath();
+  const lilyGeometry = new THREE.ShapeGeometry(lilyShape, 24);
+  const lilyPositions: Array<[number, number, number]> = [
+    [-1.25, -0.52, 0.24],
+    [-0.95, 0.67, 0.19],
+    [0.15, 0.88, 0.22],
+    [1.25, 0.42, 0.26],
+    [1.38, -0.55, 0.18],
+    [0.15, -0.92, 0.2],
+  ];
+  lilyPositions.forEach(([x, z, size], index) => {
+    const pad = addMesh(pond, lilyGeometry, lilyMaterial, [x, 0.057, z], [-Math.PI / 2, 0, index * 0.83]);
+    pad.scale.setScalar(size);
+    pad.castShadow = false;
+    if (index === 1 || index === 3) {
+      for (let petal = 0; petal < 6; petal += 1) {
+        const angle = petal / 6 * TAU;
+        sphere(pond, 0.047, [x + Math.cos(angle) * 0.045, 0.095, z + Math.sin(angle) * 0.045], white, [1, 0.42, 1]);
+      }
+      sphere(pond, 0.035, [x, 0.108, z], hayLight, [1, 0.55, 1]);
+    }
+  });
+  const pondRipples: Array<{ mesh: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>; phase: number }> = [];
+  for (let index = 0; index < 3; index += 1) {
+    const rippleMaterial = basic("#b6eee0", { transparent: true, opacity: 0.2, depthWrite: false, side: THREE.DoubleSide });
+    const ripple = addMesh(pond, new THREE.RingGeometry(0.32, 0.35, 40), rippleMaterial, [0, 0.063 + index * 0.001, 0], [-Math.PI / 2, 0, 0]);
+    ripple.castShadow = false;
+    pondRipples.push({ mesh: ripple, phase: index / 3 });
+  }
+
+  const ducks: Array<{ group: THREE.Group; baseY: number; baseRotation: number; phase: number }> = [];
+  const duckBill = standard("#e6a02c", { roughness: 0.64 });
+  const buildDuck = (position: Vec3, color: string, yaw: number, phase: number): void => {
+    const duck = new THREE.Group();
+    duck.position.set(...position);
+    duck.rotation.y = yaw;
+    pond.add(duck);
+    const feathers = standard(color, { roughness: 0.82 });
+    sphere(duck, 0.29, [0, 0.19, 0], feathers, [0.86, 0.72, 1.18]);
+    sphere(duck, 0.18, [0, 0.43, 0.2], feathers, [0.94, 1.02, 0.94]);
+    sphere(duck, 0.16, [-0.2, 0.22, -0.015], feathers, [0.25, 0.72, 1]);
+    sphere(duck, 0.16, [0.2, 0.22, -0.015], feathers, [0.25, 0.72, 1]);
+    cylinder(duck, 0, 0.09, 0.2, [0, 0.25, -0.34], feathers, 12, [-Math.PI / 2, 0, 0]);
+    sphere(duck, 0.095, [0, 0.4, 0.375], duckBill, [1.05, 0.36, 1.15]);
+    for (const side of [-1, 1]) {
+      sphere(duck, 0.025, [side * 0.1, 0.48, 0.325], black);
+      sphere(duck, 0.007, [side * 0.106, 0.488, 0.346], white);
+    }
+    duck.scale.setScalar(0.78);
+    ducks.push({ group: duck, baseY: position[1], baseRotation: yaw, phase });
+  };
+  buildDuck([-0.72, 0.075, 0.12], "#f2ce55", 0.48, 0);
+  buildDuck([0.72, 0.075, -0.3], "#f3efe0", -0.7, 1.9);
+
+  const sheepHeads: Array<{ group: THREE.Group; baseY: number; phase: number }> = [];
+  const sheepWool = standard("#eeeadd", { roughness: 1 });
+  const sheepFace = standard("#5b5147", { roughness: 0.96 });
+  const buildSheep = (x: number, z: number, yaw: number, phase: number): void => {
+    const sheep = new THREE.Group();
+    sheep.position.set(x, 0, z);
+    sheep.rotation.y = yaw;
+    sheep.scale.setScalar(0.88);
+    group.add(sheep);
+    sphere(sheep, 0.47, [0, 0.66, 0], sheepWool, [1.05, 0.9, 1.34]);
+    for (let tuft = 0; tuft < 14; tuft += 1) {
+      const angle = tuft / 14 * TAU;
+      sphere(
+        sheep,
+        0.2,
+        [Math.cos(angle) * 0.39, 0.69 + Math.sin(tuft * 2.1) * 0.16, Math.sin(angle) * 0.49],
+        sheepWool,
+        [1.05, 0.9, 1.05],
+      );
+    }
+    for (const legX of [-0.27, 0.27]) {
+      for (const legZ of [-0.31, 0.31]) {
+        cylinder(sheep, 0.055, 0.065, 0.42, [legX, 0.24, legZ], sheepFace, 10);
+        sphere(sheep, 0.075, [legX, 0.055, legZ + 0.035], sheepFace, [0.9, 0.55, 1.3]);
+      }
+    }
+    sphere(sheep, 0.16, [0, 0.71, -0.65], sheepWool, [0.85, 0.85, 1.2]);
+    const head = new THREE.Group();
+    head.position.set(0, 0.73, 0.57);
+    sheep.add(head);
+    sphere(head, 0.25, [0, -0.08, 0.08], sheepFace, [0.75, 1.08, 0.9]);
+    sphere(head, 0.22, [0, 0.1, 0.015], sheepWool, [1.05, 0.65, 0.95]);
+    for (const side of [-1, 1]) {
+      sphere(head, 0.105, [side * 0.21, 0.015, 0.02], sheepFace, [1.3, 0.35, 0.75]);
+      sphere(head, 0.038, [side * 0.125, 0.005, 0.255], white);
+      sphere(head, 0.019, [side * 0.13, 0.003, 0.284], black);
+    }
+    sphere(head, 0.035, [0, -0.19, 0.275], black, [1.25, 0.55, 0.5]);
+    head.rotation.x = 0.24;
+    sheepHeads.push({ group: head, baseY: head.position.y, phase });
+  };
+  buildSheep(18.65, -6.35, 0.4, 0);
+  buildSheep(20.15, -5.15, -0.55, 1.4);
+  buildSheep(22.15, -6.55, 0.85, 2.8);
+  buildSheep(23.35, -4.75, -1.1, 4.1);
+
+  const cropSoil = standard("#57442b", { roughness: 1 });
+  box(group, [2.15, 0.07, 2.45], [18.3, 0.005, 0], cropSoil);
+  const wheatStems = addInstanced(group, new THREE.CylinderGeometry(0.012, 0.017, 0.68, 5), hayLight, 63);
+  const wheatEars = addInstanced(group, new THREE.ConeGeometry(0.055, 0.26, 6), hay, 63);
+  for (let index = 0; index < 63; index += 1) {
+    const column = index % 7;
+    const row = Math.floor(index / 7);
+    const x = 17.48 + column * 0.27 + (random() - 0.5) * 0.07;
+    const z = -1.02 + row * 0.255 + (random() - 0.5) * 0.07;
+    const height = 0.82 + random() * 0.2;
+    dummy.position.set(x, height * 0.36, z);
+    dummy.rotation.set((random() - 0.5) * 0.09, random() * TAU, (random() - 0.5) * 0.1);
+    dummy.scale.set(1, height, 1);
+    dummy.updateMatrix();
+    wheatStems.setMatrixAt(index, dummy.matrix);
+    dummy.position.set(x, height * 0.76, z);
+    dummy.scale.set(0.9 + random() * 0.25, 0.9 + random() * 0.25, 0.9 + random() * 0.25);
+    dummy.updateMatrix();
+    wheatEars.setMatrixAt(index, dummy.matrix);
+  }
+  wheatStems.instanceMatrix.needsUpdate = true;
+  wheatEars.instanceMatrix.needsUpdate = true;
+
+  const orchardLeaf = standard("#477c36", { roughness: 0.95 });
+  const appleMaterial = standard("#b94332", { roughness: 0.68 });
+  const buildOrchardTree = (x: number, z: number, scale: number): void => {
+    const tree = new THREE.Group();
+    tree.position.set(x, 0, z);
+    tree.scale.setScalar(scale);
+    group.add(tree);
+    cylinder(tree, 0.14, 0.24, 1.65, [0, 0.82, 0], darkOak, 12);
+    for (const side of [-1, 1]) {
+      rodBetween(tree, [0, 1.05, 0], [side * 0.55, 1.85, 0.08], 0.075, darkOak, 9);
+      rodBetween(tree, [0, 1.25, 0], [side * 0.28, 2.05, -0.42], 0.065, darkOak, 9);
+    }
+    const canopyPositions: Vec3[] = [
+      [0, 2.15, 0],
+      [-0.63, 1.95, 0.04],
+      [0.63, 1.98, 0.05],
+      [-0.25, 2.35, -0.48],
+      [0.35, 2.32, -0.4],
+      [0, 1.93, 0.58],
+    ];
+    canopyPositions.forEach((position, index) => {
+      const crown = addMesh(tree, new THREE.IcosahedronGeometry(0.72, 2), index % 2 ? leaf : orchardLeaf, position);
+      crown.scale.set(1.05, 0.9, 1.05);
+    });
+    for (let apple = 0; apple < 10; apple += 1) {
+      const angle = apple / 10 * TAU + random() * 0.3;
+      sphere(tree, 0.075, [Math.cos(angle) * (0.58 + random() * 0.32), 1.82 + random() * 0.63, Math.sin(angle) * 0.66 + 0.15], appleMaterial);
+    }
+  };
+  buildOrchardTree(18.35, -8.75, 0.88);
+  buildOrchardTree(21.3, -8.8, 1.0);
+  buildOrchardTree(24.0, -8.75, 0.9);
+
   const fence = new THREE.Group();
   group.add(fence);
   for (let index = 0; index < 6; index += 1) {
@@ -576,30 +829,90 @@ export function buildMattsFarm(
   hayBale(hayStack, [0.05, 1.3, -0.08], 0.9, 0.12);
 
   const shed = new THREE.Group();
-  shed.position.set(18.6, 0, 2.6);
-  shed.scale.setScalar(0.38);
-  shed.rotation.y = -0.18;
+  shed.name = "old-potting-shed";
+  shed.position.set(20.6, 0, 2.6);
+  shed.scale.setScalar(0.72);
+  shed.rotation.y = -0.12;
   group.add(shed);
-  const shedWood = standard("#5f5540", { map: oakTexture, roughness: 0.96 });
-  box(shed, [1.55, 1.8, 1.25], [0, 0.9, 0], shedWood);
-  for (let plank = 0; plank < 8; plank += 1) {
-    box(shed, [0.025, 1.75, 0.04], [-0.68 + plank * 0.195, 0.9, 0.645], darkOak);
+  const shedWood = standard("#50654b", { map: oakTexture, roughness: 0.94 });
+  const shedTrim = standard("#344839", { map: oakTexture, roughness: 0.9 });
+  const rustyRoof = standard("#83503a", { metalness: 0.42, roughness: 0.72 });
+  const terracotta = standard("#b86d45", { roughness: 0.92 });
+  box(shed, [2.5, 0.18, 1.85], [0, 0.07, 0], stone);
+  box(shed, [2.3, 2.08, 1.65], [0, 1.15, 0], shedWood);
+  for (let plank = 0; plank < 12; plank += 1) {
+    const x = -1.08 + plank * 0.196;
+    box(shed, [0.025, 2.02, 0.035], [x, 1.15, 0.842], shedTrim);
+    box(shed, [0.025, 2.02, 0.035], [x, 1.15, -0.842], shedTrim);
   }
-  box(shed, [0.62, 1.32, 0.05], [0.1, 0.66, 0.66], darkOak);
-  box(shed, [1.85, 0.14, 1.58], [0, 1.9, 0], slate, [0, 0, -0.12]);
-  for (let patch = 0; patch < 15; patch += 1) {
-    sphere(shed, 0.12 + random() * 0.08, [(random() - 0.5) * 1.5, 1.95 + random() * 0.05, (random() - 0.5) * 1.15], moss, [1.4, 0.25, 1]);
+  for (const side of [-1, 1]) {
+    for (let plank = 0; plank < 9; plank += 1) {
+      box(shed, [0.035, 2.02, 0.025], [side * 1.165, 1.15, -0.76 + plank * 0.19], shedTrim);
+    }
+    box(shed, [0.12, 2.18, 0.12], [side * 1.15, 1.17, 0.84], darkOak);
   }
-  box(group, [2.2, 0.58, 0.48], [18.6, 0.28, 3.28], leaf);
-  for (let index = 0; index < 12; index += 1) {
-    sphere(group, 0.29, [17.55 + index * 0.19, 0.43 + random() * 0.05, 3.28 + (random() - 0.5) * 0.2], leaf, [1, 0.85, 0.85]);
+  const shedGable = new THREE.Shape();
+  shedGable.moveTo(-1.15, 0);
+  shedGable.lineTo(0, 0.72);
+  shedGable.lineTo(1.15, 0);
+  shedGable.closePath();
+  addMesh(shed, new THREE.ShapeGeometry(shedGable), shedWood, [0, 2.19, 0.837]);
+  addMesh(shed, new THREE.ShapeGeometry(shedGable), shedWood, [0, 2.19, -0.837], [0, Math.PI, 0]);
+  const shedRoofAngle = Math.atan2(0.72, 1.25);
+  const shedRoofLength = Math.sqrt(1.25 ** 2 + 0.72 ** 2) + 0.22;
+  box(shed, [shedRoofLength, 0.12, 2.05], [-0.625, 2.55, 0], rustyRoof, [0, 0, shedRoofAngle]);
+  box(shed, [shedRoofLength, 0.12, 2.05], [0.625, 2.55, 0], rustyRoof, [0, 0, -shedRoofAngle]);
+  cylinder(shed, 0.085, 0.085, 2.12, [0, 2.91, 0], rustyRoof, 12, [Math.PI / 2, 0, 0]);
+  for (let seam = 0; seam < 5; seam += 1) {
+    const z = -0.88 + seam * 0.44;
+    rodBetween(shed, [-1.31, 2.18, z], [0, 2.93, z], 0.014, agedBrass, 6);
+    rodBetween(shed, [0, 2.93, z], [1.31, 2.18, z], 0.014, agedBrass, 6);
   }
-  box(group, [1.15, 0.28, 0.06], [18.6, 0.45, 3.56], agedBrass);
-  textPanel(group, ["FORMER SHED (RETIRED)"], 1.06, 0.19, [18.6, 0.45, 3.595], [0, 0, 0], {
-    background: "#8f6a2d",
-    color: "#21180b",
-    font: "700 74px Arial, sans-serif",
+  for (let patch = 0; patch < 9; patch += 1) {
+    sphere(shed, 0.1 + random() * 0.07, [(random() - 0.5) * 1.5, 2.77 + random() * 0.08, (random() - 0.5) * 1.5], moss, [1.5, 0.18, 1]);
+  }
+
+  const shedDoor = new THREE.Group();
+  shedDoor.position.set(-0.43, 0.14, 0.875);
+  shedDoor.rotation.set(0, -0.09, -0.035);
+  shed.add(shedDoor);
+  box(shedDoor, [0.86, 1.65, 0.075], [0.43, 0.825, 0], shedTrim);
+  for (let plank = 0; plank < 5; plank += 1) {
+    box(shedDoor, [0.018, 1.56, 0.02], [0.09 + plank * 0.17, 0.825, 0.047], darkOak);
+  }
+  beamBetween(shedDoor, [0.08, 0.18, 0.065], [0.78, 1.43, 0.065], 0.07, 0.055, oak);
+  sphere(shedDoor, 0.055, [0.72, 0.82, 0.09], agedBrass, [1, 1, 0.5]);
+  box(shed, [0.48, 0.57, 0.055], [0.73, 1.36, 0.878], darkOak);
+  box(shed, [0.39, 0.47, 0.025], [0.73, 1.36, 0.915], standard("#d7b76d", { emissive: "#b97b32", emissiveIntensity: 0.35, roughness: 0.4 }));
+  box(shed, [0.035, 0.47, 0.025], [0.73, 1.36, 0.936], darkOak);
+  box(shed, [0.39, 0.035, 0.025], [0.73, 1.36, 0.936], darkOak);
+  box(shed, [1.65, 0.29, 0.065], [0, 1.99, 0.9], darkOak);
+  textPanel(shed, ["OLD SHED (RETIRED)"], 1.56, 0.22, [0, 1.99, 0.938], [0, 0, 0], {
+    background: "#e2d4a9",
+    border: "#76522c",
+    color: "#283326",
+    font: "800 82px Arial, sans-serif",
   });
+  const potPositions: Vec3[] = [[-1.03, 0.15, 1.08], [0.91, 0.15, 1.19], [1.23, 0.15, 0.94]];
+  potPositions.forEach((position, index) => {
+    cylinder(shed, 0.18, 0.13, 0.3, position, terracotta, 18);
+    addMesh(shed, new THREE.TorusGeometry(0.18, 0.025, 7, 20), terracotta, [position[0], position[1] + 0.15, position[2]], [Math.PI / 2, 0, 0]);
+    cylinder(shed, 0.145, 0.145, 0.015, [position[0], position[1] + 0.145, position[2]], cropSoil, 18);
+    for (let sprout = 0; sprout < 4; sprout += 1) {
+      const angle = sprout / 4 * TAU + index;
+      rodBetween(shed, [position[0], position[1] + 0.16, position[2]], [position[0] + Math.cos(angle) * 0.1, position[1] + 0.43 + random() * 0.1, position[2] + Math.sin(angle) * 0.1], 0.012, leaf, 6);
+      sphere(shed, 0.09, [position[0] + Math.cos(angle) * 0.1, position[1] + 0.42, position[2] + Math.sin(angle) * 0.1], orchardLeaf, [0.55, 1, 0.35]);
+    }
+  });
+  for (let step = 0; step < 3; step += 1) {
+    box(shed, [0.72, 0.055, 0.34], [0, 0.025, 1.15 + step * 0.39], stone, [0, (step - 1) * 0.08, 0]);
+  }
+  sphere(shed, 0.45, [-1.34, 0.38, -0.32], leaf, [0.8, 0.85, 1.1]);
+  sphere(shed, 0.38, [1.32, 0.32, -0.42], leaf, [0.85, 0.8, 1]);
+  const shedHit = invisibleHit(shed, [2.9, 3.05, 2.45], [0, 1.42, 0.25]);
+  shedHit.userData.easterEggId = "old-shed";
+  exteriorEasterEggHitMeshes.push(shedHit);
+  let shedAnimation = 0;
 
   const tractor = new THREE.Group();
   tractor.name = "vintage-red-tractor";
@@ -825,6 +1138,7 @@ export function buildMattsFarm(
   }
 
   const warmLights: Array<{ light: THREE.PointLight | THREE.SpotLight; night: number; day: number }> = [];
+  const interiorLights: Array<THREE.PointLight | THREE.SpotLight> = [];
   const addLantern = (parent: THREE.Object3D, position: Vec3, exterior: boolean): THREE.Group => {
     const lantern = new THREE.Group();
     lantern.position.set(...position);
@@ -843,6 +1157,7 @@ export function buildMattsFarm(
     light.position.set(0, -0.03, 0.38);
     lantern.add(light);
     warmLights.push({ light, night: exterior ? 2.4 : 2.0, day: exterior ? 0.45 : 0.65 });
+    if (!exterior) interiorLights.push(light);
     return lantern;
   };
   addLantern(barn, [10.62, 2.18, 3.78], true);
@@ -951,12 +1266,14 @@ export function buildMattsFarm(
     barn.add(light);
     warmLights.push({ light, night: 0.75, day: 0.2 });
     festoonLights.push(light);
+    interiorLights.push(light);
   }
   const interiorSpot = new THREE.SpotLight("#ffd39a", 18, 12, Math.PI / 3.2, 0.65, 1.5);
   interiorSpot.position.set(12.8, 4.2, 0.5);
   interiorSpot.target.position.set(12.8, 0, -1.0);
   barn.add(interiorSpot, interiorSpot.target);
   warmLights.push({ light: interiorSpot, night: 18, day: 6 });
+  interiorLights.push(interiorSpot);
   const daylight = new THREE.DirectionalLight("#fff1ce", 0.3);
   daylight.position.set(12, 8, 10);
   daylight.target.position.set(12.8, 0, -0.5);
@@ -1399,6 +1716,7 @@ export function buildMattsFarm(
         const globeLight = new THREE.PointLight("#ffd985", 0.65, 2.0, 2);
         globeLight.position.set(0, 0.8, 0.28);
         root.add(globeLight);
+        interiorLights.push(globeLight);
 
         box(root, [1.25, 0.55, 0.07], [0, 0.37, -0.45], darkOak, [-0.12, 0, 0]);
         textPanel(root, ["GERMANYA", "FINISHED BUILD · 404 URL PENDING"], 1.13, 0.43, [0, 0.38, -0.405], [-0.12, 0, 0], {
@@ -1535,6 +1853,10 @@ export function buildMattsFarm(
         chickenAnimation = 1.25;
         return "Bawk! Even the barn chicken prefers this to the old potting shed.";
       }
+      if (id === "old-shed") {
+        shedAnimation = 1.65;
+        return "Matt insists we never speak of the potting shed era again.";
+      }
       return "";
     },
     setDoorProgress: (progress: number): void => {
@@ -1546,7 +1868,40 @@ export function buildMattsFarm(
       barnRed.emissiveIntensity = hovered ? 0.32 : 0;
     },
     setLightingMode,
+    setActiveLights: (active: boolean): void => {
+      interiorLights.forEach((light) => { light.visible = active; });
+    },
     update: (elapsed: number, dt: number): void => {
+      waterMaterial.emissiveIntensity = 0.24 + Math.sin(elapsed * 1.7) * 0.075;
+      waterMaterial.opacity = 0.87 + Math.sin(elapsed * 1.15) * 0.025;
+      water.rotation.z = Math.sin(elapsed * 0.18) * 0.012;
+      pondRipples.forEach(({ mesh, phase }) => {
+        const life = (elapsed * 0.16 + phase) % 1;
+        const scale = 0.5 + life * 3.6;
+        mesh.scale.set(scale * 1.35, scale, 1);
+        mesh.material.opacity = Math.sin(life * Math.PI) * 0.17;
+      });
+      ducks.forEach(({ group: duck, baseY, baseRotation, phase }) => {
+        duck.position.y = baseY + Math.sin(elapsed * 1.65 + phase) * 0.025;
+        duck.rotation.y = baseRotation + Math.sin(elapsed * 0.55 + phase) * 0.08;
+        duck.rotation.z = Math.sin(elapsed * 1.2 + phase) * 0.018;
+      });
+      sheepHeads.forEach(({ group: head, baseY, phase }) => {
+        head.position.y = baseY + Math.sin(elapsed * 1.1 + phase) * 0.025;
+        head.rotation.x = 0.28 + Math.sin(elapsed * 0.85 + phase) * 0.12;
+      });
+      if (shedAnimation > 0) {
+        shedAnimation = Math.max(0, shedAnimation - dt);
+        const age = 1.65 - shedAnimation;
+        const envelope = Math.min(1, shedAnimation * 4) * Math.min(1, age * 8 + 0.15);
+        shed.position.x = 20.6 + Math.sin(age * 29) * 0.018 * envelope;
+        shed.rotation.z = Math.sin(age * 24) * 0.022 * envelope;
+        shedDoor.rotation.y = -0.09 + Math.sin(age * 15) * 0.075 * envelope;
+      } else {
+        shed.position.x = 20.6;
+        shed.rotation.z = 0;
+        shedDoor.rotation.y = -0.09;
+      }
       if (tractorAnimation > 0) {
         tractorAnimation = Math.max(0, tractorAnimation - dt);
         const age = 1.6 - tractorAnimation;
