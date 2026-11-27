@@ -1445,6 +1445,12 @@ export default function GarageCanvas() {
       const focusX = isDriving ? driveState.x : camera.position.x;
       const insideBuilding =
         stageRef.current === 'interior' || stageRef.current === 'inspecting';
+      const insideJim = insideBuilding && activeBuildingRef.current === 'jim';
+      activeStations.root.visible = doorProgress > 0.01;
+      activeFarm.group.visible = !insideJim;
+      activeSamBeach.group.visible = !insideJim;
+      activeNordyBar.group.visible = !insideJim;
+      activeWorld.group.visible = !insideJim;
       activeFarm.setActiveLights?.(
         Math.abs(focusX - 12.8) <= 20 ||
           (insideBuilding && activeBuildingRef.current === 'matt'),

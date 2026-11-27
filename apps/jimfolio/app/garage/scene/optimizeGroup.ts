@@ -28,9 +28,29 @@ export function optimizeStaticMeshes(
 
   root.updateMatrixWorld(true);
   const rootInverse = root.matrixWorld.clone().invert();
-  const buckets = new Map<THREE.Material, Map<string, THREE.Mesh[]>>();
+  const buckets = new Map<string, { material: THREE.Material; meshes: THREE.Mesh[] }>();
   const tmpVec = new THREE.Vector3();
   const minShadowSize = options?.minShadowSize ?? 0.55;
+
+  const materialKey = (material: THREE.Material): string => {
+    if (
+      material instanceof THREE.MeshStandardMaterial &&
+      !material.map &&
+      !material.bumpMap &&
+      !material.roughnessMap &&
+      !material.metalnessMap &&
+      !material.normalMap &&
+      !material.alphaMap &&
+      !material.emissiveMap &&
+      !material.aoMap &&
+      !material.wireframe &&
+      !material.transparent &&
+      material.emissiveIntensity === 0
+    ) {
+      return `std:${material.color.getHexString()}:${material.roughness.toFixed(2)}:${material.metalness.toFixed(2)}:${material.side}:${material.flatShading ? 1 : 0}`;
+    }
+    return `mat:${material.uuid}`;
+  };
 
   root.traverse((obj) => {
     if (excluded.has(obj)) return;
@@ -46,19 +66,13 @@ export function optimizeStaticMeshes(
       stats.shadowCastersDisabled += 1;
     }
 
-    let shadowBuckets = buckets.get(obj.material);
-    if (!shadowBuckets) {
-      shadowBuckets = new Map<string, THREE.Mesh[]>();
-      buckets.set(obj.material, shadowBuckets);
-    }
-    const key = `${obj.castShadow}:${obj.receiveShadow}`;
-    const meshes = shadowBuckets.get(key);
-    if (meshes) meshes.push(obj);
-    else shadowBuckets.set(key, [obj]);
+    const key = `${materialKey(obj.material)}|${obj.castShadow}:${obj.receiveShadow}`;
+    const bucket = buckets.get(key);
+    if (bucket) bucket.meshes.push(obj);
+    else buckets.set(key, { material: obj.material, meshes: [obj] });
   });
 
-  buckets.forEach((shadowBuckets, material) => {
-    shadowBuckets.forEach((meshes) => {
+  buckets.forEach(({ material, meshes }) => {
       if (meshes.length < 2) return;
 
       const hasUv = meshes.some((mesh) => Boolean(mesh.geometry.attributes.uv));
@@ -108,7 +122,6 @@ export function optimizeStaticMeshes(
 
       stats.mergedMeshes += 1;
       stats.sourceMeshes += meshes.length;
-    });
   });
 
   return stats;
