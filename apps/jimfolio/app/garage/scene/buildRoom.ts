@@ -2,6 +2,7 @@ import * as THREE from "three";
 import type { EasterEggId, LightingMode, RoomHandle } from "../types";
 import { createWorkshopTextures } from "./materials";
 import type { ProceduralPBRSet, WorkshopTextures } from "./materials";
+import { optimizeStaticMeshes } from "./optimizeGroup";
 
 function seededRandom(seed = 93217) {
   let state = seed >>> 0;
@@ -864,6 +865,9 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
       if (object instanceof THREE.PointLight || object instanceof THREE.SpotLight || object instanceof THREE.DirectionalLight) {
         object.shadow.dispose();
       }
+      if (object instanceof THREE.Mesh && !geometries.has(object.geometry)) {
+        object.geometry.dispose();
+      }
     });
     geometries.forEach((geometry) => geometry.dispose());
     materials.forEach((material) => material.dispose());
@@ -871,6 +875,24 @@ export function buildGarageRoom(scene: THREE.Scene, textures?: WorkshopTextures)
     if (ownsWorkshopTextures) workshopTextures.disposeAll();
     group.clear();
   };
+
+  optimizeStaticMeshes(group, {
+    exclude: [
+      ...doorPanels,
+      ...doorHitMeshes,
+      switchGroup,
+      rocker,
+      ...switchHitMeshes,
+      wrench,
+      viseSpinner,
+      secondHand,
+      minuteHand,
+      hourHand,
+      ...easterEggHitMeshes,
+      dust,
+    ],
+    minShadowSize: 0.6,
+  });
 
   setDoorProgress(0);
   setLightingMode("night", 0);

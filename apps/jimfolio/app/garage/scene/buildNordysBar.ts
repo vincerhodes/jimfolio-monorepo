@@ -8,6 +8,7 @@ import type {
   StationId,
 } from "../types";
 import type { WorkshopTextures } from "./materials";
+import { optimizeStaticMeshes } from "./optimizeGroup";
 
 const CENTER_X = -28.0;
 const UP = new THREE.Vector3(0, 1, 0);
@@ -728,42 +729,37 @@ export function buildNordysBar(
   }
   rodBetween(chalk, new THREE.Vector3(-0.4, 0.62, -0.29), new THREE.Vector3(-0.4, 0.62, 0.29), 0.013, chrome, "Chalkboard restraint chain");
 
-  const beerGlassMaterial = new THREE.MeshPhysicalMaterial({
+  const beerGlassMaterial = new THREE.MeshStandardMaterial({
     color: "#eefbff",
-    transmission: 0.72,
     transparent: true,
     opacity: 0.34,
-    roughness: 0.08,
-    metalness: 0,
-    thickness: 0.018,
+    roughness: 0.12,
+    metalness: 0.08,
+    depthWrite: false,
   });
-  const lagerMaterial = new THREE.MeshPhysicalMaterial({
+  const lagerMaterial = new THREE.MeshStandardMaterial({
     color: "#d99316",
     emissive: "#7c4308",
     emissiveIntensity: 0.08,
     transparent: true,
-    opacity: 0.88,
-    transmission: 0.16,
+    opacity: 0.86,
     roughness: 0.18,
+    metalness: 0.08,
   });
   const beerFoamMaterial = new THREE.MeshStandardMaterial({ color: "#eae0cc", roughness: 0.95 });
-  const greenBottleMaterial = new THREE.MeshPhysicalMaterial({
+  const greenBottleMaterial = new THREE.MeshStandardMaterial({
     color: "#315c36",
     transparent: true,
-    opacity: 0.88,
-    transmission: 0.24,
+    opacity: 0.86,
     roughness: 0.2,
-    metalness: 0.05,
-    thickness: 0.035,
+    metalness: 0.08,
   });
-  const amberBottleMaterial = new THREE.MeshPhysicalMaterial({
+  const amberBottleMaterial = new THREE.MeshStandardMaterial({
     color: "#8a4b17",
     transparent: true,
-    opacity: 0.88,
-    transmission: 0.22,
+    opacity: 0.86,
     roughness: 0.22,
-    metalness: 0.04,
-    thickness: 0.035,
+    metalness: 0.08,
   });
   const goldFoilMaterial = new THREE.MeshStandardMaterial({ color: "#e7b84e", metalness: 0.72, roughness: 0.3 });
   const labelCanvas = document.createElement("canvas");
@@ -880,12 +876,13 @@ export function buildNordysBar(
         const handle = mesh(bucket, new THREE.TorusGeometry(0.06, 0.008, 6, 18), chrome, [x, 0.15, 0], "Bucket side handle");
         handle.rotation.y = Math.PI / 2;
       }
-      const iceMaterial = new THREE.MeshPhysicalMaterial({
+      const iceMaterial = new THREE.MeshStandardMaterial({
         color: "#dff7ff",
         transparent: true,
-        opacity: 0.68,
-        transmission: 0.38,
+        opacity: 0.42,
         roughness: 0.16,
+        metalness: 0.08,
+        depthWrite: false,
       });
       for (let index = 0; index < 10; index += 1) {
         const ice = box(bucket, [0.065, 0.055, 0.06], [Math.sin(index * 2.2) * 0.12, 0.19 + (index % 3) * 0.018, Math.cos(index * 2.2) * 0.11], iceMaterial, "Melting ice cube");
@@ -1062,24 +1059,23 @@ export function buildNordysBar(
     group.add(stationGroup);
     box(stationGroup, [0.63, 0.035, 0.46], [-0.1, 0.025, 0], wood, "Wooden burger tray");
     createBurger(stationGroup, [-0.12, 0.055, 0], 0.72);
-    const glassMaterial = new THREE.MeshPhysicalMaterial({
+    const glassMaterial = new THREE.MeshStandardMaterial({
       color: "#f3f8fa",
-      transmission: 0.45,
       transparent: true,
       opacity: 0.38,
-      roughness: 0.08,
-      metalness: 0,
-      thickness: 0.025,
+      roughness: 0.12,
+      metalness: 0.08,
+      depthWrite: false,
       side: THREE.DoubleSide,
     });
-    const beerMaterial = new THREE.MeshPhysicalMaterial({
+    const beerMaterial = new THREE.MeshStandardMaterial({
       color: "#d98a22",
       emissive: "#7c3f08",
       emissiveIntensity: 0.1,
       transparent: true,
-      opacity: 0.78,
+      opacity: 0.86,
       roughness: 0.18,
-      transmission: 0.12,
+      metalness: 0.08,
     });
     const foamMaterial = new THREE.MeshStandardMaterial({ color: "#eae0cc", roughness: 0.95 });
     cylinder(stationGroup, 0.105, 0.43, [0.31, 0.245, -0.12], glassMaterial, "Tall frosty pint glass", 0.13, 24);
@@ -1093,12 +1089,13 @@ export function buildNordysBar(
     const cardFold = box(stationGroup, [0.25, 0.018, 0.22], [-0.34, 0.105, 0.31], interiorWhite, "Raised fold of menu card");
     cardFold.rotation.x = -0.85;
     cardFold.rotation.y = -0.22;
-    const candleGlass = new THREE.MeshPhysicalMaterial({
+    const candleGlass = new THREE.MeshStandardMaterial({
       color: "#fbbf24",
       transparent: true,
       opacity: 0.4,
       roughness: 0.2,
-      transmission: 0.3,
+      metalness: 0.08,
+      depthWrite: false,
     });
     cylinder(stationGroup, 0.085, 0.16, [0.28, 0.09, 0.27], candleGlass, "Warm table candle holder", 0.085, 18);
     const flameMaterial = new THREE.MeshStandardMaterial({
@@ -1318,6 +1315,23 @@ export function buildNordysBar(
   };
   setDoorProgress(0);
 
+  optimizeStaticMeshes(group, {
+    exclude: [
+      hatch,
+      ...struts.map((s) => s.object),
+      ...steamPuffs.map((p) => p.object),
+      tap,
+      tapHandle,
+      candleFlame,
+      roofSign,
+      ...hatchHitMeshes,
+      ...exteriorEasterEggHitMeshes,
+      ...interiorEasterEggHitMeshes,
+      ...Array.from(handles.values()).map((h) => h.group),
+    ],
+    minShadowSize: 0.6,
+  });
+
   return {
     group,
     doorHitMeshes: hatchHitMeshes,
@@ -1355,7 +1369,7 @@ export function buildNordysBar(
       });
     },
     update: (elapsed: number, dt: number) => {
-      updateKickoffTv?.(elapsed);
+      if (lightsActive) updateKickoffTv?.(elapsed);
       grillBoost = Math.max(0, grillBoost - dt);
       steamPuffs.forEach(({ object, phase, drift }, index) => {
         const speed = grillBoost > 0 ? 0.85 : 0.36;

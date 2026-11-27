@@ -8,6 +8,7 @@ import type {
   StationId,
 } from "../types";
 import type { WorkshopTextures } from "./materials";
+import { optimizeStaticMeshes } from "./optimizeGroup";
 
 type PalmAnimation = {
   crown: THREE.Group;
@@ -968,7 +969,7 @@ export function buildSamsBeach(
     const coffee = new THREE.Group();
     coffee.position.set(-0.94, 0.02, 0.14);
     stationGroup.add(coffee);
-    const glassMaterial = new THREE.MeshPhysicalMaterial({
+    const glassMaterial = new THREE.MeshStandardMaterial({
       color: "#e9ffff",
       roughness: 0.08,
       metalness: 0,
@@ -982,7 +983,7 @@ export function buildSamsBeach(
     addMesh(coffee, new THREE.CylinderGeometry(0.106, 0.102, 0.075, 24), creamMaterial, [0, 0.072, 0]);
     addMesh(coffee, new THREE.CylinderGeometry(0.117, 0.105, 0.26, 24), standard("#5b2d18", 0.38), [0, 0.225, 0]);
     addMesh(coffee, new THREE.CylinderGeometry(0.124, 0.117, 0.055, 24), standard("#b98354", 0.48), [0, 0.375, 0]);
-    const iceMaterial = new THREE.MeshPhysicalMaterial({
+    const iceMaterial = new THREE.MeshStandardMaterial({
       color: "#dff8ef",
       transparent: true,
       opacity: 0.65,
@@ -1633,6 +1634,26 @@ export function buildSamsBeach(
   }
 
   setLightingMode("night", 1);
+
+  optimizeStaticMeshes(group, {
+    exclude: [
+      leftDoor,
+      rightDoor,
+      surfboard,
+      entranceLantern.group,
+      ...eaveLanterns,
+      ...palms.map((palm) => palm.crown),
+      ...steamWisps.map((wisp) => wisp.mesh),
+      fishingSway,
+      hammock,
+      water,
+      ...doorHitMeshes,
+      ...exteriorEasterEggHitMeshes,
+      ...interiorEasterEggHitMeshes,
+      ...Array.from(handles.values()).map((handle) => handle.group),
+    ],
+    minShadowSize: 0.6,
+  });
 
   return {
     group,

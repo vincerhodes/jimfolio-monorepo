@@ -8,6 +8,7 @@ import type {
   StationId,
 } from "../types";
 import type { WorkshopTextures } from "./materials";
+import { optimizeStaticMeshes } from "./optimizeGroup";
 
 type Vec3 = [number, number, number];
 type TextPanelOptions = {
@@ -317,7 +318,10 @@ export function buildMattsFarm(
     return hit;
   };
 
-  const oakTexture = canvasTexture(512, 512, (context, width, height) => {
+  const oakTexture = canvasTexture(256, 256, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 512;
+    const height = 512;
     const random = randomSource(1401);
     context.fillStyle = "#a86d35";
     context.fillRect(0, 0, width, height);
@@ -343,7 +347,10 @@ export function buildMattsFarm(
     }
   }, [2, 2]);
 
-  const stoneTexture = canvasTexture(512, 512, (context, width, height) => {
+  const stoneTexture = canvasTexture(256, 256, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 512;
+    const height = 512;
     const random = randomSource(1402);
     context.fillStyle = "#8d826d";
     context.fillRect(0, 0, width, height);
@@ -369,7 +376,10 @@ export function buildMattsFarm(
     }
   }, [2, 1.4]);
 
-  const slateTexture = canvasTexture(512, 512, (context, width, height) => {
+  const slateTexture = canvasTexture(256, 256, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 512;
+    const height = 512;
     const random = randomSource(1403);
     context.fillStyle = "#29333a";
     context.fillRect(0, 0, width, height);
@@ -386,7 +396,10 @@ export function buildMattsFarm(
     }
   }, [3, 3]);
 
-  const gravelTexture = canvasTexture(512, 512, (context, width, height) => {
+  const gravelTexture = canvasTexture(256, 256, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 512;
+    const height = 512;
     const random = randomSource(1404);
     context.fillStyle = "#aa9677";
     context.fillRect(0, 0, width, height);
@@ -400,7 +413,10 @@ export function buildMattsFarm(
     }
   }, [5, 5]);
 
-  const meadowTexture = canvasTexture(512, 512, (context, width, height) => {
+  const meadowTexture = canvasTexture(256, 256, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 512;
+    const height = 512;
     const random = randomSource(1405);
     context.fillStyle = "#426a2c";
     context.fillRect(0, 0, width, height);
@@ -1647,7 +1663,10 @@ export function buildMattsFarm(
         globe.position.set(0, 0.66, 0.1);
         globe.rotation.z = -0.18;
         root.add(globe);
-        const globeTexture = canvasTexture(1536, 768, (context, width, height) => {
+        const globeTexture = canvasTexture(768, 384, (context) => {
+          context.scale(0.5, 0.5);
+          const width = 1536;
+          const height = 768;
           const ocean = context.createLinearGradient(0, 0, 0, height);
           ocean.addColorStop(0, "#779a9d");
           ocean.addColorStop(0.5, "#396c78");
@@ -1833,6 +1852,28 @@ export function buildMattsFarm(
 
   setLightingMode("night", 1);
 
+  optimizeStaticMeshes(group, {
+    exclude: [
+      leftDoor,
+      rightDoor,
+      tractor,
+      bellMount,
+      bellPivot,
+      chicken,
+      shed,
+      shedDoor,
+      water,
+      ...pondRipples.map(({ mesh }) => mesh),
+      ...ducks.map(({ group: duck }) => duck),
+      ...sheepHeads.map(({ group: head }) => head),
+      ...doorHitMeshes,
+      ...exteriorEasterEggHitMeshes,
+      ...interiorEasterEggHitMeshes,
+      ...Array.from(stationHandles.values()).map((handle) => handle.group),
+    ],
+    minShadowSize: 0.65,
+  });
+
   let disposed = false;
   return {
     group,
@@ -1950,6 +1991,11 @@ export function buildMattsFarm(
       if (disposed) return;
       disposed = true;
       scene.remove(group);
+      group.traverse((object) => {
+        if (object instanceof THREE.Mesh && !geometries.has(object.geometry)) {
+          object.geometry.dispose();
+        }
+      });
       geometries.forEach((geometry) => geometry.dispose());
       materials.forEach((meshMaterial) => meshMaterial.dispose());
       ownedTextures.forEach((texture) => texture.dispose());

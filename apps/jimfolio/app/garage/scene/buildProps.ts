@@ -52,7 +52,7 @@ function timber(textures: WorkshopTextures | undefined, color = 0x6f452a, roughn
 }
 
 function hideShadows<T extends THREE.Mesh>(mesh: T): T {
-  mesh.castShadow = true;
+  mesh.castShadow = false;
   mesh.receiveShadow = true;
   return mesh;
 }
@@ -196,7 +196,10 @@ function registerKey(shell: BuiltStation, surface: THREE.MeshStandardMaterial, b
 }
 
 function predictrTexture(kind: "curves" | "radar", textures: Set<THREE.CanvasTexture>) {
-  return canvasTexture(1024, 640, textures, (context, width, height) => {
+  return canvasTexture(512, 320, textures, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 1024;
+    const height = 640;
     const background = context.createLinearGradient(0, 0, width, height);
     background.addColorStop(0, "#071923");
     background.addColorStop(1, "#03090f");
@@ -418,7 +421,10 @@ function buildPredictr(station: GarageStation, ownedTextures: Set<THREE.CanvasTe
 }
 
 function plannrTexture(textures: Set<THREE.CanvasTexture>) {
-  return canvasTexture(1024, 640, textures, (context, width, height) => {
+  return canvasTexture(512, 320, textures, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 1024;
+    const height = 640;
     context.fillStyle = "#0c0d13";
     context.fillRect(0, 0, width, height);
     context.fillStyle = "#151722";
@@ -773,7 +779,10 @@ function slab(width: number, depth: number, height: number, radius: number, surf
 }
 
 function recipeTexture(textures: Set<THREE.CanvasTexture>) {
-  return canvasTexture(768, 1024, textures, (context, width, height) => {
+  return canvasTexture(384, 512, textures, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 768;
+    const height = 1024;
     context.fillStyle = "#f4f0df";
     context.fillRect(0, 0, width, height);
     const header = context.createLinearGradient(0, 0, width, 0);
@@ -944,7 +953,10 @@ function buildPantry(station: GarageStation, ownedTextures: Set<THREE.CanvasText
 }
 
 function chinaMapTexture(textures: Set<THREE.CanvasTexture>) {
-  return canvasTexture(1024, 640, textures, (context, width, height) => {
+  return canvasTexture(512, 320, textures, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 1024;
+    const height = 640;
     context.fillStyle = "#d8c395";
     context.fillRect(0, 0, width, height);
     const wash = context.createRadialGradient(480, 280, 30, 480, 280, 570);
@@ -1124,7 +1136,10 @@ function bookTitleTexture(title: string, textures: Set<THREE.CanvasTexture>) {
 }
 
 function openBookTexture(textures: Set<THREE.CanvasTexture>) {
-  return canvasTexture(1024, 640, textures, (context, width, height) => {
+  return canvasTexture(512, 320, textures, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 1024;
+    const height = 640;
     context.fillStyle = "#e8dcbb";
     context.fillRect(0, 0, width, height);
     context.strokeStyle = "rgba(104,79,43,0.25)";
@@ -1299,7 +1314,10 @@ function buildBookAdventure(station: GarageStation, ownedTextures: Set<THREE.Can
 }
 
 function pitchTexture(textures: Set<THREE.CanvasTexture>) {
-  return canvasTexture(1024, 640, textures, (context, width, height) => {
+  return canvasTexture(512, 320, textures, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 1024;
+    const height = 640;
     context.fillStyle = "#173d31";
     context.fillRect(0, 0, width, height);
     for (let stripe = 0; stripe < 10; stripe += 1) {
@@ -1415,7 +1433,10 @@ function buildRocketsfc(station: GarageStation, ownedTextures: Set<THREE.CanvasT
 }
 
 function atlasTexture(textures: Set<THREE.CanvasTexture>) {
-  return canvasTexture(1024, 640, textures, (context, width, height) => {
+  return canvasTexture(512, 320, textures, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 1024;
+    const height = 640;
     context.fillStyle = "#d8d0aa";
     context.fillRect(0, 0, width, height);
     context.strokeStyle = "rgba(61,78,52,0.16)";
@@ -1567,7 +1588,10 @@ function buildPreppr(station: GarageStation, ownedTextures: Set<THREE.CanvasText
 }
 
 function plaqueTexture(station: GarageStation, textures: Set<THREE.CanvasTexture>) {
-  return canvasTexture(768, 352, textures, (context, width, height) => {
+  return canvasTexture(384, 176, textures, (context) => {
+    context.scale(0.5, 0.5);
+    const width = 768;
+    const height = 352;
     const background = context.createLinearGradient(0, 0, width, height);
     background.addColorStop(0, "#202832");
     background.addColorStop(0.55, "#111820");

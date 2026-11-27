@@ -38,7 +38,7 @@ export function createLightingRig(scene: THREE.Scene): LightingRig {
   overhead.position.set(0, 3.62, -0.8);
   overhead.target.position.set(0, 0.1, -1.3);
   overhead.castShadow = true;
-  overhead.shadow.mapSize.set(2048, 2048);
+  overhead.shadow.mapSize.set(1024, 1024);
   overhead.shadow.camera.near = 0.2;
   overhead.shadow.camera.far = 15;
   overhead.shadow.bias = -0.0004;
@@ -49,7 +49,7 @@ export function createLightingRig(scene: THREE.Scene): LightingRig {
   sunlight.position.set(4.5, 6.5, 11);
   sunlight.target.position.set(0, 0.5, -2.5);
   sunlight.castShadow = true;
-  sunlight.shadow.mapSize.set(2048, 2048);
+  sunlight.shadow.mapSize.set(1024, 1024);
   sunlight.shadow.camera.left = -7;
   sunlight.shadow.camera.right = 7;
   sunlight.shadow.camera.top = 7;

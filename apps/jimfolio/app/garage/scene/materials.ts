@@ -22,7 +22,8 @@ type CanvasPainter = (context: CanvasRenderingContext2D, seed: number) => void;
 type PixelPainter = (x: number, y: number) => Pixel;
 type Knot = { x: number; y: number; rx: number; ry: number };
 
-const TEXTURE_SIZE = 512;
+const TEXTURE_SIZE = 256;
+const TEXTURE_SCALE = TEXTURE_SIZE / 512;
 
 function seededRandom(seed: number): () => number {
   let state = seed | 0;
@@ -53,8 +54,8 @@ function mix(a: number, b: number, amount: number): number {
 }
 
 function noise(x: number, y: number, scaleX: number, scaleY: number, seed: number): number {
-  const px = x / scaleX;
-  const py = y / scaleY;
+  const px = x / (scaleX * TEXTURE_SCALE);
+  const py = y / (scaleY * TEXTURE_SCALE);
   const x0 = Math.floor(px);
   const y0 = Math.floor(py);
   const tx = smoothstep(px - x0);
@@ -101,7 +102,7 @@ function canvasTexture(canvas: HTMLCanvasElement, srgb: boolean): THREE.CanvasTe
   texture.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.anisotropy = 4;
+  texture.anisotropy = 2;
   texture.needsUpdate = true;
   return texture;
 }
@@ -133,9 +134,11 @@ function createSet(
 }
 
 function concreteJoint(x: number, y: number): number {
-  const distance = Math.min(Math.abs(x - 256), Math.abs(y - 256));
-  if (distance < 1.25) return 1;
-  if (distance < 3.25) return ((3.25 - distance) / 2) * 0.32;
+  const distance = Math.min(Math.abs(x - TEXTURE_SIZE / 2), Math.abs(y - TEXTURE_SIZE / 2));
+  const innerWidth = 1.25 * TEXTURE_SCALE;
+  const outerWidth = 3.25 * TEXTURE_SCALE;
+  if (distance < innerWidth) return 1;
+  if (distance < outerWidth) return ((outerWidth - distance) / (2 * TEXTURE_SCALE)) * 0.32;
   return 0;
 }
 
@@ -187,10 +190,10 @@ function createKnots(seed: number): Knot[] {
   const knots: Knot[] = [];
   for (let index = 0; index < 5; index += 1) {
     knots.push({
-      x: 35 + random() * 442,
-      y: 20 + random() * 472,
-      rx: 13 + random() * 22,
-      ry: 4 + random() * 7,
+      x: (35 + random() * 442) * TEXTURE_SCALE,
+      y: (20 + random() * 472) * TEXTURE_SCALE,
+      rx: (13 + random() * 22) * TEXTURE_SCALE,
+      ry: (4 + random() * 7) * TEXTURE_SCALE,
     });
   }
   return knots;
@@ -208,24 +211,27 @@ function knotDistance(x: number, y: number, knots: Knot[]): number {
 }
 
 function createButcherBlock(seed: number): ProceduralPBRSet {
+  const staveSize = 64 * TEXTURE_SCALE;
   return createSet(
     seed,
     (context, textureSeed) => {
       const knots = createKnots(textureSeed);
       paintPixels(context, (x, y) => {
-        const stave = Math.floor(y / 64);
-        const localY = y % 64;
+        const stave = Math.floor(y / staveSize);
+        const localY = y % staveSize;
         const staveTone = signedHash(0, stave, textureSeed) * 15;
         const walnut = hash01(1, stave, textureSeed) > 0.73;
         const warp = noise(x, y, 92, 9, textureSeed + stave) * 8;
-        const fiber = Math.sin(y * 2.25 + warp + stave * 1.7) * 4
+        const fiber = Math.sin((y / TEXTURE_SCALE) * 2.25 + warp + stave * 1.7) * 4
           + (noise(x, y, 74, 2.2, textureSeed + 11) - 0.5) * 24;
         const pore = signedHash(x, y, textureSeed + 12) * 2.5;
         const knot = knotDistance(x, y, knots);
         const knotDark = knot < 1.35
           ? Math.max(0, 1 - knot / 1.35) * 52 + Math.sin(knot * 27) * 4
           : 0;
-        const seam = localY < 2 ? 42 - localY * 13 : localY < 4 ? -7 : 0;
+        const seam = localY < 2 * TEXTURE_SCALE
+          ? 42 - (localY / TEXTURE_SCALE) * 13
+          : localY < 4 * TEXTURE_SCALE ? -7 : 0;
         const base = (walnut ? 116 : 164) + staveTone + fiber + pore - knotDark - seam;
         return walnut
           ? [base + 8, base * 0.68, base * 0.43]
@@ -235,25 +241,25 @@ function createButcherBlock(seed: number): ProceduralPBRSet {
     (context, textureSeed) => {
       const knots = createKnots(textureSeed);
       paintPixels(context, (x, y) => {
-        const stave = Math.floor(y / 64);
-        const localY = y % 64;
+        const stave = Math.floor(y / staveSize);
+        const localY = y % staveSize;
         const warp = noise(x, y, 92, 9, textureSeed + stave) * 8;
-        const fiber = Math.sin(y * 2.25 + warp + stave * 1.7) * 8
+        const fiber = Math.sin((y / TEXTURE_SCALE) * 2.25 + warp + stave * 1.7) * 8
           + (noise(x, y, 74, 2.2, textureSeed + 11) - 0.5) * 25;
         const knot = knotDistance(x, y, knots);
         const knotGrain = knot < 1.35 ? Math.sin(knot * 27) * 17 : 0;
-        const seam = localY < 2 ? 58 : localY < 4 ? -9 : 0;
+        const seam = localY < 2 * TEXTURE_SCALE ? 58 : localY < 4 * TEXTURE_SCALE ? -9 : 0;
         const value = 135 + fiber + knotGrain - seam + signedHash(x, y, textureSeed + 12) * 4;
         return [value, value, value];
       });
     },
     (context, textureSeed) => {
       paintPixels(context, (x, y) => {
-        const stave = Math.floor(y / 64);
+        const stave = Math.floor(y / staveSize);
         const grain = noise(x, y, 74, 2.2, textureSeed + 11);
         const handWear = noise(x, y, 130, 100, textureSeed + 20);
         const value = 157 + grain * 33 + handWear * 24 + signedHash(x, y, textureSeed + 21) * 5
-          + (y % 64 < 2 ? 25 : 0) + (stave % 2) * 3;
+          + (y % staveSize < 2 * TEXTURE_SCALE ? 25 : 0) + (stave % 2) * 3;
         return [value, value, value];
       });
     },
@@ -261,18 +267,21 @@ function createButcherBlock(seed: number): ProceduralPBRSet {
 }
 
 function brickCoordinates(x: number, y: number): { row: number; column: number; bx: number; by: number } {
-  const row = Math.floor(y / 64);
-  const shiftedX = (x + (row % 2) * 64) % 512;
-  return { row, column: Math.floor(shiftedX / 128), bx: shiftedX % 128, by: y % 64 };
+  const rowHeight = 64 * TEXTURE_SCALE;
+  const brickWidth = 128 * TEXTURE_SCALE;
+  const row = Math.floor(y / rowHeight);
+  const shiftedX = (x + (row % 2) * rowHeight) % TEXTURE_SIZE;
+  return { row, column: Math.floor(shiftedX / brickWidth), bx: shiftedX % brickWidth, by: y % rowHeight };
 }
 
 function createBrick(seed: number): ProceduralPBRSet {
+  const mortarSize = 6 * TEXTURE_SCALE;
   return createSet(
     seed,
     (context, textureSeed) => {
       paintPixels(context, (x, y) => {
         const brick = brickCoordinates(x, y);
-        const mortar = brick.bx < 6 || brick.by < 6;
+        const mortar = brick.bx < mortarSize || brick.by < mortarSize;
         const grain = signedHash(x, y, textureSeed + 1);
         const cloud = noise(x, y, 34, 23, textureSeed + 2) - 0.5;
         if (mortar) {
@@ -280,8 +289,13 @@ function createBrick(seed: number): ProceduralPBRSet {
           return [mortarValue + 5, mortarValue + 2, mortarValue - 4];
         }
         const brickTone = signedHash(brick.column, brick.row, textureSeed + 3) * 20;
-        const edgeDistance = Math.min(brick.bx - 6, 127 - brick.bx, brick.by - 6, 63 - brick.by);
-        const edgeWear = Math.max(0, 1 - edgeDistance / 7) * 17;
+        const edgeDistance = Math.min(
+          brick.bx - mortarSize,
+          127 * TEXTURE_SCALE - brick.bx,
+          brick.by - mortarSize,
+          63 * TEXTURE_SCALE - brick.by,
+        );
+        const edgeWear = Math.max(0, 1 - edgeDistance / (7 * TEXTURE_SCALE)) * 17;
         const pit = hash01(x, y, textureSeed + 4) > 0.974 ? 27 : 0;
         const value = 128 + brickTone + cloud * 31 + grain * 8 - edgeWear - pit;
         return [value + 30, value * 0.69, value * 0.51];
@@ -290,7 +304,7 @@ function createBrick(seed: number): ProceduralPBRSet {
     (context, textureSeed) => {
       paintPixels(context, (x, y) => {
         const brick = brickCoordinates(x, y);
-        const mortar = brick.bx < 6 || brick.by < 6;
+        const mortar = brick.bx < mortarSize || brick.by < mortarSize;
         const grain = signedHash(x, y, textureSeed + 1);
         if (mortar) {
           const value = 67 + grain * 12 + noise(x, y, 12, 12, textureSeed + 5) * 18;
@@ -304,7 +318,7 @@ function createBrick(seed: number): ProceduralPBRSet {
     (context, textureSeed) => {
       paintPixels(context, (x, y) => {
         const brick = brickCoordinates(x, y);
-        const mortar = brick.bx < 6 || brick.by < 6;
+        const mortar = brick.bx < mortarSize || brick.by < mortarSize;
         const value = (mortar ? 237 : 202) + signedHash(x, y, textureSeed + 7) * 16
           + noise(x, y, 24, 20, textureSeed + 8) * 15;
         return [value, value, value];
@@ -347,21 +361,22 @@ function createBrushedMetal(seed: number): ProceduralPBRSet {
 }
 
 function pebbleDistance(x: number, y: number, seed: number): number {
-  const cellX = Math.floor(x / 13);
-  const cellY = Math.floor(y / 13);
+  const cellSize = 13 * TEXTURE_SCALE;
+  const cellX = Math.floor(x / cellSize);
+  const cellY = Math.floor(y / cellSize);
   let nearest = 1000;
   for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
     for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
       const gridX = cellX + offsetX;
       const gridY = cellY + offsetY;
-      const centerX = (gridX + 0.15 + hash01(gridX, gridY, seed) * 0.7) * 13;
-      const centerY = (gridY + 0.15 + hash01(gridX, gridY, seed + 1) * 0.7) * 13;
+      const centerX = (gridX + 0.15 + hash01(gridX, gridY, seed) * 0.7) * cellSize;
+      const centerY = (gridY + 0.15 + hash01(gridX, gridY, seed + 1) * 0.7) * cellSize;
       const dx = x - centerX;
       const dy = y - centerY;
       nearest = Math.min(nearest, Math.sqrt(dx * dx + dy * dy));
     }
   }
-  return Math.min(1, nearest / 8.5);
+  return Math.min(1, nearest / (8.5 * TEXTURE_SCALE));
 }
 
 function createLeather(seed: number): ProceduralPBRSet {
@@ -394,9 +409,10 @@ function createLeather(seed: number): ProceduralPBRSet {
 }
 
 function pegHole(x: number, y: number): number {
-  const dx = (x % 64) - 32;
-  const dy = (y % 64) - 32;
-  return Math.sqrt(dx * dx + dy * dy);
+  const spacing = 64 * TEXTURE_SCALE;
+  const dx = (x % spacing) - spacing / 2;
+  const dy = (y % spacing) - spacing / 2;
+  return Math.sqrt(dx * dx + dy * dy) / TEXTURE_SCALE;
 }
 
 function createPegboard(seed: number): ProceduralPBRSet {
